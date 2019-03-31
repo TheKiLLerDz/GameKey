@@ -19,16 +19,52 @@ new Vue({
     el: '#app',
     router,
     data: ({
-        message:'Hello World',
         show: true,
-        items : [
-          { title: 'Home', icon: 'home' ,link: '/'},
-          { title: 'My Keys', icon: 'list' ,link: '/keys'},
-          { title: 'Settings', icon: 'settings' ,link: '/settings'},
-          { title: 'About', icon: 'help' ,link: '/about'}
-          ],
+      
+        items: [
+          {
+            icon: 'home',
+            title: 'Home',
+            link: '/'
+          },
+          {
+            title: 'My Keys',
+            link: '/keys',
+            subitems :[{
+              icon: 'list',
+              title: 'Steam',
+              link: '/keyssteam'
+            },{
+              icon: 'list',
+              title: 'Origin',
+              link: '/keysorigin'
+            },{
+              icon: 'list',
+              title: 'Uplay',
+              link: '/keysuplay'
+            },
+            {
+              icon: 'list',
+              title: 'Other',
+              link: '/keysother'
+            }]
+          },
+          
+          { divider: true },
+          { header: 'OTHER' },
+          {
+            icon: 'settings',
+            title: 'Settings',
+            link: '/settings'
+          },
+          
+          {
+            icon: 'help',
+            title: 'About',
+            link: 'about'
+          }
+        ],
           mini: false,
-          drawer: true,
           keys : true,
            }),
 })
