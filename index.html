@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Home</title>
+    <title>GameKey</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="cdn/vuetify.min.css">
     <link rel="stylesheet" href="cdn/material-design/3.0.1/iconfont/material-icons.css">
@@ -13,40 +13,19 @@
 </head>
 
 <body>
-    <v-app id="app" dark>
-        <v-layout wrap style="height: 200px;">
-            <v-toolbar dark color="primary">
-                <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-                <v-toolbar-title class="white--text">KeyGame</v-toolbar-title>
-                <v-spacer></v-spacer>
-                <v-toolbar-items v-if="">
-                    <v-btn color=info to='/'>Steam</v-btn>
-                    <v-btn color=warning>Origin</v-btn>
-                    <v-btn color=info>Uplay</v-btn>
-                  </v-toolbar-items>
-                  <v-spacer></v-spacer>
-                <v-btn icon>
-                    <v-icon>search</v-icon>
-                </v-btn>
-                <v-btn icon>
-                    <v-icon>apps</v-icon>
-                </v-btn>
-                <v-btn icon>
-                    <v-icon>refresh</v-icon>
-                </v-btn>
-                <v-btn icon>
-                    <v-icon>more_vert</v-icon>
-                </v-btn>
-            </v-toolbar>
-            <v-navigation-drawer v-model="drawer" :mini-variant="mini">
-                <v-toolbar flat>
+    <v-app id="app">
+        <v-layout row wrap>
+            <v-navigation-drawer :mini-variant="mini" width="250" dark permanent>
+                <v-toolbar flat color='rgba(0,0,51,0.1)'>
                     <v-list>
                         <v-list-tile avatar>
                             <v-list-tile-avatar @click.stop="mini = !mini">
                                 <img src="">
                             </v-list-tile-avatar>
                             <v-list-tile-content>
-                                <v-list-tile-title>GameKey</v-list-tile-title>
+                                <v-list-tile-title>
+                                    <h3>GameKey</h3>
+                                </v-list-tile-title>
                             </v-list-tile-content>
                             <v-list-tile-action>
                                 <v-btn icon @click.stop="mini = !mini">
@@ -56,33 +35,73 @@
                         </v-list-tile>
                     </v-list>
                 </v-toolbar>
-
                 <v-divider></v-divider>
-
-                <v-list dense class="pt-0">
-                    <v-list-tile v-for="item in items" :key="item.title" @click="" :to='{path:item.link}'>
-                        <v-list-tile-action>
-                            <v-icon>{{ item.icon }}</v-icon>
-                        </v-list-tile-action>
-                        <v-list-tile-content>
-                            <v-list-tile-title>{{ item.title }}</v-list-tile-title>
-                        </v-list-tile-content>
-                    </v-list-tile>
+                <v-list>
+                    <template v-for="(item, index) in items">
+                        <v-list-tile v-if="item.icon" :key="item.title"  :to="item.link">
+                            <v-list-tile-action>
+                                <v-icon>{{ item.icon }}</v-icon>
+                            </v-list-tile-action>
+                            <v-list-tile-content>
+                                <v-list-tile-title><b>{{ item.title }}</b></v-list-tile-title>
+                            </v-list-tile-content>
+                        </v-list-tile>
+                        <v-divider v-if="item.divider" :key="index"></v-divider>
+                        <v-list-group v-if="item.subitems" prepend-icon="list" no-action>
+                                <template v-slot:activator>
+                                    <v-list-tile :to="item.link">
+                                        <v-list-tile-content>
+                                            <v-list-tile-title ><b>{{item.title}}</b></v-list-tile-title>
+                                        </v-list-tile-content>
+                                    </v-list-tile>
+                                </template>
+                
+                                <v-list-tile v-for="platform in item.subitems" :key='platform' :to="platform.link">
+                                    <v-list-tile-content>
+                                        <v-list-tile-title >{{ platform.title }}</v-list-tile-title>
+                                    </v-list-tile-content>
+                
+                                    <v-list-tile-action>
+                                        <v-icon>{{platform.icon}}</v-icon>
+                                    </v-list-tile-action>
+                                </v-list-tile>
+                            </v-list-group>
+                        <v-subheader v-if="item.header" :key="item.header">
+                            {{ item.header }}
+                        </v-subheader>
+                    </template>
                 </v-list>
             </v-navigation-drawer>
             <v-content>
+                <v-toolbar color="primary" dark>
+                    <v-spacer></v-spacer>
+                    <v-toolbar-items v-if='$route.path == "/keys"'>
+                        <v-btn large color=info to='/'>Steam</v-btn>
+                        <v-btn large color=warning>Origin</v-btn>
+                        <v-btn large color=info>Uplay</v-btn>
+                    </v-toolbar-items>
+                    <v-spacer></v-spacer>
+                    <v-btn icon>
+                        <v-icon>search</v-icon>
+                    </v-btn>
+                    <v-btn icon>
+                        <v-icon>apps</v-icon>
+                    </v-btn>
+                    <v-btn icon>
+                        <v-icon>more_vert</v-icon>
+                    </v-btn>
+                </v-toolbar>
                 <v-container fluid grid-list-lg>
                     <router-view></router-view>
-                    <v-btn color="success">Success</v-btn>
-                    <v-btn color="error">Error</v-btn>
-                    <v-btn color="warning">Warning</v-btn>
-                    <v-btn color="info">{{message}}</v-btn>
+
                 </v-container>
+
             </v-content>
+
         </v-layout>
-        <v-footer class="pa-3" color=primary>
-                <v-spacer></v-spacer>
-                <div>&copy; 2019</div>
+        <v-footer class="pa-3" color=primary dark>
+            <v-spacer></v-spacer>
+            <h4>&copy; 2019</h4>
         </v-footer>
     </v-app>
 
