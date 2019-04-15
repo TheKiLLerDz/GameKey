@@ -4,104 +4,105 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>GameKey</title>
+    <title>Home</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="cdn/vuetify.min.css">
+    <link rel="stylesheet" href="cdn/@mdi/font/css/materialdesignicons.css">
     <link rel="stylesheet" href="cdn/material-design/3.0.1/iconfont/material-icons.css">
-    <link rel="stylesheet" href="cdn/fontawesome/5.3.1/css/all.min.css">
+    <style>
+        .v-text-field--solo.v-text-field--rounded .v-input__slot {
+            border-radius: 28px
+        }
 
+        .v-text-field--rounded .v-btn {
+            margin: 0;
+            border-top-right-radius: 28px;
+            border-bottom-right-radius: 28px;
+            box-shadow: none;
+            height: 48px;
+            margin-right: -12px;
+            padding-top: 2px;
+            color: #fff;
+        }
+
+        ::-webkit-scrollbar {
+            background-color: #1b1c21;
+            color: #c4c0ba;
+        }
+    </style>
 </head>
 
 <body>
-    <v-app id="app">
-        <v-layout row wrap>
-            <v-navigation-drawer :mini-variant="mini" width="250" dark permanent>
-                <v-toolbar flat color='rgba(0,0,51,0.1)'>
+    <v-app id="app" dark>
+        <v-layout wrap style="height: 200px;">
+            <v-toolbar dense :clipped-left="$vuetify.breakpoint.mdAndUp" fixed app>
+                <v-toolbar-side-icon @click.stop="show = !show"></v-toolbar-side-icon>
+                <v-toolbar-title style="width: 300px" class="ml-0 pl-3">
+                    <span class="hidden-sm-and-down">KeyGame</span>
+                </v-toolbar-title>
+                <v-text-field class="v-text-field--rounded" solo flat label="Search">
+                    <template v-slot:append>
+                        <v-btn type="submit" color="rgb(9, 102, 175)" value="search">
+                            Search
+                        </v-btn>
+                    </template>
+                </v-text-field>
+                <v-spacer></v-spacer>
+                <v-btn icon small dark>
+                    <v-icon small>mdi-window-minimize</v-icon>
+                </v-btn>
+                <v-btn icon small dark>
+                    <v-icon small>mdi-window-maximize</v-icon>
+                </v-btn>
+                <v-btn icon small dark>
+                    <v-icon small>mdi-window-close</v-icon>
+                </v-btn>
+            </v-toolbar>
+            <v-navigation-drawer v-model="show" :clipped="$vuetify.breakpoint.mdAndUp" :mini-variant="mini" absolute
+                app>
+                <div class="transparent flat">
                     <v-list>
                         <v-list-tile avatar>
                             <v-list-tile-avatar @click.stop="mini = !mini">
                                 <img src="">
                             </v-list-tile-avatar>
                             <v-list-tile-content>
-                                <v-list-tile-title>
-                                    <h3>GameKey</h3>
-                                </v-list-tile-title>
+                                <v-list-tile-title>KeyGame</v-list-tile-title>
                             </v-list-tile-content>
                             <v-list-tile-action>
                                 <v-btn icon @click.stop="mini = !mini">
-                                    <v-icon>chevron_left</v-icon>
+                                    <v-icon>mdi-chevron-left</v-icon>
                                 </v-btn>
                             </v-list-tile-action>
                         </v-list-tile>
-                    </v-list>
-                </v-toolbar>
-                <v-divider></v-divider>
-                <v-list>
-                    <template v-for="(item, index) in items">
-                        <v-list-tile v-if="item.icon" :key="item.title"  :to="item.link">
-                            <v-list-tile-action>
+                        <v-divider dark></v-divider>
+                        <!-- :active-class="!mini?'v-list-item-active v-card green' : 'v-list-item-mini-active'" -->
+                        <v-list-tile class="mt-1"
+                            v-for="item in items" :key="item.title" @click="" :to="{path:item.link}">
+                            <v-tooltip v-if="mini" right>
+                                <v-list-tile-action slot="activator">
+                                    <v-icon>{{ item.icon }}</v-icon>
+                                </v-list-tile-action>
+                                <span class="right">{{ item.title }}</span>
+                            </v-tooltip>
+                            <v-list-tile-action v-else>
                                 <v-icon>{{ item.icon }}</v-icon>
                             </v-list-tile-action>
                             <v-list-tile-content>
-                                <v-list-tile-title><b>{{ item.title }}</b></v-list-tile-title>
+                                <v-list-tile-title>{{ item.title }}</v-list-tile-title>
                             </v-list-tile-content>
                         </v-list-tile>
-                        <v-divider v-if="item.divider" :key="index"></v-divider>
-                        <v-list-group v-if="item.subitems" prepend-icon="list" no-action>
-                                <template v-slot:activator>
-                                    <v-list-tile :to="item.link">
-                                        <v-list-tile-content>
-                                            <v-list-tile-title ><b>{{item.title}}</b></v-list-tile-title>
-                                        </v-list-tile-content>
-                                    </v-list-tile>
-                                </template>
-                
-                                <v-list-tile v-for="platform in item.subitems" :key='platform' :to="platform.link">
-                                    <v-list-tile-content>
-                                        <v-list-tile-title >{{ platform.title }}</v-list-tile-title>
-                                    </v-list-tile-content>
-                
-                                    <v-list-tile-action>
-                                        <v-icon>{{platform.icon}}</v-icon>
-                                    </v-list-tile-action>
-                                </v-list-tile>
-                            </v-list-group>
-                        <v-subheader v-if="item.header" :key="item.header">
-                            {{ item.header }}
-                        </v-subheader>
-                    </template>
-                </v-list>
+                    </v-list>
+                </div>
             </v-navigation-drawer>
             <v-content>
-                <v-toolbar color="primary" dark>
-                    <v-spacer></v-spacer>
-                    <v-toolbar-items v-if='$route.path == "/keys"'>
-                        <v-btn large color=info to='/'>Steam</v-btn>
-                        <v-btn large color=warning>Origin</v-btn>
-                        <v-btn large color=info>Uplay</v-btn>
-                    </v-toolbar-items>
-                    <v-spacer></v-spacer>
-                    <v-btn icon>
-                        <v-icon>search</v-icon>
-                    </v-btn>
-                    <v-btn icon>
-                        <v-icon>apps</v-icon>
-                    </v-btn>
-                    <v-btn icon>
-                        <v-icon>more_vert</v-icon>
-                    </v-btn>
-                </v-toolbar>
                 <v-container fluid grid-list-lg>
                     <router-view></router-view>
-
                 </v-container>
-
             </v-content>
-
         </v-layout>
-        <v-footer class="pa-3" color=primary dark>
-            <v-spacer></v-spacer>
-            <h4>&copy; 2019</h4>
+        <v-footer color="rgb(9, 102, 175)" app>
+            <span class="px-3 white--text">&copy; {{ new Date().getFullYear() }}</span>
         </v-footer>
     </v-app>
 
