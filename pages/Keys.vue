@@ -102,9 +102,9 @@
                 </v-layout>
             </v-flex>
         </v-container>
-        <v-speed-dial v-model="fab" bottom right :direction="direction" open-on-hover :transition="transition">
+        <v-speed-dial v-model="fab" bottom right direction="top" transition="slide-y-reverse-transition" open-on-hover>
             <template v-slot:activator>
-                <v-btn v-model="fab" color="blue darken-2" dark fab>
+                <v-btn color="blue darken-2" dark fab>
                     <v-icon v-if="fab">close</v-icon>
                     <v-icon v-else>add</v-icon>
                 </v-btn>
@@ -130,7 +130,6 @@
                 fab: false,
                 fling: false,
                 tabs: null,
-                transition: 'slide-y-reverse-transition',
                 dialog: false,
                 search: '',
                 platforms:['Steam','Uplay','Origin','Other'],
