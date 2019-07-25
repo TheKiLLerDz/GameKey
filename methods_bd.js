@@ -1,4 +1,4 @@
-var info;
+function getsteambdd() {
 Dexie.exists('GameKey_BDD').then(function (exists) {
 	if (exists) {
 		new Dexie('GameKey_BDD').open()
@@ -6,7 +6,7 @@ Dexie.exists('GameKey_BDD').then(function (exists) {
 				console.log("Database name: " + db.name);
 				console.log("Database version: " + db.verno);
 				db.tables[1].get(1).then(s => {
-						console.log(s.applist)
+					store.state.steam = s.applist 
 					}
 
 				);
@@ -20,3 +20,4 @@ Dexie.exists('GameKey_BDD').then(function (exists) {
 
 	}
 })
+}

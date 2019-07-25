@@ -14,8 +14,19 @@ var routes = [{
 const router = new VueRouter({
   routes
 });
-new Vue({
+ getsteambdd();
+const store = new Vuex.Store({
+	state:{
+    steam : {},
+    uplay : {},
+    origin : {},
+    others : {},
+    all : {},
+  },
+})
+const v = new Vue({
   el: '#app',
+  store,
   router,
   data: ({
     show: true,
