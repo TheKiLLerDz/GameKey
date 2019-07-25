@@ -5,6 +5,15 @@ var routes = [{
   path: '/steam',
   component: httpVueLoader('./pages/Keys.vue')
 }, {
+  path: '/origin',
+  component: httpVueLoader('./pages/Keys.vue')
+}, {
+  path: '/ubisoft',
+  component: httpVueLoader('./pages/Keys.vue')
+}, {
+  path: '/other',
+  component: httpVueLoader('./pages/Keys.vue')
+}, {
   path: '/settings',
   component: httpVueLoader('./pages/Settings.vue')
 }, {
@@ -29,6 +38,7 @@ const v = new Vue({
   store,
   router,
   data: ({
+    pageof:'',
     show: true,
     items: [{
         title: 'Home',
@@ -41,7 +51,7 @@ const v = new Vue({
       }, {
         title: 'Uplay',
         icon: 'mdi-ubisoft',
-        link: '/uplay'
+        link: '/ubisoft'
       },
       {
         title: 'Origin',

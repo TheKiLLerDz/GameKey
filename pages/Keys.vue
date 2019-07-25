@@ -2,7 +2,7 @@
     <v-layout row wrap>
         <v-container>
             <v-flex lg12>
-                <h1>Keys Template</h1>
+                <h1>{{$route.path | subStr}} Keys</h1>
                 <v-dialog v-model="dialog" max-width="500px">
                     <v-card>
                         <v-card-title>
@@ -44,6 +44,7 @@
                         <v-text-field clear-icon="cancel" v-model="search" append-icon="search" label="Search"
                             clearable></v-text-field>
                     </v-flex>
+                 
                     <v-flex xs12>
                         <div style="max-height: 460px; overflow: auto;">
                             <v-data-table hide-actions :headers="headers" :items="apps" :search="search"
@@ -51,7 +52,7 @@
                                 <template slot="headerCell" slot-scope="{ header }">
                                     <span class="blue--text" v-text="header.text" />
                                 </template>
-                                <template slot="items" slot-scope="props">
+                                <template slot="items" slot-scope="props" v-if= "props.item.platform==v.pageof">
                                     <td>
                                         <v-img :src=props.item.pic></v-img>
                                     </td>
@@ -113,10 +114,10 @@
                 <v-icon>add</v-icon>
             </v-btn>
             <v-btn fab dark small color="green">
-                <v-icon>present_to_all</v-icon>
+                <v-icon>mdi-export</v-icon>
             </v-btn>
             <v-btn fab dark small color="orange">
-                <v-icon>import-icon</v-icon>
+                <v-icon>mdi-import</v-icon>
             </v-btn>
         </v-speed-dial>
     </v-layout>
@@ -177,7 +178,7 @@
                 }, {
                     pic: '/apps/578080.jpg',
                     name: "PLAYERUNKNOWN'S BATTLEGROUNDS",
-                    platform: 'origin',
+                    platform: 'Steam',
                     key: '45454-45454-45454-45454',
                     qnt: '4',
                 }, {
@@ -231,6 +232,11 @@
                 const index = this.apps.indexOf(item)
                 confirm('Are you sure you want to delete this item?') && this.apps.splice(index, 1)
             },
+        },
+        filters: {
+  	subStr: function(string) {
+        this.v.pageof = string.substring(1,15)
+        return v.pageof.charAt(0).toUpperCase() + v.pageof.slice(1);
         }
-    }
+    }}
 </script>
