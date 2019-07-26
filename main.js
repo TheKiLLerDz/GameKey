@@ -38,7 +38,6 @@ const v = new Vue({
   store,
   router,
   data: ({
-    pageof:'',
     show: true,
     items: [{
         title: 'Home',

@@ -52,7 +52,7 @@
                                 <template slot="headerCell" slot-scope="{ header }">
                                     <span class="blue--text" v-text="header.text" />
                                 </template>
-                                <template slot="items" slot-scope="props" v-if= "props.item.platform==v.pageof">
+                                <template slot="items" slot-scope="props" v-if="props.item.platform==this.pageof">
                                     <td>
                                         <v-img :src=props.item.pic></v-img>
                                     </td>
@@ -133,6 +133,7 @@
                 tabs: null,
                 dialog: false,
                 search: '',
+                pageof:'',
                 platforms:['Steam','Uplay','Origin','Other'],
                 headers: [{
                         text: 'Pic',
@@ -196,7 +197,7 @@
                 }, {
                     pic: '/apps/578080.jpg',
                     name: "5",
-                    platform: 'origin',
+                    platform: '/origin',
                     key: '45454-45454-45454-45454',
                     qnt: '4',
                 }, {
@@ -235,8 +236,8 @@
         },
         filters: {
   	subStr: function(string) {
-        this.v.pageof = string.substring(1,15)
-        return v.pageof.charAt(0).toUpperCase() + v.pageof.slice(1);
+        pageof = string.substring(1,15)
+        return this.pageof.charAt(0).toUpperCase() + this.pageof.slice(1);
         }
     }}
 </script>
