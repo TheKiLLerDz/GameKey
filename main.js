@@ -5,6 +5,15 @@ var routes = [{
   path: '/steam',
   component: httpVueLoader('./pages/Keys.vue')
 }, {
+  path: '/origin',
+  component: httpVueLoader('./pages/Keys.vue')
+}, {
+  path: '/ubisoft',
+  component: httpVueLoader('./pages/Keys.vue')
+}, {
+  path: '/other',
+  component: httpVueLoader('./pages/Keys.vue')
+}, {
   path: '/settings',
   component: httpVueLoader('./pages/Settings.vue')
 }, {
@@ -14,8 +23,19 @@ var routes = [{
 const router = new VueRouter({
   routes
 });
-new Vue({
+ getsteambdd();
+const store = new Vuex.Store({
+	state:{
+    steam : {},
+    uplay : {},
+    origin : {},
+    others : {},
+    all : {},
+  },
+})
+const v = new Vue({
   el: '#app',
+  store,
   router,
   data: ({
     show: true,
@@ -30,7 +50,7 @@ new Vue({
       }, {
         title: 'Uplay',
         icon: 'mdi-ubisoft',
-        link: '/uplay'
+        link: '/ubisoft'
       },
       {
         title: 'Origin',
