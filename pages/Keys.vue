@@ -1,6 +1,5 @@
 <template>
     <v-layout row wrap>
-        <v-container>
             <v-flex lg12>
                 <h1>{{$route.path | subStr}} Keys</h1>
                 <v-dialog v-model="dialog" max-width="500px">
@@ -12,7 +11,8 @@
                             <v-container grid-list-md>
                                 <v-layout wrap>
                                     <v-flex xs12 sm6 md6>
-                                        <v-overflow-btn :items='platforms' label="Platform" hide-details class="pa-0"></v-overflow-btn>
+                                        <v-overflow-btn :items='platforms' label="Platform" hide-details class="pa-0">
+                                        </v-overflow-btn>
                                     </v-flex>
                                     <v-flex xs12 sm6 md4>
                                         <v-text-field v-model="editedItem.code" label="ID"></v-text-field>
@@ -44,7 +44,7 @@
                         <v-text-field clear-icon="cancel" v-model="search" append-icon="search" label="Search"
                             clearable></v-text-field>
                     </v-flex>
-                 
+
                     <v-flex xs12>
                         <div style="max-height: 460px; overflow: auto;">
                             <v-data-table hide-actions :headers="headers" :items="apps" :search="search"
@@ -100,27 +100,28 @@
                             </v-data-table>
                         </div>
                     </v-flex>
-                </v-layout>
             </v-flex>
-        </v-container>
-        <v-speed-dial v-model="fab" bottom right direction="top" transition="slide-y-reverse-transition" open-on-hover>
-            <template v-slot:activator>
-                <v-btn color="blue darken-2" dark fab>
-                    <v-icon v-if="fab">close</v-icon>
-                    <v-icon v-else>add</v-icon>
-                </v-btn>
-            </template>
-            <v-btn fab dark small color="indigo">
-                <v-icon>add</v-icon>
-            </v-btn>
-            <v-btn fab dark small color="green">
-                <v-icon>mdi-export</v-icon>
-            </v-btn>
-            <v-btn fab dark small color="orange">
-                <v-icon>mdi-import</v-icon>
-            </v-btn>
-        </v-speed-dial>
-    </v-layout>
+  
+                    <v-speed-dial v-model="fab" bottom right fixed direction="top" transition="slide-y-reverse-transition"
+                        open-on-hover>
+                        <template v-slot:activator>
+                            <v-btn color="blue darken-2" dark fab>
+                                <v-icon v-if="fab">close</v-icon>
+                                <v-icon v-else>add</v-icon>
+                            </v-btn>
+                        </template>
+                        <v-btn fab dark small color="indigo">
+                            <v-icon>add</v-icon>
+                        </v-btn>
+                        <v-btn fab dark small color="green">
+                            <v-icon>mdi-export</v-icon>
+                        </v-btn>
+                        <v-btn fab dark small color="orange">
+                            <v-icon>mdi-import</v-icon>
+                        </v-btn>
+                    </v-speed-dial>
+                </v-layout>
+         
 </template>
 
 <script>
@@ -133,8 +134,8 @@
                 tabs: null,
                 dialog: false,
                 search: '',
-                pageof:'',
-                platforms:['Steam','Uplay','Origin','Other'],
+                pageof: '',
+                platforms: ['Steam', 'Uplay', 'Origin', 'Other'],
                 headers: [{
                         text: 'Pic',
                         align: 'left',
@@ -235,9 +236,10 @@
             },
         },
         filters: {
-  	subStr: function(string) {
-        pageof = string.substring(1,15)
-        return this.pageof.charAt(0).toUpperCase() + this.pageof.slice(1);
+            subStr: function (string) {
+                pageof = string.substring(1, 15)
+                return this.pageof.charAt(0).toUpperCase() + this.pageof.slice(1);
+            }
         }
-    }}
+    }
 </script>
