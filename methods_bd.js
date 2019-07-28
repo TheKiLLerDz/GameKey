@@ -3,13 +3,8 @@ function getsteambdd() {
 		if (exists) {
 			new Dexie('GameKey_BDD').open()
 				.then(function (db) {
-					console.log("Database name: " + db.name);
-					console.log("Database version: " + db.verno);
-					db.tables[1].get(216938).then(s => {
-							store.state.steam = s
-						}
-
-					);
+					store.state.steam = db.tables[0].toArray();
+				
 
 				}).catch('NoSuchDatabaseError', function (e) {
 					// Database with that name did not exist
