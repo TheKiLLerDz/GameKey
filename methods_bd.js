@@ -22,20 +22,20 @@ function getsteambdd() {
 	})
 }
 
-function addsteamkey(id, cle) {
+function addsteamkey(t,id, cle) {
 
 	new Dexie('GameKey_BDD').open()
 		.then(function (db) {
 
-			db.tables[0].where("appid").equals(id).modify(jeux => {
+			db.tables[t].where("appid").equals(id).modify(jeux => {
 				if (jeux.cles == undefined) {
 					jeux.cles = [{
 						'cle': cle
 					}];
 				} else {
-					jeux.cles[length + 1] = [{
+					jeux.cles[length + 1] = {
 						'cle': cle
-					}];
+					};
 
 				}
 			});
@@ -50,24 +50,17 @@ function addsteamkey(id, cle) {
 }
 
 
-function delsteamkey(id, cle) {
+function delsteamkey(t,id, cle) {
 
 	new Dexie('GameKey_BDD').open()
 		.then(function (db) {
 
-			db.tables[0].where("appid").equals(id).modify(jeux => {
-				var i = 0 ; var test = true;
+			db.tables[t].where("appid").equals(id).modify(jeux => {
 				
-while (i <= jeux.cles.length & test) {
-    if (jeux.cles[i].cle == cle) {
-	  test = false
-	  delete jeux.cles[i];
+				jeux.cles = jeux.cles.filter((el) => {
+					return el.cle !== cle;
+				  });
 
-    }
-   
-   i = i + 1;
-   
-   }
 			});
 
 		}).catch('NoSuchDatabaseError', function (e) {
