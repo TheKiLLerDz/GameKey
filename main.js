@@ -2,13 +2,16 @@ var routes = [{
   path: '/',
   component: httpVueLoader('./pages/Home.vue')
 }, {
+  path: '/keys',
+  component: httpVueLoader('./pages/Keys.vue')
+}, {
   path: '/steam',
   component: httpVueLoader('./pages/Keys.vue')
 }, {
   path: '/origin',
   component: httpVueLoader('./pages/Keys.vue')
 }, {
-  path: '/ubisoft',
+  path: '/uplay',
   component: httpVueLoader('./pages/Keys.vue')
 }, {
   path: '/other',
@@ -23,7 +26,7 @@ var routes = [{
 const router = new VueRouter({
   routes
 });
- getsteambdd();
+  getsteambdd();
 const store = new Vuex.Store({
 	state:{
     steam : {},
@@ -44,13 +47,17 @@ const v = new Vue({
         icon: 'mdi-home',
         link: '/'
       }, {
+        title: 'All Keys',
+        icon: 'mdi-key',
+        link: '/keys'
+      }, {
         title: 'Steam',
         icon: 'mdi-steam',
         link: '/steam'
       }, {
         title: 'Uplay',
         icon: 'mdi-ubisoft',
-        link: '/ubisoft'
+        link: '/uplay'
       },
       {
         title: 'Origin',
