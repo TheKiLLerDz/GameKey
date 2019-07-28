@@ -22,7 +22,7 @@ function getsteambdd() {
 	})
 }
 
-function addsteamkey(t,id, cle) {
+function addkey(t,id, cle) {
 
 	new Dexie('GameKey_BDD').open()
 		.then(function (db) {
@@ -50,7 +50,7 @@ function addsteamkey(t,id, cle) {
 }
 
 
-function delsteamkey(t,id, cle) {
+function delkey(t,id, cle) {
 
 	new Dexie('GameKey_BDD').open()
 		.then(function (db) {
