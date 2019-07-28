@@ -3,10 +3,10 @@
             <v-flex lg12>
                 <h1 v-if="$route.path!=='/keys'"><v-icon v-if="$route.path=='/steam'" large>mdi-steam</v-icon> 
                 <v-icon v-else-if="$route.path=='/origin'" large>mdi-origin</v-icon> 
-                <v-icon v-else-if="$route.path=='/ubisoft'" large>mdi-ubisoft</v-icon> 
+                <v-icon v-else-if="$route.path=='/uplay'" large>mdi-ubisoft</v-icon> 
                 {{$route.path | subStr}} Keys </h1>
                 <h1 v-else> <v-icon large>mdi-key</v-icon>  All Keys</h1>
-                <v-dialog v-model="dialog" max-width="500px">
+                <v-dialog v-model="editdialog" max-width="500px">
                     <v-card>
                         <v-card-title>
                             <span class="headline">Edit app</span>
@@ -15,7 +15,7 @@
                             <v-container grid-list-md>
                                 <v-layout wrap>
                                     <v-flex xs12 sm6 md6>
-                                        <v-overflow-btn :items='platforms' label="Platform" hide-details class="pa-0">
+                                        <v-overflow-btn :items='platforms'  v-model="editedItem.platform" label="Platform">
                                         </v-overflow-btn>
                                     </v-flex>
                                     <v-flex xs12 sm6 md4>
@@ -38,8 +38,25 @@
                         </v-card-text>
                         <v-card-actions>
                             <v-spacer></v-spacer>
-                            <v-btn color="blue darken-1" flat _click="close">Cancel</v-btn>
+                            <v-btn color="blue darken-1" flat _click="close" @click="editdialog=!editdialog" >Cancel</v-btn>
                             <v-btn color="blue darken-1" flat _click="save">Save</v-btn>
+                        </v-card-actions>
+                    </v-card>
+                </v-dialog>
+                <v-dialog v-model="infodialog" max-width="500px">
+                    <v-card>
+                        <v-card-title>
+                            <span class="headline">App Info</span>
+                        </v-card-title>
+                        <v-card-text>
+                            <v-container grid-list-md>
+                                <v-layout wrap>
+                                </v-layout>
+                            </v-container>
+                        </v-card-text>
+                        <v-card-actions>
+                            <v-spacer></v-spacer>
+                            <v-btn color="blue darken-1" flat _click="close" @click="infodialog=!infodialog">Ok</v-btn>
                         </v-card-actions>
                     </v-card>
                 </v-dialog>
@@ -60,7 +77,9 @@
                                     </td>
                                     <td>{{props.item.name}}</td>
                                     <td v-if="$route.path=='/keys'">
-                                        <v-icon>mdi-{{props.item.platform}}</v-icon>
+                                        <v-icon v-if="props.item.platform=='other'">mdi-key</v-icon>
+                                        <v-icon v-else-if="props.item.platform=='uplay'">mdi-ubisoft</v-icon>
+                                        <v-icon v-else>mdi-{{props.item.platform}}</v-icon>
                                     </td>
                                     <td v-else>
                                     </td>
@@ -86,7 +105,7 @@
                                             <span class="top">Edit</span>
                                         </v-tooltip>
                                         <v-tooltip top>
-                                            <v-btn slot="activator" color="info" icon small>
+                                            <v-btn slot="activator" @click="otherinfo(props.item)" color="info" icon small>
                                                 <v-icon small>
                                                     info
                                                 </v-icon>
@@ -136,7 +155,8 @@
                 fab: false,
                 fling: false,
                 tabs: null,
-                dialog: false,
+                editdialog: false,
+                infodialog: false,
                 search: '',
                 pageof: '',
                 platforms: ['Steam', 'Uplay', 'Origin', 'Other'],
@@ -190,7 +210,7 @@
                 }, {
                     pic: '/apps/578080.jpg',
                     name: "3",
-                    platform: 'ubisoft',
+                    platform: 'uplay',
                     key: '45454-45454-45454-45454',
                     qnt: '4',
                 }, {
@@ -208,13 +228,19 @@
                 }, {
                     pic: '/apps/578080.jpg',
                     name: "6",
-                    platform: 'ubisoft',
+                    platform: 'uplay',
                     key: '45454-45454-45454-45454',
                     qnt: '9',
                 }, {
                     pic: '/apps/578080.jpg',
                     name: "7",
                     platform: 'origin',
+                    key: '45454-45454-45454-45454',
+                    qnt: '1',
+                }, {
+                    pic: '/apps/578080.jpg',
+                    name: "7",
+                    platform: 'other',
                     key: '45454-45454-45454-45454',
                     qnt: '1',
                 }],
@@ -231,12 +257,15 @@
         methods: {
             editItem(item) {
                 this.editedItem = Object.assign({}, item)
-                this.dialog = true
+                this.editdialog = true
             },
 
             deleteItem(item) {
                 const index = this.apps.indexOf(item)
-                confirm('Are you sure you want to delete this item?') && this.apps.splice(index, 1)
+                confirm('Are you sure you want to delete this key?') && this.apps.splice(index, 1)
+            },
+            otherinfo(item) {
+                this.infodialog = true
             },
         },
         filters: {
