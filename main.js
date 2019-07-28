@@ -2,6 +2,9 @@ var routes = [{
   path: '/',
   component: httpVueLoader('./pages/Home.vue')
 }, {
+  path: '/keys',
+  component: httpVueLoader('./pages/Keys.vue')
+}, {
   path: '/steam',
   component: httpVueLoader('./pages/Keys.vue')
 }, {
@@ -43,6 +46,10 @@ const v = new Vue({
         title: 'Home',
         icon: 'mdi-home',
         link: '/'
+      }, {
+        title: 'All Keys',
+        icon: 'mdi-key',
+        link: '/keys'
       }, {
         title: 'Steam',
         icon: 'mdi-steam',

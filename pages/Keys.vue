@@ -2,7 +2,11 @@
     <v-layout row wrap>
         <v-container>
             <v-flex lg12>
-                <h1>{{$route.path | subStr}} Keys</h1>
+                <h1 v-if="$route.path!=='/keys'"><v-icon v-if="$route.path=='/steam'" large>mdi-steam</v-icon> 
+                <v-icon v-else-if="$route.path=='/origin'" large>mdi-origin</v-icon> 
+                <v-icon v-else-if="$route.path=='/ubisoft'" large>mdi-ubisoft</v-icon> 
+                {{$route.path | subStr}} Keys </h1>
+                <h1 v-else> <v-icon large>mdi-key</v-icon>  All Keys</h1>
                 <v-dialog v-model="dialog" max-width="500px">
                     <v-card>
                         <v-card-title>
@@ -41,24 +45,24 @@
                 </v-dialog>
                 <v-layout row wrap>
                     <v-flex xs12 sm8 md6 offset-md3 offset-sm2>
-                        <v-text-field clear-icon="cancel" v-model="search" append-icon="search" label="Search"
-                            clearable></v-text-field>
+                        <v-text-field clear-icon="cancel" v-model="search" append-icon="search" label="Search" clearable></v-text-field>
                     </v-flex>
-                 
                     <v-flex xs12>
                         <div style="max-height: 460px; overflow: auto;">
                             <v-data-table hide-actions :headers="headers" :items="apps" :search="search"
                                 :rows-per-page-items='[{ "text": "$vuetify.dataIterator.rowsPerPageAll", "value": -1 } ]'>
                                 <template slot="headerCell" slot-scope="{ header }">
-                                    <span class="blue--text" v-text="header.text" />
+                                    <span class="blue--text" v-text="header.text" v-if="header.text!=='Platform' | $route.path=='/keys'"/>
                                 </template>
-                                <template slot="items" slot-scope="props" v-if="props.item.platform==this.pageof">
+                                <template slot="items" slot-scope="props" v-if="props.item.platform==this.pageof | $route.path=='/keys'">
                                     <td>
                                         <v-img :src=props.item.pic></v-img>
                                     </td>
                                     <td>{{props.item.name}}</td>
-                                    <td>
+                                    <td v-if="$route.path=='/keys'">
                                         <v-icon>mdi-{{props.item.platform}}</v-icon>
+                                    </td>
+                                    <td v-else>
                                     </td>
                                     <td>{{props.item.key}}</td>
                                     <td>{{props.item.qnt}}</td>
@@ -144,13 +148,13 @@
                     {
                         text: 'Name',
                         align: 'left',
-                        sortable: false,
+                        sortable: true,
                         value: 'name'
                     },
                     {
                         text: 'Platform',
                         align: 'left',
-                        sortable: false,
+                        sortable: true,
                         value: 'platform'
                     },
                     {
@@ -162,12 +166,12 @@
                     {
                         text: 'Qnt',
                         align: 'left',
-                        sortable: false,
+                        sortable: true,
                         value: 'qnt'
                     },
                     {
                         sortable: false,
-                        text: 'Action'
+                        text: 'Actions'
                     }
                 ],
                 apps: [{
@@ -179,7 +183,7 @@
                 }, {
                     pic: '/apps/578080.jpg',
                     name: "PLAYERUNKNOWN'S BATTLEGROUNDS",
-                    platform: 'Steam',
+                    platform: 'steam',
                     key: '45454-45454-45454-45454',
                     qnt: '4',
                 }, {
@@ -197,7 +201,7 @@
                 }, {
                     pic: '/apps/578080.jpg',
                     name: "5",
-                    platform: '/origin',
+                    platform: 'origin',
                     key: '45454-45454-45454-45454',
                     qnt: '4',
                 }, {
@@ -236,8 +240,13 @@
         },
         filters: {
   	subStr: function(string) {
-        pageof = string.substring(1,15)
-        return this.pageof.charAt(0).toUpperCase() + this.pageof.slice(1);
+          if (string=='/keys'){pageof='steam'
+          return this.pageof
+          }
+          else{pageof = string.substring(1,15)
+          return this.pageof.charAt(0).toUpperCase() + this.pageof.slice(1);
+        }
+        
         }
     }}
 </script>
