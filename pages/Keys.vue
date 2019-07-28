@@ -1,6 +1,5 @@
 <template>
     <v-layout row wrap>
-        <v-container>
             <v-flex lg12>
                 <h1 v-if="$route.path!=='/keys'"><v-icon v-if="$route.path=='/steam'" large>mdi-steam</v-icon> 
                 <v-icon v-else-if="$route.path=='/origin'" large>mdi-origin</v-icon> 
@@ -16,7 +15,8 @@
                             <v-container grid-list-md>
                                 <v-layout wrap>
                                     <v-flex xs12 sm6 md6>
-                                        <v-overflow-btn :items='platforms' label="Platform" hide-details class="pa-0"></v-overflow-btn>
+                                        <v-overflow-btn :items='platforms' label="Platform" hide-details class="pa-0">
+                                        </v-overflow-btn>
                                     </v-flex>
                                     <v-flex xs12 sm6 md4>
                                         <v-text-field v-model="editedItem.code" label="ID"></v-text-field>
@@ -104,27 +104,28 @@
                             </v-data-table>
                         </div>
                     </v-flex>
-                </v-layout>
             </v-flex>
-        </v-container>
-        <v-speed-dial v-model="fab" bottom right direction="top" transition="slide-y-reverse-transition" open-on-hover>
-            <template v-slot:activator>
-                <v-btn color="blue darken-2" dark fab>
-                    <v-icon v-if="fab">close</v-icon>
-                    <v-icon v-else>add</v-icon>
-                </v-btn>
-            </template>
-            <v-btn fab dark small color="indigo">
-                <v-icon>add</v-icon>
-            </v-btn>
-            <v-btn fab dark small color="green">
-                <v-icon>mdi-export</v-icon>
-            </v-btn>
-            <v-btn fab dark small color="orange">
-                <v-icon>mdi-import</v-icon>
-            </v-btn>
-        </v-speed-dial>
-    </v-layout>
+  
+                    <v-speed-dial v-model="fab" bottom right fixed direction="top" transition="slide-y-reverse-transition"
+                        open-on-hover>
+                        <template v-slot:activator>
+                            <v-btn color="blue darken-2" dark fab>
+                                <v-icon v-if="fab">close</v-icon>
+                                <v-icon v-else>add</v-icon>
+                            </v-btn>
+                        </template>
+                        <v-btn fab dark small color="indigo">
+                            <v-icon>add</v-icon>
+                        </v-btn>
+                        <v-btn fab dark small color="green">
+                            <v-icon>mdi-export</v-icon>
+                        </v-btn>
+                        <v-btn fab dark small color="orange">
+                            <v-icon>mdi-import</v-icon>
+                        </v-btn>
+                    </v-speed-dial>
+                </v-layout>
+         
 </template>
 
 <script>
@@ -137,8 +138,8 @@
                 tabs: null,
                 dialog: false,
                 search: '',
-                pageof:'',
-                platforms:['Steam','Uplay','Origin','Other'],
+                pageof: '',
+                platforms: ['Steam', 'Uplay', 'Origin', 'Other'],
                 headers: [{
                         text: 'Pic',
                         align: 'left',
