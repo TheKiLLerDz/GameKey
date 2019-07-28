@@ -11,7 +11,7 @@ var routes = [{
   path: '/origin',
   component: httpVueLoader('./pages/Keys.vue')
 }, {
-  path: '/ubisoft',
+  path: '/uplay',
   component: httpVueLoader('./pages/Keys.vue')
 }, {
   path: '/other',
@@ -57,7 +57,7 @@ const v = new Vue({
       }, {
         title: 'Uplay',
         icon: 'mdi-ubisoft',
-        link: '/ubisoft'
+        link: '/uplay'
       },
       {
         title: 'Origin',
