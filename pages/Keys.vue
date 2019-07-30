@@ -71,8 +71,10 @@
                 </v-flex>
                 <v-flex xs12>
                     <div style="max-height: 460px; overflow: auto;">
-                        <v-data-table hide-actions :headers="headers" :items="apps" :update:page="loading" :search="search"
-                            :rows-per-page-items='[{ "text": "$vuetify.dataIterator.rowsPerPageAll", "value": -1 } ]'>
+                        <v-data-table hide-actions :headers="headers" :items="apps" :update:page="loading"
+                            :search="search" :single-expand="singleExpand" :expanded.sync="expanded" item-key="id"
+                            show-expand class="elevation-1">
+
                             <template slot="headerCell" slot-scope="{ header }">
                                 <span class="blue--text" v-text="header.text"
                                     v-if="header.text!=='Platform' | $route.path=='/keys'" />
@@ -80,9 +82,11 @@
                             <template slot="items" slot-scope="props"
                                 v-if="props.item.platform==this.pageof | $route.path=='/keys'">
                                 <td>
-                                    <v-img :src=props.item.pic></v-img>
+                                    <v-img  :src="'apps/' + props.item.id + '.jpg'"></v-img>
                                 </td>
-                                <td>{{props.item.name}}</td>
+                                <td>
+                                    <v-chip dark>{{ props.item.name }}</v-chip>
+                                </td>
                                 <td v-if="$route.path=='/keys'">
                                     <v-icon v-if="props.item.platform=='other'">mdi-key</v-icon>
                                     <v-icon v-else-if="props.item.platform=='uplay'">mdi-ubisoft</v-icon>
@@ -90,8 +94,12 @@
                                 </td>
                                 <td v-else>
                                 </td>
-                                <td>{{props.item.key}}</td>
-                                <td>{{props.item.qnt}}</td>
+                                <td>
+                                    <v-chip :color="getColor(props.item.qnt)" dark>{{props.item.qnt}}</v-chip>
+                                </td>
+                                <td>
+                                    {{props.item.key[0]}}
+                                </td>
                                 <td class="layout px-0">
                                     <v-tooltip top>
                                         <v-btn slot="activator" @click="deleteItem(props.item)" color="error" icon
@@ -158,7 +166,7 @@
     module.exports = {
         data() {
             return {
-                loading : true,
+                loading: true,
                 direction: 'top',
                 fab: false,
                 fling: false,
@@ -187,74 +195,75 @@
                         value: 'platform'
                     },
                     {
-                        text: 'Key',
-                        align: 'left',
-                        sortable: false,
-                        value: 'key'
-                    },
-                    {
                         text: 'Qnt',
                         align: 'left',
                         sortable: true,
                         value: 'qnt'
                     },
                     {
+                        text: 'Key',
+                        align: 'left',
+                        sortable: false,
+                        value: 'key'
+                    },
+                    {
                         sortable: false,
                         text: 'Actions'
                     }
                 ],
+                expanded: [],
+                singleExpand: false,
                 apps: [{
-                    code: '730',
-                    pic: '/apps/730.jpg',
+                    id: '730',
                     name: 'Counter-Strike: Global Offensive',
                     platform: 'steam',
-                    key: '45454-45454-45454-45454',
+                    key: ['45454-45454-45454-45454', '545'],
                     qnt: '2',
                 }, {
-                    pic: '/apps/578080.jpg',
+                    id: '57808',
                     name: "PLAYERUNKNOWN'S BATTLEGROUNDS",
                     platform: 'steam',
-                    key: '45454-45454-45454-45454',
+                    key: ['45454-45454-45454-45454', '545'],
                     qnt: '4',
                 }, {
-                    pic: '/apps/578080.jpg',
+                    id: '5780',
                     name: "3",
                     platform: 'uplay',
-                    key: '45454-45454-45454-45454',
+                    key: ['45454-45454-45454-45454', '545'],
                     qnt: '4',
                 }, {
-                    pic: '/apps/578080.jpg',
+                    id: '578',
                     name: "4",
                     platform: 'origin',
-                    key: '45454-45454-45454-45454',
+                    key: ['45454-45454-45454-45454', '545'],
                     qnt: '4',
                 }, {
-                    pic: '/apps/578080.jpg',
+                    id: '57',
                     name: "5",
                     platform: 'origin',
-                    key: '45454-45454-45454-45454',
+                    key: ['45454-45454-45454-45454', '545'],
                     qnt: '4',
                 }, {
-                    pic: '/apps/578080.jpg',
+                    id: '80',
                     name: "6",
                     platform: 'uplay',
-                    key: '45454-45454-45454-45454',
+                    key: ['45454-45454-45454-45454', '545'],
                     qnt: '9',
                 }, {
-                    pic: '/apps/578080.jpg',
+                    id: '58',
                     name: "7",
                     platform: 'origin',
-                    key: '45454-45454-45454-45454',
+                    key: ['45454-45454-45454-45454', '545'],
                     qnt: '1',
                 }, {
-                    pic: '/apps/578080.jpg',
+                    id: '571',
                     name: "7",
                     platform: 'other',
-                    key: '45454-45454-45454-45454',
+                    key: ['45454-45454-45454-45454', '545'],
                     qnt: '1',
                 }],
                 editedItem: {
-                    id : '',
+                    id: '',
                     code: '',
                     pic: '',
                     name: '',
@@ -267,14 +276,14 @@
         methods: {
             save(d) {
                 i = 0;
-            while (i < this.apps.length) {
-          if (this.apps[i].code == d) {
-             this.apps[i] = this.editedItem;
-console.log(this.apps[i])
-          }
-i = i + 1;
-            }
-this.editdialog = false;
+                while (i < this.apps.length) {
+                    if (this.apps[i].code == d) {
+                        this.apps[i] = this.editedItem;
+                        console.log(this.apps[i])
+                    }
+                    i = i + 1;
+                }
+                this.editdialog = false;
 
             },
 
@@ -290,6 +299,11 @@ this.editdialog = false;
             },
             otherinfo(item) {
                 this.infodialog = true
+            },
+            getColor(qnt) {
+                if (qnt < 1) return 'red'
+                else if (qnt > 1) return 'green'
+                else return 'orange'
             },
         },
         filters: {
