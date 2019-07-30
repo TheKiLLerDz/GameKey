@@ -33,10 +33,12 @@ const store = new Vuex.Store({
     steam : {},
     steamkey : {},
     uplay : {},
+    uplaykey : {},
     origin : {},
+    originkey : {},
     others : {},
-    all : {},
-  },
+    allkey : {},
+  }
   
 })
 
