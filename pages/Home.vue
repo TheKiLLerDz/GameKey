@@ -41,7 +41,7 @@
                         icon: 'mdi-ubisoft',
                         games: 50,
                         keys: 250,
-                        link: '/ubisoft'
+                        link: '/uplay'
                     },
                     {
                         title: 'Origin',
