@@ -82,7 +82,7 @@
                             <template slot="items" slot-scope="props"
                                 v-if="props.item.platform==this.pageof | $route.path=='/keys'">
                                 <td>
-                                    <v-img  :src="'apps/' + props.item.id + '.jpg'"></v-img>
+                                    <v-img  :src="getimagesrc(props.item.id)" ></v-img>
                                 </td>
                                 <td>
                                     <v-chip dark>{{ props.item.name }}</v-chip>
@@ -305,6 +305,11 @@
                 else if (qnt > 1) return 'green'
                 else return 'orange'
             },
+            getimagesrc(id){
+             if ('apps/30.jpg' != undefined)
+                return 'apps/30.jpg'
+                else return "apps/730.jpg"
+            }
         },
         filters: {
             subStr: function (string) {
