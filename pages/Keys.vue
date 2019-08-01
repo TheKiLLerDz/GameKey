@@ -72,7 +72,7 @@
                 <v-flex xs12>
                     <div style="max-height: 460px; overflow: auto;">
                         <v-data-table hide-actions :headers="headers" :items="apps" :update:page="loading"
-                            :search="search" :single-expand="singleExpand" :expanded.sync="expanded" item-key="id"
+                            :search="search" :single-expand="singleExpand" :expanded.sync="expanded" item-keys="id"
                             show-expand class="elevation-1">
 
                             <template slot="headerCell" slot-scope="{ header }">
@@ -82,7 +82,7 @@
                             <template slot="items" slot-scope="props"
                                 v-if="props.item.platform==this.pageof | $route.path=='/keys'">
                                 <td>
-                                    <v-img  :src="'apps/' + props.item.id + '.jpg'"></v-img>
+                                    <v-img  :src="'apps/' + props.item.appid + '.jpg'"></v-img>
                                 </td>
                                 <td>
                                     <v-chip dark>{{ props.item.name }}</v-chip>
@@ -95,10 +95,10 @@
                                 <td v-else>
                                 </td>
                                 <td>
-                                    <v-chip :color="getColor(props.item.qnt)" dark>{{props.item.qnt}}</v-chip>
+                                    <v-chip :color="getColor(props.item.keys.length)" dark>{{props.item.keys.length}}</v-chip>
                                 </td>
                                 <td>
-                                    {{props.item.key[0]}}
+                                    {{props.item.keys[0].key}}
                                 </td>
                                 <td class="layout px-0">
                                     <v-tooltip top>
@@ -213,55 +213,15 @@
                 ],
                 expanded: [],
                 singleExpand: false,
-                apps: [{
-                    id: '730',
-                    name: 'Counter-Strike: Global Offensive',
-                    platform: 'steam',
-                    key: ['45454-45454-45454-45454', '545'],
-                    qnt: '2',
-                }, {
-                    id: '57808',
-                    name: "PLAYERUNKNOWN'S BATTLEGROUNDS",
-                    platform: 'steam',
-                    key: ['45454-45454-45454-45454', '545'],
-                    qnt: '4',
-                }, {
-                    id: '5780',
-                    name: "3",
-                    platform: 'uplay',
-                    key: ['45454-45454-45454-45454', '545'],
-                    qnt: '4',
-                }, {
-                    id: '578',
-                    name: "4",
-                    platform: 'origin',
-                    key: ['45454-45454-45454-45454', '545'],
-                    qnt: '4',
-                }, {
-                    id: '57',
-                    name: "5",
-                    platform: 'origin',
-                    key: ['45454-45454-45454-45454', '545'],
-                    qnt: '4',
-                }, {
-                    id: '80',
-                    name: "6",
-                    platform: 'uplay',
-                    key: ['45454-45454-45454-45454', '545'],
-                    qnt: '9',
-                }, {
-                    id: '58',
-                    name: "7",
-                    platform: 'origin',
-                    key: ['45454-45454-45454-45454', '545'],
-                    qnt: '1',
-                }, {
-                    id: '571',
-                    name: "7",
-                    platform: 'other',
-                    key: ['45454-45454-45454-45454', '545'],
-                    qnt: '1',
-                }],
+                // apps: [{
+                //     id: '730',
+                //     name: 'Counter-Strike: Global Offensive',
+                //     platform: 'steam',
+                //     key: [{key :'45454-45454-45454-45454'}, {key :'545'}],
+                //     qnt: '2',
+                // }, 
+                //   ],
+                apps : store.state.steamkey,
                 editedItem: {
                     id: '',
                     code: '',

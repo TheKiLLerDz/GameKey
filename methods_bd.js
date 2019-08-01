@@ -6,7 +6,9 @@
  					db.tables[0].toArray().then(el => {
  							store.state.steam = el;
  							store.state.steamkey = store.state.steam.filter((el) => {
- 								return el.cles !== undefined;
+								 el.platform = 'steam' 
+								 return el.keys !== undefined;
+
  							});
 
 
@@ -24,19 +26,19 @@
  	})
  }
 
- function addkey(t, id, cle) {
+ function addkey(t, id, key) {
 
  	new Dexie('GameKey_BDD').open()
  		.then(function (db) {
 
  			db.tables[t].where("appid").equals(id).modify(jeux => {
- 				if (jeux.cles == undefined) {
- 					jeux.cles = [{
- 						'cle': cle
+ 				if (jeux.keys == undefined) {
+ 					jeux.keys = [{
+ 						'key': key
  					}];
  				} else {
- 					jeux.cles[length + 1] = {
- 						'cle': cle
+ 					jeux.keys[length + 1] = {
+ 						'key': key
  					};
 
  				}
@@ -52,15 +54,15 @@
  }
 
 
- function delkey(t, id, cle) {
+ function delkey(t, id, key) {
 
  	new Dexie('GameKey_BDD').open()
  		.then(function (db) {
 
  			db.tables[t].where("appid").equals(id).modify(jeux => {
 
- 				jeux.cles = jeux.cles.filter((el) => {
- 					return el.cle !== cle;
+ 				jeux.keys = jeux.keys.filter((el) => {
+ 					return el.key !== key;
  				});
 
  			});
