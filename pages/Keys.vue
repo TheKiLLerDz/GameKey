@@ -79,10 +79,9 @@
                         <span class="blue--text" v-text="header.text"
                             v-if="header.text!=='Platform' | $route.path=='/keys'" />
                     </template>
-                    <template slot="items" slot-scope="props"
-                        v-if="props.item.platform==this.pageof | $route.path=='/keys'">
+                    <template slot="items" slot-scope="props">
                         <td>
-                            <v-img :src="'apps/' + props.item.id + '.jpg'"></v-img>
+                            <v-img :src="'apps/' + props.item.appid + '.jpg'"></v-img>
                         </td>
                         <td>
                             <v-chip dark>{{ props.item.name }}</v-chip>
@@ -209,55 +208,7 @@
                 ],
                 expanded: [],
                 singleExpand: false,
-                apps: [{
-                    id: '730',
-                    name: 'Counter-Strike: Global Offensive',
-                    platform: 'steam',
-                    key: ['45454-45454-45454-45454', '545'],
-                    qnt: '2',
-                }, {
-                    id: '57808',
-                    name: "PLAYERUNKNOWN'S BATTLEGROUNDS",
-                    platform: 'steam',
-                    key: ['45454-45454-45454-45454', '545'],
-                    qnt: '4',
-                }, {
-                    id: '5780',
-                    name: "3",
-                    platform: 'uplay',
-                    key: ['45454-45454-45454-45454', '545'],
-                    qnt: '4',
-                }, {
-                    id: '578',
-                    name: "4",
-                    platform: 'origin',
-                    key: ['45454-45454-45454-45454', '545'],
-                    qnt: '4',
-                }, {
-                    id: '57',
-                    name: "5",
-                    platform: 'origin',
-                    key: ['45454-45454-45454-45454', '545'],
-                    qnt: '4',
-                }, {
-                    id: '80',
-                    name: "6",
-                    platform: 'uplay',
-                    key: ['45454-45454-45454-45454', '545'],
-                    qnt: '9',
-                }, {
-                    id: '58',
-                    name: "7",
-                    platform: 'origin',
-                    key: ['45454-45454-45454-45454', '545'],
-                    qnt: '1',
-                }, {
-                    id: '571',
-                    name: "7",
-                    platform: 'other',
-                    key: ['45454-45454-45454-45454', '545'],
-                    qnt: '1',
-                }],
+                apps: [],
                 editedItem: {
                     id: '',
                     code: '',
@@ -280,7 +231,6 @@
                     i = i + 1;
                 }
                 this.editdialog = false;
-
             },
 
 
@@ -301,6 +251,26 @@
                 else if (qnt > 1) return 'green'
                 else return 'orange'
             },
+        },
+        mounted() {
+            switch (window.location.hash.slice(1)) {
+                case '/steam':
+                    this.apps = store.state.steamkey
+                    break;
+                case '/uplay':
+                    this.apps = store.state.uplaykey
+                    break;
+                case '/origin':
+                    this.apps = store.state.originkey
+                    break;
+                case '/other':
+                    this.apps = store.state.others
+                    break;
+                case '/keys':
+                    this.apps = store.state.steamkey.concat(store.state.uplaykey.concat(store.state.originkey
+                        .concat(store.state.others)))
+                    break;
+            }
         },
         filters: {
             subStr: function (string) {

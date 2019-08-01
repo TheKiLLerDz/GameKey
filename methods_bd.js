@@ -4,22 +4,17 @@
  			new Dexie('GameKey_BDD').open()
  				.then(function (db) {
  					db.tables[0].toArray().then(el => {
- 							store.state.steam = el;
- 							store.state.steamkey = store.state.steam.filter((el) => {
- 								return el.cles !== undefined;
- 							});
-
-
- 						}
-
- 					);
+ 						store.state.steam = el;
+ 						store.state.steamkey = store.state.steam.filter((el) => {
+ 							return el.cles !== undefined;
+ 						});
+ 					});
  				}).catch('NoSuchDatabaseError', function (e) {
  					// Database with that name did not exist
  					console.error("Database not found");
  				}).catch(function (e) {
  					console.error("Oh uh: " + e);
  				});
-
  		}
  	})
  }
