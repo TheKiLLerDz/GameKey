@@ -8,10 +8,9 @@
  							store.state.steamkey = store.state.steam.filter((el) => {
 								 el.platform = 'steam' 
 								 return el.keys !== undefined;
-
- 							});
-
-
+								 
+							 });
+							 store.state.finished=true; 
  						}
 
  					);
@@ -30,17 +29,11 @@
 
  	new Dexie('GameKey_BDD').open()
  		.then(function (db) {
-
- 			db.tables[t].where("appid").equals(id).modify(jeux => {
- 				if (jeux.keys == undefined) {
- 					jeux.keys = [{
- 						'key': key
- 					}];
+ 			db.tables[t].where("appid").equals(id).modify(game => {
+ 				if (game.keys == undefined) {
+ 					game.keys = [ key ];
  				} else {
- 					jeux.keys[length + 1] = {
- 						'key': key
- 					};
-
+ 					game.keys[length + 1] = key;
  				}
  			});
 
@@ -59,9 +52,9 @@
  	new Dexie('GameKey_BDD').open()
  		.then(function (db) {
 
- 			db.tables[t].where("appid").equals(id).modify(jeux => {
+ 			db.tables[t].where("appid").equals(id).modify(game => {
 
- 				jeux.keys = jeux.keys.filter((el) => {
+ 				game.keys = game.keys.filter((el) => {
  					return el.key !== key;
  				});
 
