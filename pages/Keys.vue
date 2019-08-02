@@ -23,16 +23,13 @@
                                     </v-overflow-btn>
                                 </v-flex>
                                 <v-flex xs12 sm6 md4>
-                                    <v-text-field v-model="editedItem.code" label="ID"></v-text-field>
+                                    <v-text-field v-model="editedItem.appid" label="ID"></v-text-field>
                                 </v-flex>
                                 <v-flex xs12 sm12 md12>
                                     <v-text-field v-model="editedItem.name" label="Name"></v-text-field>
                                 </v-flex>
                                 <v-flex xs12 sm12 md12>
-                                    <v-text-field v-model="editedItem.key" label="Key"></v-text-field>
-                                </v-flex>
-                                <v-flex xs12 sm6 md6>
-                                    <v-text-field v-model="editedItem.qnt" label="Qnt"></v-text-field>
+                                    <v-text-field v-model="editedItem.keys" label="Keys"></v-text-field>
                                 </v-flex>
                                 <v-flex xs12 sm12 md12>
                                     <v-text-field label="Tags"></v-text-field>
@@ -72,63 +69,73 @@
                 <v-flex xs12>
                     <div style="max-height: 460px; overflow: auto;">
                         <v-data-table hide-actions :headers="headers" :items="apps" :update:page="loading"
-                            :search="search" :single-expand="singleExpand" :expanded.sync="expanded" item-keys="id"
-                            show-expand class="elevation-1">
-
+                            :search="search" :single-expand="singleExpand" :expanded.sync="expanded" show-expand
+                            class="elevation-1" :expand="expand" item-key="appid">
                             <template slot="headerCell" slot-scope="{ header }">
                                 <span class="blue--text" v-text="header.text"
                                     v-if="header.text!=='Platform' | $route.path=='/keys'" />
                             </template>
+                            <template v-slot:expand="props">
+                                <v-card flat>
+                                    <v-card-text>
+                                        <ul>
+                                            <li v-for="key in props.item.keys" :key="key">{{key}}</li>
+                                        </ul>
+                                    </v-card-text>
+                                </v-card>
+                            </template>
                             <template slot="items" slot-scope="props"
                                 v-if="props.item.platform==this.pageof | $route.path=='/keys'">
-                                <td>
-                                    <v-img  :src="'apps/' + props.item.appid + '.jpg'"></v-img>
-                                </td>
-                                <td>
-                                    <v-chip dark>{{ props.item.name }}</v-chip>
-                                </td>
-                                <td v-if="$route.path=='/keys'">
-                                    <v-icon v-if="props.item.platform=='other'">mdi-key</v-icon>
-                                    <v-icon v-else-if="props.item.platform=='uplay'">mdi-ubisoft</v-icon>
-                                    <v-icon v-else>mdi-{{props.item.platform}}</v-icon>
-                                </td>
-                                <td v-else>
-                                </td>
-                                <td>
-                                    <v-chip :color="getColor(props.item.keys.length)" dark>{{props.item.keys.length}}</v-chip>
-                                </td>
-                                <td>
-                                    {{props.item.keys[0].key}}
-                                </td>
-                                <td class="layout px-0">
-                                    <v-tooltip top>
-                                        <v-btn slot="activator" @click="deleteItem(props.item)" color="error" icon
-                                            small>
-                                            <v-icon small>
-                                                delete
-                                            </v-icon>
-                                        </v-btn>
-                                        <span class="top">Delete</span>
-                                    </v-tooltip>
-                                    <v-tooltip top>
-                                        <v-btn slot="activator" @click="editItem(props.item)" color="success" icon
-                                            small>
-                                            <v-icon small>
-                                                mdi-square-edit-outline
-                                            </v-icon>
-                                        </v-btn>
-                                        <span class="top">Edit</span>
-                                    </v-tooltip>
-                                    <v-tooltip top>
-                                        <v-btn slot="activator" @click="otherinfo(props.item)" color="info" icon small>
-                                            <v-icon small>
-                                                info
-                                            </v-icon>
-                                        </v-btn>
-                                        <span class="top">Other information</span>
-                                    </v-tooltip>
-                                </td>
+                                <tr @click="props.expanded = !props.expanded">
+                                    <td>
+                                        <v-img :src="'apps/' + props.item.appid + '.jpg' == undefined ? 'apps/undefined.jpg' : 'apps/' + props.item.appid + '.jpg'"></v-img>
+                                    </td>
+                                    <td>
+                                        <v-chip dark>{{ props.item.name }}</v-chip>
+                                    </td>
+                                    <td v-if="$route.path=='/keys'">
+                                        <v-icon v-if="props.item.platform=='other'">mdi-key</v-icon>
+                                        <v-icon v-else-if="props.item.platform=='uplay'">mdi-ubisoft</v-icon>
+                                        <v-icon v-else>mdi-{{props.item.platform}}</v-icon>
+                                    </td>
+                                    <td v-else>
+                                    </td>
+                                    <td>
+                                        <v-chip :color="getColor(props.item.keys.length)" dark>
+                                            {{props.item.keys.length}}</v-chip>
+                                    </td>
+                                    <td class="layout px-0">
+                                        <v-tooltip top>
+                                            <v-btn slot="activator" @click="deleteItem(props.item)" color="error" icon
+                                                small>
+                                                <v-icon small>
+                                                    delete
+                                                </v-icon>
+                                            </v-btn>
+                                            <span class="top">Delete</span>
+                                        </v-tooltip>
+                                        <v-tooltip top>
+                                            <v-btn slot="activator" @click="editItem(props.item)" color="success" icon
+                                                small>
+                                                <v-icon small>
+                                                    mdi-square-edit-outline
+                                                </v-icon>
+                                            </v-btn>
+                                            <span class="top">Edit</span>
+                                        </v-tooltip>
+                                        <v-tooltip top>
+                                            <v-btn slot="activator" @click="otherinfo(props.item)" color="info" icon
+                                                small>
+                                                <v-icon small>
+                                                    info
+                                                </v-icon>
+                                            </v-btn>
+                                            <span class="top">Other information</span>
+                                        </v-tooltip>
+                                    </td>
+                                </tr>
                             </template>
+
                             <v-alert slot="no-results" :value="true" color="error" icon="warning">
                                 Your search for "{{ search }}" found no results.
                             </v-alert>
@@ -166,6 +173,7 @@
     module.exports = {
         data() {
             return {
+                expand: false,
                 loading: true,
                 direction: 'top',
                 fab: false,
@@ -192,6 +200,7 @@
                         text: 'Platform',
                         align: 'left',
                         sortable: true,
+                        show: false,
                         value: 'platform'
                     },
                     {
@@ -201,37 +210,29 @@
                         value: 'qnt'
                     },
                     {
-                        text: 'Key',
-                        align: 'left',
-                        sortable: false,
-                        value: 'key'
-                    },
-                    {
                         sortable: false,
                         text: 'Actions'
                     }
                 ],
                 expanded: [],
                 singleExpand: false,
-                // apps: [{
-                //     id: '730',
-                //     name: 'Counter-Strike: Global Offensive',
-                //     platform: 'steam',
-                //     key: [{key :'45454-45454-45454-45454'}, {key :'545'}],
-                //     qnt: '2',
-                // }, 
-                //   ],
-                apps : store.state.steamkey,
+                apps: [{
+                    appid: '730',
+                    name: 'Counter-Strike: Global Offensive',
+                    platform: 'steam',
+                    keys: ['45454-45454-45454-45454', '545'],
+                }],
                 editedItem: {
-                    id: '',
-                    code: '',
-                    pic: '',
+                    appid: '',
                     name: '',
                     platform: '',
-                    key: '',
-                    qnt: 0
+                    keys: [],
                 },
             }
+        },
+        mounted: function () {
+            this.headers[2].show = true;
+            console.log('Platform is ' + this.headers[2].show);
         },
         methods: {
             save(d) {
@@ -246,8 +247,6 @@
                 this.editdialog = false;
 
             },
-
-
             editItem(item) {
                 this.editedItem = Object.assign({}, item)
                 this.editdialog = true
@@ -264,12 +263,12 @@
                 if (qnt < 1) return 'red'
                 else if (qnt > 1) return 'green'
                 else return 'orange'
-            },
+            }
         },
         filters: {
             subStr: function (string) {
                 if (string == '/keys') {
-                    pageof = 'steam'
+                    pageof = 'all'
                     return this.pageof
                 } else {
                     pageof = string.substring(1, 15)

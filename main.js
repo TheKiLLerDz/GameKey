@@ -31,14 +31,14 @@ const router = new VueRouter({
  
 const store = new Vuex.Store({
 	state:{
-    steam :  {}  ,
-    steamkey : {},
-    uplay : {},
-    uplaykey : {},
-    origin : {},
-    originkey : {},
-    others : {},
-    allkey : {},
+    steam :  [],
+    steamkey : [],
+    uplay : [],
+    uplaykey : [],
+    origin : [],
+    originkey : [],
+    others : [],
+    allkey : [],
   }
   
 })
