@@ -1,4 +1,4 @@
- function getsteambdd() {
+function getsteambdd() {
  	Dexie.exists('GameKey_BDD').then(function (exists) {
  		if (exists) {
  			new Dexie('GameKey_BDD').open()
@@ -6,8 +6,8 @@
  					db.tables[0].toArray().then(el => {
  						store.state.steam = el;
  						store.state.steamkey = store.state.steam.filter((el) => {
- 							return el.cles !== undefined;
- 						});
+ 							return el.keys !== undefined;
+ 						})
  					});
  				}).catch('NoSuchDatabaseError', function (e) {
  					// Database with that name did not exist
@@ -19,21 +19,20 @@
  	})
  }
 
- function addkey(t, id, cle) {
+ function addkey(t, id, key) {
 
  	new Dexie('GameKey_BDD').open()
  		.then(function (db) {
 
- 			db.tables[t].where("appid").equals(id).modify(jeux => {
- 				if (jeux.cles == undefined) {
- 					jeux.cles = [{
- 						'cle': cle
+ 			db.tables[t].where("appid").equals(id).modify(game => {
+ 				if (game.keys == undefined) {
+ 					game.keys = [{
+ 						'key': key
  					}];
  				} else {
- 					jeux.cles[length + 1] = {
- 						'cle': cle
- 					};
-
+					 game.keys.push({
+						'key': key
+					  });
  				}
  			});
 
@@ -47,15 +46,15 @@
  }
 
 
- function delkey(t, id, cle) {
+ function delkey(t, id, key) {
 
  	new Dexie('GameKey_BDD').open()
  		.then(function (db) {
 
- 			db.tables[t].where("appid").equals(id).modify(jeux => {
+ 			db.tables[t].where("appid").equals(id).modify(game => {
 
- 				jeux.cles = jeux.cles.filter((el) => {
- 					return el.cle !== cle;
+ 				game.keys = game.keys.filter((el) => {
+ 					return el.key !== key;
  				});
 
  			});

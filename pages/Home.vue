@@ -1,6 +1,6 @@
 <template>
     <v-layout row wrap>
-        <v-flex v-for="item in items" :key="item.title" xs12 sm8 md6 lg4>
+        <v-flex v-for="item in items" :key="item.title" xs12 sm6 md4 lg3>
             <v-card>
                 <v-list>
                     <v-list-tile avatar>
@@ -31,9 +31,16 @@
         data() {
             return {
                 items: [{
+                        title: 'All key',
+                        icon: 'mdi-alert-circle',
+                        games: 50,
+                        keys: 250,
+                        link: '/keys'
+                    },
+                    {
                         title: 'Steam',
                         icon: 'mdi-steam',
-                        games: 200,
+                        games: store.state.steamkey.length,
                         keys: 250,
                         link: '/steam'
                     }, {

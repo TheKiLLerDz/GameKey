@@ -91,14 +91,12 @@
                             <v-icon v-else-if="props.item.platform=='uplay'">mdi-ubisoft</v-icon>
                             <v-icon v-else>mdi-{{props.item.platform}}</v-icon>
                         </td>
-                        <td v-else>
+                        <td>
+                            <v-chip :color="getColor(props.item.keys.length)" dark>{{props.item.keys.length}}</v-chip>
                         </td>
                         <td>
-                            <v-chip :color="getColor(props.item.qnt)" dark>{{props.item.qnt}}</v-chip>
-                        </td>
-                        <td>
-                            {{props.item.key[0]}}
-                        </td>
+                            {{props.item.keys[0].key}}
+                        </td> 
                         <td class="layout px-0">
                             <v-tooltip top>
                                 <v-btn slot="activator" @click="deleteItem(props.item)" color="error" icon small>
@@ -183,12 +181,12 @@
                         sortable: true,
                         value: 'name'
                     },
-                    {
-                        text: 'Platform',
-                        align: 'left',
-                        sortable: true,
-                        value: 'platform'
-                    },
+                    // {
+                    //     text: 'Platform',
+                    //     align: 'left',
+                    //     sortable: true,
+                    //     value: 'platform'
+                    // },
                     {
                         text: 'Qnt',
                         align: 'left',

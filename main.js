@@ -26,8 +26,6 @@ var routes = [{
 const router = new VueRouter({
   routes
 });
-getsteambdd()
-
 store = new Vuex.Store({
   state: {
     steam: [],
@@ -38,10 +36,8 @@ store = new Vuex.Store({
     originkey: [],
     others: [],
   }
-
 })
-
-
+getsteambdd()
 v = new Vue({
   el: '#app',
   store,
