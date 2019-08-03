@@ -26,7 +26,6 @@ var routes = [{
 const router = new VueRouter({
   routes
 });
-<<<<<<< HEAD
  
  // retard 
  
@@ -44,18 +43,6 @@ const store = new Vuex.Store({
       }, 
   
   
-=======
-store = new Vuex.Store({
-  state: {
-    steam: [],
-    steamkey: [],
-    uplay: [],
-    uplaykey: [],
-    origin: [],
-    originkey: [],
-    others: [],
-  }
->>>>>>> oussama/dev
 })
 
 getsteambdd()
@@ -107,11 +94,8 @@ v = new Vue({
     mini: false,
     keys: true,
   }),
-<<<<<<< HEAD
   beforeCreate : function () {
     getsteambdd();
 },
  
-=======
->>>>>>> oussama/dev
 })
