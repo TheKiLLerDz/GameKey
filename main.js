@@ -85,6 +85,4 @@ v = new Vue({
     mini: false,
     keys: true,
   }),
- 
 })
-

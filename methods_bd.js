@@ -8,12 +8,8 @@ function getsteambdd() {
 							store.state.steamkey = store.state.steam.filter((el) => {
 								el.platform = 'steam'
 								return el.keys !== undefined;
-
 							});
-
-
 						}
-
 					);
 				}).catch('NoSuchDatabaseError', function (e) {
 					// Database with that name did not exist
@@ -70,6 +66,5 @@ function delkey(t, id, key) {
 			console.error("Database not found");
 		}).catch(function (e) {
 			console.error("Oh uh: " + e);
-		});
-
+		})
 }
