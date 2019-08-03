@@ -9,6 +9,7 @@ function getsteambdd() {
 								el.platform = 'steam'
 								return el.keys !== undefined;
 							});
+							v.$mount('#app')
 						}
 					);
 				}).catch('NoSuchDatabaseError', function (e) {

@@ -37,9 +37,11 @@ store = new Vuex.Store({
     others: [],
   }
 })
+
 getsteambdd()
+
+
 v = new Vue({
-  el: '#app',
   store,
   router,
   data: ({
