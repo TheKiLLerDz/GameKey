@@ -10,6 +10,7 @@ function getsteambdd() {
 								return el.keys !== undefined;
 
 							});
+							v.$mount('#app')
 
 
 						}
