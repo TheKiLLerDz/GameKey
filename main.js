@@ -27,8 +27,6 @@ const router = new VueRouter({
   routes
 });
  
- // retard 
- 
 const store = new Vuex.Store({
 	state:{
       finished:false,
@@ -41,12 +39,7 @@ const store = new Vuex.Store({
       others : [],
       allkey : [],
       }, 
-  
-  
 })
-
-getsteambdd()
-
 
 v = new Vue({
   store,

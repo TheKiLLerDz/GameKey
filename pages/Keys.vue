@@ -61,91 +61,109 @@
                     </v-card-actions>
                 </v-card>
             </v-dialog>
-            <v-layout row wrap>
-                <v-flex xs12 sm8 md6 offset-md3 offset-sm2>
-                    <v-text-field clear-icon="cancel" v-model="search" append-icon="search" label="Search" clearable>
-                    </v-text-field>
-                </v-flex>
-                <v-flex xs12>
-                    <div style="max-height: 460px; overflow: auto;">
-                        <v-data-table hide-actions :headers="headers[2].show ? headers : headers.splice(2,1)"
-                            :items="apps" :update:page="loading" :loading="loading" :search="search"
-                            :single-expand="singleExpand" :expanded.sync="expanded" show-expand ref="table"
-                            class="elevation-1" :expand="expand" item-key="appid">
-                            <template slot="headerCell" slot-scope="{ header }"
-                                v-if="header.show == undefined | header.show">
-                                <span class="blue--text" v-text="header.text" />
-                            </template>
-                            <template slot="items" slot-scope="props"
-                                v-if="props.item.platform==this.pageof | $route.path=='/keys'">
-                                <tr @click="props.expanded = !props.expanded">
-                                    <td>
-                                        <v-img
-                                            :src="'apps/' + props.item.appid + '.jpg' == undefined ? 'apps/undefined.jpg' : 'apps/' + props.item.appid + '.jpg'">
-                                        </v-img>
-                                    </td>
-                                    <td>
-                                        <v-chip dark>{{ props.item.name }}</v-chip>
-                                    </td>
-                                    <td v-if="$route.path=='/keys'">
-                                        <v-icon v-if="props.item.platform=='other'">mdi-key</v-icon>
-                                        <v-icon v-else-if="props.item.platform=='uplay'">mdi-ubisoft</v-icon>
-                                        <v-icon v-else>mdi-{{props.item.platform}}</v-icon>
-                                    </td>
-                                    <td>
-                                        <v-chip :color="getColor(props.item.keys.length)" dark>
-                                            {{props.item.keys.length}}</v-chip>
-                                    </td>
-                                    <td class="layout px-0">
+            <v-flex xs12 sm8 md6 offset-md3 offset-sm2>
+                <v-text-field clear-icon="cancel" v-model="search" append-icon="search" label="Search" clearable>
+                </v-text-field>
+            </v-flex>
+            <v-flex xs12>
+                <v-data-table hide-actions :headers="headers[2].show ? headers : headers.splice(2,1)" :items="apps"
+                    :update:page="loading" :loading="loading" :search="search" :single-expand="singleExpand"
+                    :expanded.sync="expanded" show-expand ref="table" class="elevation-1" :expand="expand"
+                    item-key="appid">
+                    <template slot="headerCell" slot-scope="{ header }" v-if="header.show == undefined | header.show">
+                        <span class="blue--text" v-text="header.text" />
+                    </template>
+                    <template slot="items" slot-scope="props"
+                        v-if="props.item.platform==this.pageof | $route.path=='/keys'">
+                        <tr @click="props.expanded = !props.expanded">
+                            <td>
+                                <v-img
+                                    :src="'apps/' + props.item.appid + '.jpg' == undefined ? 'apps/undefined.gif' : 'apps/' + props.item.appid + '.jpg'">
+                                </v-img>
+                            </td>
+                            <td>
+                                <v-chip dark>{{ props.item.name }}</v-chip>
+                            </td>
+                            <td v-if="$route.path=='/keys'">
+                                <v-icon v-if="props.item.platform=='other'">mdi-key</v-icon>
+                                <v-icon v-else-if="props.item.platform=='uplay'">mdi-ubisoft</v-icon>
+                                <v-icon v-else>mdi-{{props.item.platform}}</v-icon>
+                            </td>
+                            <td>
+                                <v-chip :color="getColor(props.item.keys.length)" dark>
+                                    {{props.item.keys.length}}</v-chip>
+                            </td>
+                            <td class="layout px-0">
+                                <v-tooltip top>
+                                    <v-btn slot="activator" @click="deleteItem(props.item)" color="error" icon small>
+                                        <v-icon small>
+                                            delete
+                                        </v-icon>
+                                    </v-btn>
+                                    <span class="top">Delete</span>
+                                </v-tooltip>
+                                <v-tooltip top>
+                                    <v-btn slot="activator" @click="editItem(props.item)" color="success" icon small>
+                                        <v-icon small>
+                                            mdi-square-edit-outline
+                                        </v-icon>
+                                    </v-btn>
+                                    <span class="top">Edit</span>
+                                </v-tooltip>
+                                <v-tooltip top>
+                                    <v-btn slot="activator" @click="otherinfo(props.item)" color="info" icon small>
+                                        <v-icon small>
+                                            info
+                                        </v-icon>
+                                    </v-btn>
+                                    <span class="top">Other information</span>
+                                </v-tooltip>
+                            </td>
+                        </tr>
+                    </template>
+                    <template v-slot:expand="props">
+                        <v-card flat>
+                            <v-card-text>
+                                <v-alert value="true" :color="getColor(props.item.keys.length)" outline>
+                                    <div v-for="index in props.item.keys" :key="index.key">
+                                        {{index.key}}
                                         <v-tooltip top>
-                                            <v-btn slot="activator" @click="deleteItem(props.item)" color="error" icon
-                                                small>
+                                            <v-btn slot="activator" color="success" icon small>
+                                                <v-icon small>
+                                                    mdi-content-copy
+                                                </v-icon>
+                                            </v-btn>
+                                            <span class="top">Copy Key</span>
+                                        </v-tooltip>
+                                        <v-tooltip top>
+                                            <v-btn slot="activator" color="info" icon small>
+                                                <v-icon small>
+                                                    mdi-tooltip-edit
+                                                </v-icon>
+                                            </v-btn>
+                                            <span class="top">Edit Key</span>
+                                        </v-tooltip>
+                                        <v-tooltip top>
+                                            <v-btn slot="activator" color="error" icon small>
                                                 <v-icon small>
                                                     delete
                                                 </v-icon>
                                             </v-btn>
-                                            <span class="top">Delete</span>
+                                            <span class="top">Delete Key!</span>
                                         </v-tooltip>
-                                        <v-tooltip top>
-                                            <v-btn slot="activator" @click="editItem(props.item)" color="success" icon
-                                                small>
-                                                <v-icon small>
-                                                    mdi-square-edit-outline
-                                                </v-icon>
-                                            </v-btn>
-                                            <span class="top">Edit</span>
-                                        </v-tooltip>
-                                        <v-tooltip top>
-                                            <v-btn slot="activator" @click="otherinfo(props.item)" color="info" icon
-                                                small>
-                                                <v-icon small>
-                                                    info
-                                                </v-icon>
-                                            </v-btn>
-                                            <span class="top">Other information</span>
-                                        </v-tooltip>
-                                    </td>
-                                </tr>
-                            </template>
-                            <template v-slot:expand="props">
-                                <v-card flat>
-                                    <v-card-text>
-                                        <ul>
-                                            <li v-for="index in props.item.keys " :key="index">{{index.key}}</li>
-                                        </ul>
-                                    </v-card-text>
-                                </v-card>
-                            </template>
-                            <v-alert slot="no-results" :value="true" color="error" icon="warning">
-                                Your search for "{{ search }}" found no results.
-                            </v-alert>
-                            <v-alert slot="no-data" :value="true" color="error" icon="warning">
-                                Sorry, nothing to display here :(
-                            </v-alert>
-                        </v-data-table>
-                    </div>
-                </v-flex>
-    
+                                    </div>
+                                </v-alert>
+                            </v-card-text>
+                        </v-card>
+                    </template>
+                    <v-alert slot="no-results" :value="true" color="error" icon="warning">
+                        Your search for "{{ search }}" found no results.
+                    </v-alert>
+                    <v-alert slot="no-data" :value="true" color="error" icon="warning">
+                        Sorry, nothing to display here :(
+                    </v-alert>
+                </v-data-table>
+            </v-flex>
         </v-flex>
         <v-speed-dial v-model="fab" bottom right fixed direction="top" transition="slide-y-reverse-transition"
             open-on-hover>
@@ -166,7 +184,6 @@
             </v-btn>
         </v-speed-dial>
     </v-layout>
-
 </template>
 
 <script>

@@ -11,7 +11,9 @@ function getsteambdd() {
 							});
 							v.$mount('#app')
 						}
+						
 					);
+					store.state.finished=true;
 				}).catch('NoSuchDatabaseError', function (e) {
 					// Database with that name did not exist
 					console.error("Database not found");
