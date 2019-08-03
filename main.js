@@ -26,26 +26,22 @@ var routes = [{
 const router = new VueRouter({
   routes
 });
- getsteambdd()
- // retard 
- 
-const store = new Vuex.Store({
-	state:{
-    steam :  {}  ,
-    steamkey : {},
-    uplay : {},
-    uplaykey : {},
-    origin : {},
-    originkey : {},
-    others : {},
-    allkey : {},
+store = new Vuex.Store({
+  state: {
+    steam: [],
+    steamkey: [],
+    uplay: [],
+    uplaykey: [],
+    origin: [],
+    originkey: [],
+    others: [],
   }
-  
 })
 
+getsteambdd()
 
-const v = new Vue({
-  el: '#app',
+
+v = new Vue({
   store,
   router,
   data: ({
@@ -91,6 +87,9 @@ const v = new Vue({
     mini: false,
     keys: true,
   }),
+ 
+  
+
  
 })
 

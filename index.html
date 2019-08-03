@@ -29,11 +29,14 @@
             background-color: #1b1c21;
             color: #c4c0ba;
         }
+        [v-cloak] {
+            display: none;
+        }
     </style>
 </head>
 
 <body>
-    <v-app id="app" dark>
+    <v-app v-cloak id="app" dark>
         <v-layout wrap style="height: 200px;">
             <v-toolbar dense :clipped-left="$vuetify.breakpoint.mdAndUp" fixed app>
                 <v-toolbar-side-icon @click.stop="show = !show"></v-toolbar-side-icon>
@@ -105,7 +108,6 @@
             <span class="px-3 white--text">&copy; {{ new Date().getFullYear() }}</span>
         </v-footer>
     </v-app>
-
 </body>
 <script src="cdn/dexie.js"></script>
 <script src="BD.js"></script>
