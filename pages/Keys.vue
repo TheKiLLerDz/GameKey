@@ -71,13 +71,10 @@
         </v-flex>
         <v-flex xs12>
             <div style="max-height: 460px; overflow: auto;">
-                <v-data-table hide-actions :headers="headers" :items="apps" :update:page="loading" :search="search"
-                    :single-expand="singleExpand" :expanded.sync="expanded" item-key="id" show-expand
-                    class="elevation-1">
-
+                <v-data-table hide-actions :headers="$route.path==='/key'? headers : headersall" :items="apps" :update:page="loading" :search="search"
+                    :single-expand="singleExpand" :expanded.sync="expanded" item-key="id" show-expand>
                     <template slot="headerCell" slot-scope="{ header }">
-                        <span class="blue--text" v-text="header.text"
-                            v-if="header.text!=='Platform' | $route.path=='/keys'" />
+                        <span class="blue--text" v-text="header.text"/>
                     </template>
                     <template slot="items" slot-scope="props">
                         <td>
@@ -96,7 +93,7 @@
                         </td>
                         <td>
                             {{props.item.keys[0].key}}
-                        </td> 
+                        </td>
                         <td class="layout px-0">
                             <v-tooltip top>
                                 <v-btn slot="activator" @click="deleteItem(props.item)" color="error" icon small>
@@ -170,40 +167,69 @@
                 pageof: '',
                 platforms: ['Steam', 'Uplay', 'Origin', 'Other'],
                 headers: [{
-                        text: 'Pic',
-                        align: 'left',
-                        sortable: false,
-                        value: 'pic'
-                    },
-                    {
-                        text: 'Name',
-                        align: 'left',
-                        sortable: true,
-                        value: 'name'
-                    },
-                    // {
-                    //     text: 'Platform',
-                    //     align: 'left',
-                    //     sortable: true,
-                    //     value: 'platform'
-                    // },
-                    {
-                        text: 'Qnt',
-                        align: 'left',
-                        sortable: true,
-                        value: 'qnt'
-                    },
-                    {
-                        text: 'Key',
-                        align: 'left',
-                        sortable: false,
-                        value: 'key'
-                    },
-                    {
-                        sortable: false,
-                        text: 'Actions'
-                    }
-                ],
+                            text: 'Pic',
+                            align: 'left',
+                            sortable: false,
+                            value: 'pic'
+                        },
+                        {
+                            text: 'Name',
+                            align: 'left',
+                            sortable: true,
+                            value: 'name'
+                        },
+                        {
+                            text: 'Qnt',
+                            align: 'left',
+                            sortable: true,
+                            value: 'qnt'
+                        },
+                        {
+                            text: 'Key',
+                            align: 'left',
+                            sortable: false,
+                            value: 'key'
+                        },
+                        {
+                            sortable: false,
+                            text: 'Actions'
+                        }
+                    ],
+                headersall : [{
+                            text: 'Pic',
+                            align: 'left',
+                            sortable: false,
+                            value: 'pic'
+                        },
+                        {
+                            text: 'Name',
+                            align: 'left',
+                            sortable: true,
+                            value: 'name'
+                        },
+                        {
+                            text: 'Platform',
+                            align: 'left',
+                            sortable: true,
+                            value: 'platform'
+                        },
+                        {
+                            text: 'Qnt',
+                            align: 'left',
+                            sortable: true,
+                            value: 'qnt'
+                        },
+                        {
+                            text: 'Key',
+                            align: 'left',
+                            sortable: false,
+                            value: 'key'
+                        },
+                        {
+                            sortable: false,
+                            text: 'Actions'
+                        }
+                    ],
                 expanded: [],
                 singleExpand: false,
                 apps: [],
