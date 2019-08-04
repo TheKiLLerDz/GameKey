@@ -55,9 +55,12 @@ function delkey(t, id, key) {
 
 			db.tables[t].where("appid").equals(id).modify(game => {
 
+				if (game.keys.length > 1) {
 				game.keys = game.keys.filter((el) => {
 					return el.key !== key;
 				});
+				} else{
+delete game.keys}
 
 			});
 
