@@ -10,31 +10,6 @@
     <link rel="stylesheet" href="cdn/@mdi/font/css/materialdesignicons.css">
     <link rel="stylesheet" href="cdn/material-design/3.0.1/iconfont/material-icons.css">
     <link rel="stylesheet" href="style.css">
-    <style>
-        .v-text-field--solo.v-text-field--rounded .v-input__slot {
-            border-radius: 28px
-        }
-
-        .v-text-field--rounded .v-btn {
-            margin: 0;
-            border-top-right-radius: 28px;
-            border-bottom-right-radius: 28px;
-            box-shadow: none;
-            height: 48px;
-            margin-right: -12px;
-            padding-top: 2px;
-            color: #fff;
-        }
-
-        ::-webkit-scrollbar {
-            background-color: #1b1c21;
-            color: #c4c0ba;
-        }
-
-        [v-cloak] {
-            display: none;
-        }
-    </style>
 </head>
 
 <body>
@@ -52,28 +27,34 @@
             <span>.</span>
         </div>
     </div>
-    <v-app v-cloak id="app" dark>
+    <v-app v-cloak id="app" :dark="isDark">
         <v-layout wrap style="height: 200px;">
             <v-toolbar dense :clipped-left="$vuetify.breakpoint.mdAndUp" fixed app>
                 <v-toolbar-side-icon @click.stop="show = !show"></v-toolbar-side-icon>
                 <v-toolbar-title style="width: 300px" class="ml-0 pl-3">
                     <span class="hidden-sm-and-down">GameKey</span>
                 </v-toolbar-title>
-                <v-text-field class="v-text-field--rounded" solo flat label="Search">
+                <v-autocomplete v-if="$route.path=='/'" v-model="select" :loading="loading" :items="games"
+                    :search-input.sync="search" cache-items flat hide-no-data hide-details label="Search"
+                    class="v-text-field--rounded" solo flat>
                     <template v-slot:append>
                         <v-btn type="submit" color="rgb(9, 102, 175)" value="search">
                             Search
                         </v-btn>
                     </template>
-                </v-text-field>
+                </v-autocomplete>
                 <v-spacer></v-spacer>
-                <v-btn icon small dark>
-                    <v-icon small>mdi-window-minimize</v-icon>
-                </v-btn>
-                <v-btn icon small dark>
+                <v-tooltip left>
+                    <v-btn slot="activator" icon small v-model="isDark" @click='isDark=!isDark'>
+                        <v-icon small>mdi-theme-light-dark</v-icon>
+                    </v-btn>
+                    <span class="left">Switch Theme</span>
+                </v-tooltip>
+                <v-btn icon small>
                     <v-icon small>mdi-window-maximize</v-icon>
                 </v-btn>
-                <v-btn icon small dark>
+
+                <v-btn icon small>
                     <v-icon small>mdi-window-close</v-icon>
                 </v-btn>
             </v-toolbar>
@@ -94,10 +75,9 @@
                                 </v-btn>
                             </v-list-tile-action>
                         </v-list-tile>
-                        <v-divider dark></v-divider>
+                        <v-divider></v-divider>
                         <!-- :active-class="!mini?'v-list-item-active v-card green' : 'v-list-item-mini-active'" -->
-                        <v-list-tile class="mt-1" v-for="item in items" :key="item.title" @click=""
-                            :to="{path:item.link}">
+                        <v-list-tile class="mt-1" v-for="item in items" :key="item.title" :to="{path:item.link}">
                             <v-tooltip v-if="mini" right>
                                 <v-list-tile-action slot="activator">
                                     <v-icon>{{ item.icon }}</v-icon>
@@ -121,7 +101,7 @@
             </v-content>
         </v-layout>
         <v-footer color="rgb(9, 102, 175)" app>
-            <span class="px-3 white--text">&copy; {{ new Date().getFullYear() }}</span>
+            <span class="px-3 white--text">&copy; 2019</span>
         </v-footer>
     </v-app>
 </body>
