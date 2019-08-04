@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css" href="cdn/vuetify.min.css">
     <link rel="stylesheet" href="cdn/@mdi/font/css/materialdesignicons.css">
     <link rel="stylesheet" href="cdn/material-design/3.0.1/iconfont/material-icons.css">
+    <link rel="stylesheet" href="style.css">
     <style>
         .v-text-field--solo.v-text-field--rounded .v-input__slot {
             border-radius: 28px
@@ -29,6 +30,7 @@
             background-color: #1b1c21;
             color: #c4c0ba;
         }
+
         [v-cloak] {
             display: none;
         }
@@ -36,6 +38,20 @@
 </head>
 
 <body>
+    <div id="main">
+        <div class="loader">
+            <span>G</span>
+            <span>A</span>
+            <span>M</span>
+            <span>E</span>
+            <span>K</span>
+            <span>E</span>
+            <span>Y</span>
+            <span>.</span>
+            <span>.</span>
+            <span>.</span>
+        </div>
+    </div>
     <v-app v-cloak id="app" dark>
         <v-layout wrap style="height: 200px;">
             <v-toolbar dense :clipped-left="$vuetify.breakpoint.mdAndUp" fixed app>
@@ -80,8 +96,8 @@
                         </v-list-tile>
                         <v-divider dark></v-divider>
                         <!-- :active-class="!mini?'v-list-item-active v-card green' : 'v-list-item-mini-active'" -->
-                        <v-list-tile class="mt-1"
-                            v-for="item in items" :key="item.title" @click="" :to="{path:item.link}">
+                        <v-list-tile class="mt-1" v-for="item in items" :key="item.title" @click=""
+                            :to="{path:item.link}">
                             <v-tooltip v-if="mini" right>
                                 <v-list-tile-action slot="activator">
                                     <v-icon>{{ item.icon }}</v-icon>
