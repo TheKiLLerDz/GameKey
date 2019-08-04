@@ -10,6 +10,7 @@
 .loader {
     position: relative;
     display: flex;
+    background: #000000
 }
 
 .loader span {
