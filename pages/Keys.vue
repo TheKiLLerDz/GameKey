@@ -78,9 +78,16 @@
             </v-text-field>
         </v-flex>
         <v-flex xs12>
+            <v-toolbar flat>
+            <v-spacer></v-spacer>
+            <v-btn color="primary" dark @click="addkey = !addkey">
+                Add key
+            </v-btn>
+            </v-toolbar>
             <v-data-table hide-actions :headers="headers[2].show ? headers : headers.splice(2,1)" :items="apps"
                 :update:page="loading" :search="search" :single-expand="singleExpand" :expanded.sync="expanded"
-                show-expand ref="table" class="elevation-1" :expand="expand" item-key="appid">
+                :pagination.sync="pagination" show-expand ref="table" class="elevation-1" :expand="expand"
+                item-key="appid">
                 <template slot="headerCell" slot-scope="{ header }" v-if="header.show == undefined | header.show">
                     <span class="blue--text" v-text="header.text" />
                 </template>
@@ -181,6 +188,9 @@
                     Sorry, nothing to display here :(
                 </v-alert>
             </v-data-table>
+            <div class="text-xs-center pt-2">
+                <v-pagination v-model="pagination.page" :length="pages"></v-pagination>
+            </div>
         </v-flex>
         <v-speed-dial v-model="fab" bottom right fixed direction="top" transition="slide-y-reverse-transition"
             open-on-hover>
@@ -206,8 +216,19 @@
 <script>
     module.exports = {
         computed: {
-            loading: function () {
+            loading() {
                 return !store.state.finished;
+            },
+            totalItems() {
+                this.pagination.totalItems = this.apps.length;
+                return this.apps.length;
+            },
+            pages() {
+                if (this.pagination.rowsPerPage == null ||
+                    this.totalItems == null
+                ) return 0
+
+                return Math.ceil(this.totalItems / this.pagination.rowsPerPage)
             }
         },
         data() {
@@ -215,6 +236,10 @@
                 expand: false,
                 direction: 'top',
                 fab: false,
+                pagination: {
+                    totalItems: '',
+                    rowsPerPage: 10
+                },
                 fling: false,
                 tabs: null,
                 editdialog: false,
