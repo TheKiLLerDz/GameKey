@@ -101,12 +101,11 @@ v = new Vue({
   methods: {
     querySelections (v) {
       this.loading = true
-      setTimeout(() => {
         this.games = store.state.games.filter(e => {
           return (e || '').toLowerCase().indexOf((v || '').toLowerCase()) > -1
         })
         this.loading = false
-      }, 500)
+      
     }}
   ,
   beforeCreate : function () {

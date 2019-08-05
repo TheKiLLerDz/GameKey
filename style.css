@@ -33,11 +33,11 @@
 .loader {
     position: relative;
     display: flex;
-    background: #000000
+    background: #ffffff
 }
 
 .loader span {
-    color: #fff;
+    color: rgb(24, 28, 46);
     margin: 0 20px;
     font-size: 8em;
     font-weight: bold;

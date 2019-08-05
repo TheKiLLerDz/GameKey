@@ -75,7 +75,7 @@ delete game.keys}
 
 
 
-function delallkey(t, id) {
+function delgamekeys(t, id) {
 
 	new Dexie('GameKey_BDD').open()
 		.then(function (db) {
