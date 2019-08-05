@@ -40,7 +40,7 @@ const store = new Vuex.Store({
       allkey : [],
       }, 
 })
-
+getsteambdd();
 v = new Vue({
   store,
   router,
@@ -87,8 +87,4 @@ v = new Vue({
     mini: false,
     keys: true,
   }),
-  beforeCreate : function () {
-    getsteambdd();
-},
- 
 })

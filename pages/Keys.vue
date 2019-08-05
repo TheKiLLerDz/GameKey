@@ -70,9 +70,9 @@
             </v-text-field>
         </v-flex>
         <v-flex xs12>
-            <v-data-table hide-actions :headers="headers[2].show ? headers : headers.splice(2,1)" :items="apps"
+            <v-data-table :headers="headers[2].show ? headers : headers.splice(2,1)" :items="apps"
                 :update:page="loading" :search="search" :single-expand="singleExpand"
-                :expanded.sync="expanded" show-expand ref="table" class="elevation-1" :expand="expand" item-key="appid">
+                :expanded.sync="expanded" show-expand ref="table" :expand="expand" item-key="appid">
                 <template slot="headerCell" slot-scope="{ header }" v-if="header.show == undefined | header.show">
                     <span class="blue--text" v-text="header.text" />
                 </template>

@@ -32,7 +32,7 @@
             return {
                 items: [{
                         title: 'All key',
-                        icon: 'mdi-alert-circle',
+                        icon: 'mdi-key',
                         games: 50,
                         keys: 250,
                         link: '/keys'
