@@ -55,9 +55,59 @@ function delkey(t, id, key) {
 
 			db.tables[t].where("appid").equals(id).modify(game => {
 
+				if (game.keys.length > 1) {
 				game.keys = game.keys.filter((el) => {
 					return el.key !== key;
 				});
+				} else{
+delete game.keys}
+
+			});
+
+		}).catch('NoSuchDatabaseError', function (e) {
+			// Database with that name did not exist
+			console.error("Database not found");
+		}).catch(function (e) {
+			console.error("Oh uh: " + e);
+		})
+}
+
+
+
+
+function delgamekeys(t, id) {
+
+	new Dexie('GameKey_BDD').open()
+		.then(function (db) {
+
+			db.tables[t].where("appid").equals(id).modify(game => {
+
+				delete game.keys
+
+		}).catch('NoSuchDatabaseError', function (e) {
+			// Database with that name did not exist
+			console.error("Database not found");
+		}).catch(function (e) {
+			console.error("Oh uh: " + e);
+		})
+})
+}
+
+
+function editkey(t, id, okey,nkey) {
+
+	new Dexie('GameKey_BDD').open()
+		.then(function (db) {
+
+			db.tables[t].where("appid").equals(id).modify(game => {
+  
+				for (var i = 0; i < game.keys.length; i++) {
+               if (game.keys[i].key == okey) {
+				   game.keys[i].key = nkey
+				   i = game.keys.length
+			   }
+
+				}
 
 			});
 

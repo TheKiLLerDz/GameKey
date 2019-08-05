@@ -31,6 +31,7 @@ const store = new Vuex.Store({
 	state:{
       finished:false,
       steam :  [],
+      games: ["counter","half","pubg"],
       steamkey : [],
       uplay : [],
       uplaykey : [],
@@ -45,6 +46,10 @@ v = new Vue({
   store,
   router,
   data: ({
+    loading: false,
+      search: null,
+      select: null,
+      games:[],
     show: true,
     items: [{
         title: 'Home',
@@ -86,5 +91,25 @@ v = new Vue({
     ],
     mini: false,
     keys: true,
+    isDark: true,
   }),
+  watch: {
+    search (val) {
+      val && val !== this.select && this.querySelections(val)
+    }
+  },
+  methods: {
+    querySelections (v) {
+      this.loading = true
+        this.games = store.state.games.filter(e => {
+          return (e || '').toLowerCase().indexOf((v || '').toLowerCase()) > -1
+        })
+        this.loading = false
+      
+    }}
+  ,
+  beforeCreate : function () {
+    getsteambdd();
+},
+ 
 })

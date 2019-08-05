@@ -13,8 +13,8 @@
                     </v-list-tile>
                 </v-list>
                 <v-card-text>
-                    <div>your games is: {{item.games}}</div>
-                    <div>your keys is : {{item.keys}} </div>
+                    <div>Your Game Count : {{item.games}}</div>
+                    <div>With : {{item.keys}} Keys </div>
                 </v-card-text>
                 <v-card-actions>
                     <v-btn flat white :to="{path:item.link}">

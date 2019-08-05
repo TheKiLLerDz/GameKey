@@ -19,25 +19,33 @@
                 <v-card-text>
                     <v-container grid-list-md>
                         <v-layout wrap>
-                            <v-flex xs12 sm6 md6>
-                                <v-overflow-btn :items='platforms' v-model="editedItem.platform" label="Platform">
-                                </v-overflow-btn>
-                            </v-flex>
-                            <v-flex xs12 sm6 md4>
-                                <v-text-field v-model="editedItem.code" label="ID"></v-text-field>
-                            </v-flex>
-                            <v-flex xs12 sm12 md12>
-                                <v-text-field v-model="editedItem.name" label="Name"></v-text-field>
-                            </v-flex>
-                            <v-flex xs12 sm12 md12>
-                                <v-text-field v-model="editedItem.key" label="Key"></v-text-field>
-                            </v-flex>
-                            <v-flex xs12 sm6 md6>
-                                <v-text-field v-model="editedItem.qnt" label="Qnt"></v-text-field>
-                            </v-flex>
-                            <v-flex xs12 sm12 md12>
-                                <v-text-field label="Tags"></v-text-field>
-                            </v-flex>
+                            <table>
+                                <tr>
+                                    <v-flex xs12 sm6 md6>
+                                        <v-overflow-btn :items='platforms' v-model="editedItem.platform"
+                                            label="Platform">
+                                        </v-overflow-btn>
+                                    </v-flex>
+                                    <v-flex xs12 sm6 md4>
+                                        <v-text-field v-model="editedItem.appid" label="ID"></v-text-field>
+                                    </v-flex>
+                                </tr>
+                                <tr>
+                                    <v-flex xs12 sm12 md12>
+                                        <v-text-field v-model="editedItem.name" label="Name" disabled></v-text-field>
+                                    </v-flex>
+                                </tr>
+                                <tr>
+                                    <v-flex xs12 sm12 md12>
+                                        <v-text-field v-model="editedItem.keys" label="Keys"></v-text-field>
+                                    </v-flex>
+                                </tr>
+                                <tr>
+                                    <v-flex xs12 sm12 md12>
+                                        <v-text-field label="Tags"></v-text-field>
+                                    </v-flex>
+                                </tr>
+                            </table>
                         </v-layout>
                     </v-container>
                 </v-card-text>
@@ -128,33 +136,40 @@
                     <v-card flat>
                         <v-card-text>
                             <v-alert value="true" :color="getColor(props.item.keys.length)" outline>
-                                <div v-for="index in props.item.keys" :key="index.key">
-                                    {{index.key}}
-                                    <v-tooltip top>
-                                        <v-btn slot="activator" color="success" icon small>
-                                            <v-icon small>
-                                                mdi-content-copy
-                                            </v-icon>
-                                        </v-btn>
-                                        <span class="top">Copy Key</span>
-                                    </v-tooltip>
-                                    <v-tooltip top>
-                                        <v-btn slot="activator" color="info" icon small>
-                                            <v-icon small>
-                                                mdi-tooltip-edit
-                                            </v-icon>
-                                        </v-btn>
-                                        <span class="top">Edit Key</span>
-                                    </v-tooltip>
-                                    <v-tooltip top>
-                                        <v-btn slot="activator" color="error" icon small>
-                                            <v-icon small>
-                                                delete
-                                            </v-icon>
-                                        </v-btn>
-                                        <span class="top">Delete Key!</span>
-                                    </v-tooltip>
-                                </div>
+                                <table>
+                                    <tr v-for="(index,i) in props.item.keys" :key="i.key">
+                                        <td>{{index.key}}</td>
+                                        <td>
+                                            <v-tooltip top>
+                                                <v-btn slot="activator" color="success" @click="copykey(index.key)"
+                                                    :id="index.key" icon small>
+                                                    <v-icon small>
+                                                        mdi-content-copy
+                                                    </v-icon>
+                                                </v-btn>
+                                                <span class="top">Copy Key</span>
+                                            </v-tooltip>
+                                            <v-tooltip top>
+                                                <v-btn slot="activator" color="info" icon small>
+                                                    <v-icon small>
+                                                        mdi-tooltip-edit
+                                                    </v-icon>
+                                                </v-btn>
+                                                <span class="top">Edit Key</span>
+                                            </v-tooltip>
+                                            <v-tooltip top>
+                                                <v-btn slot="activator" color="error"
+                                                    @click="deletekey(index.key,props.item.appid,props.item.platform)"
+                                                    icon small>
+                                                    <v-icon small>
+                                                        delete
+                                                    </v-icon>
+                                                </v-btn>
+                                                <span class="top">Delete Key!</span>
+                                            </v-tooltip>
+                                        </td>
+                                    </tr>
+                                </table>
                             </v-alert>
                         </v-card-text>
                     </v-card>
@@ -268,10 +283,41 @@
                 this.editedItem = Object.assign({}, item)
                 this.editdialog = true
             },
-
             deleteItem(item) {
                 const index = this.apps.indexOf(item)
-                confirm('Are you sure you want to delete this key?') && this.apps.splice(index, 1)
+                confirm('Are you sure you want to delete all The keys of this game?') && delgamekeys(0, item
+                    .appid) && this.apps.splice(index, 1)
+            },
+            deletekey(key, id, platform) {
+                var tab
+                switch (platform) {
+                    case 'steam':
+                        tab = 0
+                        break;
+                    case 'uplay':
+                        tab = 1
+                        break;
+                    case 'origin':
+                        tab = 2
+                        break;
+                    case 'other':
+                        tab = 3
+                        break;
+                }
+                confirm('Are you sure you want to delete this key?') && delkey(tab, id, key)
+            },
+            copykey(key) {
+                var el = document.createElement('textarea');
+                el.value = key;
+                el.setAttribute('readonly', '');
+                el.style = {
+                    position: 'absolute',
+                    left: '-9999px'
+                };
+                document.body.appendChild(el);
+                el.select();
+                document.execCommand('copy');
+                document.body.removeChild(el);
             },
             otherinfo(item) {
                 this.infodialog = true

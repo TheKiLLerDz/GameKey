@@ -1,3 +1,26 @@
+.v-text-field--solo.v-text-field--rounded .v-input__slot {
+    border-radius: 28px
+}
+
+.v-text-field--rounded .v-btn {
+    margin: 0;
+    border-top-right-radius: 28px;
+    border-bottom-right-radius: 28px;
+    box-shadow: none;
+    height: 48px;
+    margin-right: -12px;
+    padding-top: 2px;
+    color: #fff;
+}
+
+::-webkit-scrollbar {
+    background-color: #1b1c21;
+    color: #c4c0ba;
+}
+
+[v-cloak] {
+    display: none;
+}
 #main {
     margin: 0;
     padding: 0;
@@ -10,10 +33,11 @@
 .loader {
     position: relative;
     display: flex;
+    background: #ffffff
 }
 
 .loader span {
-    color: #fff;
+    color: rgb(24, 28, 46);
     margin: 0 20px;
     font-size: 8em;
     font-weight: bold;
