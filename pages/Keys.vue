@@ -22,9 +22,9 @@
                             <table>
                                 <tr>
                                     <v-flex xs12 sm6 md6>
-                                        <v-overflow-btn :items='platforms' v-model="editedItem.platform"
+                                        <v-combobox :items='platforms' :value="Uppercasefirst(editedItem.platform)"
                                             label="Platform">
-                                        </v-overflow-btn>
+                                        </v-combobox>
                                     </v-flex>
                                     <v-flex xs12 sm6 md4>
                                         <v-text-field v-model="editedItem.appid" label="ID"></v-text-field>
@@ -35,14 +35,33 @@
                                         <v-text-field v-model="editedItem.name" label="Name" disabled></v-text-field>
                                     </v-flex>
                                 </tr>
-                                <tr>
-                                    <v-flex xs12 sm12 md12>
-                                        <v-text-field v-model="editedItem.keys" label="Keys"></v-text-field>
+                                <tr v-if="editedItem.keys == []">
+                                    <v-flex xs12 sm12 md12 v-for="(index,i) in editedItem.keys" :key="i">
+                                        Key {{i+1}}
+                                        <v-edit-dialog :return-value.sync="index.key" large persistent @save="save"
+                                            @cancel="cancel" @open="open" @close="close" color="red">
+                                            <v-chip color="blue">{{ index.key }}</v-chip>
+                                            <template v-slot:input>
+                                                <div class="mt-4 title">Update key</div>
+                                            </template>
+                                            <template v-slot:input>
+                                                <v-text-field v-model="index.key" :rules="[max25chars]" label="Edit"
+                                                    single-line counter autofocus color="red"></v-text-field>
+                                            </template>
+                                        </v-edit-dialog>
                                     </v-flex>
                                 </tr>
                                 <tr>
                                     <v-flex xs12 sm12 md12>
-                                        <v-text-field label="Tags"></v-text-field>
+                                        <v-combobox v-model="gametagsselected" :items="gametags" label="Game Tags" chips
+                                            clearable prepend-icon="filter_list" solo multiple>
+                                            <template v-slot:selection="tags">
+                                                <v-chip :selected="tags.selected" close @input="remove(tags.item)"
+                                                    color="orange" outline>
+                                                    <strong>{{ tags.item }}</strong>
+                                                </v-chip>
+                                            </template>
+                                        </v-combobox>
                                     </v-flex>
                                 </tr>
                             </table>
@@ -79,10 +98,10 @@
         </v-flex>
         <v-flex xs12>
             <v-toolbar flat>
-            <v-spacer></v-spacer>
-            <v-btn color="primary" dark @click="addkey = !addkey">
-                Add key
-            </v-btn>
+                <v-spacer></v-spacer>
+                <v-btn color="primary" dark @click="addkey = !addkey">
+                    Add key
+                </v-btn>
             </v-toolbar>
             <v-data-table hide-actions :headers="headers[2].show ? headers : headers.splice(2,1)" :items="apps"
                 :update:page="loading" :search="search" :single-expand="singleExpand" :expanded.sync="expanded"
@@ -240,6 +259,9 @@
                     totalItems: '',
                     rowsPerPage: 10
                 },
+                max25chars: v => v.length <= 25 || 'Key is too long!',
+                gametags: ['Action', 'AAA', 'Sport', 'Cars'],
+                gametagsselected: [],
                 fling: false,
                 tabs: null,
                 editdialog: false,
@@ -293,6 +315,31 @@
             }
         },
         methods: {
+            save() {
+                this.snack = true
+                this.snackColor = 'success'
+                this.snackText = 'Data saved'
+            },
+            cancel() {
+                this.snack = true
+                this.snackColor = 'error'
+                this.snackText = 'Canceled'
+            },
+            open() {
+                this.snack = true
+                this.snackColor = 'info'
+                this.snackText = 'Dialog opened'
+            },
+            close() {
+                console.log('Dialog closed')
+            },
+            remove(item) {
+                this.gametagsselected.splice(this.gametagsselected.indexOf(item), 1)
+                this.gametagsselected = [...this.gametagsselected]
+            },
+            Uppercasefirst(text) {
+                return text.charAt(0).toUpperCase() + text.slice(1);
+            },
             save(d) {
                 i = 0;
                 while (i < this.apps.length) {
