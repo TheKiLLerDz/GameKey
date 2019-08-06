@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,7 +10,6 @@
     <link rel="stylesheet" href="cdn/material-design/3.0.1/iconfont/material-icons.css">
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
     <div id="main">
         <div class="loader">
@@ -28,7 +26,7 @@
         </div>
     </div>
     <v-app v-cloak id="app" :dark="isDark">
-        <v-layout wrap style="height: 200px;">
+        <v-layout row wrap>
             <v-toolbar dense :clipped-left="$vuetify.breakpoint.mdAndUp" fixed app>
                 <v-toolbar-side-icon @click.stop="show = !show"></v-toolbar-side-icon>
                 <v-toolbar-title style="width: 300px" class="ml-0 pl-3">
@@ -53,7 +51,6 @@
                 <v-btn icon small>
                     <v-icon small>mdi-window-maximize</v-icon>
                 </v-btn>
-
                 <v-btn icon small>
                     <v-icon small>mdi-window-close</v-icon>
                 </v-btn>
@@ -111,7 +108,7 @@
 <script src="cdn/vuetify.js"></script>
 <script src="cdn/httpVueLoader.js"></script>
 <script src="cdn/vue-router.js"></script>
-<script src="https://unpkg.com/vuex"></script>
+<script src="cdn/veux.js"></script>
 <script src="methods_bd.js"></script>
 <script src="main.js"></script>
 
