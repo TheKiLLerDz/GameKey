@@ -38,8 +38,7 @@
                                 <tr v-if="editedItem.keys == []">
                                     <v-flex xs12 sm12 md12 v-for="(index,i) in editedItem.keys" :key="i">
                                         Key {{i+1}}
-                                        <v-edit-dialog :return-value.sync="index.key" large persistent @save="save"
-                                            @cancel="cancel" @open="open" @close="close" color="red">
+                                        <v-edit-dialog :return-value.sync="index.key" large persistent color="red">
                                             <v-chip color="blue">{{ index.key }}</v-chip>
                                             <template v-slot:input>
                                                 <div class="mt-4 title">Update key</div>
@@ -185,8 +184,7 @@
                                             </v-tooltip>
                                             <v-tooltip top>
                                                 <v-btn slot="activator" color="error"
-                                                    @click="deletekey(index.key,props.item.appid,props.item.platform)"
-                                                    icon small>
+                                                    @click="deletekey(index.key,props.item)" icon small>
                                                     <v-icon small>
                                                         delete
                                                     </v-icon>
@@ -315,24 +313,6 @@
             }
         },
         methods: {
-            save() {
-                this.snack = true
-                this.snackColor = 'success'
-                this.snackText = 'Data saved'
-            },
-            cancel() {
-                this.snack = true
-                this.snackColor = 'error'
-                this.snackText = 'Canceled'
-            },
-            open() {
-                this.snack = true
-                this.snackColor = 'info'
-                this.snackText = 'Dialog opened'
-            },
-            close() {
-                console.log('Dialog closed')
-            },
             remove(item) {
                 this.gametagsselected.splice(this.gametagsselected.indexOf(item), 1)
                 this.gametagsselected = [...this.gametagsselected]
@@ -358,11 +338,11 @@
             deleteItem(item) {
                 const index = this.apps.indexOf(item)
                 confirm('Are you sure you want to delete all The keys of this game?') && delgamekeys(0, item
-                    .appid) && this.apps.splice(index, 1)
+                    .appid) & this.apps.splice(index, 1) & console.log("success")
             },
-            deletekey(key, id, platform) {
+            deletekey(key, item) {
                 var tab
-                switch (platform) {
+                switch (item.platform) {
                     case 'steam':
                         tab = 0
                         break;
@@ -376,7 +356,8 @@
                         tab = 3
                         break;
                 }
-                confirm('Are you sure you want to delete this key?') && delkey(tab, id, key)
+                confirm('Are you sure you want to delete this key?') & delkey(tab, item.appid, key) & store.state
+                    .steamkey[store.state.steamkey.indexOf(item)].keys.splice(store.state.steamkey.indexOf(item), 1)
             },
             copykey(key) {
                 var el = document.createElement('textarea');
