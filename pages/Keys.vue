@@ -71,7 +71,7 @@
                 <v-card-actions>
                     <v-spacer></v-spacer>
                     <v-btn color="blue darken-1" flat _click="close" @click="editdialog=!editdialog">Cancel</v-btn>
-                    <v-btn color="blue darken-1" flat @click="save(editedItem.code)">Save</v-btn>
+                    <v-btn color="blue darken-1" flat @click="save(editedItem.appid)">Save</v-btn>
                 </v-card-actions>
             </v-card>
         </v-dialog>
@@ -343,7 +343,7 @@
             save(d) {
                 i = 0;
                 while (i < this.apps.length) {
-                    if (this.apps[i].code == d) {
+                    if (this.apps[i].appid == d) {
                         this.apps[i] = this.editedItem;
                         console.log(this.apps[i])
                     }
