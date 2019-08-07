@@ -106,21 +106,21 @@
                 </template>
                 <template slot="items" slot-scope="props"
                     v-if="props.item.platform==this.pageof | $route.path=='/keys'">
-                    <tr @click="props.expanded = !props.expanded">
-                        <td>
+                    <tr>
+                        <td @click="props.expanded = !props.expanded">
                             <v-img
                                 :src="'apps/' + props.item.appid + '.jpg' == undefined ? 'apps/undefined.gif' : 'apps/' + props.item.appid + '.jpg'">
                             </v-img>
                         </td>
-                        <td>
+                        <td @click="props.expanded = !props.expanded">
                             <v-chip dark>{{ props.item.name }}</v-chip>
                         </td>
-                        <td v-if="$route.path=='/keys'">
+                        <td v-if="$route.path=='/keys'" @click="props.expanded = !props.expanded">
                             <v-icon v-if="props.item.platform=='other'">mdi-key</v-icon>
                             <v-icon v-else-if="props.item.platform=='uplay'">mdi-ubisoft</v-icon>
                             <v-icon v-else>mdi-{{props.item.platform}}</v-icon>
                         </td>
-                        <td>
+                        <td @click="props.expanded = !props.expanded">
                             <v-chip :color="getColor(props.item.keys.length)" dark>
                                 {{props.item.keys.length}}</v-chip>
                         </td>
@@ -242,7 +242,7 @@
 
                 return Math.ceil(this.totalItems / this.pagination.rowsPerPage)
             },
-            
+
         },
         data() {
             return {
@@ -313,7 +313,7 @@
                 i = 0;
                 while (i < store.state.steamkey.length) {
                     if (store.state.steamkey[i].appid == this.editedItem.appid) {
-                        this.editedItem.name=store.state.steamkey[i].name;
+                        this.editedItem.name = store.state.steamkey[i].name;
                     }
                     i = i + 1;
                 }
@@ -345,7 +345,7 @@
             },
             deleteItem(item) {
                 const index = this.apps.indexOf(item)
-                confirm('Are you sure you want to delete all The keys of this game?') && delgamekeys(0, item
+                confirm('Are you sure you want to delete all The keys of this game?') & delgamekeys(0, item
                     .appid) & this.apps.splice(index, 1) & console.log("success")
             },
             deletekey(key, item) {
@@ -364,8 +364,11 @@
                         tab = 3
                         break;
                 }
-                confirm('Are you sure you want to delete this key?') & delkey(tab, item.appid, key) & store.state
-                    .steamkey[store.state.steamkey.indexOf(item)].keys.splice(store.state.steamkey.indexOf(item), 1)
+                const index = this.apps.indexOf(item);
+                confirm('Are you sure you want to delete this key?') & delkey(tab, item.appid, key) & this.apps[index].keys.splice(item.keys.indexOf(key), 1)
+                if (item.keys.length == 0) {
+                    this.apps.splice(index,1);
+                }
             },
             copykey(key) {
                 var el = document.createElement('textarea');
