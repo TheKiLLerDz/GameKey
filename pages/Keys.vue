@@ -74,7 +74,7 @@
                 <v-card-actions>
                     <v-spacer></v-spacer>
                     <v-btn color="blue darken-1" flat _click="close" @click="editdialog = !editdialog">Cancel</v-btn>
-                    <v-btn color="blue darken-1" flat @click="save(editedItem.appid)">Save</v-btn>
+                    <v-btn color="blue darken-1" flat @click="save(editedItem.appid)">{{this.editedItem.appid == '' ? 'Add' : 'Save'}}</v-btn>
                 </v-card-actions>
             </v-card>
         </v-dialog>
