@@ -73,7 +73,7 @@
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn color="blue darken-1" flat _click="close" @click="cancel">Cancel</v-btn>
+                    <v-btn color="blue darken-1" flat _click="close" @click="editdialog = !editdialog">Cancel</v-btn>
                     <v-btn color="blue darken-1" flat @click="save(editedItem.appid)">Save</v-btn>
                 </v-card-actions>
             </v-card>
@@ -326,15 +326,6 @@
             Uppercasefirst(text) {
                 return text.charAt(0).toUpperCase() + text.slice(1);
             },
-            cancel() {
-                this.editdialog = !this.editdialog;
-                this.editedItem = {
-                    appid: '',
-                    name: '',
-                    platform: '',
-                    keys: [],
-                };
-            },
             save(d) {
                 i = 0;
                 while (i < this.apps.length) {
@@ -343,15 +334,15 @@
                     }
                     i = i + 1;
                 }
+                this.editdialog = false;
+            },
+            additem() {
                 this.editedItem = {
                     appid: '',
                     name: '',
                     platform: '',
                     keys: [],
                 };
-                this.editdialog = false;
-            },
-            additem() {
                 this.editdialog = true;
             },
             editItem(item) {
