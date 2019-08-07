@@ -127,7 +127,7 @@
                             <v-chip :color="getColor(props.item.keys.length)" dark>
                                 {{props.item.keys.length}}</v-chip>
                         </td>
-                        <td class="layout px-0">
+                        <td>
                             <v-tooltip top>
                                 <v-btn slot="activator" @click="deleteItem(props.item)" color="error" icon small>
                                     <v-icon small>
@@ -352,7 +352,7 @@
             },
             deleteItem(item) {
                 const index = this.apps.indexOf(item)
-                confirm('Are you sure you want to delete all The keys of this game?') & delgamekeys(0, item
+                confirm('Are you sure you want to delete all The keys of this game?') && delgamekeys(0, item
                     .appid) & this.apps.splice(index, 1) & console.log("success")
             },
             deletekey(key, item) {
@@ -372,8 +372,8 @@
                         break;
                 }
                 const index = this.apps.indexOf(item);
-                confirm('Are you sure you want to delete this key?') & delkey(tab, item.appid, key) & this.apps[
-                    index].keys.splice(item.keys.indexOf(key), 1)
+                confirm('Are you sure you want to delete this key?') && delkey(tab, item.appid, key) & this.apps[
+                    index].keys.splice(item.keys.indexOf(key), 1);
                 if (item.keys.length == 0) {
                     this.apps.splice(index, 1) & delgamekeys(0, item
                         .appid);
