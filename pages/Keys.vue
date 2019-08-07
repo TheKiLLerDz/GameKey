@@ -14,7 +14,7 @@
         <v-dialog v-model="editdialog" max-width="500px">
             <v-card>
                 <v-card-title>
-                    <span class="headline">Edit app</span>
+                    <span class="headline">{{this.editedItem.appid == '' ? 'Add' : 'Edit'}} app</span>
                 </v-card-title>
                 <v-card-text>
                     <v-container grid-list-md>
