@@ -22,18 +22,21 @@
                             <table>
                                 <tr>
                                     <v-flex xs12 sm6 md6>
-                                        <v-combobox :items='platforms' :value="Uppercasefirst(editedItem.platform)"
+                                        <v-combobox :items='platforms'
+                                            :value="editedItem.platform == null ? '' : Uppercasefirst(editedItem.platform)"
                                             label="Platform">
                                         </v-combobox>
                                     </v-flex>
                                     <v-flex xs12 sm6 md4>
                                         <v-text-field :rules="[() => !!editedItem.appid || 'This field is required']"
-                                            v-model="editedItem.appid" label="ID" :@click="IDEdited()"></v-text-field>
+                                            :value="editedItem.appid == null ? '' : editedItem.appid" label="ID"
+                                            :@click="IDEdited()"></v-text-field>
                                     </v-flex>
                                 </tr>
                                 <tr>
                                     <v-flex xs12 sm12 md12>
-                                        <v-text-field v-model="editedItem.name" label="Name" disabled></v-text-field>
+                                        <v-text-field :value="editedItem.name == null ? '' : editedItem.name"
+                                            label="Name" disabled></v-text-field>
                                     </v-flex>
                                 </tr>
                                 <tr v-if="editedItem.keys == []">
@@ -70,7 +73,7 @@
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn color="blue darken-1" flat _click="close" @click="editdialog=!editdialog">Cancel</v-btn>
+                    <v-btn color="blue darken-1" flat _click="close" @click="cancel">Cancel</v-btn>
                     <v-btn color="blue darken-1" flat @click="save(editedItem.appid)">Save</v-btn>
                 </v-card-actions>
             </v-card>
@@ -212,7 +215,7 @@
                     <v-icon v-else>add</v-icon>
                 </v-btn>
             </template>
-            <v-btn fab dark small color="indigo">
+            <v-btn fab dark small color="indigo" @click="additem(null)">
                 <v-icon>add</v-icon>
             </v-btn>
             <v-btn fab dark small color="green">
@@ -239,10 +242,8 @@
                 if (this.pagination.rowsPerPage == null ||
                     this.totalItems == null
                 ) return 0
-
                 return Math.ceil(this.totalItems / this.pagination.rowsPerPage)
             },
-
         },
         data() {
             return {
@@ -325,16 +326,33 @@
             Uppercasefirst(text) {
                 return text.charAt(0).toUpperCase() + text.slice(1);
             },
+            cancel() {
+                this.editdialog = !this.editdialog;
+                this.editedItem = {
+                    appid: '',
+                    name: '',
+                    platform: '',
+                    keys: [],
+                };
+            },
             save(d) {
                 i = 0;
                 while (i < this.apps.length) {
                     if (this.apps[i].appid == d) {
                         this.apps[i] = this.editedItem;
-                        console.log(this.apps[i])
                     }
                     i = i + 1;
                 }
+                this.editedItem = {
+                    appid: '',
+                    name: '',
+                    platform: '',
+                    keys: [],
+                };
                 this.editdialog = false;
+            },
+            additem() {
+                this.editdialog = true;
             },
             editItem(item) {
                 this.editedItem = Object.assign({}, item);
