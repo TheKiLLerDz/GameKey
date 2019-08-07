@@ -27,7 +27,8 @@
                                         </v-combobox>
                                     </v-flex>
                                     <v-flex xs12 sm6 md4>
-                                        <v-text-field v-model="editedItem.appid" label="ID"></v-text-field>
+                                        <v-text-field :rules="[() => !!editedItem.appid || 'This field is required']"
+                                            v-model="editedItem.appid" label="ID" :@click="IDEdited()"></v-text-field>
                                     </v-flex>
                                 </tr>
                                 <tr>
@@ -39,7 +40,7 @@
                                     <v-flex xs12 sm12 md12 v-for="(index,i) in editedItem.keys" :key="i">
                                         Key {{i+1}}
                                         <v-edit-dialog :return-value.sync="index.key" large persistent color="red">
-                                            <v-chip color="blue">{{ index.key }}</v-chip>
+                                            <v-chip text-color="white" color="blue">{{ index.key }}</v-chip>
                                             <template v-slot:input>
                                                 <div class="mt-4 title">Update key</div>
                                             </template>
@@ -96,12 +97,6 @@
             </v-text-field>
         </v-flex>
         <v-flex xs12>
-            <v-toolbar flat>
-                <v-spacer></v-spacer>
-                <v-btn color="primary" dark @click="addkey = !addkey">
-                    Add key
-                </v-btn>
-            </v-toolbar>
             <v-data-table hide-actions :headers="headers[2].show ? headers : headers.splice(2,1)" :items="apps"
                 :update:page="loading" :search="search" :single-expand="singleExpand" :expanded.sync="expanded"
                 :pagination.sync="pagination" show-expand ref="table" class="elevation-1" :expand="expand"
@@ -246,7 +241,8 @@
                 ) return 0
 
                 return Math.ceil(this.totalItems / this.pagination.rowsPerPage)
-            }
+            },
+            
         },
         data() {
             return {
@@ -313,6 +309,17 @@
             }
         },
         methods: {
+            IDEdited() {
+                i = 0;
+                while (i < store.state.steamkey.length) {
+                    if (store.state.steamkey[i].appid == this.editedItem.appid) {
+                        this.editedItem.name=store.state.steamkey[i].name;
+                    }
+                    i = i + 1;
+                }
+
+
+            },
             remove(item) {
                 this.gametagsselected.splice(this.gametagsselected.indexOf(item), 1)
                 this.gametagsselected = [...this.gametagsselected]
@@ -332,8 +339,9 @@
                 this.editdialog = false;
             },
             editItem(item) {
-                this.editedItem = Object.assign({}, item)
-                this.editdialog = true
+                this.editedItem = Object.assign({}, item);
+                this.editedItem.name = item.name;
+                this.editdialog = true;
             },
             deleteItem(item) {
                 const index = this.apps.indexOf(item)
