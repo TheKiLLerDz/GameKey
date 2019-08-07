@@ -317,8 +317,6 @@
                     }
                     i = i + 1;
                 }
-
-
             },
             remove(item) {
                 this.gametagsselected.splice(this.gametagsselected.indexOf(item), 1)
@@ -365,9 +363,11 @@
                         break;
                 }
                 const index = this.apps.indexOf(item);
-                confirm('Are you sure you want to delete this key?') & delkey(tab, item.appid, key) & this.apps[index].keys.splice(item.keys.indexOf(key), 1)
+                confirm('Are you sure you want to delete this key?') & delkey(tab, item.appid, key) & this.apps[
+                    index].keys.splice(item.keys.indexOf(key), 1)
                 if (item.keys.length == 0) {
-                    this.apps.splice(index,1);
+                    this.apps.splice(index, 1) & delgamekeys(0, item
+                        .appid);
                 }
             },
             copykey(key) {
