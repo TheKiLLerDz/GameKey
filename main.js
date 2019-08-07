@@ -31,7 +31,6 @@ const store = new Vuex.Store({
 	state:{
       finished:false,
       steam :  [],
-      games: ["counter","half","pubg"],
       steamkey : [],
       uplay : [],
       uplaykey : [],
@@ -49,7 +48,7 @@ v = new Vue({
     loading: false,
       search: null,
       select: null,
-      games:[],
+      games:["counter","half","pubg"],
     show: true,
     items: [{
         title: 'Home',
@@ -101,7 +100,7 @@ v = new Vue({
   methods: {
     querySelections (v) {
       this.loading = true
-        this.games = store.state.games.filter(e => {
+        this.games = this.games.filter(e => {
           return (e || '').toLowerCase().indexOf((v || '').toLowerCase()) > -1
         })
         this.loading = false
