@@ -201,7 +201,8 @@
                 </v-alert>
             </v-data-table>
             <div class="text-xs-center pt-2">
-                <v-pagination v-model="pagination.page" :length="pages"></v-pagination>
+                <v-pagination v-model="pagination.page" :length="pages" 
+                next-icon="mdi-menu-right" prev-icon="mdi-menu-left" circle></v-pagination>
             </div>
         </v-flex>
         <v-speed-dial v-model="fab" bottom right fixed direction="top" transition="slide-y-reverse-transition"
