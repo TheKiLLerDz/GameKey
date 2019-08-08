@@ -31,9 +31,10 @@
         data() {
             return {
                 items: [{
-                        title: 'All Keys',
-                        icon: 'mdi-alert-circle',
-                        games: 50,
+                        title: 'All key',
+                        icon: 'mdi-key',
+                        games: store.state.steamkey.concat(store.state.uplaykey.concat(store.state.originkey
+                        .concat(store.state.others))).length,
                         keys: 250,
                         link: '/keys'
                     },
@@ -46,26 +47,44 @@
                     }, {
                         title: 'Uplay',
                         icon: 'mdi-ubisoft',
-                        games: 50,
+                        games: store.state.uplaykey.length,
                         keys: 250,
                         link: '/uplay'
                     },
                     {
                         title: 'Origin',
                         icon: 'mdi-origin',
-                        games: 20,
+                        games: store.state.originkey.length,
                         keys: 250,
                         link: '/origin'
                     },
                     {
                         title: 'Other',
                         icon: 'mdi-alert-circle',
-                        games: 50,
+                        games: store.state.others.length,
                         keys: 250,
                         link: '/other'
                     }
                 ]
             }
+        },
+        mounted() {
+            this.items[1].keys = store.state.steamkey.reduce(function (keys ,item) {
+                return keys + (item.keys.length);
+            }, 0)
+            this.items[2].keys = store.state.uplaykey.reduce(function (keys ,item) {
+                return keys + (item.keys.length);
+            }, 0)
+            this.items[3].keys = store.state.originkey.reduce(function (keys ,item) {
+                return keys + (item.keys.length);
+            }, 0)
+            this.items[4].keys = store.state.others.reduce(function (keys ,item) {
+                return keys + (item.keys.length);
+            }, 0)
+            this.items[0].keys = store.state.steamkey.concat(store.state.uplaykey.concat(store.state.originkey
+                .concat(store.state.others))).reduce(function (keys ,item) {
+                return keys + (item.keys.length);
+            }, 0)
         }
     }
 </script>
