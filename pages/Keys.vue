@@ -520,7 +520,7 @@
             }
         },
         filters: {
-            subStr: function (string) {
+            subStr(string) {
                 if (string == '/keys') {
                     pageof = 'all'
                     return this.pageof

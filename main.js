@@ -48,7 +48,7 @@ v = new Vue({
     loading: false,
       search: null,
       select: null,
-      games:["counter","half","pubg"],
+      games:[],
     show: true,
     items: [{
         title: 'Home',
@@ -107,8 +107,14 @@ v = new Vue({
       
     }}
   ,
-  beforeCreate : function () {
+  beforeCreate () {
     getsteambdd();
 },
- 
+mounted () {
+  this.games = store.state.steamkey.reduce(function (names ,item) {
+    var list=[];
+    list.push(item.name);
+    return list;
+},0)
+}
 })
