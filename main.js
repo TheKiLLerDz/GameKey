@@ -40,7 +40,6 @@ const store = new Vuex.Store({
       allkeys : [],
       }, 
 })
-getsteambdd();
 v = new Vue({
   store,
   router,
