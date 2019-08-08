@@ -14,7 +14,7 @@
         <v-dialog v-model="editdialog" max-width="500px">
             <v-card>
                 <v-card-title>
-                    <span class="headline">Edit app</span>
+                    <span class="headline">{{this.editedItem.appid == '' ? 'Add' : 'Edit'}} app</span>
                 </v-card-title>
                 <v-card-text>
                     <v-container grid-list-md>
@@ -22,18 +22,21 @@
                             <table>
                                 <tr>
                                     <v-flex xs12 sm6 md6>
-                                        <v-combobox :items='platforms' :value="Uppercasefirst(editedItem.platform)"
+                                        <v-combobox :items='platforms'
+                                            :value="editedItem.platform == null ? '' : Uppercasefirst(editedItem.platform)"
                                             label="Platform">
                                         </v-combobox>
                                     </v-flex>
                                     <v-flex xs12 sm6 md4>
                                         <v-text-field :rules="[() => !!editedItem.appid || 'This field is required']"
-                                            v-model="editedItem.appid" label="ID" :@click="IDEdited()"></v-text-field>
+                                            :value="editedItem.appid == null ? '' : editedItem.appid" label="ID"
+                                            :@click="IDEdited()"></v-text-field>
                                     </v-flex>
                                 </tr>
                                 <tr>
                                     <v-flex xs12 sm12 md12>
-                                        <v-text-field v-model="editedItem.name" label="Name" disabled></v-text-field>
+                                        <v-text-field :value="editedItem.name == null ? '' : editedItem.name"
+                                            label="Name" disabled></v-text-field>
                                     </v-flex>
                                 </tr>
                                 <tr v-if="editedItem.keys == []">
@@ -70,8 +73,8 @@
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn color="blue darken-1" flat _click="close" @click="editdialog=!editdialog">Cancel</v-btn>
-                    <v-btn color="blue darken-1" flat @click="save(editedItem.appid)">Save</v-btn>
+                    <v-btn color="blue darken-1" flat _click="close" @click="editdialog = !editdialog">Cancel</v-btn>
+                    <v-btn color="blue darken-1" flat @click="save(editedItem.appid)">{{this.editedItem.appid == '' ? 'Add' : 'Save'}}</v-btn>
                 </v-card-actions>
             </v-card>
         </v-dialog>
@@ -106,25 +109,25 @@
                 </template>
                 <template slot="items" slot-scope="props"
                     v-if="props.item.platform==this.pageof | $route.path=='/keys'">
-                    <tr @click="props.expanded = !props.expanded">
-                        <td>
+                    <tr>
+                        <td @click="props.expanded = !props.expanded">
                             <v-img
                                 :src="'apps/' + props.item.appid + '.jpg' == undefined ? 'apps/undefined.gif' : 'apps/' + props.item.appid + '.jpg'">
                             </v-img>
                         </td>
-                        <td>
+                        <td @click="props.expanded = !props.expanded">
                             <v-chip dark>{{ props.item.name }}</v-chip>
                         </td>
-                        <td v-if="$route.path=='/keys'">
+                        <td v-if="$route.path=='/keys'" @click="props.expanded = !props.expanded">
                             <v-icon v-if="props.item.platform=='other'">mdi-key</v-icon>
                             <v-icon v-else-if="props.item.platform=='uplay'">mdi-ubisoft</v-icon>
                             <v-icon v-else>mdi-{{props.item.platform}}</v-icon>
                         </td>
-                        <td>
+                        <td @click="props.expanded = !props.expanded">
                             <v-chip :color="getColor(props.item.keys.length)" dark>
                                 {{props.item.keys.length}}</v-chip>
                         </td>
-                        <td class="layout px-0">
+                        <td>
                             <v-tooltip top>
                                 <v-btn slot="activator" @click="deleteItem(props.item)" color="error" icon small>
                                     <v-icon small>
@@ -213,7 +216,7 @@
                     <v-icon v-else>add</v-icon>
                 </v-btn>
             </template>
-            <v-btn fab dark small color="indigo">
+            <v-btn fab dark small color="indigo" @click="additem(null)">
                 <v-icon>add</v-icon>
             </v-btn>
             <v-btn fab dark small color="green">
@@ -240,10 +243,8 @@
                 if (this.pagination.rowsPerPage == null ||
                     this.totalItems == null
                 ) return 0
-
                 return Math.ceil(this.totalItems / this.pagination.rowsPerPage)
             },
-            
         },
         data() {
             return {
@@ -314,12 +315,10 @@
                 i = 0;
                 while (i < store.state.steamkey.length) {
                     if (store.state.steamkey[i].appid == this.editedItem.appid) {
-                        this.editedItem.name=store.state.steamkey[i].name;
+                        this.editedItem.name = store.state.steamkey[i].name;
                     }
                     i = i + 1;
                 }
-
-
             },
             remove(item) {
                 this.gametagsselected.splice(this.gametagsselected.indexOf(item), 1)
@@ -333,11 +332,19 @@
                 while (i < this.apps.length) {
                     if (this.apps[i].appid == d) {
                         this.apps[i] = this.editedItem;
-                        console.log(this.apps[i])
                     }
                     i = i + 1;
                 }
                 this.editdialog = false;
+            },
+            additem() {
+                this.editedItem = {
+                    appid: '',
+                    name: '',
+                    platform: '',
+                    keys: [],
+                };
+                this.editdialog = true;
             },
             editItem(item) {
                 this.editedItem = Object.assign({}, item);
@@ -365,8 +372,13 @@
                         tab = 3
                         break;
                 }
-                confirm('Are you sure you want to delete this key?') & delkey(tab, item.appid, key) & store.state
-                    .steamkey[store.state.steamkey.indexOf(item)].keys.splice(store.state.steamkey.indexOf(item), 1)
+                const index = this.apps.indexOf(item);
+                confirm('Are you sure you want to delete this key?') && delkey(tab, item.appid, key) & this.apps[
+                    index].keys.splice(item.keys.indexOf(key), 1);
+                if (item.keys.length == 0) {
+                    this.apps.splice(index, 1) & delgamekeys(0, item
+                        .appid);
+                }
             },
             copykey(key) {
                 var el = document.createElement('textarea');
