@@ -14,7 +14,7 @@
         <v-dialog v-model="editdialog" max-width="500px">
             <v-card>
                 <v-card-title>
-                    <span class="headline">{{this.editedItem.appid == '' ? 'Add' : 'Edit'}} app</span>
+                    <span class="headline">Edit app</span>
                 </v-card-title>
                 <v-card-text>
                     <v-container grid-list-md>
@@ -22,24 +22,20 @@
                             <table>
                                 <tr>
                                     <v-flex xs12 sm6 md6>
-                                        <v-combobox :items='platforms'
-                                            :value="editedItem.platform == null ? '' : Uppercasefirst(editedItem.platform)"
-                                            label="Platform">
+                                        <v-combobox :items='platforms' v-model="editedItem.platform" label="Platform">
                                         </v-combobox>
                                     </v-flex>
                                     <v-flex xs12 sm6 md4>
                                         <v-text-field :rules="[() => !!editedItem.appid || 'This field is required']"
-                                            :value="editedItem.appid == null ? '' : editedItem.appid" label="ID"
-                                            :@click="IDEdited()"></v-text-field>
+                                            v-model="editedItem.appid" label="ID" @click="IDEdited()"></v-text-field>
                                     </v-flex>
                                 </tr>
                                 <tr>
                                     <v-flex xs12 sm12 md12>
-                                        <v-text-field :value="editedItem.name == null ? '' : editedItem.name"
-                                            label="Name" disabled></v-text-field>
+                                        <v-text-field v-model="editedItem.name" label="Name" disabled></v-text-field>
                                     </v-flex>
                                 </tr>
-                                <tr v-if="editedItem.keys == []">
+                                <tr>
                                     <v-flex xs12 sm12 md12 v-for="(index,i) in editedItem.keys" :key="i">
                                         Key {{i+1}}
                                         <v-edit-dialog :return-value.sync="index.key" large persistent color="red">
@@ -74,7 +70,70 @@
                 <v-card-actions>
                     <v-spacer></v-spacer>
                     <v-btn color="blue darken-1" flat _click="close" @click="editdialog = !editdialog">Cancel</v-btn>
-                    <v-btn color="blue darken-1" flat @click="save(editedItem.appid)">{{this.editedItem.appid == '' ? 'Add' : 'Save'}}</v-btn>
+                    <v-btn color="blue darken-1" flat @click="save(editedItem.appid)">Save</v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
+        <v-dialog v-model="addialog" max-width="500px">
+            <v-card>
+                <v-card-title>
+                    <span class="headline">Add app</span>
+                </v-card-title>
+                <v-card-text>
+                    <v-container grid-list-md>
+                        <v-layout wrap>
+                            <table>
+                                <tr>
+                                    <v-flex xs12 sm6 md6>
+                                        <v-combobox :items='platforms' v-model="itemtoadd.platform" label="Platform">
+                                        </v-combobox>
+                                    </v-flex>
+                                    <v-flex xs12 sm6 md4>
+                                        <v-text-field :rules="[() => !!itemtoadd.appid || 'This field is required']"
+                                            v-model="itemtoadd.appid" label="ID" @input="IDEdited(itemtoadd)"></v-text-field>
+                                    </v-flex>
+                                </tr>
+                                <tr>
+                                    <v-flex xs12 sm12 md12>
+                                        <v-text-field v-model="itemtoadd.name" label="Name" disabled></v-text-field>
+                                    </v-flex>
+                                </tr>
+                                <tr>
+                                    <v-flex xs12 sm12 md12>
+                                        Add keys
+                                        <v-edit-dialog :return-value.sync="itemtoadd.keys" large persistent color="red">
+                                            <v-chip text-color="white" color="blue">{{ itemtoadd.keys }}</v-chip>
+                                            <template v-slot:input>
+                                                <div class="mt-4 title">add key</div>
+                                            </template>
+                                            <template v-slot:input>
+                                                <v-text-field v-model="itemtoadd.keys" :rules="[max25chars]" label="add"
+                                                    single-line counter autofocus color="red"></v-text-field>
+                                            </template>
+                                        </v-edit-dialog>
+                                    </v-flex>
+                                </tr>
+                                <tr>
+                                    <v-flex xs12 sm12 md12>
+                                        <v-combobox v-model="gametagsselected" :items="gametags" label="Game Tags" chips
+                                            clearable prepend-icon="filter_list" solo multiple>
+                                            <template v-slot:selection="tags">
+                                                <v-chip :selected="tags.selected" close @input="remove(tags.item)"
+                                                    color="orange" outline>
+                                                    <strong>{{ tags.item }}</strong>
+                                                </v-chip>
+                                            </template>
+                                        </v-combobox>
+                                    </v-flex>
+                                </tr>
+                            </table>
+                        </v-layout>
+                    </v-container>
+                </v-card-text>
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="blue darken-1" flat _click="close" @click="addialog = !addialog">Cancel</v-btn>
+                    <v-btn color="blue darken-1" flat @click="add(itemtoadd)">Add</v-btn>
                 </v-card-actions>
             </v-card>
         </v-dialog>
@@ -119,9 +178,10 @@
                             <v-chip dark>{{ props.item.name }}</v-chip>
                         </td>
                         <td v-if="$route.path=='/keys'" @click="props.expanded = !props.expanded">
-                            <v-icon v-if="props.item.platform=='other'">mdi-key</v-icon>
-                            <v-icon v-else-if="props.item.platform=='uplay'">mdi-ubisoft</v-icon>
-                            <v-icon v-else>mdi-{{props.item.platform}}</v-icon>
+                            <v-icon v-if="props.item.platform=='Other'">mdi-key</v-icon>
+                            <v-icon v-else-if="props.item.platform=='Uplay'">mdi-ubisoft</v-icon>
+                            <v-icon v-else-if="props.item.platform=='Origin'">mdi-origin</v-icon>
+                            <v-icon v-else-if="props.item.platform=='Steam'">mdi-steam</v-icon>
                         </td>
                         <td @click="props.expanded = !props.expanded">
                             <v-chip :color="getColor(props.item.keys.length)" dark>
@@ -215,7 +275,7 @@
                     <v-icon v-else>add</v-icon>
                 </v-btn>
             </template>
-            <v-btn fab dark small color="indigo" @click="additem(null)">
+            <v-btn fab dark small color="indigo" @click="addialog = true">
                 <v-icon>add</v-icon>
             </v-btn>
             <v-btn fab dark small color="green">
@@ -261,6 +321,7 @@
                 tabs: null,
                 editdialog: false,
                 infodialog: false,
+                addialog: false,
                 search: '',
                 pageof: '',
                 platforms: ['Steam', 'Uplay', 'Origin', 'Other'],
@@ -301,6 +362,12 @@
                 expanded: [],
                 singleExpand: false,
                 apps: [],
+                itemtoadd: {
+                    appid: '',
+                    name: '',
+                    platform: '',
+                    keys: [],
+                },
                 editedItem: {
                     appid: '',
                     name: '',
@@ -319,12 +386,21 @@
                     i = i + 1;
                 }
             },
+            IDEdited(item) {
+                i = 0;
+                while (i < store.state.steamkey.length) {
+                    if (store.state.steamkey[i].appid == this.itemtoadd.appid) {
+                        this.itemtoadd.name = store.state.steamkey[i].name;
+                    }
+                    i = i + 1;
+                }
+            },
             remove(item) {
                 this.gametagsselected.splice(this.gametagsselected.indexOf(item), 1)
                 this.gametagsselected = [...this.gametagsselected]
             },
-            Uppercasefirst(text) {
-                return text.charAt(0).toUpperCase() + text.slice(1);
+            Lowercasefirst(text) {
+                return text.charAt(0).toLowerCase() + text.slice(1);
             },
             save(d) {
                 i = 0;
@@ -336,14 +412,31 @@
                 }
                 this.editdialog = false;
             },
-            additem() {
-                this.editedItem = {
-                    appid: '',
-                    name: '',
-                    platform: '',
-                    keys: [],
-                };
-                this.editdialog = true;
+            add(item) {
+                console.log("itemtoadd app id " + this.itemtoadd.appid)
+                console.log("item keys " + this.itemtoadd.keys)
+                var tab
+                switch (item.platform) {
+                    case 'Steam':
+                        tab = 0
+                        break;
+                    case 'Uplay':
+                        tab = 1
+                        break;
+                    case 'Origin':
+                        tab = 2
+                        break;
+                    case 'Other':
+                        tab = 3
+                        break;
+                }
+                //i = 0;
+                //while (i < item.keys.length) {
+                //  addkey(tab,item.appid,item.keys[i]);
+                // i++;
+                // }
+
+                this.apps.push(item);
             },
             editItem(item) {
                 this.editedItem = Object.assign({}, item);
@@ -358,16 +451,16 @@
             deletekey(key, item) {
                 var tab
                 switch (item.platform) {
-                    case 'steam':
+                    case 'Steam':
                         tab = 0
                         break;
-                    case 'uplay':
+                    case 'Uplay':
                         tab = 1
                         break;
-                    case 'origin':
+                    case 'Origin':
                         tab = 2
                         break;
-                    case 'other':
+                    case 'Other':
                         tab = 3
                         break;
                 }
@@ -375,8 +468,8 @@
                 confirm('Are you sure you want to delete this key?') && delkey(tab, item.appid, key) & this.apps[
                     index].keys.splice(item.keys.indexOf(key), 1);
                 if (item.keys.length == 0) {
-                    this.apps.splice(index, 1) & delgamekeys(0, item
-                        .appid);
+                    this.apps.splice(index, 1);
+                    delgamekeys(0, item.appid);
                 }
             },
             copykey(key) {
