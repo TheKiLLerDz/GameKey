@@ -138,8 +138,8 @@
                     <v-spacer></v-spacer>
                     <v-btn color="blue darken-1" flat _click="close" depressed @click="addialog = !addialog">Cancel
                     </v-btn>
-                    <v-btn color="blue darken-1" flat :disabled="itemtoadd.appid == '' ? true : false" :loading="isAdding"
-                        @click="add();isAdding = true">Add</v-btn>
+                    <v-btn color="blue darken-1" flat :disabled="itemtoadd.appid == '' ? true : false"
+                        :loading="isAdding" @click="add();isAdding = true">Add</v-btn>
                 </v-card-actions>
             </v-card>
         </v-dialog>
@@ -172,8 +172,7 @@
                 <template slot="headerCell" slot-scope="{ header }" v-if="header.show == undefined | header.show">
                     <span class="blue--text" v-text="header.text" />
                 </template>
-                <template slot="items" slot-scope="props"
-                    v-if="props.item.platform==this.pageof | $route.path=='/keys'">
+                <template slot="items" slot-scope="props">
                     <tr>
                         <td @click="props.expanded = !props.expanded">
                             <v-img
@@ -297,13 +296,13 @@
 
 <script>
     module.exports = {
-  watch: {
-    isAdding (val) {
-      if (val) {
-        setTimeout(() => (this.isAdding = false), 3000)
-      }
-    }
-  },
+        watch: {
+            isAdding(val) {
+                if (val) {
+                    setTimeout(() => (this.isAdding = false), 3000)
+                }
+            }
+        },
         computed: {
             loading() {
                 return !store.state.finished;
@@ -321,7 +320,7 @@
         },
         data() {
             return {
-                isAdding:false,
+                isAdding: false,
                 expand: false,
                 direction: 'top',
                 fab: false,
