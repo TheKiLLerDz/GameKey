@@ -101,3 +101,15 @@
         transform: scale(1);
     }
 }
+.theme{
+    border-radius: 6px;
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+    background-color: rgba(0,0,0,.3)!important;
+    right: -50px;
+    padding: 0;
+    width: 64px;
+}
+.theme:hover{
+    right: 0;
+}
