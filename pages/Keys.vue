@@ -397,6 +397,7 @@
                         this.itemtoadd.name = store.state.steamkey[i].name;
                         break;
                     }
+                    else this.itemtoadd.name = ''
                     i = i + 1;
                 }
             },
@@ -434,6 +435,8 @@
                         break;
                 }
                 addkey(tab, parseInt(this.itemtoadd.appid), this.itemtoadd.keys);
+                const index= this.apps.map(e => e.appid).indexOf(parseInt(this.itemtoadd.appid));
+                if (index==-1)
                 this.apps.push({
                     appid: this.itemtoadd.appid,
                     name: this.itemtoadd.name,
@@ -442,7 +445,9 @@
                     }]
                     ,platform:this.itemtoadd.platform
                 });
-                console.log("itemtoadd keys " + this.itemtoadd.keys);
+                else {
+                   this.apps[index].keys.push({'key' : this.itemtoadd.keys});
+                }
             },
             editItem(item) {
                 this.editedItem = Object.assign({}, item);
@@ -470,8 +475,9 @@
                         break;
                 }
                 const index = this.apps.indexOf(item);
+                const indexi= this.apps[index].keys.map(e => e.key).indexOf(key);
                 confirm('Are you sure you want to delete this key?') && delkey(tab, item.appid, key) & this.apps[
-                    index].keys.splice(item.keys.indexOf(key), 1);
+                    index].keys.splice(indexi, 1);
                 if (item.keys.length == 0) {
                     this.apps.splice(index, 1);
                     delgamekeys(0, item.appid);

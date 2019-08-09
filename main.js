@@ -110,9 +110,6 @@ v = new Vue({
     getsteambdd();
 },
 mounted () {
-  this.games = store.state.steamkey.reduce(function (names ,item) {
-    names.push(item.name);
-    return names;
-},[])
+  this.games = store.state.steamkey.map(e => e.name);
 }
 })
