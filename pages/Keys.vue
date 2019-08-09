@@ -74,8 +74,10 @@
                 </v-card-actions>
             </v-card>
         </v-dialog>
-        <v-dialog v-model="addialog" max-width="500px">
+        <v-dialog v-model="addialog" max-width="500px" loading>
             <v-card>
+                <v-progress-linear :active="isAdding" class="ma-0" color="blue lighten-3" height="4" indeterminate>
+                </v-progress-linear>
                 <v-card-title>
                     <span class="headline">Add app</span>
                 </v-card-title>
@@ -136,7 +138,8 @@
                     <v-spacer></v-spacer>
                     <v-btn color="blue darken-1" flat _click="close" depressed @click="addialog = !addialog">Cancel
                     </v-btn>
-                    <v-btn color="blue darken-1" flat @click="add()">Add</v-btn>
+                    <v-btn color="blue darken-1" flat :disabled="itemtoadd.appid == '' ? true : false" :loading="isAdding"
+                        @click="add();isAdding = true">Add</v-btn>
                 </v-card-actions>
             </v-card>
         </v-dialog>
@@ -294,6 +297,13 @@
 
 <script>
     module.exports = {
+  watch: {
+    isAdding (val) {
+      if (val) {
+        setTimeout(() => (this.isAdding = false), 3000)
+      }
+    }
+  },
         computed: {
             loading() {
                 return !store.state.finished;
@@ -311,6 +321,7 @@
         },
         data() {
             return {
+                isAdding:false,
                 expand: false,
                 direction: 'top',
                 fab: false,
@@ -370,7 +381,7 @@
                     appid: '',
                     name: '',
                     platform: '',
-                    keys: [],
+                    keys: '',
                 },
                 editedItem: {
                     appid: '',
@@ -396,8 +407,7 @@
                     if (store.state.steamkey[i].appid == this.itemtoadd.appid) {
                         this.itemtoadd.name = store.state.steamkey[i].name;
                         break;
-                    }
-                    else this.itemtoadd.name = ''
+                    } else this.itemtoadd.name = ''
                     i = i + 1;
                 }
             },
@@ -435,18 +445,20 @@
                         break;
                 }
                 addkey(tab, parseInt(this.itemtoadd.appid), this.itemtoadd.keys);
-                const index= this.apps.map(e => e.appid).indexOf(parseInt(this.itemtoadd.appid));
-                if (index==-1)
-                this.apps.push({
-                    appid: this.itemtoadd.appid,
-                    name: this.itemtoadd.name,
-                    keys: [{
-                        key: this.itemtoadd.keys
-                    }]
-                    ,platform:this.itemtoadd.platform
-                });
+                const index = this.apps.map(e => e.appid).indexOf(parseInt(this.itemtoadd.appid));
+                if (index == -1)
+                    this.apps.push({
+                        appid: this.itemtoadd.appid,
+                        name: this.itemtoadd.name,
+                        keys: [{
+                            key: this.itemtoadd.keys
+                        }],
+                        platform: this.itemtoadd.platform
+                    });
                 else {
-                   this.apps[index].keys.push({'key' : this.itemtoadd.keys});
+                    this.apps[index].keys.push({
+                        'key': this.itemtoadd.keys
+                    });
                 }
             },
             editItem(item) {
@@ -475,7 +487,7 @@
                         break;
                 }
                 const index = this.apps.indexOf(item);
-                const indexi= this.apps[index].keys.map(e => e.key).indexOf(key);
+                const indexi = this.apps[index].keys.map(e => e.key).indexOf(key);
                 confirm('Are you sure you want to delete this key?') && delkey(tab, item.appid, key) & this.apps[
                     index].keys.splice(indexi, 1);
                 if (item.keys.length == 0) {

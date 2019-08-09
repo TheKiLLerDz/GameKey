@@ -91,25 +91,10 @@ v = new Vue({
     keys: true,
     isDark: true,
   }),
-  watch: {
-    search (val) {
-      val && val !== this.select && this.querySelections(val)
-    }
-  },
-  methods: {
-    querySelections (v) {
-      this.loading = true
-        this.games = this.games.filter(e => {
-          return (e || '').toLowerCase().indexOf((v || '').toLowerCase()) > -1
-        })
-        this.loading = false
-      
-    }}
-  ,
-  beforeCreate () {
+beforeCreate () {
     getsteambdd();
 },
 mounted () {
-  this.games = store.state.steamkey.map(e => e.name);
+  this.games = store.state.steamkey;
 }
 })
