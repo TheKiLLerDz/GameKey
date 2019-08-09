@@ -90,7 +90,7 @@
                                     </v-flex>
                                     <v-flex xs12 sm6 md4>
                                         <v-text-field :rules="[() => !!itemtoadd.appid || 'This field is required']"
-                                            v-model="itemtoadd.appid" label="ID" @input="IDEdited(itemtoadd)"></v-text-field>
+                                            v-model="itemtoadd.appid" label="ID"></v-text-field>
                                     </v-flex>
                                 </tr>
                                 <tr>
@@ -101,14 +101,16 @@
                                 <tr>
                                     <v-flex xs12 sm12 md12>
                                         Add keys
-                                        <v-edit-dialog :return-value.sync="itemtoadd.keys" large persistent color="red">
+                                        <v-edit-dialog :v-model="itemtoadd.keys" return-object large persistent
+                                            color="red">
                                             <v-chip text-color="white" color="blue">{{ itemtoadd.keys }}</v-chip>
                                             <template v-slot:input>
                                                 <div class="mt-4 title">add key</div>
                                             </template>
                                             <template v-slot:input>
                                                 <v-text-field v-model="itemtoadd.keys" :rules="[max25chars]" label="add"
-                                                    single-line counter autofocus color="red"></v-text-field>
+                                                    single-line counter autofocus color="red" return-object>
+                                                </v-text-field>
                                             </template>
                                         </v-edit-dialog>
                                     </v-flex>
@@ -132,7 +134,8 @@
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn color="blue darken-1" flat _click="close" @click="addialog = !addialog">Cancel</v-btn>
+                    <v-btn color="blue darken-1" flat _click="close" depressed @click="addialog = !addialog">Cancel
+                    </v-btn>
                     <v-btn color="blue darken-1" flat @click="add(itemtoadd)">Add</v-btn>
                 </v-card-actions>
             </v-card>
@@ -264,8 +267,8 @@
                 </v-alert>
             </v-data-table>
             <div class="text-xs-center pt-2">
-                <v-pagination v-model="pagination.page" :length="pages" 
-                next-icon="mdi-menu-right" prev-icon="mdi-menu-left" circle></v-pagination>
+                <v-pagination v-model="pagination.page" :length="pages" next-icon="mdi-menu-right"
+                    prev-icon="mdi-menu-left" circle></v-pagination>
             </div>
         </v-flex>
         <v-speed-dial v-model="fab" bottom right fixed direction="top" transition="slide-y-reverse-transition"
@@ -414,9 +417,7 @@
                 this.editdialog = false;
             },
             add(item) {
-                console.log("itemtoadd app id " + this.itemtoadd.appid)
-                console.log("item keys " + this.itemtoadd.keys)
-                var tab
+                var tab;
                 switch (item.platform) {
                     case 'Steam':
                         tab = 0
@@ -431,13 +432,15 @@
                         tab = 3
                         break;
                 }
-                //i = 0;
-                //while (i < item.keys.length) {
-                //  addkey(tab,item.appid,item.keys[i]);
-                // i++;
-                // }
-
-                this.apps.push(item);
+                addkey(tab, parseInt(this.itemtoadd.appid), this.itemtoadd.keys);
+                this.apps.push({
+                    appid: this.itemtoadd.appid,
+                    name: "game added!",
+                    keys: [{
+                        key: this.itemtoadd.keys
+                    }]
+                });
+                console.log("itemtoadd keys " + this.itemtoadd.keys);
             },
             editItem(item) {
                 this.editedItem = Object.assign({}, item);
