@@ -27,7 +27,7 @@
                                     </v-flex>
                                     <v-flex xs12 sm6 md4>
                                         <v-text-field :rules="[() => !!editedItem.appid || 'This field is required']"
-                                            v-model="editedItem.appid" label="ID" @click="IDEdited()"></v-text-field>
+                                            v-model="editedItem.appid" label="ID" @input="IDEdited()"></v-text-field>
                                     </v-flex>
                                 </tr>
                                 <tr>
@@ -90,12 +90,12 @@
                                     </v-flex>
                                     <v-flex xs12 sm6 md4>
                                         <v-text-field :rules="[() => !!itemtoadd.appid || 'This field is required']"
-                                            v-model="itemtoadd.appid" label="ID"></v-text-field>
+                                            v-model="itemtoadd.appid" label="ID" @input="IDAdded()"></v-text-field>
                                     </v-flex>
                                 </tr>
                                 <tr>
                                     <v-flex xs12 sm12 md12>
-                                        <v-text-field v-model="itemtoadd.name" label="Name" disabled></v-text-field>
+                                        <v-text-field v-model="itemtoadd.name" label="Name"></v-text-field>
                                     </v-flex>
                                 </tr>
                                 <tr>
@@ -136,7 +136,7 @@
                     <v-spacer></v-spacer>
                     <v-btn color="blue darken-1" flat _click="close" depressed @click="addialog = !addialog">Cancel
                     </v-btn>
-                    <v-btn color="blue darken-1" flat @click="add(itemtoadd)">Add</v-btn>
+                    <v-btn color="blue darken-1" flat @click="add()">Add</v-btn>
                 </v-card-actions>
             </v-card>
         </v-dialog>
@@ -390,11 +390,12 @@
                     i = i + 1;
                 }
             },
-            IDEdited(item) {
+            IDAdded() {
                 i = 0;
                 while (i < store.state.steamkey.length) {
                     if (store.state.steamkey[i].appid == this.itemtoadd.appid) {
                         this.itemtoadd.name = store.state.steamkey[i].name;
+                        break;
                     }
                     i = i + 1;
                 }
@@ -416,9 +417,9 @@
                 }
                 this.editdialog = false;
             },
-            add(item) {
+            add() {
                 var tab;
-                switch (item.platform) {
+                switch (this.itemtoadd.platform) {
                     case 'Steam':
                         tab = 0
                         break;
@@ -435,16 +436,16 @@
                 addkey(tab, parseInt(this.itemtoadd.appid), this.itemtoadd.keys);
                 this.apps.push({
                     appid: this.itemtoadd.appid,
-                    name: "game added!",
+                    name: this.itemtoadd.name,
                     keys: [{
                         key: this.itemtoadd.keys
                     }]
+                    ,platform:this.itemtoadd.platform
                 });
                 console.log("itemtoadd keys " + this.itemtoadd.keys);
             },
             editItem(item) {
                 this.editedItem = Object.assign({}, item);
-                this.editedItem.name = item.name;
                 this.editdialog = true;
             },
             deleteItem(item) {

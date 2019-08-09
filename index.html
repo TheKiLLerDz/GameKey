@@ -32,7 +32,7 @@
                 <v-toolbar-title style="width: 300px" class="ml-0 pl-3">
                     <span class="hidden-sm-and-down">GameKey</span>
                 </v-toolbar-title>
-                <v-autocomplete v-if="$route.path=='/'" v-model="select" :loading="loading" :items="games"
+                <v-autocomplete v-if="$route.path=='/'" v-model="select" :loading="loading" :items="this.games"
                     :search-input.sync="search" cache-items flat hide-no-data hide-details label="Search"
                     class="v-text-field--rounded" solo flat>
                     <template v-slot:append>

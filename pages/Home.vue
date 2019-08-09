@@ -86,10 +86,8 @@
             this.items[4].keys = store.state.others.reduce(function (keys ,item) {
                 return keys + (item.keys.length);
             }, 0)
-            this.items[0].keys = store.state.steamkey.concat(store.state.uplaykey.concat(store.state.originkey
-                .concat(store.state.others))).reduce(function (keys ,item) {
-                return keys + (item.keys.length);
-            }, 0)
+            this.items[0].keys = this.items[1].keys+this.items[2].keys+this.items[3].keys+this.items[4].keys;
+        
         }
     }
 </script>

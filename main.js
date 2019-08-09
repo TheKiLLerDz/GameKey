@@ -111,9 +111,8 @@ v = new Vue({
 },
 mounted () {
   this.games = store.state.steamkey.reduce(function (names ,item) {
-    var list=[];
-    list.push(item.name);
-    return list;
-},0)
+    names.push(item.name);
+    return names;
+},[])
 }
 })
