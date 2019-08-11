@@ -34,13 +34,30 @@
                 <v-toolbar-title style="width: 300px" class="ml-0 pl-3">
                     <span class="hidden-sm-and-down">GameKey</span>
                 </v-toolbar-title>
-                <v-autocomplete v-if="$route.path=='/'" v-model="select" :loading="loading" :items="games"
-                    :search-input.sync="search" cache-items flat hide-no-data hide-details label="Search"
-                    class="v-text-field--rounded" solo flat>
+                <v-autocomplete v-if="$route.path=='/'" v-model="select" :loading="loading" :items="this.games"
+                    cache-items flat solo hide-no-data hide-details label="Search" class="v-text-field--rounded"
+                    item-text="name" item-value="name">
                     <template v-slot:append>
                         <v-btn type="submit" color="rgb(9, 102, 175)" value="search">
                             Search
                         </v-btn>
+                    </template>
+                    <template v-slot:item="data">
+                        <v-list-tile-avatar>
+                            <img :src="'https://steamcdn-a.akamaihd.net/steam/apps/'+data.item.appid+'/header.jpg'">
+                        </v-list-tile-avatar>
+                        <v-list-tile-content>
+                            <v-list-tile-title v-html="data.item.name"></v-list-tile-title>
+                            <v-list-tile-sub-title v-html="data.item.platform"></v-list-tile-sub-title>
+                        </v-list-tile-content>
+                    </template>
+                    <template v-slot:selection="data">
+                        <v-chip :selected="data.selected">
+                            <v-avatar>
+                                <img :src="'https://steamcdn-a.akamaihd.net/steam/apps/'+data.item.appid+'/header.jpg'">
+                            </v-avatar>
+                            {{ data.item.name }}
+                        </v-chip>
                     </template>
                 </v-autocomplete>
                 <v-spacer></v-spacer>

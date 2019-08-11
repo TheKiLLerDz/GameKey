@@ -14,7 +14,7 @@
         <v-dialog v-model="editdialog" max-width="500px">
             <v-card>
                 <v-card-title>
-                    <span class="headline">{{this.editedItem.appid == '' ? 'Add' : 'Edit'}} app</span>
+                    <span class="headline">Edit app</span>
                 </v-card-title>
                 <v-card-text>
                     <v-container grid-list-md>
@@ -22,24 +22,20 @@
                             <table>
                                 <tr>
                                     <v-flex xs12 sm6 md6>
-                                        <v-combobox :items='platforms'
-                                            :value="editedItem.platform == null ? '' : Uppercasefirst(editedItem.platform)"
-                                            label="Platform">
+                                        <v-combobox :items='platforms' v-model="editedItem.platform" label="Platform">
                                         </v-combobox>
                                     </v-flex>
                                     <v-flex xs12 sm6 md4>
                                         <v-text-field :rules="[() => !!editedItem.appid || 'This field is required']"
-                                            :value="editedItem.appid == null ? '' : editedItem.appid" label="ID"
-                                            :@click="IDEdited()"></v-text-field>
+                                            v-model="editedItem.appid" label="ID" @input="IDEdited()"></v-text-field>
                                     </v-flex>
                                 </tr>
                                 <tr>
                                     <v-flex xs12 sm12 md12>
-                                        <v-text-field :value="editedItem.name == null ? '' : editedItem.name"
-                                            label="Name" disabled></v-text-field>
+                                        <v-text-field v-model="editedItem.name" label="Name" disabled></v-text-field>
                                     </v-flex>
                                 </tr>
-                                <tr v-if="editedItem.keys == []">
+                                <tr>
                                     <v-flex xs12 sm12 md12 v-for="(index,i) in editedItem.keys" :key="i">
                                         Key {{i+1}}
                                         <v-edit-dialog :return-value.sync="index.key" large persistent color="red">
@@ -74,7 +70,76 @@
                 <v-card-actions>
                     <v-spacer></v-spacer>
                     <v-btn color="blue darken-1" flat _click="close" @click="editdialog = !editdialog">Cancel</v-btn>
-                    <v-btn color="blue darken-1" flat @click="save(editedItem.appid)">{{this.editedItem.appid == '' ? 'Add' : 'Save'}}</v-btn>
+                    <v-btn color="blue darken-1" flat @click="save(editedItem.appid)">Save</v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
+        <v-dialog v-model="addialog" max-width="500px" loading>
+            <v-card>
+                <v-progress-linear :active="isAdding" class="ma-0" color="blue lighten-3" height="4" indeterminate>
+                </v-progress-linear>
+                <v-card-title>
+                    <span class="headline">Add app</span>
+                </v-card-title>
+                <v-card-text>
+                    <v-container grid-list-md>
+                        <v-layout wrap>
+                            <table>
+                                <tr>
+                                    <v-flex xs12 sm6 md6>
+                                        <v-combobox :items='platforms' v-model="itemtoadd.platform" label="Platform">
+                                        </v-combobox>
+                                    </v-flex>
+                                    <v-flex xs12 sm6 md4>
+                                        <v-text-field :rules="[() => !!itemtoadd.appid || 'This field is required']"
+                                            v-model="itemtoadd.appid" label="ID" @input="IDAdded()"></v-text-field>
+                                    </v-flex>
+                                </tr>
+                                <tr>
+                                    <v-flex xs12 sm12 md12>
+                                        <v-text-field v-model="itemtoadd.name" label="Name"></v-text-field>
+                                    </v-flex>
+                                </tr>
+                                <tr>
+                                    <v-flex xs12 sm12 md12>
+                                        Add keys
+                                        <v-edit-dialog :v-model="itemtoadd.keys" return-object large persistent
+                                            color="red">
+                                            <v-chip text-color="white" color="blue">{{ itemtoadd.keys }}</v-chip>
+                                            <template v-slot:input>
+                                                <div class="mt-4 title">add key</div>
+                                            </template>
+                                            <template v-slot:input>
+                                                <v-text-field v-model="itemtoadd.keys" :rules="[max25chars]" label="add"
+                                                    single-line counter autofocus color="red" return-object>
+                                                </v-text-field>
+                                            </template>
+                                        </v-edit-dialog>
+                                    </v-flex>
+                                </tr>
+                                <tr>
+                                    <v-flex xs12 sm12 md12>
+                                        <v-combobox v-model="gametagsselected" :items="gametags" label="Game Tags" chips
+                                            clearable prepend-icon="filter_list" solo multiple>
+                                            <template v-slot:selection="tags">
+                                                <v-chip :selected="tags.selected" close @input="remove(tags.item)"
+                                                    color="orange" outline>
+                                                    <strong>{{ tags.item }}</strong>
+                                                </v-chip>
+                                            </template>
+                                        </v-combobox>
+                                    </v-flex>
+                                </tr>
+                            </table>
+                        </v-layout>
+                    </v-container>
+                </v-card-text>
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="blue darken-1" flat _click="close" depressed @click="addialog = !addialog">Cancel
+                    </v-btn>
+                    <v-btn color="blue darken-1" flat :disabled="itemtoadd.appid == '' ? true : false"
+                        :loading="isAdding" @click="add();isAdding = true">Add</v-btn>
                 </v-card-actions>
             </v-card>
         </v-dialog>
@@ -107,8 +172,7 @@
                 <template slot="headerCell" slot-scope="{ header }" v-if="header.show == undefined | header.show">
                     <span class="blue--text" v-text="header.text" />
                 </template>
-                <template slot="items" slot-scope="props"
-                    v-if="props.item.platform==this.pageof | $route.path=='/keys'">
+                <template slot="items" slot-scope="props">
                     <tr>
                         <td @click="props.expanded = !props.expanded">
                             <v-img
@@ -119,9 +183,10 @@
                             <v-chip dark>{{ props.item.name }}</v-chip>
                         </td>
                         <td v-if="$route.path=='/keys'" @click="props.expanded = !props.expanded">
-                            <v-icon v-if="props.item.platform=='other'">mdi-key</v-icon>
-                            <v-icon v-else-if="props.item.platform=='uplay'">mdi-ubisoft</v-icon>
-                            <v-icon v-else>mdi-{{props.item.platform}}</v-icon>
+                            <v-icon v-if="props.item.platform=='Other'">mdi-key</v-icon>
+                            <v-icon v-else-if="props.item.platform=='Uplay'">mdi-ubisoft</v-icon>
+                            <v-icon v-else-if="props.item.platform=='Origin'">mdi-origin</v-icon>
+                            <v-icon v-else-if="props.item.platform=='Steam'">mdi-steam</v-icon>
                         </td>
                         <td @click="props.expanded = !props.expanded">
                             <v-chip :color="getColor(props.item.keys.length)" dark>
@@ -204,8 +269,8 @@
                 </v-alert>
             </v-data-table>
             <div class="text-xs-center pt-2">
-                <v-pagination v-model="pagination.page" :length="pages" 
-                next-icon="mdi-menu-right" prev-icon="mdi-menu-left" circle></v-pagination>
+                <v-pagination v-model="pagination.page" :length="pages" next-icon="mdi-menu-right"
+                    prev-icon="mdi-menu-left" circle></v-pagination>
             </div>
         </v-flex>
         <v-speed-dial v-model="fab" bottom right fixed direction="top" transition="slide-y-reverse-transition"
@@ -216,7 +281,7 @@
                     <v-icon style="top : -10px">close</v-icon>
                 </v-btn>
             </template>
-            <v-btn fab dark small color="indigo" @click="additem(null)">
+            <v-btn fab dark small color="indigo" @click="addialog = true">
                 <v-icon>add</v-icon>
             </v-btn>
             <v-btn fab dark small color="green">
@@ -231,6 +296,13 @@
 
 <script>
     module.exports = {
+        watch: {
+            isAdding(val) {
+                if (val) {
+                    setTimeout(() => (this.isAdding = false), 3000)
+                }
+            }
+        },
         computed: {
             loading() {
                 return !store.state.finished;
@@ -248,6 +320,7 @@
         },
         data() {
             return {
+                isAdding: false,
                 expand: false,
                 direction: 'top',
                 fab: false,
@@ -262,6 +335,7 @@
                 tabs: null,
                 editdialog: false,
                 infodialog: false,
+                addialog: false,
                 search: '',
                 pageof: '',
                 platforms: ['Steam', 'Uplay', 'Origin', 'Other'],
@@ -302,6 +376,12 @@
                 expanded: [],
                 singleExpand: false,
                 apps: [],
+                itemtoadd: {
+                    appid: '',
+                    name: '',
+                    platform: '',
+                    keys: '',
+                },
                 editedItem: {
                     appid: '',
                     name: '',
@@ -320,12 +400,22 @@
                     i = i + 1;
                 }
             },
+            IDAdded() {
+                i = 0;
+                while (i < store.state.steamkey.length) {
+                    if (store.state.steamkey[i].appid == this.itemtoadd.appid) {
+                        this.itemtoadd.name = store.state.steamkey[i].name;
+                        break;
+                    } else this.itemtoadd.name = ''
+                    i = i + 1;
+                }
+            },
             remove(item) {
                 this.gametagsselected.splice(this.gametagsselected.indexOf(item), 1)
                 this.gametagsselected = [...this.gametagsselected]
             },
-            Uppercasefirst(text) {
-                return text.charAt(0).toUpperCase() + text.slice(1);
+            Lowercasefirst(text) {
+                return text.charAt(0).toLowerCase() + text.slice(1);
             },
             save(d) {
                 i = 0;
@@ -337,18 +427,41 @@
                 }
                 this.editdialog = false;
             },
-            additem() {
-                this.editedItem = {
-                    appid: '',
-                    name: '',
-                    platform: '',
-                    keys: [],
-                };
-                this.editdialog = true;
+            add() {
+                var tab;
+                switch (this.itemtoadd.platform) {
+                    case 'Steam':
+                        tab = 0
+                        break;
+                    case 'Uplay':
+                        tab = 1
+                        break;
+                    case 'Origin':
+                        tab = 2
+                        break;
+                    case 'Other':
+                        tab = 3
+                        break;
+                }
+                addkey(tab, parseInt(this.itemtoadd.appid), this.itemtoadd.keys);
+                const index = this.apps.map(e => e.appid).indexOf(parseInt(this.itemtoadd.appid));
+                if (index == -1)
+                    this.apps.push({
+                        appid: this.itemtoadd.appid,
+                        name: this.itemtoadd.name,
+                        keys: [{
+                            key: this.itemtoadd.keys
+                        }],
+                        platform: this.itemtoadd.platform
+                    });
+                else {
+                    this.apps[index].keys.push({
+                        'key': this.itemtoadd.keys
+                    });
+                }
             },
             editItem(item) {
                 this.editedItem = Object.assign({}, item);
-                this.editedItem.name = item.name;
                 this.editdialog = true;
             },
             deleteItem(item) {
@@ -359,25 +472,26 @@
             deletekey(key, item) {
                 var tab
                 switch (item.platform) {
-                    case 'steam':
+                    case 'Steam':
                         tab = 0
                         break;
-                    case 'uplay':
+                    case 'Uplay':
                         tab = 1
                         break;
-                    case 'origin':
+                    case 'Origin':
                         tab = 2
                         break;
-                    case 'other':
+                    case 'Other':
                         tab = 3
                         break;
                 }
                 const index = this.apps.indexOf(item);
+                const indexi = this.apps[index].keys.map(e => e.key).indexOf(key);
                 confirm('Are you sure you want to delete this key?') && delkey(tab, item.appid, key) & this.apps[
-                    index].keys.splice(item.keys.indexOf(key), 1);
+                    index].keys.splice(indexi, 1);
                 if (item.keys.length == 0) {
-                    this.apps.splice(index, 1) & delgamekeys(0, item
-                        .appid);
+                    this.apps.splice(index, 1);
+                    delgamekeys(0, item.appid);
                 }
             },
             copykey(key) {
@@ -428,7 +542,7 @@
             }
         },
         filters: {
-            subStr: function (string) {
+            subStr(string) {
                 if (string == '/keys') {
                     pageof = 'all'
                     return this.pageof

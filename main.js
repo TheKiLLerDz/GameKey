@@ -40,14 +40,12 @@ const store = new Vuex.Store({
     allkeys: [],
   },
 })
-getsteambdd();
 v = new Vue({
   store,
   router,
   data: ({
     loading: false,
-    search: null,
-    select: null,
+      games:[],
     theme:'theme--dark',
     themes: [{
         name: 'Dark Theme',
@@ -64,7 +62,8 @@ v = new Vue({
         class: 'theme--blue',
       }
     ],
-    games: ["counter", "half", "pubg"],
+    select: null,
+    search: null,
     show: true,
     items: [{
         title: 'Home',
@@ -108,23 +107,10 @@ v = new Vue({
     keys: true,
     isDark: true,
   }),
-  watch: {
-    search(val) {
-      val && val !== this.select && this.querySelections(val)
-    }
-  },
-  methods: {
-    querySelections(v) {
-      this.loading = true
-      this.games = this.games.filter(e => {
-        return (e || '').toLowerCase().indexOf((v || '').toLowerCase()) > -1
-      })
-      this.loading = false
-
-    }
-  },
-  beforeCreate: function () {
+beforeCreate () {
     getsteambdd();
-  },
-
+},
+mounted () {
+  this.games = store.state.steamkey;
+}
 })

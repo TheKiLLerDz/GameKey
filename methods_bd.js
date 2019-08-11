@@ -6,7 +6,7 @@ function getsteambdd() {
 					db.tables[0].toArray().then(el => {
 						store.state.steam = el;
 						store.state.steamkey = store.state.steam.filter((el) => {
-							el.platform = 'steam'
+							el.platform = 'Steam'
 							return el.keys !== undefined;
 						});
 						document.getElementById('main').remove()

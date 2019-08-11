@@ -1,11 +1,11 @@
 <template>
     <v-layout row wrap>
-        <v-flex v-for="item in items" :key="item.title" xs12 sm6 md4 lg3>
-            <v-card>
+        <v-flex v-for="item in items" :key="item.title" xs12 sm6 md4 lg3 >
+            <v-card elevation="3" style='border-radius:10px'>
                 <v-list>
                     <v-list-tile avatar>
                         <v-list-tile-avatar>
-                            <v-icon size="50px">{{item.icon}}</v-icon>
+                            <v-icon size="50px" :color="item.color">{{item.icon}}</v-icon>
                         </v-list-tile-avatar>
                         <v-list-tile-content>
                             <v-list-tile-title>{{item.title}}</v-list-tile-title>
@@ -17,7 +17,7 @@
                     <div>With : {{item.keys}} Keys </div>
                 </v-card-text>
                 <v-card-actions>
-                    <v-btn flat white :to="{path:item.link}">
+                    <v-btn flat white :to="{path:item.link}" color="orange" round outline>
                         Go to {{item.title}}
                     </v-btn>
                 </v-card-actions>
@@ -31,39 +31,44 @@
         data() {
             return {
                 items: [{
-                        title: 'All key',
+                        title: 'All Keys',
                         icon: 'mdi-key',
                         games: store.state.steamkey.concat(store.state.uplaykey.concat(store.state.originkey
                         .concat(store.state.others))).length,
-                        keys: 250,
-                        link: '/keys'
+                        keys: '',
+                        link: '/keys',
+                        color : ''
                     },
                     {
                         title: 'Steam',
                         icon: 'mdi-steam',
                         games: store.state.steamkey.length,
-                        keys: 250,
-                        link: '/steam'
+                        keys: '',
+                        link: '/steam',
+                        color : '#1d2f54'
                     }, {
                         title: 'Uplay',
                         icon: 'mdi-ubisoft',
                         games: store.state.uplaykey.length,
-                        keys: 250,
-                        link: '/uplay'
+                        keys: '',
+                        link: '/uplay',
+                        color : '#0e82cf'
                     },
                     {
                         title: 'Origin',
                         icon: 'mdi-origin',
                         games: store.state.originkey.length,
-                        keys: 250,
-                        link: '/origin'
+                        keys: '',
+                        link: '/origin',
+                        color : '#eb6a00'
                     },
                     {
                         title: 'Other',
                         icon: 'mdi-alert-circle',
                         games: store.state.others.length,
-                        keys: 250,
-                        link: '/other'
+                        keys: '',
+                        link: '/other',
+                        color : ''
                     }
                 ]
             }
@@ -81,10 +86,8 @@
             this.items[4].keys = store.state.others.reduce(function (keys ,item) {
                 return keys + (item.keys.length);
             }, 0)
-            this.items[0].keys = store.state.steamkey.concat(store.state.uplaykey.concat(store.state.originkey
-                .concat(store.state.others))).reduce(function (keys ,item) {
-                return keys + (item.keys.length);
-            }, 0)
+            this.items[0].keys = this.items[1].keys+this.items[2].keys+this.items[3].keys+this.items[4].keys;
+        
         }
     }
 </script>
