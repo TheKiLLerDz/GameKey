@@ -26,19 +26,19 @@ var routes = [{
 const router = new VueRouter({
   routes
 });
- 
+
 const store = new Vuex.Store({
-	state:{
-      finished:false,
-      steam :  [],
-      steamkey : [],
-      uplay : [],
-      uplaykey : [],
-      origin : [],
-      originkey : [],
-      others : [],
-      allkeys : [],
-      }, 
+  state: {
+    finished: false,
+    steam: [],
+    steamkey: [],
+    uplay: [],
+    uplaykey: [],
+    origin: [],
+    originkey: [],
+    others: [],
+    allkeys: [],
+  },
 })
 getsteambdd();
 v = new Vue({
@@ -46,9 +46,25 @@ v = new Vue({
   router,
   data: ({
     loading: false,
-      search: null,
-      select: null,
-      games:["counter","half","pubg"],
+    search: null,
+    select: null,
+    theme:'theme--dark',
+    themes: [{
+        name: 'Dark Theme',
+        color: 'dark',
+        class: 'theme--dark',
+      },
+      {
+        name: 'Light Theme',
+        color: 'success',
+        class: 'theme--light',
+      }, {
+        name: 'Blue Theme',
+        color: 'blue',
+        class: 'theme--blue',
+      }
+    ],
+    games: ["counter", "half", "pubg"],
     show: true,
     items: [{
         title: 'Home',
@@ -93,22 +109,22 @@ v = new Vue({
     isDark: true,
   }),
   watch: {
-    search (val) {
+    search(val) {
       val && val !== this.select && this.querySelections(val)
     }
   },
   methods: {
-    querySelections (v) {
+    querySelections(v) {
       this.loading = true
-        this.games = this.games.filter(e => {
-          return (e || '').toLowerCase().indexOf((v || '').toLowerCase()) > -1
-        })
-        this.loading = false
-      
-    }}
-  ,
-  beforeCreate : function () {
+      this.games = this.games.filter(e => {
+        return (e || '').toLowerCase().indexOf((v || '').toLowerCase()) > -1
+      })
+      this.loading = false
+
+    }
+  },
+  beforeCreate: function () {
     getsteambdd();
-},
- 
+  },
+
 })
