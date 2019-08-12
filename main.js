@@ -45,8 +45,8 @@ v = new Vue({
   router,
   data: ({
     loading: false,
-    games: [],
-    theme: 'theme--blue',
+      games:[],
+    theme:'',
     themes: [{
         name: 'Dark Theme',
         color: 'dark',
@@ -110,8 +110,14 @@ v = new Vue({
   }),
   beforeCreate() {
     getsteambdd();
-  },
-  mounted() {
-    this.games = store.state.steamkey;
+},
+mounted () {
+  this.games = store.state.steamkey;
+  if(localStorage.theme) this.theme = localStorage.theme;
+},
+watch: {
+  theme(mytheme) {
+    localStorage.theme = mytheme;
   }
+}
 })
