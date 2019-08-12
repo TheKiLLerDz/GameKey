@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Home</title>
+    <title>Gamekey</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="cdn/vuetify.min.css">
     <link rel="stylesheet" href="cdn/@mdi/font/css/materialdesignicons.css">
@@ -82,65 +82,65 @@
                     <span class="bottom">profile</span>
                 </v-tooltip>
                 <v-list class="py-0">
-                        <v-list-tile ripple to='/settings'>
-                            <v-list-tile-action>
-                                <v-icon>settings</v-icon>
-                            </v-list-tile-action>
-                            <v-list-tile-content>
-                                <v-list-tile-title>Settings</v-list-tile-title>
-                            </v-list-tile-content>
-                        </v-list-tile>
-                        <v-divider></v-divider>
-                        <v-list-tile @click="settingstab=!settingstab">
-                            <v-list-tile-action>
-                                <v-icon>mdi-settings-box</v-icon>
-                            </v-list-tile-action>
-                            <v-list-tile-content>
-                                <v-list-tile-title>Change Theme</v-list-tile-title>
-                            </v-list-tile-content>
-                        </v-list-tile>
-                    </v-list>
+                    <v-list-tile ripple to='/settings'>
+                        <v-list-tile-action>
+                            <v-icon>settings</v-icon>
+                        </v-list-tile-action>
+                        <v-list-tile-content>
+                            <v-list-tile-title>Settings</v-list-tile-title>
+                        </v-list-tile-content>
+                    </v-list-tile>
+                    <v-divider></v-divider>
+                    <v-list-tile @click="settingstab=!settingstab">
+                        <v-list-tile-action>
+                            <v-icon>mdi-settings-box</v-icon>
+                        </v-list-tile-action>
+                        <v-list-tile-content>
+                            <v-list-tile-title>Change Theme</v-list-tile-title>
+                        </v-list-tile-content>
+                    </v-list-tile>
+                </v-list>
             </v-menu>
         </v-toolbar>
-        <v-navigation-drawer v-model="show" :mini-variant="mini" absolute floating clipped app>
-                <div class="transparent flat">
-                    <v-list>
-                        <v-list-tile avatar>
-                            <v-list-tile-avatar @click.stop="mini = !mini">
-                                <img src="">
-                            </v-list-tile-avatar>
-                            <v-list-tile-content>
-                                <v-list-tile-title>GameKey</v-list-tile-title>
-                            </v-list-tile-content>
-                            <v-list-tile-action>
-                                <v-btn icon @click.stop="mini = !mini">
-                                    <v-icon>mdi-chevron-left</v-icon>
-                                </v-btn>
-                            </v-list-tile-action>
-                        </v-list-tile>
-                        <v-divider></v-divider>
-                        <!-- :active-class="!mini?'v-list-item-active v-card green' : 'v-list-item-mini-active'" -->
-                        <v-list-tile class="mt-1" v-for="item in items" :key="item.title" :to="{path:item.link}">
-                            <v-tooltip v-if="mini" right>
-                                <v-list-tile-action slot="activator">
-                                    <v-icon>{{ item.icon }}</v-icon>
-                                </v-list-tile-action>
-                                <span class="right">{{ item.title }}</span>
-                            </v-tooltip>
-                            <v-list-tile-action v-else>
+        <v-navigation-drawer v-model="show" :mini-variant="mini" floating clipped app>
+            <div class="transparent flat">
+                <v-list>
+                    <v-list-tile avatar>
+                        <v-list-tile-avatar @click.stop="mini = !mini">
+                            <img src="">
+                        </v-list-tile-avatar>
+                        <v-list-tile-content>
+                            <v-list-tile-title>GameKey</v-list-tile-title>
+                        </v-list-tile-content>
+                        <v-list-tile-action>
+                            <v-btn icon @click.stop="mini = !mini">
+                                <v-icon>mdi-chevron-left</v-icon>
+                            </v-btn>
+                        </v-list-tile-action>
+                    </v-list-tile>
+                    <v-divider></v-divider>
+                    <!-- :active-class="!mini?'v-list-item-active v-card green' : 'v-list-item-mini-active'" -->
+                    <v-list-tile class="mt-1" v-for="item in items" :key="item.title" :to="{path:item.link}">
+                        <v-tooltip v-if="mini" right>
+                            <v-list-tile-action slot="activator">
                                 <v-icon>{{ item.icon }}</v-icon>
                             </v-list-tile-action>
-                            <v-list-tile-content>
-                                <v-list-tile-title>{{ item.title }}</v-list-tile-title>
-                            </v-list-tile-content>
-                        </v-list-tile>
-                    </v-list>
-                </div>
-            </v-navigation-drawer>
+                            <span class="right">{{ item.title }}</span>
+                        </v-tooltip>
+                        <v-list-tile-action v-else>
+                            <v-icon>{{ item.icon }}</v-icon>
+                        </v-list-tile-action>
+                        <v-list-tile-content>
+                            <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+                        </v-list-tile-content>
+                    </v-list-tile>
+                </v-list>
+            </div>
+        </v-navigation-drawer>
         <v-content>
             <v-container fluid grid-list-lg>
-                <v-menu v-model='settingstab'  :close-on-content-click="false" bottom left min-width="300" max-width="300" nudge-left="12"
-                    offset-x transition="slide-y-transition">
+                <v-menu v-model='settingstab' :close-on-content-click="false" bottom left min-width="300"
+                    max-width="300" nudge-left="12" offset-x transition="slide-y-transition">
                     <v-btn slot="activator" class="elevation-0 theme" color="grey" dark fab fixed style="top: 100px;"
                         top>
                         <v-icon>mdi-settings</v-icon>

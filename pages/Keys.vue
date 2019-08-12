@@ -1,15 +1,137 @@
 <template>
     <v-layout row wrap>
-        <v-flex lg12>
-            <h1 v-if="$route.path!=='/keys'">
-                <v-icon v-if="$route.path=='/steam'" large>mdi-steam</v-icon>
-                <v-icon v-else-if="$route.path=='/origin'" large>mdi-origin</v-icon>
-                <v-icon v-else-if="$route.path=='/uplay'" large>mdi-ubisoft</v-icon>
-                {{$route.path | subStr}} Keys
-            </h1>
-            <h1 v-else>
-                <v-icon large>mdi-key</v-icon> All Keys
-            </h1>
+        <v-flex xs12 sm12 md12>
+            <v-card class="elevation-5 mb-4 mt-5 px-3 py-0" style="border-radius: 8px; height: calc(100% - 70px)">
+                <v-card color="blue" class="white--text" style="top:-24px; padding: 15px;border-radius: 8px;">
+                    <h1 v-if="$route.path!=='/keys'">
+                        <v-icon v-if="$route.path=='/steam'" dense color='#1d2f54' x-large>mdi-steam</v-icon>
+                        <v-icon v-else-if="$route.path=='/origin'" dense color='#eb6a00' x-large>mdi-origin</v-icon>
+                        <v-icon v-else-if="$route.path=='/uplay'" color='#0e82cf' x-large>mdi-ubisoft</v-icon>
+                        <v-icon v-else-if="$route.path=='/other'" color='white' x-large>mdi-key</v-icon>
+                        {{$route.path | subStr}} Keys
+                    </h1>
+                    <h1 v-else>
+                        <v-icon x-large>mdi-key</v-icon> All Keys
+                    </h1>
+                </v-card>
+                <v-flex xs12 sm8 md6 offset-md3 offset-sm2>
+                    <v-text-field clear-icon="cancel" v-model="search" append-icon="search" label="Search" solo
+                        clearable>
+                    </v-text-field>
+                </v-flex>
+                <v-flex xs12>
+                    <v-data-table hide-actions :headers="headers[2].show ? headers : headers.splice(2,1)" :items="apps"
+                        :update:page="loading" :search="search" :single-expand="singleExpand" :expanded.sync="expanded"
+                        :pagination.sync="pagination" show-expand ref="table" class="elevation-1" :expand="expand"
+                        item-key="appid">
+                        <template slot="headerCell" slot-scope="{ header }"
+                            v-if="header.show == undefined | header.show">
+                            <span class="blue--text" v-text="header.text" />
+                        </template>
+                        <template slot="items" slot-scope="props">
+                            <tr>
+                                <td @click="props.expanded = !props.expanded">
+                                    <v-img
+                                        :src="'apps/' + props.item.appid + '.jpg' == undefined ? 'apps/undefined.gif' : 'apps/' + props.item.appid + '.jpg'">
+                                    </v-img>
+                                </td>
+                                <td @click="props.expanded = !props.expanded">
+                                    <v-chip dark>{{ props.item.name }}</v-chip>
+                                </td>
+                                <td v-if="$route.path=='/keys'" @click="props.expanded = !props.expanded">
+                                    <v-icon v-if="props.item.platform=='Other'">mdi-key</v-icon>
+                                    <v-icon v-else-if="props.item.platform=='Uplay'">mdi-ubisoft</v-icon>
+                                    <v-icon v-else-if="props.item.platform=='Origin'">mdi-origin</v-icon>
+                                    <v-icon v-else-if="props.item.platform=='Steam'">mdi-steam</v-icon>
+                                </td>
+                                <td @click="props.expanded = !props.expanded">
+                                    <v-chip :color="getColor(props.item.keys.length)" dark>
+                                        {{props.item.keys.length}}</v-chip>
+                                </td>
+                                <td>
+                                    <v-tooltip top>
+                                        <v-btn slot="activator" @click="deleteItem(props.item)" color="error" icon
+                                            small>
+                                            <v-icon small>
+                                                delete
+                                            </v-icon>
+                                        </v-btn>
+                                        <span class="top">Delete</span>
+                                    </v-tooltip>
+                                    <v-tooltip top>
+                                        <v-btn slot="activator" @click="editItem(props.item)" color="success" icon
+                                            small>
+                                            <v-icon small>
+                                                mdi-square-edit-outline
+                                            </v-icon>
+                                        </v-btn>
+                                        <span class="top">Edit</span>
+                                    </v-tooltip>
+                                    <v-tooltip top>
+                                        <v-btn slot="activator" @click="otherinfo(props.item)" color="info" icon small>
+                                            <v-icon small>
+                                                info
+                                            </v-icon>
+                                        </v-btn>
+                                        <span class="top">Other information</span>
+                                    </v-tooltip>
+                                </td>
+                            </tr>
+                        </template>
+                        <template v-slot:expand="props">
+                            <v-card flat>
+                                <v-card-text>
+                                    <v-alert value="true" :color="getColor(props.item.keys.length)" outline>
+                                        <table>
+                                            <tr v-for="(index,i) in props.item.keys" :key="i.key">
+                                                <td>{{index.key}}</td>
+                                                <td>
+                                                    <v-tooltip top>
+                                                        <v-btn slot="activator" color="success"
+                                                            @click="copykey(index.key)" :id="index.key" icon small>
+                                                            <v-icon small>
+                                                                mdi-content-copy
+                                                            </v-icon>
+                                                        </v-btn>
+                                                        <span class="top">Copy Key</span>
+                                                    </v-tooltip>
+                                                    <v-tooltip top>
+                                                        <v-btn slot="activator" color="info" icon small>
+                                                            <v-icon small>
+                                                                mdi-tooltip-edit
+                                                            </v-icon>
+                                                        </v-btn>
+                                                        <span class="top">Edit Key</span>
+                                                    </v-tooltip>
+                                                    <v-tooltip top>
+                                                        <v-btn slot="activator" color="error"
+                                                            @click="deletekey(index.key,props.item)" icon small>
+                                                            <v-icon small>
+                                                                delete
+                                                            </v-icon>
+                                                        </v-btn>
+                                                        <span class="top">Delete Key!</span>
+                                                    </v-tooltip>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </v-alert>
+                                </v-card-text>
+                            </v-card>
+                        </template>
+                        <v-alert slot="no-results" :value="true" color="error" icon="warning">
+                            Your search for "{{ search }}" found no results.
+                        </v-alert>
+                        <v-alert slot="no-data" :value="true" color="error" icon="warning">
+                            Sorry, nothing to display here :(
+                        </v-alert>
+                    </v-data-table>
+                    <div class="text-xs-center pt-2">
+                        <v-pagination v-model="pagination.page" :length="pages" next-icon="mdi-menu-right"
+                            prev-icon="mdi-menu-left" circle></v-pagination>
+                    </div>
+                </v-flex>
+            </v-card>
         </v-flex>
         <v-dialog v-model="editdialog" max-width="500px">
             <v-card>
@@ -27,12 +149,14 @@
                                     </v-flex>
                                     <v-flex xs12 sm6 md4>
                                         <v-text-field :rules="[() => !!editedItem.appid || 'This field is required']"
-                                            v-model="editedItem.appid" label="ID" @input="IDEdited()"></v-text-field>
+                                            v-model="editedItem.appid" label="ID" @input="IDEdited()">
+                                        </v-text-field>
                                     </v-flex>
                                 </tr>
                                 <tr>
                                     <v-flex xs12 sm12 md12>
-                                        <v-text-field v-model="editedItem.name" label="Name" disabled></v-text-field>
+                                        <v-text-field v-model="editedItem.name" label="Name" disabled>
+                                        </v-text-field>
                                     </v-flex>
                                 </tr>
                                 <tr>
@@ -69,7 +193,8 @@
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn color="blue darken-1" flat _click="close" @click="editdialog = !editdialog">Cancel</v-btn>
+                    <v-btn color="blue darken-1" flat _click="close" @click="editdialog = !editdialog">Cancel
+                    </v-btn>
                     <v-btn color="blue darken-1" flat @click="save(editedItem.appid)">Save</v-btn>
                 </v-card-actions>
             </v-card>
@@ -160,119 +285,6 @@
                 </v-card-actions>
             </v-card>
         </v-dialog>
-        <v-flex xs12 sm8 md6 offset-md3 offset-sm2>
-            <v-text-field clear-icon="cancel" v-model="search" append-icon="search" label="Search" solo clearable>
-            </v-text-field>
-        </v-flex>
-        <v-flex xs12>
-            <v-data-table hide-actions :headers="headers[2].show ? headers : headers.splice(2,1)" :items="apps"
-                :update:page="loading" :search="search" :single-expand="singleExpand" :expanded.sync="expanded"
-                :pagination.sync="pagination" show-expand ref="table" class="elevation-1" :expand="expand"
-                item-key="appid">
-                <template slot="headerCell" slot-scope="{ header }" v-if="header.show == undefined | header.show">
-                    <span class="blue--text" v-text="header.text" />
-                </template>
-                <template slot="items" slot-scope="props">
-                    <tr>
-                        <td @click="props.expanded = !props.expanded">
-                            <v-img
-                                :src="'apps/' + props.item.appid + '.jpg' == undefined ? 'apps/undefined.gif' : 'apps/' + props.item.appid + '.jpg'">
-                            </v-img>
-                        </td>
-                        <td @click="props.expanded = !props.expanded">
-                            <v-chip dark>{{ props.item.name }}</v-chip>
-                        </td>
-                        <td v-if="$route.path=='/keys'" @click="props.expanded = !props.expanded">
-                            <v-icon v-if="props.item.platform=='Other'">mdi-key</v-icon>
-                            <v-icon v-else-if="props.item.platform=='Uplay'">mdi-ubisoft</v-icon>
-                            <v-icon v-else-if="props.item.platform=='Origin'">mdi-origin</v-icon>
-                            <v-icon v-else-if="props.item.platform=='Steam'">mdi-steam</v-icon>
-                        </td>
-                        <td @click="props.expanded = !props.expanded">
-                            <v-chip :color="getColor(props.item.keys.length)" dark>
-                                {{props.item.keys.length}}</v-chip>
-                        </td>
-                        <td>
-                            <v-tooltip top>
-                                <v-btn slot="activator" @click="deleteItem(props.item)" color="error" icon small>
-                                    <v-icon small>
-                                        delete
-                                    </v-icon>
-                                </v-btn>
-                                <span class="top">Delete</span>
-                            </v-tooltip>
-                            <v-tooltip top>
-                                <v-btn slot="activator" @click="editItem(props.item)" color="success" icon small>
-                                    <v-icon small>
-                                        mdi-square-edit-outline
-                                    </v-icon>
-                                </v-btn>
-                                <span class="top">Edit</span>
-                            </v-tooltip>
-                            <v-tooltip top>
-                                <v-btn slot="activator" @click="otherinfo(props.item)" color="info" icon small>
-                                    <v-icon small>
-                                        info
-                                    </v-icon>
-                                </v-btn>
-                                <span class="top">Other information</span>
-                            </v-tooltip>
-                        </td>
-                    </tr>
-                </template>
-                <template v-slot:expand="props">
-                    <v-card flat>
-                        <v-card-text>
-                            <v-alert value="true" :color="getColor(props.item.keys.length)" outline>
-                                <table>
-                                    <tr v-for="(index,i) in props.item.keys" :key="i.key">
-                                        <td>{{index.key}}</td>
-                                        <td>
-                                            <v-tooltip top>
-                                                <v-btn slot="activator" color="success" @click="copykey(index.key)"
-                                                    :id="index.key" icon small>
-                                                    <v-icon small>
-                                                        mdi-content-copy
-                                                    </v-icon>
-                                                </v-btn>
-                                                <span class="top">Copy Key</span>
-                                            </v-tooltip>
-                                            <v-tooltip top>
-                                                <v-btn slot="activator" color="info" icon small>
-                                                    <v-icon small>
-                                                        mdi-tooltip-edit
-                                                    </v-icon>
-                                                </v-btn>
-                                                <span class="top">Edit Key</span>
-                                            </v-tooltip>
-                                            <v-tooltip top>
-                                                <v-btn slot="activator" color="error"
-                                                    @click="deletekey(index.key,props.item)" icon small>
-                                                    <v-icon small>
-                                                        delete
-                                                    </v-icon>
-                                                </v-btn>
-                                                <span class="top">Delete Key!</span>
-                                            </v-tooltip>
-                                        </td>
-                                    </tr>
-                                </table>
-                            </v-alert>
-                        </v-card-text>
-                    </v-card>
-                </template>
-                <v-alert slot="no-results" :value="true" color="error" icon="warning">
-                    Your search for "{{ search }}" found no results.
-                </v-alert>
-                <v-alert slot="no-data" :value="true" color="error" icon="warning">
-                    Sorry, nothing to display here :(
-                </v-alert>
-            </v-data-table>
-            <div class="text-xs-center pt-2">
-                <v-pagination v-model="pagination.page" :length="pages" next-icon="mdi-menu-right"
-                    prev-icon="mdi-menu-left" circle></v-pagination>
-            </div>
-        </v-flex>
         <v-speed-dial v-model="fab" bottom right fixed direction="top" transition="slide-y-reverse-transition"
             open-on-hover>
             <template v-slot:activator>
@@ -293,7 +305,6 @@
         </v-speed-dial>
     </v-layout>
 </template>
-
 <script>
     module.exports = {
         watch: {

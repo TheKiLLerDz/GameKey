@@ -14,10 +14,11 @@
 }
 
 ::-webkit-scrollbar {
-    background-color: #1b1c21;
-    color: #c4c0ba;
+    background-color: #ffffff;
 }
-
+::-webkit-scrollbar-thumb{
+    background-color:rgba(9, 103, 175, 0.9);
+}
 [v-cloak] {
     display: none;
 }

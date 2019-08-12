@@ -45,8 +45,8 @@ v = new Vue({
   router,
   data: ({
     loading: false,
-      games:[],
-    theme:'theme--blue',
+    games: [],
+    theme: 'theme--blue',
     themes: [{
         name: 'Dark Theme',
         color: 'dark',
@@ -64,7 +64,7 @@ v = new Vue({
     ],
     select: null,
     search: null,
-    settingstab:false,
+    settingstab: false,
     show: true,
     items: [{
         title: 'Home',
@@ -108,10 +108,10 @@ v = new Vue({
     keys: true,
     isDark: true,
   }),
-beforeCreate () {
+  beforeCreate() {
     getsteambdd();
-},
-mounted () {
-  this.games = store.state.steamkey;
-}
+  },
+  mounted() {
+    this.games = store.state.steamkey;
+  }
 })
