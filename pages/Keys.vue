@@ -413,9 +413,9 @@
             },
             IDAdded() {
                 i = 0;
-                while (i < store.state.steamkey.length) {
-                    if (store.state.steamkey[i].appid == this.itemtoadd.appid) {
-                        this.itemtoadd.name = store.state.steamkey[i].name;
+                while (i < store.state.steam.length) {
+                    if (store.state.steam[i].appid == this.itemtoadd.appid) {
+                        this.itemtoadd.name = store.state.steam[i].name;
                         break;
                     } else this.itemtoadd.name = ''
                     i = i + 1;
