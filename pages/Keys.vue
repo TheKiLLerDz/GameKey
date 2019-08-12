@@ -161,7 +161,7 @@
             </v-card>
         </v-dialog>
         <v-flex xs12 sm8 md6 offset-md3 offset-sm2>
-            <v-text-field clear-icon="cancel" v-model="search" append-icon="search" label="Search" clearable>
+            <v-text-field clear-icon="cancel" v-model="search" append-icon="search" label="Search" solo clearable>
             </v-text-field>
         </v-flex>
         <v-flex xs12>

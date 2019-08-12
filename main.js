@@ -46,7 +46,7 @@ v = new Vue({
   data: ({
     loading: false,
       games:[],
-    theme:'theme--dark',
+    theme:'theme--blue',
     themes: [{
         name: 'Dark Theme',
         color: 'dark',
@@ -64,6 +64,7 @@ v = new Vue({
     ],
     select: null,
     search: null,
+    settingstab:false,
     show: true,
     items: [{
         title: 'Home',
