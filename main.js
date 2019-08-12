@@ -26,28 +26,44 @@ var routes = [{
 const router = new VueRouter({
   routes
 });
- 
+
 const store = new Vuex.Store({
-	state:{
-      finished:false,
-      steam :  [],
-      steamkey : [],
-      uplay : [],
-      uplaykey : [],
-      origin : [],
-      originkey : [],
-      others : [],
-      allkeys : [],
-      }, 
+  state: {
+    finished: false,
+    steam: [],
+    steamkey: [],
+    uplay: [],
+    uplaykey: [],
+    origin: [],
+    originkey: [],
+    others: [],
+    allkeys: [],
+  },
 })
 v = new Vue({
   store,
   router,
   data: ({
     loading: false,
-      search: null,
-      select: null,
       games:[],
+    theme:'theme--dark',
+    themes: [{
+        name: 'Dark Theme',
+        color: 'dark',
+        class: 'theme--dark',
+      },
+      {
+        name: 'Light Theme',
+        color: 'success',
+        class: 'theme--light',
+      }, {
+        name: 'Blue Theme',
+        color: 'blue',
+        class: 'theme--blue',
+      }
+    ],
+    select: null,
+    search: null,
     show: true,
     items: [{
         title: 'Home',

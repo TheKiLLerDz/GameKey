@@ -27,7 +27,7 @@
             <span>.</span>
         </div>
     </div>
-    <v-app v-cloak id="app" :dark="isDark">
+    <v-app v-cloak id="app" :dark='theme=="theme--dark"' :class="theme">
         <v-layout row wrap>
             <v-toolbar dense :clipped-left="$vuetify.breakpoint.mdAndUp" fixed app>
                 <v-toolbar-side-icon @click.stop="show = !show"></v-toolbar-side-icon>
@@ -112,6 +112,43 @@
             </v-navigation-drawer>
             <v-content>
                 <v-container fluid grid-list-lg>
+                    <v-menu :close-on-content-click="false" bottom left min-width="300" max-width="300" nudge-left="12" offset-x
+                        transition="slide-y-transition">
+                        <v-btn slot="activator" class="elevation-0 theme" color="grey" dark fab fixed style="top: 100px;" top>
+                          <v-icon>mdi-settings</v-icon>
+                        </v-btn>
+                        <v-card>
+                          <v-container grid-list-xl>
+                            <v-layout wrap>
+                              <v-flex xs12>
+                                <div class="text-xs-center body-2 text-uppercase sidebar-filter">Others Themes</div>
+                              </v-flex>
+                              <v-flex xs12>
+                                <v-radio-group class="justify-center pl-4" v-model="theme" row>
+                                    <v-tooltip top v-for="theme in themes" :key="theme.name">
+                                            <v-radio slot="activator" :value="theme.class.toLowerCase()"
+                                            :color="theme.color"></v-radio>
+                                        <span>{{theme.name}}</span>
+                                      </v-tooltip>
+                                </v-radio-group>
+                              </v-flex>
+                              <v-flex xs12>
+                                <div class="text-xs-center body-2 text-uppercase">
+                                    Connect With Us!
+                                  <div>
+                                    <v-btn color="indigo" class="white--text" fab icon small round>
+                                      <v-icon>mdi-facebook</v-icon>
+                                    </v-btn>
+                                    <v-btn color="cyan" class="white--text" fab icon small round>
+                                      <v-icon>mdi-twitter</v-icon>
+                                    </v-btn>
+                                  </div>
+                                </div>
+                              </v-flex>
+                            </v-layout>
+                          </v-container>
+                        </v-card>
+                      </v-menu>
                     <router-view></router-view>
                 </v-container>
             </v-content>

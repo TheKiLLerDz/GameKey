@@ -276,9 +276,9 @@
         <v-speed-dial v-model="fab" bottom right fixed direction="top" transition="slide-y-reverse-transition"
             open-on-hover>
             <template v-slot:activator>
-                <v-btn color="blue darken-2" dark fab>
-                    <v-icon v-if="fab">close</v-icon>
-                    <v-icon v-else>add</v-icon>
+                <v-btn v-model="fab" color="blue darken-2" dark fab>
+                    <v-icon style="top : -10px">add</v-icon>
+                    <v-icon style="top : -10px">close</v-icon>
                 </v-btn>
             </template>
             <v-btn fab dark small color="indigo" @click="addialog = true">
