@@ -310,7 +310,7 @@
         watch: {
             isAdding(val) {
                 if (val) {
-                    setTimeout(() => (this.isAdding = false), 3000)
+                    setTimeout(() => (this.isAdding = false), 1500)
                 }
             }
         },
