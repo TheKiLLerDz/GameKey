@@ -397,7 +397,7 @@
                     appid: '',
                     name: '',
                     platform: '',
-                    keys: [],
+                    keys: '',
                 },
             }
         },
@@ -431,9 +431,20 @@
             },
             save(d) {
                 i = 0;
-                while (i < this.apps.length) {
-                    if (this.apps[i].appid == d) {
+                while (i < store.state.steamkey.length) {
+                    if (store.state.steamkey[i].appid == d) {
+                        store.state.steamkey[i] = this.editedItem;
                         this.apps[i] = this.editedItem;
+                        console.log(this.editedItem);
+                        console.log(store.state.steamkey[i]);
+                        break;
+                    }
+                    if (store.state.steam[i].appid == d) {
+                        store.state.steam[i] = this.editedItem;
+                        this.apps[i] = this.editedItem;
+                        console.log(this.editedItem);
+                        console.log(store.state.steam[i]);
+                        break;
                     }
                     i = i + 1;
                 }

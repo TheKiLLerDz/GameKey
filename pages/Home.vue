@@ -7,7 +7,7 @@
                 </v-card>
                     <v-card-text>
                         <h2 class="text-xs-right">{{item.title}}</h2>
-                        <v-divider></v-divider>
+                        <v-divider :color="item.color"></v-divider>
                          </v-card-text>
                         <br>
                         <div>Your Game Count : {{item.games}}</div>
