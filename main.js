@@ -45,7 +45,7 @@ v = new Vue({
   router,
   data: ({
     loading: false,
-      games:[],
+    games:[],
     theme:'',
     themes: [{
         name: 'Dark Theme',
@@ -62,7 +62,7 @@ v = new Vue({
         class: 'theme--blue',
       }
     ],
-    select: null,
+    selected: 'fg',
     search: null,
     settingstab: false,
     show: true,

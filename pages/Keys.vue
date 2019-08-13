@@ -1,7 +1,7 @@
 <template>
     <v-layout row wrap>
         <v-flex xs12 sm12 md12>
-            <v-card class="elevation-5 mb-4 mt-5 px-3 py-0" style="border-radius: 8px; height: calc(100% - 70px)">
+            <v-card class="elevation-5 mb-4 mt-5 px-2 py-0" style="border-radius: 8px; height: calc(100% - 70px)">
                 <v-card color="blue" class="white--text" style="top:-24px; padding: 15px;border-radius: 8px;">
                     <h1 v-if="$route.path!=='/keys'">
                         <v-icon v-if="$route.path=='/steam'" dense color='#1d2f54' x-large>mdi-steam</v-icon>
@@ -15,7 +15,7 @@
                     </h1>
                 </v-card>
                 <v-flex xs12 sm8 md6 offset-md3 offset-sm2>
-                    <v-text-field clear-icon="cancel" v-model="search" append-icon="search" label="Search" solo
+                    <v-text-field clear-icon="cancel" v-model='search' append-icon="search" label="Search" solo
                         clearable>
                     </v-text-field>
                 </v-flex>
@@ -327,7 +327,7 @@
                     this.totalItems == null
                 ) return 0
                 return Math.ceil(this.totalItems / this.pagination.rowsPerPage)
-            },
+            }
         },
         data() {
             return {
@@ -344,10 +344,10 @@
                 gametagsselected: [],
                 fling: false,
                 tabs: null,
+                search: null,
                 editdialog: false,
                 infodialog: false,
                 addialog: false,
-                search: '',
                 pageof: '',
                 platforms: ['Steam', 'Uplay', 'Origin', 'Other'],
                 headers: [{

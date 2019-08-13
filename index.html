@@ -31,7 +31,7 @@
             <v-toolbar-title style="width: 300px" class="ml-0 pl-3">
                 <span class="hidden-sm-and-down">GameKey</span>
             </v-toolbar-title>
-            <v-autocomplete v-if="$route.path=='/'" v-model="select" :loading="loading" :items="this.games" flat solo
+            <v-autocomplete v-if="$route.path=='/'" :loading="loading" :items="this.games" flat solo
                 hide-details label="Search" class="v-text-field--rounded" item-text="name" item-value="appid">
                 <template v-slot:append>
                     <v-btn color="rgb(9, 102, 175)" value="search">
@@ -39,16 +39,16 @@
                     </v-btn>
                 </template>
                 <template v-slot:item="data">
-                    <v-list-tile-avatar>
+                    <v-list-tile-avatar  @click="$router.push('keys')">
                         <img :src="'https://steamcdn-a.akamaihd.net/steam/apps/'+data.item.appid+'/header.jpg'">
                     </v-list-tile-avatar>
-                    <v-list-tile-content>
+                    <v-list-tile-content  @click="$router.push('keys')">
                         <v-list-tile-title v-html="data.item.name"></v-list-tile-title>
                         <v-list-tile-sub-title v-html="data.item.platform"></v-list-tile-sub-title>
                     </v-list-tile-content>
                 </template>
                 <template v-slot:selection="data">
-                    <v-chip :selected="data.selected">
+                    <v-chip :selected="selected">
                         <v-avatar>
                             <img :src="'https://steamcdn-a.akamaihd.net/steam/apps/'+data.item.appid+'/header.jpg'">
                         </v-avatar>
