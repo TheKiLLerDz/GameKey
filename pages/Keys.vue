@@ -387,6 +387,7 @@
                 expanded: [],
                 singleExpand: false,
                 apps: [],
+                editedappid: null,
                 itemtoadd: {
                     appid: '',
                     name: '',
@@ -485,6 +486,7 @@
             },
             editItem(item) {
                 this.editedItem = Object.assign({}, item);
+                this.editedappid=item.appid;
                 this.editdialog = true;
             },
             deleteItem(item) {
