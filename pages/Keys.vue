@@ -195,7 +195,7 @@
                     <v-spacer></v-spacer>
                     <v-btn color="blue darken-1" flat _click="close" @click="editdialog = !editdialog">Cancel
                     </v-btn>
-                    <v-btn color="blue darken-1" flat @click="save(editedItem.appid)">Save</v-btn>
+                    <v-btn color="blue darken-1" flat @click="save()">Save</v-btn>
                 </v-card-actions>
             </v-card>
         </v-dialog>
@@ -387,7 +387,7 @@
                 expanded: [],
                 singleExpand: false,
                 apps: [],
-                editedappid: null,
+                oldediteditem: null,
                 itemtoadd: {
                     appid: '',
                     name: '',
@@ -430,24 +430,37 @@
             Lowercasefirst(text) {
                 return text.charAt(0).toLowerCase() + text.slice(1);
             },
-            save(d) {
-                i = 0;
-                while (i < store.state.steamkey.length) {
-                    if (store.state.steamkey[i].appid == d) {
-                        store.state.steamkey[i] = this.editedItem;
-                        this.apps[i] = this.editedItem;
-                        console.log(this.editedItem);
-                        console.log(store.state.steamkey[i]);
-                        break;
+            save() {
+                if (this.oldediteditem.appid !== this.editedItem.appid) {
+                    i = 0;
+                    gameexists = false;
+                    while (i < this.apps.length) {
+                        if (this.apps[i].appid == this.editedItem.appid) {
+                            gameexists = true;
+                            break;
+                        }
+                        i++
                     }
-                    if (store.state.steam[i].appid == d) {
-                        store.state.steam[i] = this.editedItem;
-                        this.apps[i] = this.editedItem;
-                        console.log(this.editedItem);
-                        console.log(store.state.steam[i]);
-                        break;
+                    var newitem = {
+                        name: this.editedItem.name,
+                        appid: this.editedItem.appid,
+                        platform: 'Steam',
+                        keys: []
+                    };
+                    const index = this.apps.indexOf(this.oldediteditem);
+                    k = 0;
+                    while (k < this.apps[index].keys.length) {
+                        addkey(0, parseInt(this.editedItem.appid), this.apps[index].keys[k].key);
+                        if (gameexists) {
+                            this.apps[i].keys.push(this.apps[index].keys[k]);
+                        } else {
+                            newitem.keys.push(this.apps[index].keys[k]);
+                        }
+                        k++;
                     }
-                    i = i + 1;
+                    delgamekeys(0, this.oldediteditem.appid);
+                    this.apps.splice(index, 1);
+                    if (!gameexists) this.apps.push(newitem);
                 }
                 this.editdialog = false;
             },
@@ -486,7 +499,7 @@
             },
             editItem(item) {
                 this.editedItem = Object.assign({}, item);
-                this.editedappid=item.appid;
+                this.oldediteditem = item;
                 this.editdialog = true;
             },
             deleteItem(item) {
