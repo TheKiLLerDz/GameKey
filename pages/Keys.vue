@@ -404,10 +404,11 @@
         methods: {
             IDEdited() {
                 i = 0;
-                while (i < store.state.steamkey.length) {
-                    if (store.state.steamkey[i].appid == this.editedItem.appid) {
-                        this.editedItem.name = store.state.steamkey[i].name;
-                    }
+                while (i < store.state.steam.length) {
+                    if (store.state.steam[i].appid == this.editedItem.appid) {
+                        this.editedItem.name = store.state.steam[i].name;
+                        break;
+                    } else this.editedItem.name = ''
                     i = i + 1;
                 }
             },
