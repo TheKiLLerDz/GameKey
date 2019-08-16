@@ -62,7 +62,7 @@ v = new Vue({
         class: 'theme--blue',
       }
     ],
-    selected: 'fg',
+    selected: null,
     search: null,
     settingstab: false,
     show: true,
