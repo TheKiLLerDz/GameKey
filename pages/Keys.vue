@@ -8,7 +8,7 @@
                         <v-icon v-else-if="$route.path=='/origin'" dense color='#eb6a00' x-large>mdi-origin</v-icon>
                         <v-icon v-else-if="$route.path=='/uplay'" color='#0e82cf' x-large>mdi-ubisoft</v-icon>
                         <v-icon v-else-if="$route.path=='/other'" color='white' x-large>mdi-key</v-icon>
-                        {{$route.path | subStr}} Keys
+                        {{subStr($route.path)}} Keys
                     </h1>
                     <h1 v-else>
                         <v-icon x-large>mdi-key</v-icon> All Keys
@@ -24,16 +24,14 @@
                         :update:page="loading" :search="search" :single-expand="singleExpand" :expanded.sync="expanded"
                         :pagination.sync="pagination" show-expand ref="table" class="elevation-1" :expand="expand"
                         item-key="appid">
-                        <template slot="headerCell" slot-scope="{ header }"
-                            v-if="header.show == undefined | header.show">
+                        <template slot="headerCell" slot-scope="{ header }">
                             <span class="blue--text" v-text="header.text" />
                         </template>
                         <template slot="items" slot-scope="props">
                             <tr>
                                 <td @click="props.expanded = !props.expanded">
-                                    <v-img
-                                        :src="'apps/' + props.item.appid + '.jpg' == undefined ? 'apps/undefined.gif' : 'apps/' + props.item.appid + '.jpg'">
-                                    </v-img>
+                                    <img :src="'apps/' + props.item.appid + '.jpg'"
+                                        onerror="this.src='apps/undefined.gif'" height="42" width="100">
                                 </td>
                                 <td @click="props.expanded = !props.expanded">
                                     <v-chip dark>{{ props.item.name }}</v-chip>
@@ -155,7 +153,7 @@
                                 </tr>
                                 <tr>
                                     <v-flex xs12 sm12 md12>
-                                        <v-text-field v-model="editedItem.name" label="Name" disabled>
+                                        <v-text-field v-model="editedItem.name" label="Name" readonly>
                                         </v-text-field>
                                     </v-flex>
                                 </tr>
@@ -179,7 +177,7 @@
                                         <v-combobox v-model="gametagsselected" :items="gametags" label="Game Tags" chips
                                             clearable prepend-icon="filter_list" solo multiple>
                                             <template v-slot:selection="tags">
-                                                <v-chip :selected="tags.selected" close @input="remove(tags.item)"
+                                                <v-chip :selected="tags.selected" close @input="removetag(tags.item)"
                                                     color="orange" outline>
                                                     <strong>{{ tags.item }}</strong>
                                                 </v-chip>
@@ -212,7 +210,8 @@
                             <table>
                                 <tr>
                                     <v-flex xs12 sm6 md6>
-                                        <v-combobox :items='platforms' v-model="itemtoadd.platform" label="Platform">
+                                        <v-combobox :items='platforms' v-model="itemtoadd.platform"
+                                            :readonly="$route.path == '/keys' ? false : true" label="Platform">
                                         </v-combobox>
                                     </v-flex>
                                     <v-flex xs12 sm6 md4>
@@ -247,7 +246,7 @@
                                         <v-combobox v-model="gametagsselected" :items="gametags" label="Game Tags" chips
                                             clearable prepend-icon="filter_list" solo multiple>
                                             <template v-slot:selection="tags">
-                                                <v-chip :selected="tags.selected" close @input="remove(tags.item)"
+                                                <v-chip :selected="tags.selected" close @input="removetag(tags.item)"
                                                     color="orange" outline>
                                                     <strong>{{ tags.item }}</strong>
                                                 </v-chip>
@@ -263,8 +262,8 @@
                     <v-spacer></v-spacer>
                     <v-btn color="blue darken-1" flat _click="close" depressed @click="addialog = !addialog">Cancel
                     </v-btn>
-                    <v-btn color="blue darken-1" flat :disabled="itemtoadd.appid == '' ? true : false"
-                        :loading="isAdding" @click="add();isAdding = true">Add</v-btn>
+                    <v-btn color="blue darken-1" flat :disabled="itemtoadd.appid == '' || itemtoadd.platform == '' ? true : false"
+                        :loading="isAdding" @click="add(itemtoadd);isAdding = true">Add</v-btn>
                 </v-card-actions>
             </v-card>
         </v-dialog>
@@ -293,7 +292,8 @@
                     <v-icon style="top : -10px">close</v-icon>
                 </v-btn>
             </template>
-            <v-btn fab dark small color="indigo" @click="addialog = true">
+            <v-btn fab dark small color="indigo"
+                @click="addialog = true; if ($route.path!=='/keys') itemtoadd.platform=subStr($route.path)">
                 <v-icon>add</v-icon>
             </v-btn>
             <v-btn fab dark small color="green">
@@ -310,7 +310,7 @@
         watch: {
             isAdding(val) {
                 if (val) {
-                    setTimeout(() => (this.isAdding = false), 1500)
+                    setTimeout(() => (this.isAdding = false), 700)
                 }
             }
         },
@@ -348,7 +348,6 @@
                 editdialog: false,
                 infodialog: false,
                 addialog: false,
-                pageof: '',
                 platforms: ['Steam', 'Uplay', 'Origin', 'Other'],
                 headers: [{
                         text: 'Pic',
@@ -423,7 +422,7 @@
                     i = i + 1;
                 }
             },
-            remove(item) {
+            removetag(item) {
                 this.gametagsselected.splice(this.gametagsselected.indexOf(item), 1)
                 this.gametagsselected = [...this.gametagsselected]
             },
@@ -444,7 +443,7 @@
                     var newitem = {
                         name: this.editedItem.name,
                         appid: this.editedItem.appid,
-                        platform: 'Steam',
+                        platform: this.editedItem.platform,
                         keys: []
                     };
                     const index = this.apps.indexOf(this.oldediteditem);
@@ -464,9 +463,9 @@
                 }
                 this.editdialog = false;
             },
-            add() {
+            add(app) {
                 var tab;
-                switch (this.itemtoadd.platform) {
+                switch (app.platform) {
                     case 'Steam':
                         tab = 0
                         break;
@@ -480,20 +479,20 @@
                         tab = 3
                         break;
                 }
-                addkey(tab, parseInt(this.itemtoadd.appid), this.itemtoadd.keys);
-                const index = this.apps.map(e => e.appid).indexOf(parseInt(this.itemtoadd.appid));
+                addkey(tab, parseInt(app.appid), app.keys);
+                const index = this.apps.map(e => e.appid).indexOf(parseInt(app.appid));
                 if (index == -1)
                     this.apps.push({
-                        appid: this.itemtoadd.appid,
-                        name: this.itemtoadd.name,
+                        appid: app.appid,
+                        name: app.name,
                         keys: [{
-                            key: this.itemtoadd.keys
+                            key: app.keys
                         }],
-                        platform: this.itemtoadd.platform
+                        platform: app.platform
                     });
                 else {
                     this.apps[index].keys.push({
-                        'key': this.itemtoadd.keys
+                        'key': app.keys
                     });
                 }
             },
@@ -531,6 +530,14 @@
                     this.apps.splice(index, 1);
                     delgamekeys(0, item.appid);
                 }
+            },
+            subStr(string) {
+                if (string == '/keys') {
+                    return 'all'
+                } else {
+                    return string.substring(1, 15).charAt(0).toUpperCase() + string.substring(1, 15).slice(1);
+                }
+
             },
             copykey(key) {
                 var el = document.createElement('textarea');
@@ -579,17 +586,5 @@
                     break;
             }
         },
-        filters: {
-            subStr(string) {
-                if (string == '/keys') {
-                    pageof = 'all'
-                    return this.pageof
-                } else {
-                    pageof = string.substring(1, 15)
-                    return this.pageof.charAt(0).toUpperCase() + this.pageof.slice(1);
-                }
-
-            }
-        }
     }
 </script>
