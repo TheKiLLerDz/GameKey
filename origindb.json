@@ -1,0 +1,1885 @@
+{
+  "applist" : [ {
+        "appid": "s0",
+       "name": "FIFA 15 Points"
+    }, {
+        "appid": "s1",
+        "name": "FIFA 16 Points"
+    }, {
+        "appid": "s10",
+        "name": "Air Vehicle Shortcut"
+    }, {
+        "appid": "s100",
+        "name": "Battlefield 4™ Recon Shortcut Kit"
+    }, {
+        "appid": "s101",
+        "name": "Battlefield 4™ Second Assault"
+    }, {
+        "appid": "s102",
+        "name": "Battlefield 4™ Shotgun Shortcut Kit"
+    }, {
+        "appid": "s103",
+        "name": "Battlefield 4™ Silver Battlepack"
+    }, {
+        "appid": "s104",
+        "name": "Battlefield 4™ Soldier Shortcut Bundle"
+    }, {
+        "appid": "s105",
+        "name": "Battlefield 4™ Support Shortcut Kit"
+    }, {
+        "appid": "s106",
+        "name": "Battlefield 4™ Ultimate Shortcut Bundle"
+    }, {
+        "appid": "s107",
+        "name": "Battlefield 4™ Vehicle Shortcut Bundle"
+    }, {
+        "appid": "s108",
+        "name": "Battlefield 4™ Weapon Shortcut Bundle"
+    }, {
+        "appid": "s109",
+        "name": "Battlefield™ Anniversary Bundle"
+    }, {
+        "appid": "s11",
+        "name": "Airships Set"
+    }, {
+        "appid": "s110",
+        "name": "Battlefield: Bad Company™ 2"
+    }, {
+        "appid": "s111",
+        "name": "Battlefield: Bad Company™ 2: Vietnam"
+    }, {
+        "appid": "s112",
+        "name": "Battlefield: Bad Company™2 SPECACT Kit Upgrades"
+    }, {
+        "appid": "s113",
+        "name": "Battlefield™ Hardline"
+    }, {
+        "appid": "s114",
+        "name": "Battlefield™ Hardline 5 X Gold Battlepacks"
+    }, {
+        "appid": "s115",
+        "name": "Battlefield™ Hardline: Betrayal"
+    }, {
+        "appid": "s116",
+        "name": "Battlefield™ Hardline Bronze Battlepack"
+    }, {
+        "appid": "s117",
+        "name": "Battlefield™ Hardline Criminal Activity"
+    }, {
+        "appid": "s118",
+        "name": "Battlefield™ Hardline Enforcer Shortcut Unlock"
+    }, {
+        "appid": "s119",
+        "name": "Battlefield™ Hardline Gear Shortcut Unlock"
+    }, {
+        "appid": "s12",
+        "name": "Alchemy™"
+    }, {
+        "appid": "s120",
+        "name": "Breathedge"
+    }, {
+        "appid": "s121",
+        "name": "British City Set"
+    }, {
+        "appid": "s122",
+        "name": "Brothers - A Tale of Two Sons"
+    }, {
+        "appid": "s123",
+        "name": "Burnout™ Paradise Remastered"
+    }, {
+        "appid": "s124",
+        "name": "Capsized"
+    }, {
+        "appid": "s125",
+        "name": "Cities: Skylines"
+    }, {
+        "appid": "s126",
+        "name": "Cities: Skylines - After Dark"
+    }, {
+        "appid": "s127",
+        "name": "Cities: Skylines - All That Jazz"
+    }, {
+        "appid": "s128",
+        "name": "Cities: Skylines - Campus"
+    }, {
+        "appid": "s129",
+        "name": "Cities: Skylines - Campus Rock Radio"
+    }, {
+        "appid": "s13",
+        "name": "Alice: Madness Returns™"
+    }, {
+        "appid": "s130",
+        "name": "Cities: Skylines - Carols, Candles and Candy"
+    }, {
+        "appid": "s131",
+        "name": "Cities: Skylines - Concerts"
+    }, {
+        "appid": "s132",
+        "name": "Cities: Skylines - Content Creator Pack: Art Deco"
+    }, {
+        "appid": "s133",
+        "name": "Cities: Skylines - Content Creator Pack: European Suburbia"
+    }, {
+        "appid": "s134",
+        "name": "Cities: Skylines - Content Creator Pack: High-Tech Buildings"
+    }, {
+        "appid": "s135",
+        "name": "Cities: Skylines - Content Creator Pack: University City"
+    }, {
+        "appid": "s136",
+        "name": "Cities: Skylines - Country Road Radio"
+    }, {
+        "appid": "s137",
+        "name": "Cities: Skylines - Deep Focus Radio"
+    }, {
+        "appid": "s138",
+        "name": "Cities: Skylines - Deluxe Upgrade Pack"
+    }, {
+        "appid": "s139",
+        "name": "Cities: Skylines - Green Cities"
+    }, {
+        "appid": "s14",
+        "name": "Alwa's Awakening"
+    }, {
+        "appid": "s140",
+        "name": "Cities: Skylines - Mass Transit"
+    }, {
+        "appid": "s141",
+        "name": "Cities: Skylines - Match Day"
+    }, {
+        "appid": "s142",
+        "name": "Cities: Skylines - Natural Disasters"
+    }, {
+        "appid": "s143",
+        "name": "Cities: Skylines - Parklife"
+    }, {
+        "appid": "s144",
+        "name": "Cities: Skylines - Pearls From the East"
+    }, {
+        "appid": "s145",
+        "name": "Cities: Skylines - Relaxation Station"
+    }, {
+        "appid": "s146",
+        "name": "Cities: Skylines - Rock City Radio"
+    }, {
+        "appid": "s147",
+        "name": "Cities: Skylines - Snowfall"
+    }, {
+        "appid": "s148",
+        "name": "Cities: Skylines - Synthetic Dawn Radio"
+    }, {
+        "appid": "s149",
+        "name": "Co-op Weapons Shortcut"
+    }, {
+        "appid": "s15",
+        "name": "Amazing Adventures Around the World™"
+    }, {
+        "appid": "s150",
+        "name": "Cities: Skylines - Carols, Candles and Candy"
+    }, {
+        "appid": "s151",
+        "name": "Cities: Skylines - Concerts"
+    }, {
+        "appid": "s152",
+        "name": "Cities: Skylines - Content Creator Pack: Art Deco"
+    }, {
+        "appid": "s153",
+        "name": "Cities: Skylines - Content Creator Pack: European Suburbia"
+    }, {
+        "appid": "s154",
+        "name": "Cities: Skylines - Content Creator Pack: High-Tech Buildings"
+    }, {
+        "appid": "s155",
+        "name": "Cities: Skylines - Content Creator Pack: University City"
+    }, {
+        "appid": "s156",
+        "name": "Cities: Skylines - Country Road Radio"
+    }, {
+        "appid": "s157",
+        "name": "Cities: Skylines - Deep Focus Radio"
+    }, {
+        "appid": "s158",
+        "name": "Cities: Skylines - Deluxe Upgrade Pack"
+    }, {
+        "appid": "s159",
+        "name": "Cities: Skylines - Green Cities"
+    }, {
+        "appid": "s16",
+        "name": "Amazing Adventures Riddle of the Two Knights™"
+    }, {
+        "appid": "s160",
+        "name": "Cities: Skylines - Mass Transit"
+    }, {
+        "appid": "s161",
+        "name": "Cities: Skylines - Match Day"
+    }, {
+        "appid": "s162",
+        "name": "Cities: Skylines - Natural Disasters"
+    }, {
+        "appid": "s163",
+        "name": "Cities: Skylines - Parklife"
+    }, {
+        "appid": "s164",
+        "name": "Cities: Skylines - Pearls From the East"
+    }, {
+        "appid": "s165",
+        "name": "Cities: Skylines - Relaxation Station"
+    }, {
+        "appid": "s166",
+        "name": "Cities: Skylines - Rock City Radio"
+    }, {
+        "appid": "s167",
+        "name": "Cities: Skylines - Snowfall"
+    }, {
+        "appid": "s168",
+        "name": "Cities: Skylines - Synthetic Dawn Radio"
+    }, {
+        "appid": "s169",
+        "name": "Co-op Weapons Shortcut"
+    }, {
+        "appid": "s17",
+        "name": "Amazing Adventures The Caribbean Secret™"
+    }, {
+        "appid": "s170",
+        "name": "Command &amp; Conquer™ 3: Kane’s Wrath"
+    }, {
+        "appid": "s171",
+        "name": "Command &amp; Conquer 3 Tiberium Wars™"
+    }, {
+        "appid": "s172",
+        "name": "Command &amp; Conquer™ 4 Tiberian Twilight"
+    }, {
+        "appid": "s173",
+        "name": "Command &amp; Conquer™ Red Alert™ 3"
+    }, {
+        "appid": "s174",
+        "name": "Command &amp; Conquer™ Red Alert™ 3: Uprising"
+    }, {
+        "appid": "s175",
+        "name": "Command &amp; Conquer™ The Ultimate Collection"
+    }, {
+        "appid": "s176",
+        "name": "Command &amp; Conquer: Tiberium Alliances"
+    }, {
+        "appid": "s177",
+        "name": "Cosmic Star Heroine"
+    }, {
+        "appid": "s178",
+        "name": "Crashlands"
+    }, {
+        "appid": "s179",
+        "name": "Crawl"
+    }, {
+        "appid": "s18",
+        "name": "Amazing Adventures The Forgotten Dynasty™ "
+    }, {
+        "appid": "s180",
+        "name": "Crusader: No Regret™"
+    }, {
+        "appid": "s181",
+        "name": "Crusader: No Remorse™"
+    }, {
+        "appid": "s182",
+        "name": "Cryptark"
+    }, {
+        "appid": "s183",
+        "name": "Crysis®"
+    }, {
+        "appid": "s184",
+        "name": "Crysis® 2 Maximum Edition"
+    }, {
+        "appid": "s185",
+        "name": "Crysis® 3"
+    }, {
+        "appid": "s186",
+        "name": "Crysis® 3 Digital Deluxe Upgrade"
+    }, {
+        "appid": "s187",
+        "name": "Crysis® 3: The Lost Island"
+    }, {
+        "appid": "s188",
+        "name": "Crysis® Trilogy"
+    }, {
+        "appid": "s189",
+        "name": "Crysis Warhead®"
+    }, {
+        "appid": "s19",
+        "name": "Amazing Adventures The Lost Tomb™"
+    }, {
+        "appid": "s190",
+        "name": "Dark Age of Camelot™ 1 Month Time Code"
+    }, {
+        "appid": "s191",
+        "name": "Dark Age of Camelot™ 3 Month Time Code"
+    }, {
+        "appid": "s192",
+        "name": "Dark Age of Camelot Mithril Packs"
+    }, {
+        "appid": "s193",
+        "name": "Dark Age of Camelot™ 6 Month Time Code"
+    }, {
+        "appid": "s194",
+        "name": "Darksiders III"
+    }, {
+        "appid": "s195",
+        "name": "Darksiders III Keepers of the Void"
+    }, {
+        "appid": "s196",
+        "name": "Darksiders III The Crucible"
+    }, {
+        "appid": "s197",
+        "name": "Darksiders Warmastered Edition"
+    }, {
+        "appid": "s198",
+        "name": "Dead In Vinland"
+    }, {
+        "appid": "s199",
+        "name": "Dead In Vinland - Norse Side Stories"
+    }, {
+        "appid": "s2",
+        "name": "FIFA 17 Points"
+    }, {
+        "appid": "s20",
+        "name": "Amusement Park Set"
+    }, {
+        "appid": "s200",
+        "name": "Dead in Vinland - The Vallhund"
+    }, {
+        "appid": "s201",
+        "name": "Dead In Vinland Endless Mode: Battle Of The Heodenings"
+    }, {
+        "appid": "s202",
+        "name": "Dead Space"
+    }, {
+        "appid": "s203",
+        "name": "Dead Space™ 2"
+    }, {
+        "appid": "s204",
+        "name": "Dead Space™ 3"
+    }, {
+        "appid": "s205",
+        "name": "Dead Space™ 3 Awakened"
+    }, {
+        "appid": "s206",
+        "name": "Dead Space™ 3 Bot Accelerator"
+    }, {
+        "appid": "s207",
+        "name": "Dead Space™ 3 Bot Capacity Upgrade"
+    }, {
+        "appid": "s208",
+        "name": "Dead Space™ 3 Bot Personality Pack"
+    }, {
+        "appid": "s209",
+        "name": "Dead Space™ 3 EG-900 SMG"
+    }, {
+        "appid": "s21",
+        "name": "Anthem™"
+    }, {
+        "appid": "s210",
+        "name": "Dragon Age™: Inquisition Deluxe Upgrade"
+    }, {
+        "appid": "s211",
+        "name": "Dragon Age™: Inquisition DLC Bundle"
+    }, {
+        "appid": "s212",
+        "name": "Dragon Age™: Inquisition English Voice Over Pack"
+    }, {
+        "appid": "s213",
+        "name": "Dragon Age Inquisition Multiplayer Platinum Packs"
+    }, {
+        "appid": "s214",
+        "name": "Dragon Age™: Origins"
+    }, {
+        "appid": "s215",
+        "name": "Dragon Age™: Origins - Awakening"
+    }, {
+        "appid": "s216",
+        "name": "Dragon Age: Origins DLC Bundle "
+    }, {
+        "appid": "s217",
+        "name": "Dungeon Keeper™"
+    }, {
+        "appid": "s218",
+        "name": "Dungeon Keeper™ 2"
+    }, {
+        "appid": "s219",
+        "name": "Dungeons of Dredmor Complete"
+    }, {
+        "appid": "s22",
+        "name": "Anthem™ (Trial)"
+    }, {
+        "appid": "s220",
+        "name": "Duskers"
+    }, {
+        "appid": "s221",
+        "name": "EA Family Bundle"
+    }, {
+        "appid": "s222",
+        "name": "FIFA 20"
+    }, {
+        "appid": "s223",
+        "name": "Ember"
+    }, {
+        "appid": "s224",
+        "name": "Engineer Kit Shortcut"
+    }, {
+        "appid": "s225",
+        "name": "Epistory - Typing Chronicles"
+    }, {
+        "appid": "s226",
+        "name": "Europa Universalis III Complete"
+    }, {
+        "appid": "s227",
+        "name": "Far Cry® 3"
+    }, {
+        "appid": "s228",
+        "name": "Far Cry 4"
+    }, {
+        "appid": "s229",
+        "name": "Far Cry® 4 Season Pass"
+    }, {
+        "appid": "s23",
+        "name": "Anthem™ Shard Packs"
+    }, {
+        "appid": "s230",
+        "name": "Far Cry® 5"
+    }, {
+        "appid": "s231",
+        "name": "Far Cry® 5 Season Pass"
+    }, {
+        "appid": "s232",
+        "name": "Far Cry® New Dawn"
+    }, {
+        "appid": "s233",
+        "name": "Farming Simulator 17"
+    }, {
+        "appid": "s234",
+        "name": "Fe"
+    }, {
+        "appid": "s235",
+        "name": "FIFA 15"
+    }, {
+        "appid": "s236",
+        "name": "FIFA 16"
+    }, {
+        "appid": "s237",
+        "name": "FIFA 17"
+    }, {
+        "appid": "s238",
+        "name": "FIFA 18"
+    }, {
+        "appid": "s239",
+        "name": "FIFA 19 "
+    }, {
+        "appid": "s24",
+        "name": "Anthem™ Legion of Dawn Edition Upgrade"
+    }, {
+        "appid": "s240",
+        "name": "Duskers"
+    }, {
+        "appid": "s241",
+        "name": "EA Family Bundle"
+    }, {
+        "appid": "s242",
+        "name": "FIFA 20"
+    }, {
+        "appid": "s243",
+        "name": "Ember"
+    }, {
+        "appid": "s244",
+        "name": "Engineer Kit Shortcut"
+    }, {
+        "appid": "s245",
+        "name": "Epistory - Typing Chronicles"
+    }, {
+        "appid": "s246",
+        "name": "Europa Universalis III Complete"
+    }, {
+        "appid": "s247",
+        "name": "Far Cry® 3"
+    }, {
+        "appid": "s248",
+        "name": "Far Cry 4"
+    }, {
+        "appid": "s249",
+        "name": "Far Cry® 4 Season Pass"
+    }, {
+        "appid": "s25",
+        "name": "Apex Legends™"
+    }, {
+        "appid": "s250",
+        "name": "Far Cry® 5"
+    }, {
+        "appid": "s251",
+        "name": "Far Cry® 5 Season Pass"
+    }, {
+        "appid": "s252",
+        "name": "Far Cry® New Dawn"
+    }, {
+        "appid": "s253",
+        "name": "Farming Simulator 17"
+    }, {
+        "appid": "s254",
+        "name": "Fe"
+    }, {
+        "appid": "s255",
+        "name": "FIFA 15"
+    }, {
+        "appid": "s256",
+        "name": "FIFA 16"
+    }, {
+        "appid": "s257",
+        "name": "FIFA 17"
+    }, {
+        "appid": "s258",
+        "name": "FIFA 18"
+    }, {
+        "appid": "s259",
+        "name": "FIFA 19 "
+    }, {
+        "appid": "s26",
+        "name": "Apex Legends™ Founder's Pack"
+    }, {
+        "appid": "s260",
+        "name": "Figment"
+    }, {
+        "appid": "s261",
+        "name": "FINAL FANTASY XV Episode Ardyn"
+    }, {
+        "appid": "s262",
+        "name": "FINAL FANTASY XV WINDOWS EDITION "
+    }, {
+        "appid": "s263",
+        "name": "For Honor Marching Fire Expansion"
+    }, {
+        "appid": "s264",
+        "name": "For Honor"
+    }, {
+        "appid": "s265",
+        "name": "For Honor® Year 1 Heroes Bundle"
+    }, {
+        "appid": "s266",
+        "name": "Fortune Valley Map Shortcuts"
+    }, {
+        "appid": "s267",
+        "name": "Fran Bow"
+    }, {
+        "appid": "s268",
+        "name": "French City Set"
+    }, {
+        "appid": "s269",
+        "name": "German City Set"
+    }, {
+        "appid": "s27",
+        "name": "Apex Legends™ Starter Pack"
+    }, {
+        "appid": "s270",
+        "name": "GHOST 1.0"
+    }, {
+        "appid": "s271",
+        "name": "Ghost of a Tale"
+    }, {
+        "appid": "s272",
+        "name": "Gone Home"
+    }, {
+        "appid": "s273",
+        "name": "GoNNER"
+    }, {
+        "appid": "s274",
+        "name": "Goodbye Deponia"
+    }, {
+        "appid": "s275",
+        "name": "Ground Vehicle Shortcut"
+    }, {
+        "appid": "s276",
+        "name": "Hacknet"
+    }, {
+        "appid": "s277",
+        "name": "Hacknet Labyrinths"
+    }, {
+        "appid": "s278",
+        "name": "Hacknet Labyrinths - Soundtrack "
+    }, {
+        "appid": "s279",
+        "name": "Halcyon 6: Lightspeed Edition"
+    }, {
+        "appid": "s28",
+        "name": "Apex Legends™ – 1,000 Apex Coins"
+    }, {
+        "appid": "s280",
+        "name": "Hand of Fate"
+    }, {
+        "appid": "s281",
+        "name": "Hand of Fate 2 "
+    }, {
+        "appid": "s282",
+        "name": "Hand of Fate 2 A Cold Hearth"
+    }, {
+        "appid": "s283",
+        "name": "Hand of Fate 2 Original Soundtrack"
+    }, {
+        "appid": "s284",
+        "name": "Hand of Fate 2 Outlands and Outsiders"
+    }, {
+        "appid": "s285",
+        "name": "Hand of Fate 2 The Servant and the Beast"
+    }, {
+        "appid": "s286",
+        "name": "Hearts of Iron III"
+    }, {
+        "appid": "s287",
+        "name": "Hover"
+    }, {
+        "appid": "s288",
+        "name": "Infiniti Q60 S"
+    }, {
+        "appid": "s289",
+        "name": "INSIDE"
+    }, {
+        "appid": "s29",
+        "name": "Apotheon"
+    }, {
+        "appid": "s290",
+        "name": "Into the Breach"
+    }, {
+        "appid": "s291",
+        "name": "Jade Empire™: Special Edition"
+    }, {
+        "appid": "s292",
+        "name": "Jotun Valhalla Edition"
+    }, {
+        "appid": "s293",
+        "name": "Ken Follett’s The Pillars of the Earth"
+    }, {
+        "appid": "s294",
+        "name": "Kingdom: New Lands"
+    }, {
+        "appid": "s295",
+        "name": "Kingdoms of Amalur: Reckoning™"
+    }, {
+        "appid": "s296",
+        "name": "Kingdoms of Amalur: Reckoning™ - Teeth of Naros"
+    }, {
+        "appid": "s297",
+        "name": "Kingdoms of Amalur: Reckoning™ - The Legend of Dead Kel™"
+    }, {
+        "appid": "s298",
+        "name": "Kingdoms of Amalur: Reckoning™ - Weapons &amp; Armor Bundle Downloadable Content"
+    }, {
+        "appid": "s299",
+        "name": "Kit Shortcut Bundle"
+    }, {
+        "appid": "s3",
+        "name": "FIFA 18 Points"
+    }, {
+        "appid": "s30",
+        "name": "ARAGAMI"
+    }, {
+        "appid": "s300",
+        "name": "Knights of Pen &amp; Paper +1 Edition"
+    }, {
+        "appid": "s301",
+        "name": "LEGO® Batman (PC)"
+    }, {
+        "appid": "s302",
+        "name": "LEGO® Batman 2 DC Super Heroes™"
+    }, {
+        "appid": "s303",
+        "name": "LEGO® Batman™3: Beyond Gotham"
+    }, {
+        "appid": "s304",
+        "name": "LEGO® Marvel™ Super Heroes"
+    }, {
+        "appid": "s305",
+        "name": "LIMBO"
+    }, {
+        "appid": "s306",
+        "name": "Mad Games Tycoon"
+    }, {
+        "appid": "s307",
+        "name": "Mad Max"
+    }, {
+        "appid": "s308",
+        "name": "Madden NFL 19"
+    }, {
+        "appid": "s309",
+        "name": "Madden NFL 19 Legends Upgrade"
+    }, {
+        "appid": "s31",
+        "name": "Aragami: Nightfall"
+    }, {
+        "appid": "s310",
+        "name": "Madden NFL 19 Points"
+    }, {
+        "appid": "s311",
+        "name": "Madden NFL 19 Ultimate Team Starter Pack"
+    }, {
+        "appid": "s312",
+        "name": "Madden NFL 20"
+    }, {
+        "appid": "s313",
+        "name": "Madden NFL 20:  Madden Ultimate Team Kickoff Pack"
+    }, {
+        "appid": "s314",
+        "name": "Madden NFL 20 (Trial)"
+    }, {
+        "appid": "s315",
+        "name": "Madden NFL 20 Points"
+    }, {
+        "appid": "s316",
+        "name": "Madden NFL 20: Madden Ultimate Team Starter Pack"
+    }, {
+        "appid": "s317",
+        "name": "Madden NFL 20: Superstar Upgrade"
+    }, {
+        "appid": "s318",
+        "name": "Mass Effect™"
+    }, {
+        "appid": "s319",
+        "name": "Mass Effect™ 2"
+    }, {
+        "appid": "s32",
+        "name": "Assassin's Creed® Odyssey"
+    }, {
+        "appid": "s320",
+        "name": "Mass Effect™ 2 DLC Bundle"
+    }, {
+        "appid": "s321",
+        "name": "Mass Effect™ 3"
+    }, {
+        "appid": "s322",
+        "name": "Mass Effect™ 3 Digital Deluxe Edition Upgrade"
+    }, {
+        "appid": "s323",
+        "name": "Mass Effect™ 3 DLC Bundle"
+    }, {
+        "appid": "s324",
+        "name": "Mass Effect™: Andromeda"
+    }, {
+        "appid": "s325",
+        "name": "Mass Effect™: Andromeda Asari Adept Multiplayer Recruit Pack"
+    }, {
+        "appid": "s326",
+        "name": "Mass Effect™: Andromeda Deluxe Upgrade"
+    }, {
+        "appid": "s327",
+        "name": "Mass Effect™: Andromeda Krogan Vanguard Multiplayer Recruit Pack"
+    }, {
+        "appid": "s328",
+        "name": "Mass Effect™: Andromeda Salarian Infiltrator Multiplayer Recruit Pack"
+    }, {
+        "appid": "s329",
+        "name": "Mass Effect™: Andromeda Turian Soldier Multiplayer Recruit Pack"
+    }, {
+        "appid": "s33",
+        "name": "Assassin's Creed® Odyssey - Season pass"
+    }, {
+        "appid": "s330",
+        "name": "Mass Effect™ Trilogy"
+    }, {
+        "appid": "s331",
+        "name": "Medal of Honor™"
+    }, {
+        "appid": "s332",
+        "name": "Medal of Honor Airborne™"
+    }, {
+        "appid": "s333",
+        "name": "Medal of Honor Allied Assault™ War Chest"
+    }, {
+        "appid": "s334",
+        "name": "Medal of Honor™ Hot Zone Map Pack"
+    }, {
+        "appid": "s335",
+        "name": "Medal of Honor™ Pacific Assault"
+    }, {
+        "appid": "s336",
+        "name": "Medal of Honor™ Warfighter"
+    }, {
+        "appid": "s337",
+        "name": "Medal of Honor™ Warfighter Assaulter Shortcut Pack "
+    }, {
+        "appid": "s338",
+        "name": "Medal of Honor™ Warfighter Demolitions Shortcut Pack "
+    }, {
+        "appid": "s339",
+        "name": "Medal of Honor™ Warfighter Global Warfighter Shortcut Pack "
+    }, {
+        "appid": "s34",
+        "name": "Assassin's Creed® Origins"
+    }, {
+        "appid": "s340",
+        "name": " Medal of Honor™ Warfighter Heavy Gunner Shortcut Pack "
+    }, {
+        "appid": "s341",
+        "name": "Medal of Honor™ Warfighter Point Man Shortcut Pack"
+    }, {
+        "appid": "s342",
+        "name": "Medal of Honor™ Warfighter Sniper Shortcut Pack "
+    }, {
+        "appid": "s343",
+        "name": "Medal of Honor™ Warfighter Spec Ops Shortcut Pack "
+    }, {
+        "appid": "s344",
+        "name": "Medal of Honor™ Warfighter Zero Dark Thirty Map Pack"
+    }, {
+        "appid": "s345",
+        "name": "Mercenaries 2: World in Flames™"
+    }, {
+        "appid": "s346",
+        "name": "MINI John Cooper Works Countryman"
+    }, {
+        "appid": "s347",
+        "name": "Mini Metro"
+    }, {
+        "appid": "s348",
+        "name": "Mirror's Edge (2009)"
+    }, {
+        "appid": "s349",
+        "name": "Mirror's Edge™ Catalyst"
+    }, {
+        "appid": "s35",
+        "name": "Assassin's Creed® Origins Season Pass"
+    }, {
+        "appid": "s350",
+        "name": "Mirror's Edge™ Catalyst Runner Kit Bundle"
+    }, {
+        "appid": "s351",
+        "name": "Mr. Shifty"
+    }, {
+        "appid": "s352",
+        "name": "Multiplayer Booster Pack"
+    }, {
+        "appid": "s353",
+        "name": "Mutant Year Zero: Road to Eden"
+    }, {
+        "appid": "s354",
+        "name": "Mutant Year Zero: Road to Eden - Fan Edition Upgrade"
+    }, {
+        "appid": "s355",
+        "name": "Mutant Year Zero: Road to Eden - Seed of Evil"
+    }, {
+        "appid": "s356",
+        "name": "MySims™"
+    }, {
+        "appid": "s357",
+        "name": "Need for Speed™"
+    }, {
+        "appid": "s358",
+        "name": "Need for Speed™ Deluxe Upgrade Pack"
+    }, {
+        "appid": "s359",
+        "name": "Need for Speed™ Heat"
+    }, {
+        "appid": "s36",
+        "name": "Assassin’s Creed® IV Black Flag™"
+    }, {
+        "appid": "s360",
+        "name": "Need for Speed™ Hot Pursuit"
+    }, {
+        "appid": "s361",
+        "name": "Need for Speed™ Most Wanted"
+    }, {
+        "appid": "s362",
+        "name": "Need for Speed™ Most Wanted Complete DLC Bundle"
+    }, {
+        "appid": "s363",
+        "name": "Need for Speed™ Most Wanted Deluxe DLC Bundle"
+    }, {
+        "appid": "s364",
+        "name": "Need for Speed™ Most Wanted Mod Unlock 1 "
+    }, {
+        "appid": "s365",
+        "name": "Need for Speed™ Most Wanted Mod Unlock 2"
+    }, {
+        "appid": "s366",
+        "name": "Need for Speed™ Most Wanted Mod Unlock 3 "
+    }, {
+        "appid": "s367",
+        "name": "Need for Speed™ Most Wanted Movie Legends Pack"
+    }, {
+        "appid": "s368",
+        "name": "Need for Speed™ Most Wanted NFS Heroes Pack"
+    }, {
+        "appid": "s369",
+        "name": "Need for Speed™ Most Wanted Premium Modification Unlock"
+    }, {
+        "appid": "s37",
+        "name": "Assassin’s Creed® Syndicate"
+    }, {
+        "appid": "s370",
+        "name": "Need for Speed™ Most Wanted Terminal Velocity Pack"
+    }, {
+        "appid": "s371",
+        "name": "Need for Speed™ Most Wanted Time Saver Pack"
+    }, {
+        "appid": "s372",
+        "name": "Need for Speed™ Most Wanted Ultimate Speed Pack"
+    }, {
+        "appid": "s373",
+        "name": "Need for Speed™ Payback"
+    }, {
+        "appid": "s374",
+        "name": "Need for Speed™ Payback - Deluxe Edition Upgrade"
+    }, {
+        "appid": "s375",
+        "name": "Need for Speed™ Payback: Alfa Romeo Quadrifoglio"
+    }, {
+        "appid": "s376",
+        "name": "Need for Speed™ Payback: All DLC Cars Bundle"
+    }, {
+        "appid": "s377",
+        "name": "Need for Speed™ Payback: Chevrolet Colorado ZR2"
+    }, {
+        "appid": "s378",
+        "name": "Need for Speed™ Payback: Chevrolet Colorado ZR2, R…er Sport SVR &amp; Alfa Romeo Quadrifoglio Bundle"
+    }, {
+        "appid": "s379",
+        "name": "Need for Speed™ Payback: MINI John Cooper Works Countryman and Infiniti Q60 S Bundle"
+    }, {
+        "appid": "s38",
+        "name": "Assassin’s Creed® Syndicate Season Pass"
+    }, {
+        "appid": "s380",
+        "name": "Need for Speed™ Payback: Pontiac Firebird &amp; Aston Martin DB5 Superbuild Bundle"
+    }, {
+        "appid": "s381",
+        "name": "Need for Speed™ Payback: Range Rover Sport SVR"
+    }, {
+        "appid": "s382",
+        "name": "Need for Speed™ Payback: Speedcross Story"
+    }, {
+        "appid": "s383",
+        "name": "Need for Speed™ Rivals"
+    }, {
+        "appid": "s384",
+        "name": "Need for Speed™ Rivals: Complete Edition Bundle Pack"
+    }, {
+        "appid": "s385",
+        "name": "Need for Speed™ Rivals Complete Movie Pack"
+    }, {
+        "appid": "s386",
+        "name": "Need for Speed™ Rivals Concept Lamborghini Complete Pack"
+    }, {
+        "appid": "s387",
+        "name": "Need for Speed™ Rivals Concept Lamborghini Cops"
+    }, {
+        "appid": "s388",
+        "name": "Need for Speed™ Rivals Concept Lamborghini Racers"
+    }, {
+        "appid": "s389",
+        "name": "Need for Speed™ Rivals Ferrari Edizioni Speciali Complete Pack"
+    }, {
+        "appid": "s39",
+        "name": "Assassin’s Creed® Unity"
+    }, {
+        "appid": "s390",
+        "name": "Need for Speed™ Rivals Ferrari Edizioni Speciali Cops"
+    }, {
+        "appid": "s391",
+        "name": "Need for Speed™ Rivals Ferrari Edizioni Speciali Racers"
+    }, {
+        "appid": "s392",
+        "name": "Need for Speed™ Rivals Koenigsegg One:1"
+    }, {
+        "appid": "s393",
+        "name": "Need for Speed™ Rivals Loaded Garage Pack"
+    }, {
+        "appid": "s394",
+        "name": "Need for Speed™ Rivals Movie Pack - Cops"
+    }, {
+        "appid": "s395",
+        "name": "Need for Speed™ Rivals Movie Pack - Racers"
+    }, {
+        "appid": "s396",
+        "name": "Need for Speed™ Rivals Simply Jaguar Complete Pack"
+    }, {
+        "appid": "s397",
+        "name": "Need for Speed™ Rivals Simply Jaguar Cops"
+    }, {
+        "appid": "s398",
+        "name": "Need for Speed™ Rivals Simply Jaguar Racers"
+    }, {
+        "appid": "s399",
+        "name": "Need for Speed™ Rivals Timesaver Pack"
+    }, {
+        "appid": "s4",
+        "name": "FIFA 19 Points"
+    }, {
+        "appid": "s40",
+        "name": "Assault Kit Shortcut"
+    }, {
+        "appid": "s400",
+        "name": "Need For Speed™ Shift"
+    }, {
+        "appid": "s401",
+        "name": "Need for Speed™ The Run"
+    }, {
+        "appid": "s402",
+        "name": "Need for Speed™ Ultimate Bundle"
+    }, {
+        "appid": "s403",
+        "name": "Need for Speed™ Undercover"
+    }, {
+        "appid": "s404",
+        "name": "Need for Speed Payback Speed Points"
+    }, {
+        "appid": "s405",
+        "name": "Nox™"
+    }, {
+        "appid": "s406",
+        "name": "Opus Magnum"
+    }, {
+        "appid": "s407",
+        "name": "Orwell: Ignorance is Strength"
+    }, {
+        "appid": "s408",
+        "name": "Out of the Park Baseball 19"
+    }, {
+        "appid": "s409",
+        "name": "Peggle®"
+    }, {
+        "appid": "s41",
+        "name": "Aston Martin DB5 Superbuild"
+    }, {
+        "appid": "s410",
+        "name": "Peggle® Nights"
+    }, {
+        "appid": "s411",
+        "name": "Pillars of Eternity II: Deadfire"
+    }, {
+        "appid": "s412",
+        "name": "Pillars of Eternity II: Deadfire  Beard and Hair Pack"
+    }, {
+        "appid": "s413",
+        "name": "Pillars of Eternity II: Deadfire Beast of Winter"
+    }, {
+        "appid": "s414",
+        "name": "Pillars of Eternity II: Deadfire Critical Role"
+    }, {
+        "appid": "s415",
+        "name": "Pillars of Eternity II: Deadfire Explorer's Pack"
+    }, {
+        "appid": "s416",
+        "name": "Pillars of Eternity II: Deadfire Rum Runner’s Pack"
+    }, {
+        "appid": "s417",
+        "name": "Pillars of Eternity II: Deadfire Scalawags Pack"
+    }, {
+        "appid": "s418",
+        "name": "Pillars of Eternity II: Deadfire Season Pass"
+    }, {
+        "appid": "s419",
+        "name": "Pillars of Eternity II: Deadfire Seeker Slayer Survivor"
+    }, {
+        "appid": "s42",
+        "name": "Batman: Arkham City Game of the Year Edition"
+    }, {
+        "appid": "s420",
+        "name": "Pony Island"
+    }, {
+        "appid": "s421",
+        "name": "PopCap™ Hero Bundle"
+    }, {
+        "appid": "s422",
+        "name": "Populous™"
+    }, {
+        "appid": "s423",
+        "name": "Populous™ II: Trials of the Olympian Gods"
+    }, {
+        "appid": "s424",
+        "name": "Premium Timesavers Pack"
+    }, {
+        "appid": "s425",
+        "name": "Prison Architect"
+    }, {
+        "appid": "s426",
+        "name": "Punch Club"
+    }, {
+        "appid": "s427",
+        "name": "Plants vs. Zombies Garden Warfare 2 Coin Packs"
+    }, {
+        "appid": "s428",
+        "name": "Rail Simulator®"
+    }, {
+        "appid": "s429",
+        "name": "Recon Kit Shortcut"
+    }, {
+        "appid": "s43",
+        "name": "Batman™: Arkham Origins"
+    }, {
+        "appid": "s430",
+        "name": "RiME"
+    }, {
+        "appid": "s431",
+        "name": "Samorost 3"
+    }, {
+        "appid": "s432",
+        "name": "Sea of Solitude"
+    }, {
+        "appid": "s433",
+        "name": "Shadow Tactics: Blades of the Shogun"
+    }, {
+        "appid": "s434",
+        "name": "SHENZHEN I/O"
+    }, {
+        "appid": "s435",
+        "name": "Shift 2 Unleashed™"
+    }, {
+        "appid": "s436",
+        "name": "SimCity™"
+    }, {
+        "appid": "s437",
+        "name": "SimCity 2000™ Special Edition"
+    }, {
+        "appid": "s438",
+        "name": "SimCity™ 4 Deluxe Edition"
+    }, {
+        "appid": "s439",
+        "name": "SimCity™: Cities of Tomorrow "
+    }, {
+        "appid": "s44",
+        "name": "Batman™: Arkham Origins Blackgate - Deluxe Edition"
+    }, {
+        "appid": "s440",
+        "name": "SimCity™ Digital Deluxe Upgrade Pack"
+    }, {
+        "appid": "s441",
+        "name": "SimCity™ Societies"
+    }, {
+        "appid": "s442",
+        "name": "Slime-san"
+    }, {
+        "appid": "s443",
+        "name": "Splasher"
+    }, {
+        "appid": "s444",
+        "name": "SPORE™"
+    }, {
+        "appid": "s445",
+        "name": "SPORE™ Creature Creator (PC Download)"
+    }, {
+        "appid": "s446",
+        "name": "SPORE™ Creepy &amp; Cute Parts Pack"
+    }, {
+        "appid": "s447",
+        "name": "SPORE™ Galactic Adventures"
+    }, {
+        "appid": "s448",
+        "name": "STAR WARS™ Battlefront™ Bespin"
+    }, {
+        "appid": "s449",
+        "name": "STAR WARS™ Battlefront™ Bodyguard Upgrade Pack"
+    }, {
+        "appid": "s45",
+        "name": "Battlefield™ 1 &amp; Titanfall™ 2 Ultimate Bundle"
+    }, {
+        "appid": "s450",
+        "name": "STAR WARS™ Battlefront™ Bounty Hunter Upgrade Pack"
+    }, {
+        "appid": "s451",
+        "name": "STAR WARS™ Battlefront™ Death Star"
+    }, {
+        "appid": "s452",
+        "name": "STAR WARS™ Battlefront™ Deluxe Edition Content"
+    }, {
+        "appid": "s453",
+        "name": "STAR WARS™ Battlefront™ II"
+    }, {
+        "appid": "s454",
+        "name": "STAR WARS™ Battlefront™ II: Crystals Pack"
+    }, {
+        "appid": "s455",
+        "name": "STAR WARS™ Battlefront™ Outer Rim"
+    }, {
+        "appid": "s456",
+        "name": "STAR WARS™ Battlefront™ Rogue One™: Scarif"
+    }, {
+        "appid": "s457",
+        "name": "STAR WARS™ Battlefront™ Scout Upgrade Pack"
+    }, {
+        "appid": "s458",
+        "name": "STAR WARS™ Battlefront™ Season Pass"
+    }, {
+        "appid": "s459",
+        "name": "STAR WARS™ Battlefront™ Sharpshooter Upgrade Pack"
+    }, {
+        "appid": "s46",
+        "name": "Battlefield 3™"
+    }, {
+        "appid": "s460",
+        "name": "STAR WARS™ Battlefront™ Survivalist Upgrade Pack"
+    }, {
+        "appid": "s461",
+        "name": "STAR WARS™ Battlefront™ Ultimate Edition"
+    }, {
+        "appid": "s462",
+        "name": "STAR WARS™ Battlefront™ Ultimate Upgrade Pack"
+    }, {
+        "appid": "s463",
+        "name": "STAR WARS Jedi: Fallen Order™ Pre-Order"
+    }, {
+        "appid": "s464",
+        "name": "Star Wars™: The Old Republic™"
+    }, {
+        "appid": "s465",
+        "name": "Sudden Strike 4"
+    }, {
+        "appid": "s466",
+        "name": "Sundered: Eldritch Edition"
+    }, {
+        "appid": "s467",
+        "name": "Sundered Original Soundtrack"
+    }, {
+        "appid": "s468",
+        "name": "Support Kit Shortcut"
+    }, {
+        "appid": "s469",
+        "name": "Syndicate™"
+    }, {
+        "appid": "s47",
+        "name": "Battlefield 3™ Aftermath"
+    }, {
+        "appid": "s470",
+        "name": "The 100% Electric Nissan Leaf®"
+    }, {
+        "appid": "s471",
+        "name": "The Banner Saga"
+    }, {
+        "appid": "s472",
+        "name": "The Crew® 2"
+    }, {
+        "appid": "s473",
+        "name": "The Crew® 2 Season Pass"
+    }, {
+        "appid": "s474",
+        "name": "The Final Hours Of Mass Effect™ 3"
+    }, {
+        "appid": "s475",
+        "name": "The Guest"
+    }, {
+        "appid": "s476",
+        "name": "The LEGO® Movie Videogame"
+    }, {
+        "appid": "s477",
+        "name": "The Saboteur™"
+    }, {
+        "appid": "s478",
+        "name": "The Sexy Brutale"
+    }, {
+        "appid": "s479",
+        "name": "The Sims™ 3 70s, 80s, &amp; 90s Stuff"
+    }, {
+        "appid": "s48",
+        "name": "Battlefield 3™ Armored Kill"
+    }, {
+        "appid": "s480",
+        "name": "STAR WARS™ Battlefront™ Survivalist Upgrade Pack"
+    }, {
+        "appid": "s481",
+        "name": "STAR WARS™ Battlefront™ Ultimate Edition"
+    }, {
+        "appid": "s482",
+        "name": "STAR WARS™ Battlefront™ Ultimate Upgrade Pack"
+    }, {
+        "appid": "s483",
+        "name": "STAR WARS Jedi: Fallen Order™ Pre-Order"
+    }, {
+        "appid": "s484",
+        "name": "Star Wars™: The Old Republic™"
+    }, {
+        "appid": "s485",
+        "name": "Sudden Strike 4"
+    }, {
+        "appid": "s486",
+        "name": "Sundered: Eldritch Edition"
+    }, {
+        "appid": "s487",
+        "name": "Sundered Original Soundtrack"
+    }, {
+        "appid": "s488",
+        "name": "Support Kit Shortcut"
+    }, {
+        "appid": "s489",
+        "name": "Syndicate™"
+    }, {
+        "appid": "s49",
+        "name": "Battlefield 3™ Back to Karkand Expansion Pack"
+    }, {
+        "appid": "s490",
+        "name": "The 100% Electric Nissan Leaf®"
+    }, {
+        "appid": "s491",
+        "name": "The Banner Saga"
+    }, {
+        "appid": "s492",
+        "name": "The Crew® 2"
+    }, {
+        "appid": "s493",
+        "name": "The Crew® 2 Season Pass"
+    }, {
+        "appid": "s494",
+        "name": "The Final Hours Of Mass Effect™ 3"
+    }, {
+        "appid": "s495",
+        "name": "The Guest"
+    }, {
+        "appid": "s496",
+        "name": "The LEGO® Movie Videogame"
+    }, {
+        "appid": "s497",
+        "name": "The Saboteur™"
+    }, {
+        "appid": "s498",
+        "name": "The Sexy Brutale"
+    }, {
+        "appid": "s499",
+        "name": "The Sims™ 3 70s, 80s, &amp; 90s Stuff"
+    }, {
+        "appid": "s5",
+        "name": "The Sims 3 SimPoints"
+    }, {
+        "appid": "s50",
+        "name": "Battlefield 3™: Close Quarters"
+    }, {
+        "appid": "s500",
+        "name": "The Sims™ 3 Ambitions"
+    }, {
+        "appid": "s501",
+        "name": "The Sims™ 3 Barnacle Bay"
+    }, {
+        "appid": "s502",
+        "name": "The Sims™ 3 Diesel Stuff"
+    }, {
+        "appid": "s503",
+        "name": "The Sims™ 3 Dragon Valley"
+    }, {
+        "appid": "s504",
+        "name": "The Sims™ 3 Dragon Valley Gold Edition"
+    }, {
+        "appid": "s505",
+        "name": "The Sims™ 3 Fast Lane Stuff"
+    }, {
+        "appid": "s506",
+        "name": "The Sims™ 3 Generations"
+    }, {
+        "appid": "s507",
+        "name": "The Sims™ 3 Hidden Springs"
+    }, {
+        "appid": "s508",
+        "name": "The Sims™ 3 High-End Loft Stuff"
+    }, {
+        "appid": "s509",
+        "name": "The Sims™ 3 Into the Future"
+    }, {
+        "appid": "s51",
+        "name": "Battlefield 3™: End Game"
+    }, {
+        "appid": "s510",
+        "name": "The Sims™ 3 Island Paradise"
+    }, {
+        "appid": "s511",
+        "name": "The Sims™ 3 Late Night Expansion Pack"
+    }, {
+        "appid": "s512",
+        "name": "The Sims™ 3 Master Suite Stuff"
+    }, {
+        "appid": "s513",
+        "name": "The Sims™ 3 Monte Vista"
+    }, {
+        "appid": "s514",
+        "name": "The Sims™ 3 Movie Stuff"
+    }, {
+        "appid": "s515",
+        "name": "The Sims™ 3 Outdoor Living Stuff"
+    }, {
+        "appid": "s516",
+        "name": "The Sims™ 3 Pets"
+    }, {
+        "appid": "s517",
+        "name": "The Sims™ 3 Roaring Heights"
+    }, {
+        "appid": "s518",
+        "name": "The Sims™ 3 Roaring Heights Gold Edition"
+    }, {
+        "appid": "s519",
+        "name": "The Sims™ 3 Seasons"
+    }, {
+        "appid": "s52",
+        "name": "Battlefield 3™ Premium"
+    }, {
+        "appid": "s520",
+        "name": "The Sims™ 3 Showtime"
+    }, {
+        "appid": "s521",
+        "name": "The Sims™ 3 Starter Pack"
+    }, {
+        "appid": "s522",
+        "name": "The Sims™ 3 Supernatural"
+    }, {
+        "appid": "s523",
+        "name": "The Sims™ 3 Town Life Stuff"
+    }, {
+        "appid": "s524",
+        "name": "The Sims™ 3 University Life"
+    }, {
+        "appid": "s525",
+        "name": "The Sims™ 3 World Adventures Expansion Pack"
+    }, {
+        "appid": "s526",
+        "name": "The Sims™ 3 Worlds Bundle"
+    }, {
+        "appid": "s527",
+        "name": "The Sims™ 4"
+    }, {
+        "appid": "s528",
+        "name": "The Sims™ 4 Backyard Stuff"
+    }, {
+        "appid": "s529",
+        "name": "The Sims™ 4 Bowling Night Stuff"
+    }, {
+        "appid": "s53",
+        "name": "Battlefield 3™ Promotional Items"
+    }, {
+        "appid": "s530",
+        "name": "The Sims™ 4 Bundle - City Living, Dine Out, Bowling Night Stuff"
+    }, {
+        "appid": "s531",
+        "name": "The Sims™ 4 Bundle - Get to Work, Outdoor Retreat, Luxury Party Stuff"
+    }, {
+        "appid": "s532",
+        "name": "The Sims™ 4 Bundle - Get Together, Spa Day, Movie Hangout Stuff"
+    }, {
+        "appid": "s533",
+        "name": "The Sims™ 4 Cats &amp; Dogs"
+    }, {
+        "appid": "s534",
+        "name": "The Sims™ 4 City Living"
+    }, {
+        "appid": "s535",
+        "name": "The Sims™ 4 Cool Kitchen Stuff"
+    }, {
+        "appid": "s536",
+        "name": "The Sims™ 4 Digital Deluxe Upgrade"
+    }, {
+        "appid": "s537",
+        "name": "The Sims™ 4 Dine Out"
+    }, {
+        "appid": "s538",
+        "name": "The Sims™ 4 Fitness Stuff"
+    }, {
+        "appid": "s539",
+        "name": "The Sims™ 4 Get Famous"
+    }, {
+        "appid": "s54",
+        "name": "Battlefield 3™ SPECACT Kit &amp; Dog Tag Bundle"
+    }, {
+        "appid": "s540",
+        "name": "The Sims™ 4 Get to Work"
+    }, {
+        "appid": "s541",
+        "name": "The Sims™ 4 Get Together"
+    }, {
+        "appid": "s542",
+        "name": "The Sims™ 4 Holiday Celebration Pack"
+    }, {
+        "appid": "s543",
+        "name": "The Sims™ 4 Island Living"
+    }, {
+        "appid": "s544",
+        "name": "The Sims™ 4 Jungle Adventure"
+    }, {
+        "appid": "s545",
+        "name": "The Sims™ 4 Kids Room Stuff"
+    }, {
+        "appid": "s546",
+        "name": "The Sims™ 4 Laundry Day Stuff"
+    }, {
+        "appid": "s547",
+        "name": "The Sims™ 4 Luxury Party Stuff"
+    }, {
+        "appid": "s548",
+        "name": "The Sims™ 4 Moschino Stuff Pack"
+    }, {
+        "appid": "s549",
+        "name": "The Sims™ 4 Movie Hangout Stuff"
+    }, {
+        "appid": "s55",
+        "name": "Battlefield 4™"
+    }, {
+        "appid": "s550",
+        "name": "The Sims™ 4 My First Pet Stuff"
+    }, {
+        "appid": "s551",
+        "name": "The Sims™ 4 Outdoor Retreat"
+    }, {
+        "appid": "s552",
+        "name": "The Sims™ 4 Parenthood"
+    }, {
+        "appid": "s553",
+        "name": "The Sims™ 4 Perfect Patio Stuff"
+    }, {
+        "appid": "s554",
+        "name": "The Sims™ 4 Romantic Garden Stuff"
+    }, {
+        "appid": "s555",
+        "name": "The Sims™ 4 Seasons"
+    }, {
+        "appid": "s556",
+        "name": "The Sims™ 4 Spa Day"
+    }, {
+        "appid": "s557",
+        "name": "The Sims™ 4 Spooky Stuff"
+    }, {
+        "appid": "s558",
+        "name": "The Sims™ 4 StrangerVille"
+    }, {
+        "appid": "s559",
+        "name": "The Sims™ 4 Toddler Stuff"
+    }, {
+        "appid": "s56",
+        "name": "Battlefield 4™ 3 X Bronze Battlepacks"
+    }, {
+        "appid": "s560",
+        "name": "The Sims™ 4 Vampires"
+    }, {
+        "appid": "s561",
+        "name": "The Sims™ 4 Vintage Glamour Stuff"
+    }, {
+        "appid": "s562",
+        "name": "The Sims Medieval™ Deluxe Pack"
+    }, {
+        "appid": "s563",
+        "name": "The Surge"
+    }, {
+        "appid": "s564",
+        "name": "The Surge - CREO Special Employee Kit"
+    }, {
+        "appid": "s565",
+        "name": "The Surge: A Walk in the Park DLC"
+    }, {
+        "appid": "s566",
+        "name": "The Surge: The Good, The Bad and the Augmented DLC"
+    }, {
+        "appid": "s567",
+        "name": "The Ultimate Shortcut Bundle"
+    }, {
+        "appid": "s568",
+        "name": "The Witcher® 3: Wild Hunt"
+    }, {
+        "appid": "s569",
+        "name": "The Witcher® 3: Wild Hunt - Hearts of Stone"
+    }, {
+        "appid": "s57",
+        "name": "Battlefield 4™ 3 X Gold Battlepacks"
+    }, {
+        "appid": "s570",
+        "name": "The Witcher® 3: Wild Hunt Blood and Wine"
+    }, {
+        "appid": "s571",
+        "name": "The Witcher® 3: Wild Hunt Brazilian Portuguese Voice-Over Pack"
+    }, {
+        "appid": "s572",
+        "name": "The Witcher® 3: Wild Hunt English Voice-Over Pack"
+    }, {
+        "appid": "s573",
+        "name": "The Witcher® 3: Wild Hunt Expansion Pass"
+    }, {
+        "appid": "s574",
+        "name": "The Witcher® 3: Wild Hunt French Voice-Over Pack"
+    }, {
+        "appid": "s575",
+        "name": "The Witcher® 3: Wild Hunt German Voice-Over Pack"
+    }, {
+        "appid": "s576",
+        "name": "The Witcher® 3: Wild Hunt Japanese Voice-Over Pack"
+    }, {
+        "appid": "s577",
+        "name": "The Witcher® 3: Wild Hunt Polish Voice-Over Pack"
+    }, {
+        "appid": "s578",
+        "name": "The Witcher® 3: Wild Hunt Russian Voice-Over Pack"
+    }, {
+        "appid": "s579",
+        "name": "The Witness"
+    }, {
+        "appid": "s58",
+        "name": "Battlefield 4™ 3 X Silver Battlepacks"
+    }, {
+        "appid": "s580",
+        "name": "Theme Hospital™"
+    }, {
+        "appid": "s581",
+        "name": "This Is the Police"
+    }, {
+        "appid": "s582",
+        "name": "This Is the Police 2"
+    }, {
+        "appid": "s583",
+        "name": "This War of Mine™"
+    }, {
+        "appid": "s584",
+        "name": "This War of Mine™: The Little Ones DLC"
+    }, {
+        "appid": "s585",
+        "name": "Titanfall® 2"
+    }, {
+        "appid": "s586",
+        "name": "Titanfall® 2: Angel City's Most Wanted Bundle"
+    }, {
+        "appid": "s587",
+        "name": "Titanfall® 2: Colony Reborn Bundle"
+    }, {
+        "appid": "s588",
+        "name": "Titanfall® 2: Jump Start Pack"
+    }, {
+        "appid": "s589",
+        "name": "Titanfall® 2: Monarch's Reign Bundle"
+    }, {
+        "appid": "s59",
+        "name": "Battlefield 4™ 5 X Bronze Battlepacks"
+    }, {
+        "appid": "s590",
+        "name": "Titanfall® 2 Nitro Scorch Pack"
+    }, {
+        "appid": "s591",
+        "name": "Titanfall® 2: Prime Titan Bundle"
+    }, {
+        "appid": "s592",
+        "name": "Tom Clancy's Ghost Recon® Wildlands"
+    }, {
+        "appid": "s593",
+        "name": "Tom Clancy’s Ghost Recon® Wildlands - Season Pass"
+    }, {
+        "appid": "s594",
+        "name": "Tom Clancy’s The Division™"
+    }, {
+        "appid": "s595",
+        "name": "Tom Clancy’s The Division™ Season Pass"
+    }, {
+        "appid": "s596",
+        "name": "Torchlight II™"
+    }, {
+        "appid": "s597",
+        "name": "Torment: Tides of Numenera"
+    }, {
+        "appid": "s598",
+        "name": "Trials® Rising"
+    }, {
+        "appid": "s599",
+        "name": "Trials® Rising - Expansion Pass"
+    }, {
+        "appid": "s6",
+        "name": "Mass Effect Andromeda Points"
+    }, {
+        "appid": "s60",
+        "name": "Battlefield 4™ 5 X Gold Battlepacks"
+    }, {
+        "appid": "s600",
+        "name": "Trine 2™: Complete Story"
+    }, {
+        "appid": "s601",
+        "name": "Trine 3: The Artifacts of Power"
+    }, {
+        "appid": "s602",
+        "name": "Trine™ Enchanted Edition"
+    }, {
+        "appid": "s603",
+        "name": "Tropico 5"
+    }, {
+        "appid": "s604",
+        "name": "Ultima I: The First Age of Darkness"
+    }, {
+        "appid": "s605",
+        "name": "Ultima II: The Revenge of the Enchantress"
+    }, {
+        "appid": "s606",
+        "name": "Ultima III: Exodus"
+    }, {
+        "appid": "s607",
+        "name": "Ultima IV: Quest of the Avatar"
+    }, {
+        "appid": "s608",
+        "name": "Ultima™ IX: Ascension"
+    }, {
+        "appid": "s609",
+        "name": "Ultima V: Warriors Of Destiny"
+    }, {
+        "appid": "s61",
+        "name": "Battlefield 4™ 5 X Silver Battlepacks"
+    }, {
+        "appid": "s610",
+        "name": "Ultima VI: The False Prophet"
+    }, {
+        "appid": "s611",
+        "name": "Ultima™ VII: The Complete Edition"
+    }, {
+        "appid": "s612",
+        "name": "Ultima™ VIII Gold Edition"
+    }, {
+        "appid": "s613",
+        "name": "Unravel™"
+    }, {
+        "appid": "s614",
+        "name": "Unravel Two"
+    }, {
+        "appid": "s615",
+        "name": "Vacation Quest™ - Australia "
+    }, {
+        "appid": "s616",
+        "name": "Vacation Quest™ - The Hawaiian Islands"
+    }, {
+        "appid": "s617",
+        "name": "Vehicle Shortcut Bundle"
+    }, {
+        "appid": "s618",
+        "name": "Victoria Complete"
+    }, {
+        "appid": "s619",
+        "name": "Warhammer: Chaosbane"
+    }, {
+        "appid": "s62",
+        "name": "Battlefield 4™ Air Vehicle Shortcut Kit"
+    }, {
+        "appid": "s620",
+        "name": "Warp"
+    }, {
+        "appid": "s621",
+        "name": "Watch_Dogs® 2"
+    }, {
+        "appid": "s622",
+        "name": "Watch_Dogs® 2 - Season Pass"
+    }, {
+        "appid": "s623",
+        "name": "Wing Commander™ II"
+    }, {
+        "appid": "s624",
+        "name": "Wing Commander™ III: Heart of the Tiger"
+    }, {
+        "appid": "s625",
+        "name": "Wing Commander™: Privateer"
+    }, {
+        "appid": "s626",
+        "name": "Zuma's Revenge™"
+    }, {
+        "appid": "s63",
+        "name": "Battlefield 4™ Assault Shortcut Kit"
+    }, {
+        "appid": "s64",
+        "name": "Battlefield 4™ Bronze Battlepack"
+    }, {
+        "appid": "s65",
+        "name": "Battlefield 4™ Carbine Shortcut Kit"
+    }, {
+        "appid": "s66",
+        "name": "Battlefield 4™ China Rising"
+    }, {
+        "appid": "s67",
+        "name": "Battlefield 4™ Community Operations"
+    }, {
+        "appid": "s68",
+        "name": "Battlefield 4™ DMR Shortcut Kit"
+    }, {
+        "appid": "s69",
+        "name": "Battlefield 4™ Dragon's Teeth"
+    }, {
+        "appid": "s7",
+        "name": "BioWare Points"
+    }, {
+        "appid": "s70",
+        "name": "Battlefield 4™ Engineer Shortcut Kit"
+    }, {
+        "appid": "s71",
+        "name": "Battlefield 4™ Final Stand"
+    }, {
+        "appid": "s72",
+        "name": "Battlefield 4™ Gold Battlepack"
+    }, {
+        "appid": "s73",
+        "name": "Battlefield 4™ Grenade Shortcut Kit"
+    }, {
+        "appid": "s74",
+        "name": "Battlefield 4™ Ground &amp; Sea Vehicle Shortcut Kit"
+    }, {
+        "appid": "s75",
+        "name": "Battlefield 4™ Handgun Shortcut Kit"
+    }, {
+        "appid": "s76",
+        "name": "Battlefield 4™ Legacy Operations"
+    }, {
+        "appid": "s77",
+        "name": "Battlefield 4™ Naval Strike"
+    }, {
+        "appid": "s78",
+        "name": "Battlefield 4™ Night Operations"
+    }, {
+        "appid": "s79",
+        "name": "Battlefield 4™ Premium Membership"
+    }, {
+        "appid": "s8",
+        "name": "A Way Out"
+    }, {
+        "appid": "s80",
+        "name": "Battlefield 4™ Recon Shortcut Kit"
+    }, {
+        "appid": "s81",
+        "name": "Battlefield 4™ Second Assault"
+    }, {
+        "appid": "s82",
+        "name": "Battlefield 4™ Shotgun Shortcut Kit"
+    }, {
+        "appid": "s83",
+        "name": "Battlefield 4™ Silver Battlepack"
+    }, {
+        "appid": "s84",
+        "name": "Battlefield 4™ Soldier Shortcut Bundle"
+    }, {
+        "appid": "s85",
+        "name": "Battlefield 4™ Support Shortcut Kit"
+    }, {
+        "appid": "s86",
+        "name": "Battlefield 4™ Ultimate Shortcut Bundle"
+    }, {
+        "appid": "s87",
+        "name": "Battlefield 4™ Vehicle Shortcut Bundle"
+    }, {
+        "appid": "s88",
+        "name": "Battlefield 4™ Weapon Shortcut Bundle"
+    }, {
+        "appid": "s89",
+        "name": "Battlefield™ Anniversary Bundle"
+    }, {
+        "appid": "s9",
+        "name": "ABZÛ"
+    }, {
+        "appid": "s90",
+        "name": "Battlefield 4™ Engineer Shortcut Kit"
+    }, {
+        "appid": "s91",
+        "name": "Battlefield 4™ Final Stand"
+    }, {
+        "appid": "s92",
+        "name": "Battlefield 4™ Gold Battlepack"
+    }, {
+        "appid": "s93",
+        "name": "Battlefield 4™ Grenade Shortcut Kit"
+    }, {
+        "appid": "s94",
+        "name": "Battlefield 4™ Ground &amp; Sea Vehicle Shortcut Kit"
+    }, {
+        "appid": "s95",
+        "name": "Battlefield 4™ Handgun Shortcut Kit"
+    }, {
+        "appid": "s96",
+        "name": "Battlefield 4™ Legacy Operations"
+    }, {
+        "appid": "s97",
+        "name": "Battlefield 4™ Naval Strike"
+    }, {
+        "appid": "s98",
+        "name": "Battlefield 4™ Night Operations"
+    }, {
+        "appid": "s99",
+        "name": "Battlefield 4™ Premium Membership"
+    }]
+
+}
