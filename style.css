@@ -14,10 +14,11 @@
 }
 
 ::-webkit-scrollbar {
-    background-color: #1b1c21;
-    color: #c4c0ba;
+    background-color: #ffffff;
 }
-
+::-webkit-scrollbar-thumb{
+    background-color:rgba(9, 103, 175, 0.9);
+}
 [v-cloak] {
     display: none;
 }
@@ -28,16 +29,17 @@
     justify-content: center;
     align-items: center;
     min-height: 100vh;
+    background-color: #181a1b;
 }
 
 .loader {
     position: relative;
     display: flex;
-    background: #000000
+    /* background: #ffffff */
 }
 
 .loader span {
-    color: #fff;
+    color: rgb(217, 215, 209);
     margin: 0 20px;
     font-size: 8em;
     font-weight: bold;
@@ -87,17 +89,43 @@
 
 @keyframes animate {
     0% {
-        text-shadow: 0 0 10px rgba(0, 0, 0, 0);
         transform: scale(1);
     }
 
     50% {
-        text-shadow: 10px 20px 30px rgba(0, 0, 0, 0.4);
         transform: scale(1.6);
     }
 
     100% {
-        text-shadow: 0 0 10px rgba(0, 0, 0, 0);
         transform: scale(1);
     }
+}
+.theme{
+    border-radius: 6px;
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+    background-color: rgba(0,0,0,.3)!important;
+    right: -50px;
+    padding: 0;
+    width: 64px;
+}
+.theme:hover{
+    right: 0;
+}
+.v-menu__content{
+    border-radius: 16px;
+}
+.theme--blue.application .v-toolbar{
+    background-color: rgb(9, 102, 175);
+    color: #fff;
+}
+.theme--blue .v-toolbar .v-btn{
+    color: #fff;
+}
+.theme--blue .v-text-field--rounded .v-btn{
+    background-color: #4caf50!important;
+    border-color: #4caf50!important;
+}
+.theme--blue .v-content__wrap{
+    background-color: #eee;
 }

@@ -1,17 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Home</title>
+    <title>GameKey</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="cdn/vuetify.min.css">
     <link rel="stylesheet" href="cdn/@mdi/font/css/materialdesignicons.css">
     <link rel="stylesheet" href="cdn/material-design/3.0.1/iconfont/material-icons.css">
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
     <div id="main">
         <div class="loader">
@@ -27,78 +25,159 @@
             <span>.</span>
         </div>
     </div>
-    <v-app v-cloak id="app" :dark="isDark">
-        <v-layout wrap style="height: 200px;">
-            <v-toolbar dense :clipped-left="$vuetify.breakpoint.mdAndUp" fixed app>
-                <v-toolbar-side-icon @click.stop="show = !show"></v-toolbar-side-icon>
-                <v-toolbar-title style="width: 300px" class="ml-0 pl-3">
-                    <span class="hidden-sm-and-down">GameKey</span>
-                </v-toolbar-title>
-                <v-autocomplete v-if="$route.path=='/'" v-model="select" :loading="loading" :items="games"
-                    :search-input.sync="search" cache-items flat hide-no-data hide-details label="Search"
-                    class="v-text-field--rounded" solo flat>
-                    <template v-slot:append>
-                        <v-btn type="submit" color="rgb(9, 102, 175)" value="search">
-                            Search
-                        </v-btn>
-                    </template>
-                </v-autocomplete>
-                <v-spacer></v-spacer>
-                <v-tooltip left>
-                    <v-btn slot="activator" icon small v-model="isDark" @click='isDark=!isDark'>
-                        <v-icon small>mdi-theme-light-dark</v-icon>
+    <v-app v-cloak id="app" :class="theme">
+        <v-toolbar dense color="blue darken-3" tabs app clipped-left>
+            <v-toolbar-side-icon @click.stop="show = !show"></v-toolbar-side-icon>
+            <v-toolbar-title style="width: 300px" class="ml-0 pl-3">
+                <span class="hidden-sm-and-down">GameKey</span>
+            </v-toolbar-title>
+            <v-autocomplete v-if="$route.path=='/'" :loading="loading" :items="this.games" flat solo
+                hide-details label="Search" class="v-text-field--rounded" item-text="name" item-value="appid">
+                <template v-slot:append>
+                    <v-btn color="rgb(9, 102, 175)" value="search">
+                        Search
                     </v-btn>
-                    <span class="left">Switch Theme</span>
+                </template>
+                <template v-slot:item="data">
+                    <v-list-tile-avatar  @click="$router.push('keys')">
+                        <img :src="'https://steamcdn-a.akamaihd.net/steam/apps/'+data.item.appid+'/header.jpg'" onerror="this.src='apps/undefined.gif'">
+                    </v-list-tile-avatar>
+                    <v-list-tile-content  @click="$router.push('keys')">
+                        <v-list-tile-title v-html="data.item.name"></v-list-tile-title>
+                        <v-list-tile-sub-title v-html="data.item.platform"></v-list-tile-sub-title>
+                    </v-list-tile-content>
+                </template>
+                <template v-slot:selection="data">
+                    <v-chip :selected="selected">
+                        <v-avatar>
+                            <img :src="'https://steamcdn-a.akamaihd.net/steam/apps/'+data.item.appid+'/header.jpg'">
+                        </v-avatar>
+                        {{ data.item.name }}
+                    </v-chip>
+                </template>
+            </v-autocomplete>
+            <v-spacer></v-spacer>
+            <v-tooltip bottom v-if='!($route.path == "/")'>
+                <v-btn icon slot="activator" to="/">
+                    <v-icon>mdi-home</v-icon>
+                </v-btn>
+                <span class="bottom">Home</span>
+            </v-tooltip>
+            <v-tooltip bottom>
+                <v-btn icon slot="activator" @click=''>
+                    <v-badge color="error" overlap left>
+                        <span slot="badge">10</span>
+                        <v-icon>notifications</v-icon>
+                    </v-badge>
+                </v-btn>
+                <span class="bottom">Notifications</span>
+            </v-tooltip>
+            <v-menu content-class="dropdown-menu" offset-y origin="top right" transition="scale-transition">
+                <v-tooltip bottom slot="activator" dark>
+                    <v-btn icon slot="activator">
+                        <v-icon>mdi-account</v-icon>
+                    </v-btn>
+                    <span class="bottom">profile</span>
                 </v-tooltip>
-                <v-btn icon small>
-                    <v-icon small>mdi-window-maximize</v-icon>
-                </v-btn>
-
-                <v-btn icon small>
-                    <v-icon small>mdi-window-close</v-icon>
-                </v-btn>
-            </v-toolbar>
-            <v-navigation-drawer v-model="show" :clipped="$vuetify.breakpoint.mdAndUp" :mini-variant="mini" absolute
-                app>
-                <div class="transparent flat">
-                    <v-list>
-                        <v-list-tile avatar>
-                            <v-list-tile-avatar @click.stop="mini = !mini">
-                                <img src="">
-                            </v-list-tile-avatar>
-                            <v-list-tile-content>
-                                <v-list-tile-title>GameKey</v-list-tile-title>
-                            </v-list-tile-content>
-                            <v-list-tile-action>
-                                <v-btn icon @click.stop="mini = !mini">
-                                    <v-icon>mdi-chevron-left</v-icon>
-                                </v-btn>
-                            </v-list-tile-action>
-                        </v-list-tile>
-                        <v-divider></v-divider>
-                        <!-- :active-class="!mini?'v-list-item-active v-card green' : 'v-list-item-mini-active'" -->
-                        <v-list-tile class="mt-1" v-for="item in items" :key="item.title" :to="{path:item.link}">
-                            <v-tooltip v-if="mini" right>
-                                <v-list-tile-action slot="activator">
-                                    <v-icon>{{ item.icon }}</v-icon>
-                                </v-list-tile-action>
-                                <span class="right">{{ item.title }}</span>
-                            </v-tooltip>
-                            <v-list-tile-action v-else>
+                <v-list class="py-0">
+                    <v-list-tile ripple to='/settings'>
+                        <v-list-tile-action>
+                            <v-icon>settings</v-icon>
+                        </v-list-tile-action>
+                        <v-list-tile-content>
+                            <v-list-tile-title>Settings</v-list-tile-title>
+                        </v-list-tile-content>
+                    </v-list-tile>
+                    <v-divider></v-divider>
+                    <v-list-tile @click="settingstab=!settingstab">
+                        <v-list-tile-action>
+                            <v-icon>mdi-settings-box</v-icon>
+                        </v-list-tile-action>
+                        <v-list-tile-content>
+                            <v-list-tile-title>Change Theme</v-list-tile-title>
+                        </v-list-tile-content>
+                    </v-list-tile>
+                </v-list>
+            </v-menu>
+        </v-toolbar>
+        <v-navigation-drawer v-model="show" :mini-variant="mini" floating clipped app>
+            <div class="transparent flat">
+                <v-list>
+                    <v-list-tile avatar>
+                        <v-list-tile-avatar @click.stop="mini = !mini">
+                            <img src="">
+                        </v-list-tile-avatar>
+                        <v-list-tile-content>
+                            <v-list-tile-title>Username</v-list-tile-title>
+                        </v-list-tile-content>
+                        <v-list-tile-action>
+                            <v-btn icon @click.stop="mini = !mini">
+                                <v-icon>mdi-chevron-left</v-icon>
+                            </v-btn>
+                        </v-list-tile-action>
+                    </v-list-tile>
+                    <v-divider></v-divider>
+                    <!-- :active-class="!mini?'v-list-item-active v-card green' : 'v-list-item-mini-active'" -->
+                    <v-list-tile class="mt-1" v-for="item in items" :key="item.title" :to="{path:item.link}">
+                        <v-tooltip v-if="mini" right>
+                            <v-list-tile-action slot="activator">
                                 <v-icon>{{ item.icon }}</v-icon>
                             </v-list-tile-action>
-                            <v-list-tile-content>
-                                <v-list-tile-title>{{ item.title }}</v-list-tile-title>
-                            </v-list-tile-content>
-                        </v-list-tile>
-                    </v-list>
-                </div>
-            </v-navigation-drawer>
-            <v-content>
-                <v-container fluid grid-list-lg>
-                    <router-view></router-view>
-                </v-container>
-            </v-content>
+                            <span class="right">{{ item.title }}</span>
+                        </v-tooltip>
+                        <v-list-tile-action v-else>
+                            <v-icon>{{ item.icon }}</v-icon>
+                        </v-list-tile-action>
+                        <v-list-tile-content>
+                            <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+                        </v-list-tile-content>
+                    </v-list-tile>
+                </v-list>
+            </div>
+        </v-navigation-drawer>
+        <v-content>
+            <v-container fluid grid-list-lg>
+                <v-menu v-model='settingstab' :close-on-content-click="false" bottom left min-width="300"
+                    max-width="300" nudge-left="12" offset-x transition="slide-y-transition">
+                    <v-btn slot="activator" class="elevation-0 theme" color="grey" dark fab fixed style="top: 100px;"
+                        top>
+                        <v-icon>mdi-settings</v-icon>
+                    </v-btn>
+                    <v-card>
+                        <v-container grid-list-xl>
+                            <v-layout wrap>
+                                <v-flex xs12>
+                                    <div class="text-xs-center body-2 text-uppercase sidebar-filter">Others Themes</div>
+                                </v-flex>
+                                <v-flex xs12>
+                                    <v-radio-group class="justify-center pl-4" v-model="theme" row>
+                                        <v-tooltip top v-for="theme in themes" :key="theme.name">
+                                            <v-radio slot="activator" :value="theme.class.toLowerCase()"
+                                                :color="theme.color"></v-radio>
+                                            <span>{{theme.name}}</span>
+                                        </v-tooltip>
+                                    </v-radio-group>
+                                </v-flex>
+                                <v-flex xs12>
+                                    <div class="text-xs-center body-2 text-uppercase">
+                                        Connect With Us!
+                                        <div>
+                                            <v-btn color="indigo" class="white--text" fab icon small round>
+                                                <v-icon>mdi-facebook</v-icon>
+                                            </v-btn>
+                                            <v-btn color="cyan" class="white--text" fab icon small round>
+                                                <v-icon>mdi-twitter</v-icon>
+                                            </v-btn>
+                                        </div>
+                                    </div>
+                                </v-flex>
+                            </v-layout>
+                        </v-container>
+                    </v-card>
+                </v-menu>
+                <router-view></router-view>
+            </v-container>
+        </v-content>
         </v-layout>
         <v-footer color="rgb(9, 102, 175)" app>
             <span class="px-3 white--text">&copy; 2019</span>
@@ -111,8 +190,7 @@
 <script src="cdn/vuetify.js"></script>
 <script src="cdn/httpVueLoader.js"></script>
 <script src="cdn/vue-router.js"></script>
-<script src="https://unpkg.com/vuex"></script>
+<script src="cdn/veux.js"></script>
 <script src="methods_bd.js"></script>
 <script src="main.js"></script>
-
 </html>
