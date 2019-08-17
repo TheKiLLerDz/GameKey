@@ -3,7 +3,7 @@ function getsteambdd() {
 		if (exists) {
 			new Dexie('GameKey_BDD').open()
 				.then(function (db) {
-					db.tables[0].toArray().then(el => {
+					db.tables[1].toArray().then(el => {
 						store.state.steam = el;
 						store.state.steamkey = store.state.steam.filter((el) => {
 							el.platform = 'Steam'
@@ -11,6 +11,29 @@ function getsteambdd() {
 						});
 						document.getElementById('main').remove()
 						v.$mount('#app')
+					});
+				}).catch('NoSuchDatabaseError', function (e) {
+					// Database with that name did not exist
+					console.error("Database not found");
+				}).catch(function (e) {
+					console.error("Oh uh: " + e);
+				});
+		}
+	})
+}
+
+function getoriginbdd() {
+	Dexie.exists('GameKey_BDD').then(function (exists) {
+		if (exists) {
+			new Dexie('GameKey_BDD').open()
+				.then(function (db) {
+					db.tables[0].toArray().then(el => {
+						store.state.origin = el;
+						store.state.originkey = store.state.origin.filter((el) => {
+							el.platform = 'Origin'
+							return el.keys !== undefined;
+						});
+					
 					});
 				}).catch('NoSuchDatabaseError', function (e) {
 					// Database with that name did not exist

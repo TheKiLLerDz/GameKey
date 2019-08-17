@@ -109,6 +109,7 @@ v = new Vue({
     isDark: true,
   }),
   beforeCreate() {
+    getoriginbdd()
     getsteambdd();
 },
 mounted () {

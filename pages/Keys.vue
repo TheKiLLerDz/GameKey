@@ -467,13 +467,13 @@
                 var tab;
                 switch (app.platform) {
                     case 'Steam':
-                        tab = 0
-                        break;
-                    case 'Uplay':
                         tab = 1
                         break;
-                    case 'Origin':
+                    case 'Uplay':
                         tab = 2
+                        break;
+                    case 'Origin':
+                        tab = 0
                         break;
                     case 'Other':
                         tab = 3
@@ -510,13 +510,13 @@
                 var tab
                 switch (item.platform) {
                     case 'Steam':
-                        tab = 0
-                        break;
-                    case 'Uplay':
                         tab = 1
                         break;
-                    case 'Origin':
+                    case 'Uplay':
                         tab = 2
+                        break;
+                    case 'Origin':
+                        tab = 0
                         break;
                     case 'Other':
                         tab = 3
