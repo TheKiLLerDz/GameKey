@@ -403,6 +403,7 @@
         },
         methods: {
             IDEdited() {
+                ///////// edit
                 i = 0;
                 while (i < store.state.steam.length) {
                     if (store.state.steam[i].appid == this.editedItem.appid) {
@@ -413,6 +414,7 @@
                 }
             },
             IDAdded() {
+                ///////// edit
                 i = 0;
                 while (i < store.state.steam.length) {
                     if (store.state.steam[i].appid == this.itemtoadd.appid) {
@@ -449,7 +451,10 @@
                     const index = this.apps.indexOf(this.oldediteditem);
                     k = 0;
                     while (k < this.apps[index].keys.length) {
-                        addkey(0, parseInt(this.editedItem.appid), this.apps[index].keys[k].key);
+                        if (this.editedItem.platform!='Steam') appid=this.editedItem.appid
+                        else appid=parseInt(this.editedItem.appid)
+                        ////
+                        addkey(this.gettab(this.editedItem.platform), appid, this.apps[index].keys[k].key);
                         if (gameexists) {
                             this.apps[i].keys.push(this.apps[index].keys[k]);
                         } else {
@@ -457,33 +462,36 @@
                         }
                         k++;
                     }
-                    delgamekeys(0, this.oldediteditem.appid);
+                    delgamekeys(this.gettab(this.editedItem.platform), this.oldediteditem.appid);
                     this.apps.splice(index, 1);
                     if (!gameexists) this.apps.push(newitem);
                 }
                 this.editdialog = false;
             },
-            add(app) {
-                var tab;
-                switch (app.platform) {
+            gettab(platform){
+                switch (platform) {
                     case 'Steam':
-                        tab = 1
+                        return 1
                         break;
                     case 'Uplay':
-                        tab = 2
+                        return 3
                         break;
                     case 'Origin':
-                        tab = 0
+                        return 0
                         break;
                     case 'Other':
-                        tab = 3
+                        return 2
                         break;
                 }
-                addkey(tab, parseInt(app.appid), app.keys);
-                const index = this.apps.map(e => e.appid).indexOf(parseInt(app.appid));
+            },
+            add(app) {
+                if (app.platform!='Steam') appid=app.appid
+                else appid=parseInt(app.appid)
+                addkey(this.gettab(app.platform),appid, app.keys);
+                var index = this.apps.map(e => e.appid).indexOf(appid);
                 if (index == -1)
                     this.apps.push({
-                        appid: app.appid,
+                        appid: appid,
                         name: app.name,
                         keys: [{
                             key: app.keys
@@ -503,32 +511,17 @@
             },
             deleteItem(item) {
                 const index = this.apps.indexOf(item)
-                confirm('Are you sure you want to delete all The keys of this game?') && delgamekeys(0, item
+                confirm('Are you sure you want to delete all The keys of this game?') && delgamekeys(this.gettab(item.platform), item
                     .appid) & this.apps.splice(index, 1) & console.log("success")
             },
             deletekey(key, item) {
-                var tab
-                switch (item.platform) {
-                    case 'Steam':
-                        tab = 1
-                        break;
-                    case 'Uplay':
-                        tab = 2
-                        break;
-                    case 'Origin':
-                        tab = 0
-                        break;
-                    case 'Other':
-                        tab = 3
-                        break;
-                }
                 const index = this.apps.indexOf(item);
                 const indexi = this.apps[index].keys.map(e => e.key).indexOf(key);
-                confirm('Are you sure you want to delete this key?') && delkey(tab, item.appid, key) & this.apps[
+                confirm('Are you sure you want to delete this key?') && delkey(this.gettab(item.platform), item.appid, key) & this.apps[
                     index].keys.splice(indexi, 1);
                 if (item.keys.length == 0) {
                     this.apps.splice(index, 1);
-                    delgamekeys(0, item.appid);
+                    delgamekeys(this.gettab(item.platform), item.appid);
                 }
             },
             subStr(string) {
