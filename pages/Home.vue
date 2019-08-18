@@ -2,23 +2,24 @@
     <v-layout row wrap>
         <v-flex v-for="item in items" :key="item.title" xs12 sm6 md4 lg4>
             <v-card elevation="3" class="elevation-5 mb-4 px-3 py-0" style='border-radius:10px'>
-                <v-card style="top:-24px;margin: 0px 16px 0px;padding: 16px;border-radius: 8px;position: absolute;" elevation="3">
-                            <v-icon :color="item.color" size="60">{{item.icon}}</v-icon>
+                <v-card style="top:-24px;margin: 0px 16px 0px;padding: 16px;border-radius: 8px;position: absolute;"
+                    elevation="3">
+                    <v-icon :color="item.color" size="60">{{item.icon}}</v-icon>
                 </v-card>
-                    <v-card-text>
-                        <h2 class="text-xs-right">{{item.title}}</h2>
-                        <v-divider :color="item.color"></v-divider>
-                         </v-card-text>
-                        <br>
-                        <div>Your Game Count : {{item.games}}</div>
-                        <div>With : {{item.keys}} Keys </div>
-                    <v-card-actions>
-                        <v-btn flat white :to="{path:item.link}" :color="item.color" round outline>
-                            <v-icon size="30" class="mr-2">link</v-icon>
-                            Go to {{item.title}}
-                        </v-btn>
-                    </v-card-actions>
-                </v-card>
+                <v-card-text>
+                    <h2 class="text-xs-right">{{item.title}}</h2>
+                    <v-divider :color="item.color"></v-divider>
+                </v-card-text>
+                <br>
+                <div>Your Game Count : {{item.games}}</div>
+                <div>With : {{item.keys}} Keys </div>
+                <v-card-actions>
+                    <v-btn flat white :to="{path:item.link}" :color="item.color" round outline>
+                        <v-icon size="30" class="mr-2">link</v-icon>
+                        Go to {{item.title}}
+                    </v-btn>
+                </v-card-actions>
+            </v-card>
         </v-flex>
     </v-layout>
 </template>
@@ -62,7 +63,7 @@
                     {
                         title: 'Other',
                         icon: 'mdi-alert-circle',
-                        games: store.state.others.length,
+                        games: store.state.otherskey.length,
                         keys: '',
                         link: '/other',
                         color: 'rgb(9, 102, 175)'
@@ -80,7 +81,7 @@
             this.items[3].keys = store.state.originkey.reduce(function (keys, item) {
                 return keys + (item.keys.length);
             }, 0)
-            this.items[4].keys = store.state.others.reduce(function (keys, item) {
+            this.items[4].keys = store.state.otherskey.reduce(function (keys, item) {
                 return keys + (item.keys.length);
             }, 0)
             this.items[0].keys = this.items[1].keys + this.items[2].keys + this.items[3].keys + this.items[4].keys;
