@@ -110,9 +110,7 @@ v = new Vue({
     isDark: true,
   }),
   beforeCreate() {
-    getuplaybdd()
-    getoriginbdd()
-    getsteambdd();
+    getdata()
   },
   mounted() {
     this.games = store.state.steamkey.concat(store.state.uplaykey.concat(store.state.originkey
