@@ -38,6 +38,7 @@ const store = new Vuex.Store({
     originkey: [],
     others: [],
     allkeys: [],
+    temp : {},
   },
 })
 v = new Vue({
@@ -109,6 +110,7 @@ v = new Vue({
     isDark: true,
   }),
   beforeCreate() {
+    getuplaybdd()
     getoriginbdd()
     getsteambdd();
 },

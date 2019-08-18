@@ -22,6 +22,29 @@ function getsteambdd() {
 	})
 }
 
+function getuplaybdd() {
+	Dexie.exists('GameKey_BDD').then(function (exists) {
+		if (exists) {
+			new Dexie('GameKey_BDD').open()
+				.then(function (db) {
+					db.tables[2].toArray().then(el => {
+						store.state.uplay = el;
+						store.state.uplaykey = store.state.uplay.filter((el) => {
+							el.platform = 'Uplay'
+							return el.keys !== undefined;
+						});
+					
+					});
+				}).catch('NoSuchDatabaseError', function (e) {
+					// Database with that name did not exist
+					console.error("Database not found");
+				}).catch(function (e) {
+					console.error("Oh uh: " + e);
+				});
+		}
+	})
+}
+
 function getoriginbdd() {
 	Dexie.exists('GameKey_BDD').then(function (exists) {
 		if (exists) {
@@ -141,3 +164,20 @@ function editkey(t, id, okey,nkey) {
 			console.error("Oh uh: " + e);
 		})
 }
+
+function getapp(t,idapp) {
+	new Dexie('GameKey_BDD').open()
+	.then(function (db) {
+
+		db.tables[t].get(idapp).then(game=> {
+
+			store.state.temp = game
+		
+		}).catch('NoSuchDatabaseError', function (e) {
+				// Database with that name did not exist
+				console.error("Database not found");
+			}).catch(function (e) {
+				console.error("Oh uh: " + e);
+			})
+
+})}
