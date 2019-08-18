@@ -31,8 +31,7 @@
                 items: [{
                         title: 'All Keys',
                         icon: 'mdi-key',
-                        games: store.state.steamkey.concat(store.state.uplaykey.concat(store.state.originkey
-                            .concat(store.state.others))).length,
+                        games: 0,
                         keys: '',
                         link: '/keys',
                         color: 'rgb(9, 102, 175)'
@@ -85,7 +84,8 @@
                 return keys + (item.keys.length);
             }, 0)
             this.items[0].keys = this.items[1].keys + this.items[2].keys + this.items[3].keys + this.items[4].keys;
-
+            this.items[0].games = this.items[1].games + this.items[2].games + this.items[3].games + this.items[4]
+                .games;
         }
     }
 </script>
