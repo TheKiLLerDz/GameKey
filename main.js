@@ -110,6 +110,7 @@ v = new Vue({
     isDark: true,
   }),
   beforeCreate() {
+    getuplaybdd()
     getoriginbdd()
     getsteambdd();
 },
