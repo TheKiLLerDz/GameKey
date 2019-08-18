@@ -141,3 +141,20 @@ function editkey(t, id, okey,nkey) {
 			console.error("Oh uh: " + e);
 		})
 }
+
+function getapp(t,idapp) {
+	new Dexie('GameKey_BDD').open()
+	.then(function (db) {
+
+		db.tables[t].get(idapp).then(game=> {
+
+			store.state.temp = game
+		
+		}).catch('NoSuchDatabaseError', function (e) {
+				// Database with that name did not exist
+				console.error("Database not found");
+			}).catch(function (e) {
+				console.error("Oh uh: " + e);
+			})
+
+})}
