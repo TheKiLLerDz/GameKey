@@ -1,7 +1,7 @@
 'use strict';
 
 const lineByLine = require('./readlines.js');
-const liner = new lineByLine('./test/fixtures/normalFile.txt');
+const liner = new lineByLine('./text.txt');
 
 let line;
 let lineNumber = 0;
