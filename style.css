@@ -1,0 +1,131 @@
+.v-text-field--solo.v-text-field--rounded .v-input__slot {
+    border-radius: 28px
+}
+
+.v-text-field--rounded .v-btn {
+    margin: 0;
+    border-top-right-radius: 28px;
+    border-bottom-right-radius: 28px;
+    box-shadow: none;
+    height: 48px;
+    margin-right: -12px;
+    padding-top: 2px;
+    color: #fff;
+}
+
+::-webkit-scrollbar {
+    background-color: #ffffff;
+}
+::-webkit-scrollbar-thumb{
+    background-color:rgba(9, 103, 175, 0.9);
+}
+[v-cloak] {
+    display: none;
+}
+#main {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #181a1b;
+}
+
+.loader {
+    position: relative;
+    display: flex;
+    /* background: #ffffff */
+}
+
+.loader span {
+    color: rgb(217, 215, 209);
+    margin: 0 20px;
+    font-size: 8em;
+    font-weight: bold;
+    animation: animate 3s linear infinite;
+    font-family: sans-serif;
+}
+
+.loader span:nth-child(1) {
+    animation-delay: 0s;
+}
+
+.loader span:nth-child(2) {
+    animation-delay: 0.4s;
+}
+
+.loader span:nth-child(3) {
+    animation-delay: 0.8s;
+}
+
+.loader span:nth-child(4) {
+    animation-delay: 1.2s;
+}
+
+.loader span:nth-child(5) {
+    animation-delay: 1.6s;
+}
+
+.loader span:nth-child(6) {
+    animation-delay: 2s;
+}
+
+.loader span:nth-child(7) {
+    animation-delay: 2.4s;
+}
+
+.loader span:nth-child(8) {
+    animation-delay: 2.6s;
+}
+
+.loader span:nth-child(9) {
+    animation-delay: 3.2s;
+}
+
+.loader span:nth-child(10) {
+    animation-delay: 3.6s;
+}
+
+@keyframes animate {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.6);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+.theme{
+    border-radius: 6px;
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+    background-color: rgba(0,0,0,.3)!important;
+    right: -50px;
+    padding: 0;
+    width: 64px;
+}
+.theme:hover{
+    right: 0;
+}
+.v-menu__content{
+    border-radius: 16px;
+}
+.theme--blue.application .v-toolbar{
+    background-color: rgb(9, 102, 175);
+    color: #fff;
+}
+.theme--blue .v-toolbar .v-btn{
+    color: #fff;
+}
+.theme--blue .v-text-field--rounded .v-btn{
+    background-color: #4caf50!important;
+    border-color: #4caf50!important;
+}
+.theme--blue .v-content__wrap{
+    background-color: #eee;
+}
