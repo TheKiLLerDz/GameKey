@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/TheKiLLerDz/GameKey/issues"
   },
-  "homepage": "https://github.com/TheKiLLerDz/GameKey#readme"
+  "homepage": "https://github.com/TheKiLLerDz/GameKey#readme",
+  "dependencies": {
+    "n-readlines": "^1.0.0"
+  }
 }
