@@ -36,9 +36,9 @@ const store = new Vuex.Store({
     uplaykey: [],
     origin: [],
     originkey: [],
-    others: [],
+    otherskey: [],
     allkeys: [],
-    temp : {},
+    temp: {},
   },
 })
 v = new Vue({
@@ -46,8 +46,8 @@ v = new Vue({
   router,
   data: ({
     loading: false,
-    games:[],
-    theme:'',
+    games: [],
+    theme: '',
     themes: [{
         name: 'Dark Theme',
         color: 'dark',
@@ -110,17 +110,16 @@ v = new Vue({
     isDark: true,
   }),
   beforeCreate() {
-    getuplaybdd()
-    getoriginbdd()
-    getsteambdd();
-},
-mounted () {
-  this.games = store.state.steamkey;
-  if(localStorage.theme) this.theme = localStorage.theme;
-},
-watch: {
-  theme(mytheme) {
-    localStorage.theme = mytheme;
+    getdata()
+  },
+  mounted() {
+    this.games = store.state.steamkey.concat(store.state.uplaykey.concat(store.state.originkey
+      .concat(store.state.otherskey)));
+    if (localStorage.theme) this.theme = localStorage.theme;
+  },
+  watch: {
+    theme(mytheme) {
+      localStorage.theme = mytheme;
+    }
   }
-}
 })

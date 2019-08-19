@@ -262,8 +262,9 @@
                     <v-spacer></v-spacer>
                     <v-btn color="blue darken-1" flat _click="close" depressed @click="addialog = !addialog">Cancel
                     </v-btn>
-                    <v-btn color="blue darken-1" flat :disabled="itemtoadd.appid == '' || itemtoadd.platform == '' ? true : false"
-                        :loading="isAdding" @click="add(itemtoadd);isAdding = true">Add</v-btn>
+                    <v-btn color="blue darken-1" flat
+                        :disabled="itemtoadd.appid == '' || itemtoadd.platform == '' ? true : false" :loading="isAdding"
+                        @click="add(itemtoadd);isAdding = true">Add</v-btn>
                 </v-card-actions>
             </v-card>
         </v-dialog>
@@ -403,25 +404,68 @@
         },
         methods: {
             IDEdited() {
-                ///////// edit
                 i = 0;
-                while (i < store.state.steam.length) {
-                    if (store.state.steam[i].appid == this.editedItem.appid) {
-                        this.editedItem.name = store.state.steam[i].name;
+                switch (this.editedItem.platform) {
+                    case 'Steam':
+                        while (i < store.state.steam.length & i <= parseInt(this.editedItem.appid)) {
+                            if (store.state.steam[i].appid == parseInt(this.editedItem.appid)) {
+                                this.editedItem.name = store.state.steam[i].name;
+                                break;
+                            } else this.editedItem.name = ''
+                            i++
+                        }
                         break;
-                    } else this.editedItem.name = ''
-                    i = i + 1;
+                    case 'Origin':
+                        while (i < store.state.origin.length) {
+                            if (store.state.origin[i].appid == this.editedItem.appid) {
+                                this.editedItem.name = store.state.origin[i].name;
+                                break;
+                            } else this.editedItem.name = ''
+                            i++
+                        }
+                        break;
+                    case 'Uplay':
+                        while (i < store.state.uplay.length) {
+                            if (store.state.uplay[i].appid == this.editedItem.appid) {
+                                this.editedItem.name = store.state.uplay[i].name;
+                                break;
+                            } else this.editedItem.name = ''
+                            i++
+                        }
+                        break;
                 }
+
             },
             IDAdded() {
-                ///////// edit
                 i = 0;
-                while (i < store.state.steam.length) {
-                    if (store.state.steam[i].appid == this.itemtoadd.appid) {
-                        this.itemtoadd.name = store.state.steam[i].name;
+                switch (this.itemtoadd.platform) {
+                    case 'Steam':
+                        while (i < store.state.steam.length & i <= parseInt(this.itemtoadd.appid)) {
+                            if (store.state.steam[i].appid == this.itemtoadd.appid) {
+                                this.itemtoadd.name = store.state.steam[i].name;
+                                break;
+                            } else this.itemtoadd.name = ''
+                            i++
+                        }
                         break;
-                    } else this.itemtoadd.name = ''
-                    i = i + 1;
+                        case 'Origin':
+                            while (i < store.state.origin.length) {
+                                if (store.state.origin[i].appid == this.itemtoadd.appid) {
+                                    this.itemtoadd.name = store.state.origin[i].name;
+                                    break;
+                                } else this.itemtoadd.name = ''
+                                i++
+                            }
+                        break;
+                            case 'Uplay':
+                                while (i < store.state.uplay.length) {
+                                    if (store.state.uplay[i].appid == this.itemtoadd.appid) {
+                                        this.itemtoadd.name = store.state.uplay[i].name;
+                                        break;
+                                    } else this.itemtoadd.name = ''
+                                    i++
+                                }
+                        break;
                 }
             },
             removetag(item) {
@@ -451,8 +495,8 @@
                     const index = this.apps.indexOf(this.oldediteditem);
                     k = 0;
                     while (k < this.apps[index].keys.length) {
-                        if (this.editedItem.platform!='Steam') appid=this.editedItem.appid
-                        else appid=parseInt(this.editedItem.appid)
+                        if (this.editedItem.platform != 'Steam') appid = this.editedItem.appid
+                        else appid = parseInt(this.editedItem.appid)
                         ////
                         addkey(this.gettab(this.editedItem.platform), appid, this.apps[index].keys[k].key);
                         if (gameexists) {
@@ -466,28 +510,29 @@
                     this.apps.splice(index, 1);
                     if (!gameexists) this.apps.push(newitem);
                 }
+                //this.apps[0]={...this.apps[0],name:"test"};
                 this.editdialog = false;
             },
-            gettab(platform){
+            gettab(platform) {
                 switch (platform) {
                     case 'Steam':
                         return 1
                         break;
                     case 'Uplay':
-                        return 3
+                        return 2
                         break;
                     case 'Origin':
                         return 0
                         break;
                     case 'Other':
-                        return 2
+                        return 3
                         break;
                 }
             },
             add(app) {
-                if (app.platform!='Steam') appid=app.appid
-                else appid=parseInt(app.appid)
-                addkey(this.gettab(app.platform),appid, app.keys);
+                if (app.platform != 'Steam') appid = app.appid
+                else appid = parseInt(app.appid)
+                addkey(this.gettab(app.platform), appid, app.keys);
                 var index = this.apps.map(e => e.appid).indexOf(appid);
                 if (index == -1)
                     this.apps.push({
@@ -511,13 +556,15 @@
             },
             deleteItem(item) {
                 const index = this.apps.indexOf(item)
-                confirm('Are you sure you want to delete all The keys of this game?') && delgamekeys(this.gettab(item.platform), item
+                confirm('Are you sure you want to delete all The keys of this game?') && delgamekeys(this.gettab(
+                        item.platform), item
                     .appid) & this.apps.splice(index, 1) & console.log("success")
             },
             deletekey(key, item) {
                 const index = this.apps.indexOf(item);
                 const indexi = this.apps[index].keys.map(e => e.key).indexOf(key);
-                confirm('Are you sure you want to delete this key?') && delkey(this.gettab(item.platform), item.appid, key) & this.apps[
+                confirm('Are you sure you want to delete this key?') && delkey(this.gettab(item.platform), item
+                    .appid, key) & this.apps[
                     index].keys.splice(indexi, 1);
                 if (item.keys.length == 0) {
                     this.apps.splice(index, 1);
@@ -571,11 +618,11 @@
                     this.apps = store.state.originkey
                     break;
                 case '/other':
-                    this.apps = store.state.others
+                    this.apps = store.state.otherskey
                     break;
                 case '/keys':
                     this.apps = store.state.steamkey.concat(store.state.uplaykey.concat(store.state.originkey
-                        .concat(store.state.others)))
+                        .concat(store.state.otherskey)))
                     break;
             }
         },
