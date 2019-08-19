@@ -1,5 +1,5 @@
 'use strict';
-
+function impport() {
 const lineByLine = require('./readlines.js');
 const liner = new lineByLine('./text.txt');
 
@@ -12,3 +12,5 @@ while (line = liner.next()) {
 }
 
 console.log('end of line reached');
+}
+
