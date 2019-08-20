@@ -406,7 +406,7 @@
                     appid: '',
                     name: '',
                     platform: '',
-                    keys: '',
+                    keys: [],
                 },
             }
         },
@@ -484,7 +484,11 @@
                 return text.charAt(0).toLowerCase() + text.slice(1);
             },
             save() {
-                if (this.oldediteditem.appid !== this.editedItem.appid | this.oldediteditem.keys !== this.editedItem.keys) {
+                /*k=0;
+                while (k < this.oldediteditem.keys.length) {
+                    console.log(this.oldediteditem.keys[k].key +"   "+ this.editedItem.keys[k].key);
+                    k++;}*/
+                if (this.oldediteditem.appid !== this.editedItem.appid || this.oldediteditem.keys[0] !== this.editedItem.keys[0]) {
                     i = 0;
                     gameexists = false;
                     while (i < this.apps.length) {
@@ -500,7 +504,7 @@
                         platform: this.editedItem.platform,
                         keys: this.editedItem.keys
                     };
-                    const index = this.apps.indexOf(this.oldediteditem);
+                    const index = this.apps.map(e => e.appid).indexOf(this.oldediteditem.appid);
                     k = 0;
                     if (this.editedItem.platform != 'Steam') appid = this.editedItem.appid
                         else appid = parseInt(this.editedItem.appid)
@@ -554,7 +558,8 @@
             },
             editItem(item) {
                 this.editedItem = Object.assign({}, item);
-                this.oldediteditem = item;
+                this.oldediteditem = Object.assign({}, item);
+                //console.log( this.editedItem.keys === this.oldediteditem.keys);
                 this.editdialog = true;
             },
             deleteItem(item) {
