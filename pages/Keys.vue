@@ -484,7 +484,7 @@
                 return text.charAt(0).toLowerCase() + text.slice(1);
             },
             save() {
-                if (this.oldediteditem.appid !== this.editedItem.appid) {
+                if (this.oldediteditem.appid !== this.editedItem.appid | this.oldediteditem.keys !== this.editedItem.keys) {
                     i = 0;
                     gameexists = false;
                     while (i < this.apps.length) {
@@ -498,19 +498,16 @@
                         name: this.editedItem.name,
                         appid: this.editedItem.appid,
                         platform: this.editedItem.platform,
-                        keys: []
+                        keys: this.editedItem.keys
                     };
                     const index = this.apps.indexOf(this.oldediteditem);
                     k = 0;
-                    while (k < this.apps[index].keys.length) {
-                        if (this.editedItem.platform != 'Steam') appid = this.editedItem.appid
+                    if (this.editedItem.platform != 'Steam') appid = this.editedItem.appid
                         else appid = parseInt(this.editedItem.appid)
-                        ////
+                    while (k < this.apps[index].keys.length) {
                         addkey(this.gettab(this.editedItem.platform), appid, this.apps[index].keys[k].key);
                         if (gameexists) {
                             this.apps[i].keys.push(this.apps[index].keys[k]);
-                        } else {
-                            newitem.keys.push(this.apps[index].keys[k]);
                         }
                         k++;
                     }
@@ -552,9 +549,7 @@
                         platform: app.platform
                     });
                 else {
-                    this.apps[index].keys.push({
-                        'key': app.keys
-                    });
+                    this.apps[index].keys = this.apps[index].keys.concat(app.keys);
                 }
             },
             editItem(item) {
