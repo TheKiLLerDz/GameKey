@@ -306,7 +306,7 @@
             <v-btn fab dark small color="green">
                 <v-icon>mdi-export</v-icon>
             </v-btn>
-            <v-btn fab dark small color="orange">
+            <v-btn fab dark small color="orange" @click='impport()'>
                 <v-icon>mdi-import</v-icon>
             </v-btn>
         </v-speed-dial>
@@ -411,6 +411,10 @@
             }
         },
         methods: {
+            impport() {
+                impport();
+            }
+            ,
             IDEdited() {
                 i = 0;
                 switch (this.editedItem.platform) {
