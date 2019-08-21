@@ -225,22 +225,28 @@
                                     </v-flex>
                                 </tr>
                                 <tr>
-                                    <v-flex xs12 sm12 md12>
-                                        Add keys
-                                        <v-edit-dialog :v-model="itemtoadd.keys" return-object large persistent
+                                    Keys
+                                    <v-flex xs12 sm12 md12 v-for="(index,i) in itemtoadd.keys.length" :key="i">
+                                        <v-edit-dialog :v-model="itemtoadd.keys[i].key" return-object large persistent
                                             color="red">
-                                            <v-chip text-color="white" color="blue">{{ itemtoadd.keys }}</v-chip>
+                                            <v-chip text-color="white" color="blue">{{ itemtoadd.keys[i].key }}</v-chip>
                                             <template v-slot:input>
                                                 <div class="mt-4 title">add key</div>
                                             </template>
                                             <template v-slot:input>
-                                                <v-text-field v-model="itemtoadd.keys" :rules="[max25chars]" label="add"
-                                                    single-line counter autofocus color="red" return-object>
+                                                <v-text-field v-model="itemtoadd.keys[i].key" :rules="[max25chars]"
+                                                    label="add" single-line counter autofocus color="red" return-object>
                                                 </v-text-field>
                                             </template>
                                         </v-edit-dialog>
                                     </v-flex>
                                 </tr>
+                                <tr>
+                                    <v-flex xs12 sm12 md12>
+                                        <v-btn round @click="itemtoadd.keys.push({key:''})">add key</v-btn>
+                                    </v-flex>
+                                </tr>
+
                                 <tr>
                                     <v-flex xs12 sm12 md12>
                                         <v-combobox v-model="gametagsselected" :items="gametags" label="Game Tags" chips
@@ -392,13 +398,15 @@
                     appid: '',
                     name: '',
                     platform: '',
-                    keys: '',
+                    keys: [{
+                        key: ''
+                    }],
                 },
                 editedItem: {
                     appid: '',
                     name: '',
                     platform: '',
-                    keys: '',
+                    keys: [],
                 },
             }
         },
@@ -452,23 +460,23 @@
                             i++
                         }
                         break;
-                        case 'Origin':
-                            while (i < store.state.origin.length) {
-                                if (store.state.origin[i].appid == this.itemtoadd.appid) {
-                                    this.itemtoadd.name = store.state.origin[i].name;
-                                    break;
-                                } else this.itemtoadd.name = ''
-                                i++
-                            }
+                    case 'Origin':
+                        while (i < store.state.origin.length) {
+                            if (store.state.origin[i].appid == this.itemtoadd.appid) {
+                                this.itemtoadd.name = store.state.origin[i].name;
+                                break;
+                            } else this.itemtoadd.name = ''
+                            i++
+                        }
                         break;
-                            case 'Uplay':
-                                while (i < store.state.uplay.length) {
-                                    if (store.state.uplay[i].appid == this.itemtoadd.appid) {
-                                        this.itemtoadd.name = store.state.uplay[i].name;
-                                        break;
-                                    } else this.itemtoadd.name = ''
-                                    i++
-                                }
+                    case 'Uplay':
+                        while (i < store.state.uplay.length) {
+                            if (store.state.uplay[i].appid == this.itemtoadd.appid) {
+                                this.itemtoadd.name = store.state.uplay[i].name;
+                                break;
+                            } else this.itemtoadd.name = ''
+                            i++
+                        }
                         break;
                 }
             },
@@ -480,7 +488,11 @@
                 return text.charAt(0).toLowerCase() + text.slice(1);
             },
             save() {
-                if (this.oldediteditem.appid !== this.editedItem.appid) {
+                /*k=0;
+                while (k < this.oldediteditem.keys.length) {
+                    console.log(this.oldediteditem.keys[k].key +"   "+ this.editedItem.keys[k].key);
+                    k++;}*/
+                if (this.oldediteditem.appid !== this.editedItem.appid || this.oldediteditem.keys[0] !== this.editedItem.keys[0]) {
                     i = 0;
                     gameexists = false;
                     while (i < this.apps.length) {
@@ -494,19 +506,16 @@
                         name: this.editedItem.name,
                         appid: this.editedItem.appid,
                         platform: this.editedItem.platform,
-                        keys: []
+                        keys: this.editedItem.keys
                     };
-                    const index = this.apps.indexOf(this.oldediteditem);
+                    const index = this.apps.map(e => e.appid).indexOf(this.oldediteditem.appid);
                     k = 0;
-                    while (k < this.apps[index].keys.length) {
-                        if (this.editedItem.platform != 'Steam') appid = this.editedItem.appid
+                    if (this.editedItem.platform != 'Steam') appid = this.editedItem.appid
                         else appid = parseInt(this.editedItem.appid)
-                        ////
+                    while (k < this.apps[index].keys.length) {
                         addkey(this.gettab(this.editedItem.platform), appid, this.apps[index].keys[k].key);
                         if (gameexists) {
                             this.apps[i].keys.push(this.apps[index].keys[k]);
-                        } else {
-                            newitem.keys.push(this.apps[index].keys[k]);
                         }
                         k++;
                     }
@@ -536,26 +545,25 @@
             add(app) {
                 if (app.platform != 'Steam') appid = app.appid
                 else appid = parseInt(app.appid)
-                addkey(this.gettab(app.platform), appid, app.keys);
+                for (var i = 0; i < app.keys.length; i++) {
+                    addkey(this.gettab(app.platform), appid, app.keys[i].key);
+                }
                 var index = this.apps.map(e => e.appid).indexOf(appid);
                 if (index == -1)
                     this.apps.push({
                         appid: appid,
                         name: app.name,
-                        keys: [{
-                            key: app.keys
-                        }],
+                        keys: app.keys,
                         platform: app.platform
                     });
                 else {
-                    this.apps[index].keys.push({
-                        'key': app.keys
-                    });
+                    this.apps[index].keys = this.apps[index].keys.concat(app.keys);
                 }
             },
             editItem(item) {
                 this.editedItem = Object.assign({}, item);
-                this.oldediteditem = item;
+                this.oldediteditem = Object.assign({}, item);
+                //console.log( this.editedItem.keys === this.oldediteditem.keys);
                 this.editdialog = true;
             },
             deleteItem(item) {
