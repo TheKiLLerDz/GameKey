@@ -82,7 +82,18 @@
                                     <v-alert value="true" :color="getColor(props.item.keys.length)" outline>
                                         <table>
                                             <tr v-for="(index,i) in props.item.keys" :key="i.key">
-                                                <td>{{index.key}}</td>
+                                                <td>
+                                                    <v-edit-dialog :value="index.key" :return-value.sync="index.key"
+                                                        large persistent color="red" @save="edit_key(props.item,index)">
+                                                        <v-chip text-color="white" color="blue">{{ index.key }}</v-chip>
+                                                        <template v-slot:input>
+                                                            <v-text-field v-model="index.key" :rules="[max25chars]"
+                                                                label="Edit" single-line counter autofocus color="red"
+                                                                return-object>
+                                                            </v-text-field>
+                                                        </template>
+                                                    </v-edit-dialog>
+                                                </td>
                                                 <td>
                                                     <v-tooltip top>
                                                         <v-btn slot="activator" color="success"
@@ -131,7 +142,7 @@
                 </v-flex>
             </v-card>
         </v-flex>
-        <v-dialog v-model="editdialog" max-width="500px">
+        <v-dialog v-model="editdialog" persistent max-width="500px">
             <v-card>
                 <v-card-title>
                     <span class="headline">Edit app</span>
@@ -163,9 +174,6 @@
                                         <v-edit-dialog :return-value.sync="index.key" large persistent color="red">
                                             <v-chip text-color="white" color="blue">{{ index.key }}</v-chip>
                                             <template v-slot:input>
-                                                <div class="mt-4 title">Update key</div>
-                                            </template>
-                                            <template v-slot:input>
                                                 <v-text-field v-model="index.key" :rules="[max25chars]" label="Edit"
                                                     single-line counter autofocus color="red"></v-text-field>
                                             </template>
@@ -182,6 +190,15 @@
                                                     <strong>{{ tags.item }}</strong>
                                                 </v-chip>
                                             </template>
+                                            <template v-slot:no-data>
+                                                <v-list-tile>
+                                                    <v-list-tile-content>
+                                                        <v-list-tile-title>
+                                                            No results found. Press <kbd>enter</kbd> to create a new tag
+                                                        </v-list-tile-title>
+                                                    </v-list-tile-content>
+                                                </v-list-tile>
+                                            </template>
                                         </v-combobox>
                                     </v-flex>
                                 </tr>
@@ -197,7 +214,7 @@
                 </v-card-actions>
             </v-card>
         </v-dialog>
-        <v-dialog v-model="addialog" max-width="500px" loading>
+        <v-dialog v-model="addialog" max-width="500px" persistent loading>
             <v-card>
                 <v-progress-linear :active="isAdding" class="ma-0" color="blue lighten-3" height="4" indeterminate>
                 </v-progress-linear>
@@ -231,9 +248,6 @@
                                             color="red">
                                             <v-chip text-color="white" color="blue">{{ itemtoadd.keys[i].key }}</v-chip>
                                             <template v-slot:input>
-                                                <div class="mt-4 title">add key</div>
-                                            </template>
-                                            <template v-slot:input>
                                                 <v-text-field v-model="itemtoadd.keys[i].key" :rules="[max25chars]"
                                                     label="add" single-line counter autofocus color="red" return-object>
                                                 </v-text-field>
@@ -257,6 +271,15 @@
                                                     <strong>{{ tags.item }}</strong>
                                                 </v-chip>
                                             </template>
+                                            <template v-slot:no-data>
+                                                <v-list-tile>
+                                                    <v-list-tile-content>
+                                                        <v-list-tile-title>
+                                                            No results found. Press <kbd>enter</kbd> to create a new tag
+                                                        </v-list-tile-title>
+                                                    </v-list-tile-content>
+                                                </v-list-tile>
+                                            </template>
                                         </v-combobox>
                                     </v-flex>
                                 </tr>
@@ -274,7 +297,7 @@
                 </v-card-actions>
             </v-card>
         </v-dialog>
-        <v-dialog v-model="infodialog" max-width="500px">
+        <v-dialog v-model="infodialog" persistent max-width="500px">
             <v-card>
                 <v-card-title>
                     <span class="headline">App Info</span>
@@ -413,8 +436,7 @@
         methods: {
             impport() {
                 impport();
-            }
-            ,
+            },
             IDEdited() {
                 i = 0;
                 switch (this.editedItem.platform) {
@@ -487,12 +509,33 @@
             Lowercasefirst(text) {
                 return text.charAt(0).toLowerCase() + text.slice(1);
             },
+            Equals(item1, item2) {
+                return item1.platform == item2.platform & item1.name == item2.name & item1.appid == item2.appid &
+                    item1.keys.length == item2.keys.length
+            },
+            getappid(item) {
+                if (item.platform != 'Steam') return item.appid;
+                else return parseInt(item.appid);
+            },
+            editkey(item, oldkey, newkey) {
+                editkey(this.gettab(item.platform), this.getappid(item), oldkey, newkey);
+                index = this.apps.map(e => e.appid).indexOf(item.appid);
+                indexk = this.apps[index].keys.map(e => e.key).indexOf(oldkey);
+                this.apps[index].keys[indexk].key = newkey;
+            },
+            edit_key(item, index) {
+
+
+                //console.log("item " + item.keys[0].key + "   " + index.key);
+
+            },
             save() {
-                /*k=0;
-                while (k < this.oldediteditem.keys.length) {
-                    console.log(this.oldediteditem.keys[k].key +"   "+ this.editedItem.keys[k].key);
-                    k++;}*/
-                if (this.oldediteditem.appid !== this.editedItem.appid || this.oldediteditem.keys[0] !== this.editedItem.keys[0]) {
+                for (i = 0; i < this.oldediteditem.keys.length; i++) {
+                    if (this.oldediteditem.keys[i].key !== this.editedItem.keys[i].key)
+                        this.editkey(this.oldediteditem, this.oldediteditem.keys[i].key, this.editedItem.keys[i]
+                            .key)
+                }
+                if (!this.Equals(this.oldediteditem, this.editedItem)) {
                     i = 0;
                     gameexists = false;
                     while (i < this.apps.length) {
@@ -502,28 +545,34 @@
                         }
                         i++
                     }
-                    var newitem = {
-                        name: this.editedItem.name,
-                        appid: this.editedItem.appid,
-                        platform: this.editedItem.platform,
-                        keys: this.editedItem.keys
-                    };
-                    const index = this.apps.map(e => e.appid).indexOf(this.oldediteditem.appid);
+                    index = this.apps.map(e => e.appid).indexOf(this.oldediteditem.appid);
                     k = 0;
-                    if (this.editedItem.platform != 'Steam') appid = this.editedItem.appid
-                        else appid = parseInt(this.editedItem.appid)
                     while (k < this.apps[index].keys.length) {
-                        addkey(this.gettab(this.editedItem.platform), appid, this.apps[index].keys[k].key);
+                        addkey(this.gettab(this.editedItem.platform), this.getappid(this.editedItem), this
+                            .editedItem.keys[k].key);
                         if (gameexists) {
                             this.apps[i].keys.push(this.apps[index].keys[k]);
                         }
                         k++;
                     }
-                    delgamekeys(this.gettab(this.editedItem.platform), this.oldediteditem.appid);
+                    delgamekeys(this.gettab(this.oldediteditem.platform), this.getappid(this.oldediteditem));
                     this.apps.splice(index, 1);
-                    if (!gameexists) this.apps.push(newitem);
+                    if (!gameexists) this.apps.push({
+                        name: this.editedItem.name,
+                        appid: this.editedItem.appid,
+                        platform: this.editedItem.platform,
+                        keys: this.editedItem.keys
+                    });
+                    console.log(this.editedItem.platform);
                 }
                 //this.apps[0]={...this.apps[0],name:"test"};
+                this.editedItem = {
+                    appid: '',
+                    name: '',
+                    platform: '',
+                    keys: [],
+                };
+                this.oldeditedItem = null;
                 this.editdialog = false;
             },
             gettab(platform) {
@@ -543,15 +592,13 @@
                 }
             },
             add(app) {
-                if (app.platform != 'Steam') appid = app.appid
-                else appid = parseInt(app.appid)
                 for (var i = 0; i < app.keys.length; i++) {
-                    addkey(this.gettab(app.platform), appid, app.keys[i].key);
+                    addkey(this.gettab(app.platform), this.getappid(app), app.keys[i].key);
                 }
-                var index = this.apps.map(e => e.appid).indexOf(appid);
+                var index = this.apps.map(e => e.appid).indexOf(this.getappid(app));
                 if (index == -1)
                     this.apps.push({
-                        appid: appid,
+                        appid: this.getappid(app),
                         name: app.name,
                         keys: app.keys,
                         platform: app.platform
@@ -559,10 +606,19 @@
                 else {
                     this.apps[index].keys = this.apps[index].keys.concat(app.keys);
                 }
+                this.itemtoadd = {
+                    appid: '',
+                    name: '',
+                    platform: '',
+                    keys: [{
+                        key: ''
+                    }]
+                }
+                this.addialog = false;
             },
             editItem(item) {
-                this.editedItem = Object.assign({}, item);
-                this.oldediteditem = Object.assign({}, item);
+                this.editedItem = JSON.parse(JSON.stringify(item));
+                this.oldediteditem = JSON.parse(JSON.stringify(item));
                 //console.log( this.editedItem.keys === this.oldediteditem.keys);
                 this.editdialog = true;
             },
