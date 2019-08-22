@@ -155,7 +155,7 @@
                                     <v-flex xs12 sm6 md6>
                                         <v-combobox required :rules="[v => !!v || 'Platform is required']"
                                             :items='platforms' v-model="editedItem.platform" label="Platform"
-                                            @change="PlatformEdited(editedItem.platform)">
+                                            @change="PlatformEdited(editedItem.platform);editedItem.name='';editedItem.appid=''">
                                         </v-combobox>
                                     </v-flex>
                                     <v-flex xs12 sm6 md4>
@@ -234,7 +234,7 @@
                                     <v-flex xs12 sm6 md6>
                                         <v-combobox required :rules="[v => !!v || 'Platform is required']"
                                             :items='platforms' v-model="itemtoadd.platform"
-                                            @change="PlatformEdited(itemtoadd.platform)"
+                                            @change="PlatformEdited(itemtoadd.platform);itemtoadd.name='';itemtoadd.appid=''"
                                             :readonly="$route.path == '/keys' ? false : true" label="Platform">
                                         </v-combobox>
                                     </v-flex>
@@ -472,6 +472,11 @@
                         if (index == -1) item.name = ''
                         else item.name = store.state.uplay[index].name;
                         break;
+                    case 'Other':
+                        index = store.state.others.map(e => e.appid).indexOf(this.getappid(item));
+                        if (index == -1) item.name = ''
+                        else item.name = store.state.otehrs[index].name;
+                        break;
                 }
             },
             NameEdited(item) {
@@ -491,8 +496,11 @@
                         if (index == -1) item.appid = ''
                         else item.appid = store.state.uplay[index].appid;
                         break;
-                    default:
-                        item.appid = '';
+                    case 'Other':
+                        index = store.state.others.map(e => e.name).indexOf(item.name);
+                        if (index == -1) item.appid = ''
+                        else item.appid = store.state.others[index].appid;
+                        break;
                 }
 
 
