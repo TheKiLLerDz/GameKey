@@ -36,6 +36,7 @@ const store = new Vuex.Store({
     uplaykey: [],
     origin: [],
     originkey: [],
+    others:[],
     otherskey: [],
     allkeys: [],
     temp: {},
