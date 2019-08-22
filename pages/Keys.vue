@@ -153,7 +153,9 @@
                             <table>
                                 <tr>
                                     <v-flex xs12 sm6 md6>
-                                        <v-combobox required :rules="[v => !!v || 'Platform is required']" :items='platforms' v-model="editedItem.platform" label="Platform" @change="PlatformEdited(editedItem.platform)">
+                                        <v-combobox required :rules="[v => !!v || 'Platform is required']"
+                                            :items='platforms' v-model="editedItem.platform" label="Platform"
+                                            @change="PlatformEdited(editedItem.platform)">
                                         </v-combobox>
                                     </v-flex>
                                     <v-flex xs12 sm6 md4>
@@ -164,8 +166,8 @@
                                 </tr>
                                 <tr>
                                     <v-flex xs12 sm12 md12>
-                                        <v-combobox :items='this.appnames' v-model="editedItem.name" @change="NameEdited(editedItem)"
-                                            label="Name">
+                                        <v-combobox :items='this.appnames' v-model="editedItem.name"
+                                            @change="NameEdited(editedItem)" label="Name">
                                         </v-combobox>
                                     </v-flex>
                                 </tr>
@@ -211,8 +213,9 @@
                     <v-spacer></v-spacer>
                     <v-btn color="blue darken-1" flat _click="close" @click="editdialog = !editdialog">Cancel
                     </v-btn>
-                    <v-btn color="blue darken-1" :disabled="editedItem.appid == '' || editedItem.platform == '' || editedItem.name == '' ? true : false" :loading="isAdding"
-                       flat @click="save();isAdding = true">Save</v-btn>
+                    <v-btn color="blue darken-1"
+                        :disabled="editedItem.appid == '' || editedItem.platform == '' || editedItem.name == '' ? true : false"
+                        :loading="isAdding" flat @click="save();isAdding = true">Save</v-btn>
                 </v-card-actions>
             </v-card>
         </v-dialog>
@@ -229,19 +232,22 @@
                             <table>
                                 <tr>
                                     <v-flex xs12 sm6 md6>
-                                        <v-combobox required :rules="[v => !!v || 'Platform is required']" :items='platforms' v-model="itemtoadd.platform" @change="PlatformEdited(itemtoadd.platform)"
+                                        <v-combobox required :rules="[v => !!v || 'Platform is required']"
+                                            :items='platforms' v-model="itemtoadd.platform"
+                                            @change="PlatformEdited(itemtoadd.platform)"
                                             :readonly="$route.path == '/keys' ? false : true" label="Platform">
                                         </v-combobox>
                                     </v-flex>
                                     <v-flex xs12 sm6 md4>
                                         <v-text-field :rules="[v => !!v || 'This field is required']"
-                                            v-model="itemtoadd.appid" label="ID" @input="IDEdited(itemtoadd)"></v-text-field>
+                                            v-model="itemtoadd.appid" label="ID" @input="IDEdited(itemtoadd)">
+                                        </v-text-field>
                                     </v-flex>
                                 </tr>
                                 <tr>
                                     <v-flex xs12 sm12 md12>
-                                        <v-combobox :items='this.appnames' v-model="itemtoadd.name" @change="NameEdited(itemtoadd)"
-                                            label="Name">
+                                        <v-combobox :items='this.appnames' v-model="itemtoadd.name"
+                                            @change="NameEdited(itemtoadd)" label="Name">
                                         </v-combobox>
                                     </v-flex>
                                 </tr>
@@ -303,8 +309,8 @@
                 }">Cancel
                     </v-btn>
                     <v-btn color="blue darken-1" flat
-                        :disabled="itemtoadd.appid == '' || itemtoadd.platform == '' || itemtoadd.name == '' ? true : false" :loading="isAdding"
-                        @click="add(itemtoadd);isAdding = true">Add</v-btn>
+                        :disabled="itemtoadd.appid == '' || itemtoadd.platform == '' || itemtoadd.name == '' ? true : false"
+                        :loading="isAdding" @click="add(itemtoadd);isAdding = true">Add</v-btn>
                 </v-card-actions>
             </v-card>
         </v-dialog>
@@ -452,59 +458,60 @@
             IDEdited(item) {
                 switch (item.platform) {
                     case 'Steam':
-                index = store.state.steam.map(e => e.appid).indexOf(this.getappid(item));
-                if (index == -1) item.name = '' 
-                else item.name = store.state.steam[index].name;
-                break;
+                        index = store.state.steam.map(e => e.appid).indexOf(this.getappid(item));
+                        if (index == -1) item.name = ''
+                        else item.name = store.state.steam[index].name;
+                        break;
                     case 'Origin':
                         index = store.state.origin.map(e => e.appid).indexOf(this.getappid(item));
-                if (index == -1) item.name = '' 
-                else item.name = store.state.origin[index].name;
-                break;
+                        if (index == -1) item.name = ''
+                        else item.name = store.state.origin[index].name;
+                        break;
                     case 'Uplay':
                         index = store.state.uplay.map(e => e.appid).indexOf(this.getappid(item));
-                if (index == -1) item.name = '' 
-                else item.name = store.state.uplay[index].name;
-                break;
+                        if (index == -1) item.name = ''
+                        else item.name = store.state.uplay[index].name;
+                        break;
                 }
             },
-            NameEdited(item){
+            NameEdited(item) {
                 switch (item.platform) {
                     case 'Steam':
-                index = store.state.steam.map(e => e.name).indexOf(item.name);
-                if (index == -1) item.appid = '' 
-                else item.appid = store.state.steam[index].appid;
-                break;
+                        index = store.state.steam.map(e => e.name).indexOf(item.name);
+                        if (index == -1) item.appid = ''
+                        else item.appid = store.state.steam[index].appid;
+                        break;
                     case 'Origin':
-                index = store.state.origin.map(e => e.name).indexOf(item.name);
-                if (index == -1) item.appid = '' 
-                else item.appid = store.state.origin[index].appid;
-                break;
+                        index = store.state.origin.map(e => e.name).indexOf(item.name);
+                        if (index == -1) item.appid = ''
+                        else item.appid = store.state.origin[index].appid;
+                        break;
                     case 'Uplay':
-                index = store.state.uplay.map(e => e.name).indexOf(item.name);
-                if (index == -1) item.appid = '' 
-                else item.appid = store.state.uplay[index].appid;
-                break;
-                    default : item.appid='';
+                        index = store.state.uplay.map(e => e.name).indexOf(item.name);
+                        if (index == -1) item.appid = ''
+                        else item.appid = store.state.uplay[index].appid;
+                        break;
+                    default:
+                        item.appid = '';
                 }
 
 
             },
-            PlatformEdited(platform){
+            PlatformEdited(platform) {
                 switch (platform) {
-                case 'Steam':
-                    this.appnames = store.state.steam.map(e => e.name)
-                    break;
-                case 'Uplay':
-                    this.appnames = store.state.uplay.map(e => e.name)
-                    break;
-                case 'Origin':
-                    this.appnames = store.state.origin.map(e => e.name)
-                    break;
-                case 'Other':
-                    this.appnames = store.state.others.map(e => e.name)
-                    break;
-            }
+                    case 'Steam':
+                        this.appnames = store.state.steam.map(e => e.name)
+                        break;
+                    case 'Uplay':
+                        this.appnames = store.state.uplay.map(e => e.name)
+                        break;
+                    case 'Origin':
+                        this.appnames = store.state.origin.map(e => e.name)
+                        break;
+                    case 'Other':
+                        this.appnames = store.state.others.map(e => e.name)
+                        break;
+                }
 
             },
             removetag(item) {
