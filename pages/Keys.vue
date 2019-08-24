@@ -4,10 +4,14 @@
             <v-card class="elevation-5 mb-4 mt-5 px-2 py-0" style="border-radius: 8px; height: calc(100% - 70px)">
                 <v-card color="blue" class="white--text" style="top:-24px; padding: 15px;border-radius: 8px;">
                     <h1 v-if="$route.path!=='/keys'">
-                        <v-icon v-if="$route.path=='/steam'" dense color='#1d2f54' x-large>mdi-steam</v-icon>
-                        <v-icon v-else-if="$route.path=='/origin'" dense color='#eb6a00' x-large>mdi-origin</v-icon>
-                        <v-icon v-else-if="$route.path=='/uplay'" color='#0e82cf' x-large>mdi-ubisoft</v-icon>
-                        <v-icon v-else-if="$route.path=='/other'" color='white' x-large>mdi-key</v-icon>
+                        <v-icon v-if="$route.path=='/steam'" dense :color='platforms[0].color' x-large>mdi-steam
+                        </v-icon>
+                        <v-icon v-else-if="$route.path=='/uplay'" :color='platforms[1].color' x-large>mdi-ubisoft
+                        </v-icon>
+                        <v-icon v-else-if="$route.path=='/origin'" dense :color='platforms[2].color' x-large>mdi-origin
+                        </v-icon>
+                        <v-icon v-else-if="$route.path=='/other'" dense :color='platforms[3].color' x-large>mdi-key
+                        </v-icon>
                         {{subStr($route.path)}} Keys
                     </h1>
                     <h1 v-else>
@@ -25,7 +29,8 @@
                         :pagination.sync="pagination" show-expand ref="table" class="elevation-1" :expand="expand"
                         item-key="appid">
                         <template slot="headerCell" slot-scope="{ header }">
-                            <span class="blue--text" v-text="header.text" />
+                            <span :class="($route.path=='/origin') ? 'orange--text' : 'blue--text'"
+                                v-text="header.text" />
                         </template>
                         <template slot="items" slot-scope="props">
                             <tr>
@@ -37,10 +42,14 @@
                                     <v-chip dark>{{ props.item.name }}</v-chip>
                                 </td>
                                 <td v-if="$route.path=='/keys'" @click="props.expanded = !props.expanded">
-                                    <v-icon v-if="props.item.platform=='Other'">mdi-key</v-icon>
-                                    <v-icon v-else-if="props.item.platform=='Uplay'">mdi-ubisoft</v-icon>
-                                    <v-icon v-else-if="props.item.platform=='Origin'">mdi-origin</v-icon>
-                                    <v-icon v-else-if="props.item.platform=='Steam'">mdi-steam</v-icon>
+                                    <v-icon v-if="props.item.platform=='Steam'" :color='platforms[0].color'>mdi-steam
+                                    </v-icon>
+                                    <v-icon v-else-if="props.item.platform=='Uplay'" :color='platforms[1].color'>
+                                        mdi-ubisoft</v-icon>
+                                    <v-icon v-else-if="props.item.platform=='Origin'" :color='platforms[2].color'>
+                                        mdi-origin</v-icon>
+                                    <v-icon v-else-if="props.item.platform=='Other'" :color='platforms[3].color'>mdi-key
+                                    </v-icon>
                                 </td>
                                 <td @click="props.expanded = !props.expanded">
                                     <v-chip :color="getColor(props.item.keys.length)" dark>
@@ -80,12 +89,40 @@
                             <v-card flat>
                                 <v-card-text>
                                     <v-alert value="true" :color="getColor(props.item.keys.length)" outline>
+                                        <!-- start !--
+                                        <v-flex xs12 sm6>
+                                            <v-card>
+                                                <v-container fluid grid-list-md>
+                                                    <v-layout row wrap>
+                                                        <v-flex v-for="card in cards" :key="card.title">
+                                                            <v-card>
+                                                                <v-card-actions>
+                                                                    <v-spacer></v-spacer>
+                                                                    <v-btn icon>
+                                                                        <v-icon>favorite</v-icon>
+                                                                    </v-btn>
+                                                                    <v-btn icon>
+                                                                        <v-icon>bookmark</v-icon>
+                                                                    </v-btn>
+                                                                    <v-btn icon>
+                                                                        <v-icon>share</v-icon>
+                                                                    </v-btn>
+                                                                </v-card-actions>
+                                                            </v-card>
+                                                        </v-flex>
+                                                    </v-layout>
+                                                </v-container>
+                                            </v-card>
+                                        </v-flex>
+                                        <-- end !-->
                                         <table>
                                             <tr v-for="(index,i) in props.item.keys" :key="i.key">
-                                                <td>
+                                                <td style="width:50%">
                                                     <v-edit-dialog :value="index.key" :return-value.sync="index.key"
                                                         large persistent color="red" @save="edit_key(props.item,index)">
-                                                        <v-chip text-color="white" color="blue">{{ index.key }}</v-chip>
+                                                        <v-chip text-color="white"
+                                                            :color="getColor(props.item.keys.length)">{{ index.key }}
+                                                        </v-chip>
                                                         <template v-slot:input>
                                                             <v-text-field v-model="index.key" :rules="[max25chars]"
                                                                 label="Edit" single-line counter autofocus color="red"
@@ -94,7 +131,7 @@
                                                         </template>
                                                     </v-edit-dialog>
                                                 </td>
-                                                <td>
+                                                <td style="width:20%">
                                                     <v-tooltip top>
                                                         <v-btn slot="activator" color="success"
                                                             @click="copykey(index.key)" :id="index.key" icon small>
@@ -154,12 +191,14 @@
                                 <tr>
                                     <v-flex xs12 sm6 md6>
                                         <v-combobox required :rules="[v => !!v || 'Platform is required']"
-                                            :items='platforms' v-model="editedItem.platform" label="Platform"
+                                            :items='platforms.map(e => e.name)' v-model="editedItem.platform"
+                                            label="Platform"
                                             @change="PlatformEdited(editedItem.platform);editedItem.name='';editedItem.appid=''">
                                         </v-combobox>
                                     </v-flex>
                                     <v-flex xs12 sm6 md4>
                                         <v-text-field :rules="[v => !!v || 'This field is required']"
+                                            :disabled="editedItem.platform=='Origin' || editedItem.platform=='Other'"
                                             v-model="editedItem.appid" label="ID" @input="IDEdited(editedItem)">
                                         </v-text-field>
                                     </v-flex>
@@ -173,14 +212,9 @@
                                 </tr>
                                 <tr>
                                     <v-flex xs12 sm12 md12 v-for="(index,i) in editedItem.keys" :key="i">
-                                        Key {{i+1}}
-                                        <v-edit-dialog :return-value.sync="index.key" large persistent color="red">
-                                            <v-chip text-color="white" color="blue">{{ index.key }}</v-chip>
-                                            <template v-slot:input>
-                                                <v-text-field v-model="index.key" :rules="[max25chars]" label="Edit"
-                                                    single-line counter autofocus color="red"></v-text-field>
-                                            </template>
-                                        </v-edit-dialog>
+                                        <v-text-field v-model="index.key" :label="'Key '+ parseInt(i+1)"
+                                            :rules="[max25chars]" color="red">
+                                        </v-text-field>
                                     </v-flex>
                                 </tr>
                                 <tr>
@@ -233,13 +267,14 @@
                                 <tr>
                                     <v-flex xs12 sm6 md6>
                                         <v-combobox required :rules="[v => !!v || 'Platform is required']"
-                                            :items='platforms' v-model="itemtoadd.platform"
+                                            :items='platforms.map(e => e.name)' v-model="itemtoadd.platform"
                                             @change="PlatformEdited(itemtoadd.platform);itemtoadd.name='';itemtoadd.appid=''"
                                             :readonly="$route.path == '/keys' ? false : true" label="Platform">
                                         </v-combobox>
                                     </v-flex>
                                     <v-flex xs12 sm6 md4>
                                         <v-text-field :rules="[v => !!v || 'This field is required']"
+                                            :disabled="itemtoadd.platform=='Origin' || itemtoadd.platform=='Other'"
                                             v-model="itemtoadd.appid" label="ID" @input="IDEdited(itemtoadd)">
                                         </v-text-field>
                                     </v-flex>
@@ -252,17 +287,17 @@
                                     </v-flex>
                                 </tr>
                                 <tr>
-                                    Keys
-                                    <v-flex xs12 sm12 md12 v-for="(index,i) in itemtoadd.keys.length" :key="i">
-                                        <v-edit-dialog :v-model="itemtoadd.keys[i].key" return-object large persistent
-                                            color="red">
-                                            <v-chip text-color="white" color="blue">{{ itemtoadd.keys[i].key }}</v-chip>
-                                            <template v-slot:input>
-                                                <v-text-field v-model="itemtoadd.keys[i].key" :rules="[max25chars]"
-                                                    label="add" single-line counter autofocus color="red" return-object>
-                                                </v-text-field>
-                                            </template>
-                                        </v-edit-dialog>
+                                    <v-chip disabled text-color="white" color="green">
+                                        <v-icon>mdi-key</v-icon>
+                                        Keys
+                                    </v-chip>
+                                    <v-flex xs12 sm12 md12>
+                                        <div v-for="(index,i) in itemtoadd.keys.length" :key="i">
+                                            <v-text-field placeholder="XXXX-XXXX-XXXX-XXXX"
+                                                v-model="itemtoadd.keys[i].key" :label="'Key '+parseInt(i+1)"
+                                                :rules="[max25chars]" color="red">
+                                            </v-text-field>
+                                        </div>
                                     </v-flex>
                                 </tr>
                                 <tr>
@@ -396,7 +431,19 @@
                 editdialog: false,
                 infodialog: false,
                 addialog: false,
-                platforms: ['Steam', 'Uplay', 'Origin', 'Other'],
+                platforms: [{
+                    name: 'Steam',
+                    color: '#1d2f54'
+                }, {
+                    name: 'Uplay',
+                    color: '#0e82cf'
+                }, {
+                    name: 'Origin',
+                    color: '#eb6a00'
+                }, {
+                    name: 'Other',
+                    color: 'white'
+                }],
                 headers: [{
                         text: 'Pic',
                         align: 'left',
