@@ -2,7 +2,7 @@
     <v-layout row wrap>
         <v-flex xs12 sm12 md12>
             <v-card class="elevation-5 mb-4 mt-5 px-2 py-0" style="border-radius: 8px; height: calc(100% - 70px)">
-                <v-card color="blue" class="white--text" style="top:-24px; padding: 15px;border-radius: 8px;">
+                <v-card class="white--text greencard" style="top:-24px; padding: 15px;border-radius: 8px;">
                     <h1 v-if="$route.path!=='/keys'">
                         <v-icon v-if="$route.path=='/steam'" dense :color='platforms[0].color' x-large>mdi-steam
                         </v-icon>

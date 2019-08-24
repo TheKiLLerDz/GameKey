@@ -14,6 +14,7 @@
                 <div>Your Game Count : {{item.games}}</div>
                 <div>With : {{item.keys}} Keys </div>
                 <v-card-actions>
+                    <v-divider :color="item.color"></v-divider>
                     <v-btn flat white :to="{path:item.link}" :color="item.color" round outline>
                         <v-icon size="30" class="mr-2">link</v-icon>
                         Go to {{item.title}}

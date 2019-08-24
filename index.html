@@ -146,7 +146,7 @@
                         <v-icon>mdi-settings</v-icon>
                     </v-btn>
                     <v-card>
-                        <v-container grid-list-xl>
+                        <v-container grid-list-xl fluid style="background: #e9ebee;">
                             <v-layout wrap>
                                 <v-flex xs12>
                                     <div class="text-xs-center body-2 text-uppercase sidebar-filter">Others Themes</div>
@@ -177,7 +177,9 @@
                         </v-container>
                     </v-card>
                 </v-menu>
+            <v-fade-transition mode="out-in">
                 <router-view></router-view>
+            </v-fade-transition>
             </v-container>
         </v-content>
         </v-layout>
@@ -189,7 +191,6 @@
 <script src="cdn/dexie.js"></script>
 <script src="DB.js"></script>
 <script src="methods_db.js"></script>
-
 <script src="cdn/vue.js"></script>
 <script src="cdn/vuetify.js"></script>
 <script src="cdn/httpVueLoader.js"></script>
