@@ -55,7 +55,6 @@ v = new Vue({
       pic: 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/bc/bc562ea70469cfdb020f9a79ba1f08cc2e91bda0_full.jpg'
     },
     loading: false,
-    games: [],
     theme: '',
     themes: [{
         name: 'Dark Theme',
@@ -126,12 +125,16 @@ v = new Vue({
     keys: true,
     isDark: true,
   }),
+  computed: {
+    games() {
+      return store.state.steamkey.concat(store.state.uplaykey.concat(store.state.originkey
+        .concat(store.state.otherskey)));
+    }
+  },
   beforeCreate() {
     opendb()
   },
   mounted() {
-    this.games = store.state.steamkey.concat(store.state.uplaykey.concat(store.state.originkey
-      .concat(store.state.otherskey)));
     if (localStorage.theme) this.theme = localStorage.theme;
   },
   watch: {
