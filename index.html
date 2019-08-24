@@ -120,7 +120,7 @@
                         </v-list-tile-action>
                     </v-list-tile>
                     <v-divider></v-divider>
-                    <v-list-tile :active-class="!mini?'v-list-item-active v-card green' : 'v-list-item-mini-active'" v-for="item in items" :key="item.title" :to="{path:item.link}">
+                    <v-list-tile :active-class="!mini?'v-list-item-active greencard' : 'v-list-item-mini-active'" v-for="item in items" :key="item.title" :to="{path:item.link}">
                         <v-tooltip v-if="mini" right>
                             <v-list-tile-action slot="activator">
                                 <v-icon :color="item.color">{{ item.icon }}</v-icon>
@@ -183,7 +183,7 @@
             </v-container>
         </v-content>
         </v-layout>
-        <v-footer color="rgb(9, 102, 175)" app>
+        <v-footer color="blue darken-3" app>
             <span class="px-3 white--text">&copy; 2019</span>
         </v-footer>
     </v-app>
