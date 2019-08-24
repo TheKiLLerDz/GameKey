@@ -26,8 +26,7 @@
                 <v-flex xs12>
                     <v-data-table hide-actions :headers="headers[2].show ? headers : headers.splice(2,1)" :items="apps"
                         :update:page="loading" :search="search" :single-expand="singleExpand" :expanded.sync="expanded"
-                        :pagination.sync="pagination" show-expand ref="table" class="elevation-1" :expand="expand"
-                        item-key="appid">
+                        :pagination.sync="pagination" show-expand ref="table" :expand="expand" item-key="appid">
                         <template slot="headerCell" slot-scope="{ header }">
                             <span :class="($route.path=='/origin') ? 'orange--text' : 'blue--text'"
                                 v-text="header.text" />

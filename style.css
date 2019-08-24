@@ -129,3 +129,15 @@
 .theme--blue .v-content__wrap{
     background-color: #eee;
 }
+.v-list-item-mini-active{
+    background: #e9ebee;
+    border-left: 5px solid  rgb(9, 102, 175)!important;
+    color:  rgb(9, 102, 175)!important;
+    caret-color:  rgb(9, 102, 175)!important;
+}
+.v-list-item-active{
+    margin: 0 15px;
+    color: #e9ebee!important;
+    caret-color: #e9ebee!important;
+    border-radius: 8px;
+}
