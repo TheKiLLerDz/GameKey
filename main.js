@@ -39,6 +39,7 @@ const store = new Vuex.Store({
     otherskey: [],
     allkeys: [],
     temp: {},
+    tempimport : undefined,
   },
 })
 v = new Vue({
