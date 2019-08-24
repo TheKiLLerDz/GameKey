@@ -5,6 +5,10 @@ var routes = [{
   path: '/keys',
   component: httpVueLoader('./pages/Keys.vue')
 }, {
+  path: '/keys/:searchvalue',
+  component: httpVueLoader('./pages/Keys.vue'),
+  props: true
+}, {
   path: '/steam',
   component: httpVueLoader('./pages/Keys.vue')
 }, {

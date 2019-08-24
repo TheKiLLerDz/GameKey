@@ -33,19 +33,19 @@
             <v-toolbar-title style="width: 300px" class="ml-0 pl-3">
                 <h4 class="hidden-sm-and-down">GameKey</h4>
             </v-toolbar-title>
-            <v-autocomplete v-if="$route.path=='/'" :loading="loading" :items="this.games" flat solo hide-details
-                label="Search" class="v-text-field--rounded" item-text="name" item-value="appid">
+            <v-autocomplete v-if="$route.path=='/'" :loading="loading" :items="this.games" solo dense label="Search"
+                class="v-text-field--rounded" item-text="name" item-value="appid">
                 <template v-slot:append>
                     <v-btn color="rgb(9, 102, 175)" value="search">
                         Search
                     </v-btn>
                 </template>
                 <template v-slot:item="data">
-                    <v-list-tile-avatar @click="$router.push('keys')">
+                    <v-list-tile-avatar @click="$router.push('keys/'+data.item.name)">
                         <img :src="'https://steamcdn-a.akamaihd.net/steam/apps/'+data.item.appid+'/header.jpg'"
                             onerror="this.src='apps/undefined.gif'">
                     </v-list-tile-avatar>
-                    <v-list-tile-content @click="$router.push('keys')">
+                    <v-list-tile-content @click="$router.push('keys/'+data.item.name)">
                         <v-list-tile-title v-html="data.item.name"></v-list-tile-title>
                         <v-list-tile-sub-title v-html="data.item.platform"></v-list-tile-sub-title>
                     </v-list-tile-content>

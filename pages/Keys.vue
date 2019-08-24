@@ -3,7 +3,7 @@
         <v-flex xs12 sm12 md12>
             <v-card class="elevation-5 mb-4 mt-5 px-2 py-0" style="border-radius: 8px; height: calc(100% - 70px)">
                 <v-card class="white--text greencard" style="top:-24px; padding: 15px;border-radius: 8px;">
-                    <h1 v-if="$route.path!=='/keys'">
+                    <h1 v-if="!$route.path.includes('/keys')">
                         <v-icon v-if="$route.path=='/steam'" dense :color='platforms[0].color' x-large>mdi-steam
                         </v-icon>
                         <v-icon v-else-if="$route.path=='/uplay'" :color='platforms[1].color' x-large>mdi-ubisoft
@@ -40,7 +40,7 @@
                                 <td @click="props.expanded = !props.expanded">
                                     <v-chip dark>{{ props.item.name }}</v-chip>
                                 </td>
-                                <td v-if="$route.path=='/keys'" @click="props.expanded = !props.expanded">
+                                <td v-if="$route.path.includes('/keys')" @click="props.expanded = !props.expanded">
                                     <v-icon v-if="props.item.platform=='Steam'" :color='platforms[0].color'>mdi-steam
                                     </v-icon>
                                     <v-icon v-else-if="props.item.platform=='Uplay'" :color='platforms[1].color'>
@@ -268,7 +268,7 @@
                                         <v-combobox required :rules="[v => !!v || 'Platform is required']"
                                             :items='platforms.map(e => e.name)' v-model="itemtoadd.platform"
                                             @change="PlatformEdited(itemtoadd.platform);itemtoadd.name='';itemtoadd.appid=''"
-                                            :readonly="$route.path == '/keys' ? false : true" label="Platform">
+                                            :readonly="$route.path.includes('/keys') ? false : true" label="Platform">
                                         </v-combobox>
                                     </v-flex>
                                     <v-flex xs12 sm6 md4>
@@ -374,7 +374,7 @@
                 </v-btn>
             </template>
             <v-btn fab dark small color="indigo"
-                @click="addialog = true; if ($route.path!=='/keys') {itemtoadd.platform=subStr($route.path);PlatformEdited(itemtoadd.platform)}">
+                @click="addialog = true; if (!$route.path.includes('/keys')) {itemtoadd.platform=subStr($route.path);PlatformEdited(itemtoadd.platform)}">
                 <v-icon>add</v-icon>
             </v-btn>
             <v-btn fab dark small color="green">
@@ -388,6 +388,12 @@
 </template>
 <script>
     module.exports = {
+        props: {
+            searchvalue: {
+                type: String,
+                default: ''
+            }
+        },
         watch: {
             isAdding(val) {
                 if (val) {
@@ -425,7 +431,7 @@
                 gametagsselected: [],
                 fling: false,
                 tabs: null,
-                search: null,
+                search: '',
                 appnames: null,
                 editdialog: false,
                 infodialog: false,
@@ -707,7 +713,7 @@
                 }
             },
             subStr(string) {
-                if (string == '/keys') {
+                if (string.includes('/keys')) {
                     return 'all'
                 } else {
                     return string.substring(1, 15).charAt(0).toUpperCase() + string.substring(1, 15).slice(1);
@@ -737,7 +743,8 @@
             }
         },
         mounted() {
-            if (window.location.hash.slice(1) == "/keys") {
+            this.search = this.searchvalue;
+            if (window.location.hash.slice(1).includes("/keys")) {
                 this.headers[2].show = true;
             } else {
                 this.headers[2].show = false;
@@ -755,7 +762,7 @@
                 case '/other':
                     this.apps = store.state.otherskey
                     break;
-                case '/keys':
+                default:
                     this.apps = store.state.steamkey.concat(store.state.uplaykey.concat(store.state.originkey
                         .concat(store.state.otherskey)))
                     break;
