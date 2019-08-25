@@ -188,14 +188,15 @@
                         <v-layout wrap>
                             <table>
                                 <tr>
-                                    <v-flex xs12 sm6 md6>
-                                        <v-combobox required :rules="[v => !!v || 'Platform is required']"
-                                            :items='platforms.map(e => e.name)' v-model="editedItem.platform"
-                                            label="Platform"
-                                            @change="PlatformEdited(editedItem.platform);editedItem.name='';editedItem.appid=''">
-                                        </v-combobox>
+                                    <v-flex xs12 sm12 md12>
+                                        <v-select required :items='platforms.map(e => e.name)'
+                                            v-model="editedItem.platform" label="Platform"
+                                            @change="PlatformEdited(editedItem.platform);editedItem.name='';editedItem.appid=''"
+                                            :prepend-icon="editedItem.platform=='Steam'||editedItem.platform=='Origin' ? 'mdi-'+editedItem.platform.toLowerCase() : 'mdi-key'"
+                                            single-line>
+                                        </v-select>
                                     </v-flex>
-                                    <v-flex xs12 sm6 md4>
+                                    <v-flex xs4 sm4 md4>
                                         <v-text-field :rules="[v => !!v || 'This field is required']"
                                             :disabled="editedItem.platform=='Origin' || editedItem.platform=='Other'"
                                             v-model="editedItem.appid" label="ID" @input="IDEdited(editedItem)">
@@ -203,7 +204,7 @@
                                     </v-flex>
                                 </tr>
                                 <tr>
-                                    <v-flex xs12 sm12 md12>
+                                    <v-flex xs8 sm8 md8>
                                         <v-combobox :items='this.appnames' v-model="editedItem.name"
                                             @change="NameEdited(editedItem)" label="Name">
                                         </v-combobox>
@@ -264,14 +265,16 @@
                         <v-layout wrap>
                             <table>
                                 <tr>
-                                    <v-flex xs12 sm6 md6>
-                                        <v-combobox required :rules="[v => !!v || 'Platform is required']"
+                                    <v-flex xs12 sm12 md12>
+                                        <v-select required :rules="[v => !!v || 'Platform is required']"
                                             :items='platforms.map(e => e.name)' v-model="itemtoadd.platform"
                                             @change="PlatformEdited(itemtoadd.platform);itemtoadd.name='';itemtoadd.appid=''"
-                                            :readonly="$route.path.includes('/keys') ? false : true" label="Platform">
-                                        </v-combobox>
+                                            :readonly="$route.path.includes('/keys') ? false : true" label="Platform"
+                                            :prepend-icon="itemtoadd.platform=='Steam'||itemtoadd.platform=='Origin' ? 'mdi-'+itemtoadd.platform.toLowerCase() : 'mdi-key'"
+                                            single-line>
+                                        </v-select>
                                     </v-flex>
-                                    <v-flex xs12 sm6 md4>
+                                    <v-flex xs4 sm4 md4>
                                         <v-text-field :rules="[v => !!v || 'This field is required']"
                                             :disabled="itemtoadd.platform=='Origin' || itemtoadd.platform=='Other'"
                                             v-model="itemtoadd.appid" label="ID" @input="IDEdited(itemtoadd)">
@@ -279,7 +282,7 @@
                                     </v-flex>
                                 </tr>
                                 <tr>
-                                    <v-flex xs12 sm12 md12>
+                                    <v-flex xs8 sm8 md8>
                                         <v-combobox :items='this.appnames' v-model="itemtoadd.name"
                                             @change="NameEdited(itemtoadd)" label="Name">
                                         </v-combobox>
