@@ -1,27 +1,28 @@
 var db;
+Dexie.exists('GameKey_DB').then(function (exists) {
+	if (exists) {
+		new Dexie('GameKey_DB').open()
+			.then(function (d) {
+				db = d
 
-function opendb() {
-	Dexie.exists('GameKey_DB').then(function (exists) {
-		if (exists) {
-			new Dexie('GameKey_DB').open()
-				.then(function (d) {
-					db = d;
-					getdata();
-				}).catch('NoSuchDatabaseError', function (e) {
-					// Database with that name did not exist
-					console.error("Database not found");
-				}).catch(function (e) {
-					console.error("Oh uh: " + e);
-				});
-		}
-	})
+			}).catch('NoSuchDatabaseError', function (e) {
+				// Database with that name did not exist
+				console.error("Database not found");
+			}).catch(function (e) {
+				console.error("Oh uh: " + e);
+			});
+	}
+})
 
 }
 
 function getdata() {
-	getuplaybdd()
-	getoriginbdd()
-	getsteambdd()
+	setTimeout(function () {
+		getuplaybdd()
+		getoriginbdd()
+		getsteambdd()
+	}, 3000);
+
 }
 
 function getsteambdd() {
@@ -147,4 +148,21 @@ function getapp(t, idapp) {
 		store.state.temp = game
 
 	})
+}
+
+ function testappname(t, i) {
+
+	db.tables[t].where("name").equals(tagname[i]).modify(game => {
+		if (game != undefined) {
+			addtokeys(game.appid, i)
+			tagname = tagname.filter(el => {
+				return el != tagname[i]
+
+			})
+		}
+	})
+
+
+
+
 }
