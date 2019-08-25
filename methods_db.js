@@ -4,7 +4,6 @@ Dexie.exists('GameKey_DB').then(function (exists) {
 		new Dexie('GameKey_DB').open()
 			.then(function (d) {
 				db = d
-
 			}).catch('NoSuchDatabaseError', function (e) {
 				// Database with that name did not exist
 				console.error("Database not found");
@@ -14,14 +13,11 @@ Dexie.exists('GameKey_DB').then(function (exists) {
 	}
 })
 
-}
 
 function getdata() {
-	setTimeout(function () {
-		getuplaybdd()
-		getoriginbdd()
-		getsteambdd()
-	}, 3000);
+	getuplaybdd()
+	getoriginbdd()
+	getsteambdd()
 
 }
 
@@ -150,7 +146,7 @@ function getapp(t, idapp) {
 	})
 }
 
- function testappname(t, i) {
+function testappname(t, i) {
 
 	db.tables[t].where("name").equals(tagname[i]).modify(game => {
 		if (game != undefined) {

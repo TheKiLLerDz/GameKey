@@ -133,7 +133,7 @@ v = new Vue({
     }
   },
   beforeCreate() {
-    opendb()
+    getdata()
   },
   mounted() {
     if (localStorage.theme) this.theme = localStorage.theme;
