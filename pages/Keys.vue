@@ -432,8 +432,69 @@
                     rowsPerPage: 10
                 },
                 max25chars: v => v.length <= 25 || 'Key is too long!',
-                gametags: ["Indie","Action","Adventure","Casual","Low Confidence Metric","Simulation","Strategy","RPG","Singleplayer","Early Access","Free to Play","2D","Great Soundtrack","Atmospheric","Puzzle","Violent","Multiplayer","VR","Story Rich","Gore","Fantasy","Anime","Nudity","Difficult","Sports","Horror","Sexual Content","Pixel Graphics","Platformer","Sci-fi","Funny","Massively Multiplayer","Racing","Shooter","Female Protagonist","First-Person","Open World","Retro","Turn-Based","Co-op","Arcade","Family Friendly","FPS","Visual Novel","Survival","Comedy","Sandbox","Cute","Exploration","Online Co-Op","Movie","Point &amp; Click","Classic","Replay Value","Relaxing","Space","Utilities","Design &amp; Illustration","Psychological Horror","Masterpiece","Colorful","Third Person","Software","Local Multiplayer","Fast-Paced","RPGMaker","Physics","Controller","Mystery","Shoot 'Em Up","Tactical","Rogue-like","Zombies","Short","Party-Based RPG","Management","Local Co-Op","Side Scroller","Building","Dark","Memes","Hidden Object","Realistic","Adult Content","Turn-Based Strategy","Puzzle-Platformer","Survival Horror","Music","RTS","Choices Matter","Education","Web Publishing","Historical","Rogue-lite","Bullet Hell","War","Top-Down","Minimalist","Mature","Action-Adventure","Crafting","Action RPG","JRPG","Competitive","Tower Defense","Stealth","Hack and Slash","Procedural Generation","Walking Simulator","4 Player Local","Fighting","Dungeon Crawler","PvP","Audio Production","Old School","Post-apocalyptic","Card Game","Romance","Drama","Dark Fantasy","Isometric","Top-Down Shooter","Turn-Based Combat","Animation &amp; Modeling","Character Customization","Multiple Endings","Medieval","Third-Person Shooter","Cartoony","Base Building","Stylized","Cyberpunk","Resource Management","Dating Sim","Surreal","Turn-Based Tactics","Episodic","Economy","Metroidvania","Driving","Moddable","Futuristic","World War II","Military","Magic","Robots","Board Game","3D Platformer","Text-Based","City Builder","Hand-drawn","Choose Your Own Adventure","Twin Stick Shooter","Beat 'em up","Soundtrack","Dark Humor","Thriller","Flight","1990's","Experimental","Aliens","Interactive Fiction","Detective","Perma Death","Match 3","Level Editor","Abstract","Cult Classic","Mouse only","Addictive","Beautiful","Crime","MMORPG","Video Production","Game Development","Team-Based","Arena Shooter","Clicker","Cartoon","Destruction","Parkour","LGBTQ+","Grand Strategy","2.5D","Rhythm","Steampunk","Psychological","Trains","Blood","Logic","Real-Time","3D","2D Fighter","Lovecraftian","Loot","Kickstarter","Remake","Real-Time with Pause","Software Training","Space Sim","1980s","4X","Score Attack","GameMaker","Mechs","Dystopian ","Pirates","Alternate History","Documentary","Time Management","Otome","Demons","Illuminati","Tanks","Wargame","Real Time Tactics","Linear","Split Screen","Tactical RPG","Dungeons &amp; Dragons","Touch-Friendly","Narration","Strategy RPG","Voxel","Science","PvE","Dark Comedy","Hex Grid","MOBA","Western","Runner","Psychedelic","Tutorial","NSFW","TrackIR","Dragons","Naval","Noir","Ninja","Comic Book","Dinosaurs","Battle Royale","Political","Swordplay","Superhero","CRPG","Hacking","Trading Card Game","Supernatural","eSports","Agriculture","Politics","Souls-like","Photo Editing","God Game","Parody ","Grid-Based Movement","Mod","Lore-Rich","Underwater","Character Action Game","Mythology","Cold War","FMV","Crowdfunded","Cats","Gothic","Based On A Novel","Nature","Time Attack","Cinematic","Emotional","Football","Vampire","Villain Protagonist","Time Travel","Inventory Management","Epic","Satire","Games Workshop","Trading","Programming","Modern","Gaming","Assassin","Experience","Soccer","Philisophical","Silent Protagonist","Bullet Time","Hunting","Nonlinear","Word Game","Fishing","Martial Arts","Time Manipulation","America","3D Vision","World War I","Co-op Campaign","Minigames","Warhammer 40K","Music-Based Procedural Generation","Faith","Heist","Chess","Gun Customization","Investigation","LEGO","Sailing","Offroad","Capitalism","Quick-Time Events","Spectacle fighter","6DOF","Mars","Dog","Class-Based","Asynchronous Multiplayer","Typing","Artificial Intelligence","Rome","Horses","Sniper","Conspiracy","Pinball","Dynamic Narration","Mining","360 Video","Mystery Dungeon","Sokoban","Star Wars","Werewolves","On-Rails Shooter","Golf","Sequel","Conversation","Diplomacy","Basketball","Gambling","Solitaire","Bikes","Batman","Immersive Sim","Underground","Mini Golf","Motorbike","Unforgiving","Intentionally Awkward Controls","Submarine","Benchmark","Baseball","Feature Film","Transhumanism","Tennis","Wrestling","Lemmings","Automation","Hockey","Pool","Motocross","Lara Croft","Voice Control","Foreign","Skateboarding","Steam Machine","Spelling","Bowling","Cycling","Hardware","Jet","Snow","Transportation","Skating","Asymmetric VR","BMX","Snowboarding","ATV","Skiing","Social Deduction"]
-,
+                gametags: ["Indie", "Action", "Adventure", "Casual", "Low Confidence Metric", "Simulation",
+                    "Strategy", "RPG", "Singleplayer", "Early Access", "Free to Play", "2D", "Great Soundtrack",
+                    "Atmospheric", "Puzzle", "Violent", "Multiplayer", "VR", "Story Rich", "Gore", "Fantasy",
+                    "Anime", "Nudity", "Difficult", "Sports", "Horror", "Sexual Content", "Pixel Graphics",
+                    "Platformer", "Sci-fi", "Funny", "Massively Multiplayer", "Racing", "Shooter",
+                    "Female Protagonist", "First-Person", "Open World", "Retro", "Turn-Based", "Co-op",
+                    "Arcade", "Family Friendly", "FPS", "Visual Novel", "Survival", "Comedy", "Sandbox", "Cute",
+                    "Exploration", "Online Co-Op", "Movie", "Point &amp; Click", "Classic", "Replay Value",
+                    "Relaxing", "Space", "Utilities", "Design &amp; Illustration", "Psychological Horror",
+                    "Masterpiece", "Colorful", "Third Person", "Software", "Local Multiplayer", "Fast-Paced",
+                    "RPGMaker", "Physics", "Controller", "Mystery", "Shoot 'Em Up", "Tactical", "Rogue-like",
+                    "Zombies", "Short", "Party-Based RPG", "Management", "Local Co-Op", "Side Scroller",
+                    "Building", "Dark", "Memes", "Hidden Object", "Realistic", "Adult Content",
+                    "Turn-Based Strategy", "Puzzle-Platformer", "Survival Horror", "Music", "RTS",
+                    "Choices Matter", "Education", "Web Publishing", "Historical", "Rogue-lite", "Bullet Hell",
+                    "War", "Top-Down", "Minimalist", "Mature", "Action-Adventure", "Crafting", "Action RPG",
+                    "JRPG", "Competitive", "Tower Defense", "Stealth", "Hack and Slash",
+                    "Procedural Generation", "Walking Simulator", "4 Player Local", "Fighting",
+                    "Dungeon Crawler", "PvP", "Audio Production", "Old School", "Post-apocalyptic", "Card Game",
+                    "Romance", "Drama", "Dark Fantasy", "Isometric", "Top-Down Shooter", "Turn-Based Combat",
+                    "Animation &amp; Modeling", "Character Customization", "Multiple Endings", "Medieval",
+                    "Third-Person Shooter", "Cartoony", "Base Building", "Stylized", "Cyberpunk",
+                    "Resource Management", "Dating Sim", "Surreal", "Turn-Based Tactics", "Episodic", "Economy",
+                    "Metroidvania", "Driving", "Moddable", "Futuristic", "World War II", "Military", "Magic",
+                    "Robots", "Board Game", "3D Platformer", "Text-Based", "City Builder", "Hand-drawn",
+                    "Choose Your Own Adventure", "Twin Stick Shooter", "Beat 'em up", "Soundtrack",
+                    "Dark Humor", "Thriller", "Flight", "1990's", "Experimental", "Aliens",
+                    "Interactive Fiction", "Detective", "Perma Death", "Match 3", "Level Editor", "Abstract",
+                    "Cult Classic", "Mouse only", "Addictive", "Beautiful", "Crime", "MMORPG",
+                    "Video Production", "Game Development", "Team-Based", "Arena Shooter", "Clicker", "Cartoon",
+                    "Destruction", "Parkour", "LGBTQ+", "Grand Strategy", "2.5D", "Rhythm", "Steampunk",
+                    "Psychological", "Trains", "Blood", "Logic", "Real-Time", "3D", "2D Fighter",
+                    "Lovecraftian", "Loot", "Kickstarter", "Remake", "Real-Time with Pause",
+                    "Software Training", "Space Sim", "1980s", "4X", "Score Attack", "GameMaker", "Mechs",
+                    "Dystopian ", "Pirates", "Alternate History", "Documentary", "Time Management", "Otome",
+                    "Demons", "Illuminati", "Tanks", "Wargame", "Real Time Tactics", "Linear", "Split Screen",
+                    "Tactical RPG", "Dungeons &amp; Dragons", "Touch-Friendly", "Narration", "Strategy RPG",
+                    "Voxel", "Science", "PvE", "Dark Comedy", "Hex Grid", "MOBA", "Western", "Runner",
+                    "Psychedelic", "Tutorial", "NSFW", "TrackIR", "Dragons", "Naval", "Noir", "Ninja",
+                    "Comic Book", "Dinosaurs", "Battle Royale", "Political", "Swordplay", "Superhero", "CRPG",
+                    "Hacking", "Trading Card Game", "Supernatural", "eSports", "Agriculture", "Politics",
+                    "Souls-like", "Photo Editing", "God Game", "Parody ", "Grid-Based Movement", "Mod",
+                    "Lore-Rich", "Underwater", "Character Action Game", "Mythology", "Cold War", "FMV",
+                    "Crowdfunded", "Cats", "Gothic", "Based On A Novel", "Nature", "Time Attack", "Cinematic",
+                    "Emotional", "Football", "Vampire", "Villain Protagonist", "Time Travel",
+                    "Inventory Management", "Epic", "Satire", "Games Workshop", "Trading", "Programming",
+                    "Modern", "Gaming", "Assassin", "Experience", "Soccer", "Philisophical",
+                    "Silent Protagonist", "Bullet Time", "Hunting", "Nonlinear", "Word Game", "Fishing",
+                    "Martial Arts", "Time Manipulation", "America", "3D Vision", "World War I",
+                    "Co-op Campaign", "Minigames", "Warhammer 40K", "Music-Based Procedural Generation",
+                    "Faith", "Heist", "Chess", "Gun Customization", "Investigation", "LEGO", "Sailing",
+                    "Offroad", "Capitalism", "Quick-Time Events", "Spectacle fighter", "6DOF", "Mars", "Dog",
+                    "Class-Based", "Asynchronous Multiplayer", "Typing", "Artificial Intelligence", "Rome",
+                    "Horses", "Sniper", "Conspiracy", "Pinball", "Dynamic Narration", "Mining", "360 Video",
+                    "Mystery Dungeon", "Sokoban", "Star Wars", "Werewolves", "On-Rails Shooter", "Golf",
+                    "Sequel", "Conversation", "Diplomacy", "Basketball", "Gambling", "Solitaire", "Bikes",
+                    "Batman", "Immersive Sim", "Underground", "Mini Golf", "Motorbike", "Unforgiving",
+                    "Intentionally Awkward Controls", "Submarine", "Benchmark", "Baseball", "Feature Film",
+                    "Transhumanism", "Tennis", "Wrestling", "Lemmings", "Automation", "Hockey", "Pool",
+                    "Motocross", "Lara Croft", "Voice Control", "Foreign", "Skateboarding", "Steam Machine",
+                    "Spelling", "Bowling", "Cycling", "Hardware", "Jet", "Snow", "Transportation", "Skating",
+                    "Asymmetric VR", "BMX", "Snowboarding", "ATV", "Skiing", "Social Deduction"
+                ],
                 gametagsselected: [],
                 fling: false,
                 tabs: null,
@@ -515,10 +576,20 @@
             },
             IDEdited(item) {
                 switch (item.platform) {
-                    case 'Steam':
+                    case 'Steam':                 
                         index = store.state.steam.map(e => e.appid).indexOf(this.getappid(item));
                         if (index == -1) item.name = ''
                         else item.name = store.state.steam[index].name;
+                        var i = 0 ; var test = true;
+                        while (i < this.apps.length & test) {
+if (item.appid == this.apps[i].appid ) {
+test = false;
+}
+i++
+                        }
+                        if (test) {tags(item.appid)
+                        this.gametagsselected = tagsapp;
+                        }
                         break;
                     case 'Origin':
                         index = store.state.origin.map(e => e.appid).indexOf(this.getappid(item));
