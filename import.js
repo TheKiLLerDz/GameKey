@@ -1,5 +1,8 @@
 'use strict';
-
+function PatternKeySteam(key) {
+  pattern=/\s([\dA-Z]{4}\-){3}[\dA-Z]{4}\s/gi;
+  return key.match(pattern);
+}
 function impport() {
 const lineByLine = require('./readlines.js');
 const liner = new lineByLine('./text.txt');
