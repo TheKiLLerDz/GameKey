@@ -43,21 +43,7 @@ function validateKey(key) {
   return re.test(String(key).toLowerCase());
 }
 
-function sendData(i, callback) {
 
-  var xhr = new XMLHttpRequest();
-
-  xhr.onreadystatechange = function () {
-    if (xhr.readyState === 4) {
-      // console.log(xhr.response); 
-      filtrer(xhr.responseText, i)
-    }
-  }
-
-  xhr.open('GET', 'https://store.steampowered.com/search/suggest?term=p&f=games&cc=DZ&l=french&excluded_content_descriptors%5B%5D=3&excluded_content_descriptors%5B%5D=4&v=6766867', true);
-  xhr.send('');
-
-}
 
 function filtrer(tag, i) {
   var el = document.createElement('div');
