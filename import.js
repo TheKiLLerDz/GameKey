@@ -81,10 +81,13 @@ function baseorxhr() {
       }
       j++
     }
+  if (test) { sendData(i)  }
 
     i++
 
   }
+
+  addtodb();
 }
 
 
@@ -94,6 +97,11 @@ function addtokeys(appid, i) {
     'appid': appid
   })
 
+
+}
+
+function addtodb(){
+console.log(keys)
 
 }
 
