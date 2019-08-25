@@ -574,22 +574,25 @@
             impport() {
                 impport();
             },
+
+            gettags(appid) {
+            var i = 0 ; var test = true;
+                        while (i < this.apps.length & test) {
+if (appid == this.apps[i].appid ) {
+test = false;
+}
+i++
+                        }
+                        if (test) {tags(appid)
+                        this.gametagsselected = tagsapp;}
+                        },
             IDEdited(item) {
                 switch (item.platform) {
                     case 'Steam':                 
                         index = store.state.steam.map(e => e.appid).indexOf(this.getappid(item));
                         if (index == -1) item.name = ''
                         else item.name = store.state.steam[index].name;
-                        var i = 0 ; var test = true;
-                        while (i < this.apps.length & test) {
-if (item.appid == this.apps[i].appid ) {
-test = false;
-}
-i++
-                        }
-                        if (test) {tags(item.appid)
-                        this.gametagsselected = tagsapp;
-                        }
+                        this.gettags(item.appid)
                         break;
                     case 'Origin':
                         index = store.state.origin.map(e => e.appid).indexOf(this.getappid(item));
@@ -614,6 +617,7 @@ i++
                         index = store.state.steam.map(e => e.name).indexOf(item.name);
                         if (index == -1) item.appid = ''
                         else item.appid = store.state.steam[index].appid;
+                        this.gettags(item.appid)
                         break;
                     case 'Origin':
                         index = store.state.origin.map(e => e.name).indexOf(item.name);
