@@ -8,7 +8,7 @@ var tagname = [];
 
 
 function PatternKeySteam(key) {
-  pattern = /\s([\dA-Z]{4}\-){3}[\dA-Z]{4}\s/gi;
+  pattern = /\s([\dA-Z]{5}\-){2}[\dA-Z]{5}\s/gi;
   return key.match(pattern);
 }
 
