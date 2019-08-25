@@ -636,7 +636,8 @@
                         platform: this.editedItem.platform,
                         keys: this.editedItem.keys
                     });
-                    console.log(this.editedItem.platform);
+                    this.UpdateVuex(this.editedItem.platform, this.apps);
+                    this.UpdateVuex(this.oldediteditem.platform, this.apps);
                 }
                 //this.apps[0]={...this.apps[0],name:"test"};
                 this.editedItem = {
@@ -645,8 +646,43 @@
                     platform: '',
                     keys: [],
                 };
+
                 this.oldeditedItem = null;
                 this.editdialog = false;
+            },
+            UpdateVuex(platform, newvalue) {
+                if (this.$route.path.includes('/keys')) {
+                    switch (platform) {
+                        case 'Steam':
+                            store.state.steamkey = newvalue.reduce(function (items, item) {
+                                if (item.platform == 'Steam')
+                                    return items.concat(item);
+                                else return items
+                            }, []);
+                            break;
+                        case 'Uplay':
+                            store.state.uplaykey = newvalue.reduce(function (items, item) {
+                                if (item.platform == 'Uplay')
+                                    return items.concat(item);
+                                else return items
+                            }, []);
+                            break;
+                        case 'Origin':
+                            store.state.originkey = newvalue.reduce(function (items, item) {
+                                if (item.platform == 'Origin')
+                                    return items.concat(item);
+                                else return items
+                            }, []);
+                            break;
+                        case 'Other':
+                            store.state.otherskey = newvalue.reduce(function (items, item) {
+                                if (item.platform == 'Other')
+                                    return items.concat(item);
+                                else return items
+                            }, []);
+                            break;
+                    }
+                }
             },
             gettab(platform) {
                 switch (platform) {
@@ -679,6 +715,7 @@
                 else {
                     this.apps[index].keys = this.apps[index].keys.concat(app.keys);
                 }
+                this.UpdateVuex(app.platform, this.apps);
                 this.itemtoadd = {
                     appid: '',
                     name: '',
@@ -700,7 +737,7 @@
                 const index = this.apps.indexOf(item)
                 confirm('Are you sure you want to delete all The keys of this game?') && delgamekeys(this.gettab(
                         item.platform), item
-                    .appid) & this.apps.splice(index, 1) & console.log("success")
+                    .appid) & this.apps.splice(index, 1) & this.UpdateVuex(item.platform, this.apps)
             },
             deletekey(key, item) {
                 const index = this.apps.indexOf(item);
@@ -712,6 +749,7 @@
                     this.apps.splice(index, 1);
                     delgamekeys(this.gettab(item.platform), item.appid);
                 }
+                this.UpdateVuex(item.platform, this.apps);
             },
             subStr(string) {
                 if (string.includes('/keys')) {
