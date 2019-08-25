@@ -192,8 +192,7 @@
                                         <v-select required :items='platforms.map(e => e.name)'
                                             v-model="editedItem.platform" label="Platform"
                                             @change="PlatformEdited(editedItem.platform);editedItem.name='';editedItem.appid=''"
-                                            :prepend-icon="editedItem.platform=='Steam'||editedItem.platform=='Origin' ? 'mdi-'+editedItem.platform.toLowerCase() : 'mdi-key'"
-                                            single-line>
+                                            :prepend-icon="editedItem.platform=='Steam'||editedItem.platform=='Origin' ? 'mdi-'+editedItem.platform.toLowerCase() : 'mdi-key'">
                                         </v-select>
                                     </v-flex>
                                     <v-flex xs4 sm4 md4>
@@ -270,8 +269,7 @@
                                             :items='platforms.map(e => e.name)' v-model="itemtoadd.platform"
                                             @change="PlatformEdited(itemtoadd.platform);itemtoadd.name='';itemtoadd.appid=''"
                                             :readonly="$route.path.includes('/keys') ? false : true" label="Platform"
-                                            :prepend-icon="itemtoadd.platform=='Steam'||itemtoadd.platform=='Origin' ? 'mdi-'+itemtoadd.platform.toLowerCase() : 'mdi-key'"
-                                            single-line>
+                                            :prepend-icon="itemtoadd.platform=='Steam'||itemtoadd.platform=='Origin' ? 'mdi-'+itemtoadd.platform.toLowerCase() : 'mdi-key'">
                                         </v-select>
                                     </v-flex>
                                     <v-flex xs4 sm4 md4>
