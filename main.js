@@ -5,6 +5,10 @@ var routes = [{
   path: '/keys',
   component: httpVueLoader('./pages/Keys.vue')
 }, {
+  path: '/keys/:searchvalue',
+  component: httpVueLoader('./pages/Keys.vue'),
+  props: true
+}, {
   path: '/steam',
   component: httpVueLoader('./pages/Keys.vue')
 }, {
@@ -36,18 +40,22 @@ const store = new Vuex.Store({
     uplaykey: [],
     origin: [],
     originkey: [],
+    others: [],
     otherskey: [],
     allkeys: [],
     temp: {},
-    tempimport : undefined,
+    tempimport: undefined,
   },
 })
 v = new Vue({
   store,
   router,
   data: ({
+    data: {
+      username: 'TheKiLLerDz',
+      pic: 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/bc/bc562ea70469cfdb020f9a79ba1f08cc2e91bda0_full.jpg'
+    },
     loading: false,
-    games: [],
     theme: '',
     themes: [{
         name: 'Dark Theme',
@@ -70,38 +78,46 @@ v = new Vue({
     show: true,
     items: [{
         title: 'Home',
+        color: '#1d2f54',
         icon: 'mdi-home',
         link: '/'
       }, {
         title: 'All Keys',
+        color: '#1d2f54',
         icon: 'mdi-key',
         link: '/keys'
       }, {
         title: 'Steam',
+        color: '#1d2f54',
         icon: 'mdi-steam',
         link: '/steam'
       }, {
         title: 'Uplay',
+        color: '#0e82cf',
         icon: 'mdi-ubisoft',
         link: '/uplay'
       },
       {
         title: 'Origin',
+        color: '#eb6a00',
         icon: 'mdi-origin',
         link: '/origin'
       },
       {
         title: 'Other',
+        color: 'black',
         icon: 'mdi-alert-circle',
         link: '/other'
       },
       {
         title: 'Settings',
+        color: '#1d2f54',
         icon: 'mdi-settings',
         link: '/settings'
       },
       {
         title: 'About',
+        color: '#1d2f54',
         icon: 'mdi-help-circle',
         link: '/about'
       }
@@ -110,12 +126,16 @@ v = new Vue({
     keys: true,
     isDark: true,
   }),
+  computed: {
+    games() {
+      return store.state.steamkey.concat(store.state.uplaykey.concat(store.state.originkey
+        .concat(store.state.otherskey)));
+    }
+  },
   beforeCreate() {
-    getdata()
+    opendb()
   },
   mounted() {
-    this.games = store.state.steamkey.concat(store.state.uplaykey.concat(store.state.originkey
-      .concat(store.state.otherskey)));
     if (localStorage.theme) this.theme = localStorage.theme;
   },
   watch: {

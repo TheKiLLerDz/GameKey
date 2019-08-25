@@ -129,3 +129,34 @@
 .theme--blue .v-content__wrap{
     background-color: #eee;
 }
+.v-list-item-mini-active{
+    background: #e9ebee;
+    border-left: 5px solid  rgb(9, 102, 175)!important;
+    color:  rgb(9, 102, 175)!important;
+    caret-color:  rgb(9, 102, 175)!important;
+}
+.v-list-item-active{
+    margin: 0 15px;
+    color: #e9ebee!important;
+    caret-color: #e9ebee!important;
+    border-radius: 8px;
+}
+.orangecard {
+    background: linear-gradient(60deg, #ffa726, #fb8c00) !important;
+    box-shadow: 0 12px 20px -10px rgba(255, 152, 0, .28), 0 4px 20px 0 rgba(0, 0, 0, .12), 0 7px 8px -5px rgba(255, 152, 0, .2) !important;
+}
+
+.greencard {
+    background: linear-gradient(60deg, #66bb6a, #43a047) !important;
+    box-shadow: 0 12px 20px -10px rgba(76, 175, 80, .28), 0 4px 20px 0 rgba(0, 0, 0, .12), 0 7px 8px -5px rgba(76, 175, 80, .2) !important;
+}
+
+.infocard {
+    background: linear-gradient(60deg, #26c6da, #00acc1) !important;
+    box-shadow: 0 12px 20px -10px rgba(0, 188, 212, .28), 0 4px 20px 0 rgba(0, 0, 0, .12), 0 7px 8px -5px rgba(0, 188, 212, .2) !important;
+}
+
+.redcard {
+    background: linear-gradient(60deg, #ef5350, #e53935) !important;
+    box-shadow: 0 12px 20px -10px rgba(244, 67, 54, .28), 0 4px 20px 0 rgba(0, 0, 0, .12), 0 7px 8px -5px rgba(244, 67, 54, .2) !important;
+}

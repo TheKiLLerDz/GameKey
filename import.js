@@ -1,7 +1,18 @@
 'use strict';
+
 var keys = []
 var key = [];
 var tagname = [];
+
+
+
+
+function PatternKeySteam(string) {
+  keypattern = /\s([\dA-Z]{5}\-){2}[\dA-Z]{5}\s/gi;
+  return string.match(keypattern);
+}
+
+
 
 function impport() {
   const lineByLine = require('./readlines.js');
@@ -67,7 +78,9 @@ function baseorxhr() {
       }
       j++
     }
-  if (test) { sendData(i)  }
+    if (test) {
+      sendData(i)
+    }
 
     i++
 
@@ -86,8 +99,8 @@ function addtokeys(appid, i) {
 
 }
 
-function addtodb(){
-console.log(keys)
+function addtodb() {
+  console.log(keys)
 
 }
 

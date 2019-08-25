@@ -2,12 +2,16 @@
     <v-layout row wrap>
         <v-flex xs12 sm12 md12>
             <v-card class="elevation-5 mb-4 mt-5 px-2 py-0" style="border-radius: 8px; height: calc(100% - 70px)">
-                <v-card color="blue" class="white--text" style="top:-24px; padding: 15px;border-radius: 8px;">
-                    <h1 v-if="$route.path!=='/keys'">
-                        <v-icon v-if="$route.path=='/steam'" dense color='#1d2f54' x-large>mdi-steam</v-icon>
-                        <v-icon v-else-if="$route.path=='/origin'" dense color='#eb6a00' x-large>mdi-origin</v-icon>
-                        <v-icon v-else-if="$route.path=='/uplay'" color='#0e82cf' x-large>mdi-ubisoft</v-icon>
-                        <v-icon v-else-if="$route.path=='/other'" color='white' x-large>mdi-key</v-icon>
+                <v-card class="white--text greencard" style="top:-24px; padding: 15px;border-radius: 8px;">
+                    <h1 v-if="!$route.path.includes('/keys')">
+                        <v-icon v-if="$route.path=='/steam'" dense :color='platforms[0].color' x-large>mdi-steam
+                        </v-icon>
+                        <v-icon v-else-if="$route.path=='/uplay'" :color='platforms[1].color' x-large>mdi-ubisoft
+                        </v-icon>
+                        <v-icon v-else-if="$route.path=='/origin'" dense :color='platforms[2].color' x-large>mdi-origin
+                        </v-icon>
+                        <v-icon v-else-if="$route.path=='/other'" dense :color='platforms[3].color' x-large>mdi-key
+                        </v-icon>
                         {{subStr($route.path)}} Keys
                     </h1>
                     <h1 v-else>
@@ -22,10 +26,10 @@
                 <v-flex xs12>
                     <v-data-table hide-actions :headers="headers[2].show ? headers : headers.splice(2,1)" :items="apps"
                         :update:page="loading" :search="search" :single-expand="singleExpand" :expanded.sync="expanded"
-                        :pagination.sync="pagination" show-expand ref="table" class="elevation-1" :expand="expand"
-                        item-key="appid">
+                        :pagination.sync="pagination" show-expand ref="table" :expand="expand" item-key="appid">
                         <template slot="headerCell" slot-scope="{ header }">
-                            <span class="blue--text" v-text="header.text" />
+                            <span :class="($route.path=='/origin') ? 'orange--text' : 'blue--text'"
+                                v-text="header.text" />
                         </template>
                         <template slot="items" slot-scope="props">
                             <tr>
@@ -36,11 +40,15 @@
                                 <td @click="props.expanded = !props.expanded">
                                     <v-chip dark>{{ props.item.name }}</v-chip>
                                 </td>
-                                <td v-if="$route.path=='/keys'" @click="props.expanded = !props.expanded">
-                                    <v-icon v-if="props.item.platform=='Other'">mdi-key</v-icon>
-                                    <v-icon v-else-if="props.item.platform=='Uplay'">mdi-ubisoft</v-icon>
-                                    <v-icon v-else-if="props.item.platform=='Origin'">mdi-origin</v-icon>
-                                    <v-icon v-else-if="props.item.platform=='Steam'">mdi-steam</v-icon>
+                                <td v-if="$route.path.includes('/keys')" @click="props.expanded = !props.expanded">
+                                    <v-icon v-if="props.item.platform=='Steam'" :color='platforms[0].color'>mdi-steam
+                                    </v-icon>
+                                    <v-icon v-else-if="props.item.platform=='Uplay'" :color='platforms[1].color'>
+                                        mdi-ubisoft</v-icon>
+                                    <v-icon v-else-if="props.item.platform=='Origin'" :color='platforms[2].color'>
+                                        mdi-origin</v-icon>
+                                    <v-icon v-else-if="props.item.platform=='Other'" :color='platforms[3].color'>mdi-key
+                                    </v-icon>
                                 </td>
                                 <td @click="props.expanded = !props.expanded">
                                     <v-chip :color="getColor(props.item.keys.length)" dark>
@@ -80,10 +88,49 @@
                             <v-card flat>
                                 <v-card-text>
                                     <v-alert value="true" :color="getColor(props.item.keys.length)" outline>
+                                        <!-- start !--
+                                        <v-flex xs12 sm6>
+                                            <v-card>
+                                                <v-container fluid grid-list-md>
+                                                    <v-layout row wrap>
+                                                        <v-flex v-for="card in cards" :key="card.title">
+                                                            <v-card>
+                                                                <v-card-actions>
+                                                                    <v-spacer></v-spacer>
+                                                                    <v-btn icon>
+                                                                        <v-icon>favorite</v-icon>
+                                                                    </v-btn>
+                                                                    <v-btn icon>
+                                                                        <v-icon>bookmark</v-icon>
+                                                                    </v-btn>
+                                                                    <v-btn icon>
+                                                                        <v-icon>share</v-icon>
+                                                                    </v-btn>
+                                                                </v-card-actions>
+                                                            </v-card>
+                                                        </v-flex>
+                                                    </v-layout>
+                                                </v-container>
+                                            </v-card>
+                                        </v-flex>
+                                        <-- end !-->
                                         <table>
                                             <tr v-for="(index,i) in props.item.keys" :key="i.key">
-                                                <td>{{index.key}}</td>
-                                                <td>
+                                                <td style="width:50%">
+                                                    <v-edit-dialog :value="index.key" :return-value.sync="index.key"
+                                                        large persistent color="red" @save="edit_key(props.item,index)">
+                                                        <v-chip text-color="white"
+                                                            :color="getColor(props.item.keys.length)">{{ index.key }}
+                                                        </v-chip>
+                                                        <template v-slot:input>
+                                                            <v-text-field v-model="index.key" :rules="[max25chars]"
+                                                                label="Edit" single-line counter autofocus color="red"
+                                                                return-object>
+                                                            </v-text-field>
+                                                        </template>
+                                                    </v-edit-dialog>
+                                                </td>
+                                                <td style="width:20%">
                                                     <v-tooltip top>
                                                         <v-btn slot="activator" color="success"
                                                             @click="copykey(index.key)" :id="index.key" icon small>
@@ -131,7 +178,7 @@
                 </v-flex>
             </v-card>
         </v-flex>
-        <v-dialog v-model="editdialog" max-width="500px">
+        <v-dialog v-model="editdialog" persistent max-width="500px">
             <v-card>
                 <v-card-title>
                     <span class="headline">Edit app</span>
@@ -141,35 +188,36 @@
                         <v-layout wrap>
                             <table>
                                 <tr>
-                                    <v-flex xs12 sm6 md6>
-                                        <v-combobox :items='platforms' v-model="editedItem.platform" label="Platform">
+                                    <v-flex xs12 sm12 md12>
+                                        <v-select required :items='platforms.map(e => e.name)'
+                                            v-model="editedItem.platform" label="Platform"
+                                            @change="PlatformEdited(editedItem.platform);editedItem.name='';editedItem.appid=''"
+                                            :prepend-icon="editedItem.platform=='Steam'||editedItem.platform=='Origin' ? 'mdi-'+editedItem.platform.toLowerCase() : 'mdi-key'">
+                                        </v-select>
+                                    </v-flex>
+                                    <v-flex xs4 sm4 md4>
+                                        <v-text-field :rules="[v => !!v || 'This field is required']"
+                                            :disabled="editedItem.platform=='Origin' || editedItem.platform=='Other'"
+                                            v-model="editedItem.appid" label="ID" @input="IDEdited(editedItem)">
+                                        </v-text-field>
+                                    </v-flex>
+                                </tr>
+                                <tr>
+                                    <v-flex xs8 sm8 md8>
+                                        <v-combobox :items='this.appnames' v-model="editedItem.name"
+                                            @change="NameEdited(editedItem)" label="Name">
                                         </v-combobox>
                                     </v-flex>
-                                    <v-flex xs12 sm6 md4>
-                                        <v-text-field :rules="[() => !!editedItem.appid || 'This field is required']"
-                                            v-model="editedItem.appid" label="ID" @input="IDEdited()">
-                                        </v-text-field>
-                                    </v-flex>
                                 </tr>
                                 <tr>
-                                    <v-flex xs12 sm12 md12>
-                                        <v-text-field v-model="editedItem.name" label="Name" readonly>
-                                        </v-text-field>
-                                    </v-flex>
-                                </tr>
-                                <tr>
+                                    <v-chip disabled class="mx-auto" text-color="white" color="green">
+                                        <v-icon>mdi-key</v-icon>
+                                        <div class="pa-2 ma-2">Keys</div>
+                                    </v-chip>
                                     <v-flex xs12 sm12 md12 v-for="(index,i) in editedItem.keys" :key="i">
-                                        Key {{i+1}}
-                                        <v-edit-dialog :return-value.sync="index.key" large persistent color="red">
-                                            <v-chip text-color="white" color="blue">{{ index.key }}</v-chip>
-                                            <template v-slot:input>
-                                                <div class="mt-4 title">Update key</div>
-                                            </template>
-                                            <template v-slot:input>
-                                                <v-text-field v-model="index.key" :rules="[max25chars]" label="Edit"
-                                                    single-line counter autofocus color="red"></v-text-field>
-                                            </template>
-                                        </v-edit-dialog>
+                                        <v-text-field v-model="index.key" :label="'Key '+ parseInt(i+1)"
+                                            :rules="[max25chars]" color="red">
+                                        </v-text-field>
                                     </v-flex>
                                 </tr>
                                 <tr>
@@ -182,6 +230,15 @@
                                                     <strong>{{ tags.item }}</strong>
                                                 </v-chip>
                                             </template>
+                                            <template v-slot:no-data>
+                                                <v-list-tile>
+                                                    <v-list-tile-content>
+                                                        <v-list-tile-title>
+                                                            No results found. Press <kbd>enter</kbd> to create a new tag
+                                                        </v-list-tile-title>
+                                                    </v-list-tile-content>
+                                                </v-list-tile>
+                                            </template>
                                         </v-combobox>
                                     </v-flex>
                                 </tr>
@@ -193,11 +250,13 @@
                     <v-spacer></v-spacer>
                     <v-btn color="blue darken-1" flat _click="close" @click="editdialog = !editdialog">Cancel
                     </v-btn>
-                    <v-btn color="blue darken-1" flat @click="save()">Save</v-btn>
+                    <v-btn color="blue darken-1"
+                        :disabled="editedItem.appid == '' || editedItem.platform == '' || editedItem.name == '' ? true : false"
+                        :loading="isAdding" flat @click="save();isAdding = true">Save</v-btn>
                 </v-card-actions>
             </v-card>
         </v-dialog>
-        <v-dialog v-model="addialog" max-width="500px" loading>
+        <v-dialog v-model="addialog" max-width="500px" persistent loading>
             <v-card>
                 <v-progress-linear :active="isAdding" class="ma-0" color="blue lighten-3" height="4" indeterminate>
                 </v-progress-linear>
@@ -209,36 +268,40 @@
                         <v-layout wrap>
                             <table>
                                 <tr>
-                                    <v-flex xs12 sm6 md6>
-                                        <v-combobox :items='platforms' v-model="itemtoadd.platform"
-                                            :readonly="$route.path == '/keys' ? false : true" label="Platform">
+                                    <v-flex xs12 sm12 md12>
+                                        <v-select required :rules="[v => !!v || 'Platform is required']"
+                                            :items='platforms.map(e => e.name)' v-model="itemtoadd.platform"
+                                            @change="PlatformEdited(itemtoadd.platform);itemtoadd.name='';itemtoadd.appid=''"
+                                            :readonly="$route.path.includes('/keys') ? false : true" label="Platform"
+                                            :prepend-icon="itemtoadd.platform=='Steam'||itemtoadd.platform=='Origin' ? 'mdi-'+itemtoadd.platform.toLowerCase() : 'mdi-key'">
+                                        </v-select>
+                                    </v-flex>
+                                    <v-flex xs4 sm4 md4>
+                                        <v-text-field :rules="[v => !!v || 'This field is required']"
+                                            :disabled="itemtoadd.platform=='Origin' || itemtoadd.platform=='Other'"
+                                            v-model="itemtoadd.appid" label="ID" @input="IDEdited(itemtoadd)">
+                                        </v-text-field>
+                                    </v-flex>
+                                </tr>
+                                <tr>
+                                    <v-flex xs8 sm8 md8>
+                                        <v-combobox :items='this.appnames' v-model="itemtoadd.name"
+                                            @change="NameEdited(itemtoadd)" label="Name">
                                         </v-combobox>
                                     </v-flex>
-                                    <v-flex xs12 sm6 md4>
-                                        <v-text-field :rules="[() => !!itemtoadd.appid || 'This field is required']"
-                                            v-model="itemtoadd.appid" label="ID" @input="IDAdded()"></v-text-field>
-                                    </v-flex>
                                 </tr>
                                 <tr>
+                                    <v-chip disabled class="mx-auto" text-color="white" color="green">
+                                        <v-icon>mdi-key</v-icon>
+                                        <div class="pa-2 ma-2">Keys</div>
+                                    </v-chip>
                                     <v-flex xs12 sm12 md12>
-                                        <v-text-field v-model="itemtoadd.name" label="Name"></v-text-field>
-                                    </v-flex>
-                                </tr>
-                                <tr>
-                                    Keys
-                                    <v-flex xs12 sm12 md12 v-for="(index,i) in itemtoadd.keys.length" :key="i">
-                                        <v-edit-dialog :v-model="itemtoadd.keys[i].key" return-object large persistent
-                                            color="red">
-                                            <v-chip text-color="white" color="blue">{{ itemtoadd.keys[i].key }}</v-chip>
-                                            <template v-slot:input>
-                                                <div class="mt-4 title">add key</div>
-                                            </template>
-                                            <template v-slot:input>
-                                                <v-text-field v-model="itemtoadd.keys[i].key" :rules="[max25chars]"
-                                                    label="add" single-line counter autofocus color="red" return-object>
-                                                </v-text-field>
-                                            </template>
-                                        </v-edit-dialog>
+                                        <div v-for="(index,i) in itemtoadd.keys.length" :key="i">
+                                            <v-text-field placeholder="XXXX-XXXX-XXXX-XXXX"
+                                                v-model="itemtoadd.keys[i].key" :label="'Key '+parseInt(i+1)"
+                                                :rules="[max25chars]" color="red">
+                                            </v-text-field>
+                                        </div>
                                     </v-flex>
                                 </tr>
                                 <tr>
@@ -257,6 +320,15 @@
                                                     <strong>{{ tags.item }}</strong>
                                                 </v-chip>
                                             </template>
+                                            <template v-slot:no-data>
+                                                <v-list-tile>
+                                                    <v-list-tile-content>
+                                                        <v-list-tile-title>
+                                                            No results found. Press <kbd>enter</kbd> to create a new tag
+                                                        </v-list-tile-title>
+                                                    </v-list-tile-content>
+                                                </v-list-tile>
+                                            </template>
                                         </v-combobox>
                                     </v-flex>
                                 </tr>
@@ -266,15 +338,22 @@
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn color="blue darken-1" flat _click="close" depressed @click="addialog = !addialog">Cancel
+                    <v-btn color="blue darken-1" flat _click="close" depressed @click="addialog = !addialog;itemtoadd={
+                    appid: '',
+                    name: '',
+                    platform: '',
+                    keys: [{
+                        key: ''
+                    }],
+                }">Cancel
                     </v-btn>
                     <v-btn color="blue darken-1" flat
-                        :disabled="itemtoadd.appid == '' || itemtoadd.platform == '' ? true : false" :loading="isAdding"
-                        @click="add(itemtoadd);isAdding = true">Add</v-btn>
+                        :disabled="itemtoadd.appid == '' || itemtoadd.platform == '' || itemtoadd.name == '' ? true : false"
+                        :loading="isAdding" @click="add(itemtoadd);isAdding = true">Add</v-btn>
                 </v-card-actions>
             </v-card>
         </v-dialog>
-        <v-dialog v-model="infodialog" max-width="500px">
+        <v-dialog v-model="infodialog" persistent max-width="500px">
             <v-card>
                 <v-card-title>
                     <span class="headline">App Info</span>
@@ -300,7 +379,7 @@
                 </v-btn>
             </template>
             <v-btn fab dark small color="indigo"
-                @click="addialog = true; if ($route.path!=='/keys') itemtoadd.platform=subStr($route.path)">
+                @click="addialog = true; if (!$route.path.includes('/keys')) {itemtoadd.platform=subStr($route.path);PlatformEdited(itemtoadd.platform)}">
                 <v-icon>add</v-icon>
             </v-btn>
             <v-btn fab dark small color="green">
@@ -314,10 +393,16 @@
 </template>
 <script>
     module.exports = {
+        props: {
+            searchvalue: {
+                type: String,
+                default: ''
+            }
+        },
         watch: {
             isAdding(val) {
                 if (val) {
-                    setTimeout(() => (this.isAdding = false), 700)
+                    setTimeout(() => (this.isAdding = false), 500)
                 }
             }
         },
@@ -351,11 +436,24 @@
                 gametagsselected: [],
                 fling: false,
                 tabs: null,
-                search: null,
+                search: '',
+                appnames: null,
                 editdialog: false,
                 infodialog: false,
                 addialog: false,
-                platforms: ['Steam', 'Uplay', 'Origin', 'Other'],
+                platforms: [{
+                    name: 'Steam',
+                    color: '#1d2f54'
+                }, {
+                    name: 'Uplay',
+                    color: '#0e82cf'
+                }, {
+                    name: 'Origin',
+                    color: '#eb6a00'
+                }, {
+                    name: 'Other',
+                    color: 'white'
+                }],
                 headers: [{
                         text: 'Pic',
                         align: 'left',
@@ -413,72 +511,73 @@
         methods: {
             impport() {
                 impport();
-            }
-            ,
-            IDEdited() {
-                i = 0;
-                switch (this.editedItem.platform) {
+            },
+            IDEdited(item) {
+                switch (item.platform) {
                     case 'Steam':
-                        while (i < store.state.steam.length & i <= parseInt(this.editedItem.appid)) {
-                            if (store.state.steam[i].appid == parseInt(this.editedItem.appid)) {
-                                this.editedItem.name = store.state.steam[i].name;
-                                break;
-                            } else this.editedItem.name = ''
-                            i++
-                        }
+                        index = store.state.steam.map(e => e.appid).indexOf(this.getappid(item));
+                        if (index == -1) item.name = ''
+                        else item.name = store.state.steam[index].name;
                         break;
                     case 'Origin':
-                        while (i < store.state.origin.length) {
-                            if (store.state.origin[i].appid == this.editedItem.appid) {
-                                this.editedItem.name = store.state.origin[i].name;
-                                break;
-                            } else this.editedItem.name = ''
-                            i++
-                        }
+                        index = store.state.origin.map(e => e.appid).indexOf(this.getappid(item));
+                        if (index == -1) item.name = ''
+                        else item.name = store.state.origin[index].name;
                         break;
                     case 'Uplay':
-                        while (i < store.state.uplay.length) {
-                            if (store.state.uplay[i].appid == this.editedItem.appid) {
-                                this.editedItem.name = store.state.uplay[i].name;
-                                break;
-                            } else this.editedItem.name = ''
-                            i++
-                        }
+                        index = store.state.uplay.map(e => e.appid).indexOf(this.getappid(item));
+                        if (index == -1) item.name = ''
+                        else item.name = store.state.uplay[index].name;
+                        break;
+                    case 'Other':
+                        index = store.state.others.map(e => e.appid).indexOf(this.getappid(item));
+                        if (index == -1) item.name = ''
+                        else item.name = store.state.otehrs[index].name;
+                        break;
+                }
+            },
+            NameEdited(item) {
+                switch (item.platform) {
+                    case 'Steam':
+                        index = store.state.steam.map(e => e.name).indexOf(item.name);
+                        if (index == -1) item.appid = ''
+                        else item.appid = store.state.steam[index].appid;
+                        break;
+                    case 'Origin':
+                        index = store.state.origin.map(e => e.name).indexOf(item.name);
+                        if (index == -1) item.appid = ''
+                        else item.appid = store.state.origin[index].appid;
+                        break;
+                    case 'Uplay':
+                        index = store.state.uplay.map(e => e.name).indexOf(item.name);
+                        if (index == -1) item.appid = ''
+                        else item.appid = store.state.uplay[index].appid;
+                        break;
+                    case 'Other':
+                        index = store.state.others.map(e => e.name).indexOf(item.name);
+                        if (index == -1) item.appid = ''
+                        else item.appid = store.state.others[index].appid;
                         break;
                 }
 
+
             },
-            IDAdded() {
-                i = 0;
-                switch (this.itemtoadd.platform) {
+            PlatformEdited(platform) {
+                switch (platform) {
                     case 'Steam':
-                        while (i < store.state.steam.length & i <= parseInt(this.itemtoadd.appid)) {
-                            if (store.state.steam[i].appid == this.itemtoadd.appid) {
-                                this.itemtoadd.name = store.state.steam[i].name;
-                                break;
-                            } else this.itemtoadd.name = ''
-                            i++
-                        }
-                        break;
-                    case 'Origin':
-                        while (i < store.state.origin.length) {
-                            if (store.state.origin[i].appid == this.itemtoadd.appid) {
-                                this.itemtoadd.name = store.state.origin[i].name;
-                                break;
-                            } else this.itemtoadd.name = ''
-                            i++
-                        }
+                        this.appnames = store.state.steam.map(e => e.name)
                         break;
                     case 'Uplay':
-                        while (i < store.state.uplay.length) {
-                            if (store.state.uplay[i].appid == this.itemtoadd.appid) {
-                                this.itemtoadd.name = store.state.uplay[i].name;
-                                break;
-                            } else this.itemtoadd.name = ''
-                            i++
-                        }
+                        this.appnames = store.state.uplay.map(e => e.name)
+                        break;
+                    case 'Origin':
+                        this.appnames = store.state.origin.map(e => e.name)
+                        break;
+                    case 'Other':
+                        this.appnames = store.state.others.map(e => e.name)
                         break;
                 }
+
             },
             removetag(item) {
                 this.gametagsselected.splice(this.gametagsselected.indexOf(item), 1)
@@ -487,12 +586,33 @@
             Lowercasefirst(text) {
                 return text.charAt(0).toLowerCase() + text.slice(1);
             },
+            Equals(item1, item2) {
+                return item1.platform == item2.platform & item1.name == item2.name & item1.appid == item2.appid &
+                    item1.keys.length == item2.keys.length
+            },
+            getappid(item) {
+                if (item.platform != 'Steam') return item.appid;
+                else return parseInt(item.appid);
+            },
+            editkey(item, oldkey, newkey) {
+                editkey(this.gettab(item.platform), this.getappid(item), oldkey, newkey);
+                index = this.apps.map(e => e.appid).indexOf(item.appid);
+                indexk = this.apps[index].keys.map(e => e.key).indexOf(oldkey);
+                this.apps[index].keys[indexk].key = newkey;
+            },
+            edit_key(item, index) {
+
+
+                //console.log("item " + item.keys[0].key + "   " + index.key);
+
+            },
             save() {
-                /*k=0;
-                while (k < this.oldediteditem.keys.length) {
-                    console.log(this.oldediteditem.keys[k].key +"   "+ this.editedItem.keys[k].key);
-                    k++;}*/
-                if (this.oldediteditem.appid !== this.editedItem.appid || this.oldediteditem.keys[0] !== this.editedItem.keys[0]) {
+                for (i = 0; i < this.oldediteditem.keys.length; i++) {
+                    if (this.oldediteditem.keys[i].key !== this.editedItem.keys[i].key)
+                        this.editkey(this.oldediteditem, this.oldediteditem.keys[i].key, this.editedItem.keys[i]
+                            .key)
+                }
+                if (!this.Equals(this.oldediteditem, this.editedItem)) {
                     i = 0;
                     gameexists = false;
                     while (i < this.apps.length) {
@@ -502,29 +622,71 @@
                         }
                         i++
                     }
-                    var newitem = {
-                        name: this.editedItem.name,
-                        appid: this.editedItem.appid,
-                        platform: this.editedItem.platform,
-                        keys: this.editedItem.keys
-                    };
-                    const index = this.apps.map(e => e.appid).indexOf(this.oldediteditem.appid);
+                    index = this.apps.map(e => e.appid).indexOf(this.oldediteditem.appid);
                     k = 0;
-                    if (this.editedItem.platform != 'Steam') appid = this.editedItem.appid
-                        else appid = parseInt(this.editedItem.appid)
                     while (k < this.apps[index].keys.length) {
-                        addkey(this.gettab(this.editedItem.platform), appid, this.apps[index].keys[k].key);
+                        addkey(this.gettab(this.editedItem.platform), this.getappid(this.editedItem), this
+                            .editedItem.keys[k].key);
                         if (gameexists) {
                             this.apps[i].keys.push(this.apps[index].keys[k]);
                         }
                         k++;
                     }
-                    delgamekeys(this.gettab(this.editedItem.platform), this.oldediteditem.appid);
+                    delgamekeys(this.gettab(this.oldediteditem.platform), this.getappid(this.oldediteditem));
                     this.apps.splice(index, 1);
-                    if (!gameexists) this.apps.push(newitem);
+                    if (!gameexists) this.apps.push({
+                        name: this.editedItem.name,
+                        appid: this.editedItem.appid,
+                        platform: this.editedItem.platform,
+                        keys: this.editedItem.keys
+                    });
+                    this.UpdateVuex(this.editedItem.platform, this.apps);
+                    this.UpdateVuex(this.oldediteditem.platform, this.apps);
                 }
                 //this.apps[0]={...this.apps[0],name:"test"};
+                this.editedItem = {
+                    appid: '',
+                    name: '',
+                    platform: '',
+                    keys: [],
+                };
+
+                this.oldeditedItem = null;
                 this.editdialog = false;
+            },
+            UpdateVuex(platform, newvalue) {
+                if (this.$route.path.includes('/keys')) {
+                    switch (platform) {
+                        case 'Steam':
+                            store.state.steamkey = newvalue.reduce(function (items, item) {
+                                if (item.platform == 'Steam')
+                                    return items.concat(item);
+                                else return items
+                            }, []);
+                            break;
+                        case 'Uplay':
+                            store.state.uplaykey = newvalue.reduce(function (items, item) {
+                                if (item.platform == 'Uplay')
+                                    return items.concat(item);
+                                else return items
+                            }, []);
+                            break;
+                        case 'Origin':
+                            store.state.originkey = newvalue.reduce(function (items, item) {
+                                if (item.platform == 'Origin')
+                                    return items.concat(item);
+                                else return items
+                            }, []);
+                            break;
+                        case 'Other':
+                            store.state.otherskey = newvalue.reduce(function (items, item) {
+                                if (item.platform == 'Other')
+                                    return items.concat(item);
+                                else return items
+                            }, []);
+                            break;
+                    }
+                }
             },
             gettab(platform) {
                 switch (platform) {
@@ -543,15 +705,13 @@
                 }
             },
             add(app) {
-                if (app.platform != 'Steam') appid = app.appid
-                else appid = parseInt(app.appid)
                 for (var i = 0; i < app.keys.length; i++) {
-                    addkey(this.gettab(app.platform), appid, app.keys[i].key);
+                    addkey(this.gettab(app.platform), this.getappid(app), app.keys[i].key);
                 }
-                var index = this.apps.map(e => e.appid).indexOf(appid);
+                var index = this.apps.map(e => e.appid).indexOf(this.getappid(app));
                 if (index == -1)
                     this.apps.push({
-                        appid: appid,
+                        appid: this.getappid(app),
                         name: app.name,
                         keys: app.keys,
                         platform: app.platform
@@ -559,18 +719,29 @@
                 else {
                     this.apps[index].keys = this.apps[index].keys.concat(app.keys);
                 }
+                this.UpdateVuex(app.platform, this.apps);
+                this.itemtoadd = {
+                    appid: '',
+                    name: '',
+                    platform: '',
+                    keys: [{
+                        key: ''
+                    }]
+                }
+                this.addialog = false;
             },
             editItem(item) {
-                this.editedItem = Object.assign({}, item);
-                this.oldediteditem = Object.assign({}, item);
+                this.editedItem = JSON.parse(JSON.stringify(item));
+                this.oldediteditem = JSON.parse(JSON.stringify(item));
                 //console.log( this.editedItem.keys === this.oldediteditem.keys);
+                this.PlatformEdited(this.editedItem.platform);
                 this.editdialog = true;
             },
             deleteItem(item) {
                 const index = this.apps.indexOf(item)
                 confirm('Are you sure you want to delete all The keys of this game?') && delgamekeys(this.gettab(
                         item.platform), item
-                    .appid) & this.apps.splice(index, 1) & console.log("success")
+                    .appid) & this.apps.splice(index, 1) & this.UpdateVuex(item.platform, this.apps)
             },
             deletekey(key, item) {
                 const index = this.apps.indexOf(item);
@@ -582,9 +753,10 @@
                     this.apps.splice(index, 1);
                     delgamekeys(this.gettab(item.platform), item.appid);
                 }
+                this.UpdateVuex(item.platform, this.apps);
             },
             subStr(string) {
-                if (string == '/keys') {
+                if (string.includes('/keys')) {
                     return 'all'
                 } else {
                     return string.substring(1, 15).charAt(0).toUpperCase() + string.substring(1, 15).slice(1);
@@ -614,7 +786,8 @@
             }
         },
         mounted() {
-            if (window.location.hash.slice(1) == "/keys") {
+            this.search = this.searchvalue;
+            if (window.location.hash.slice(1).includes("/keys")) {
                 this.headers[2].show = true;
             } else {
                 this.headers[2].show = false;
@@ -632,7 +805,7 @@
                 case '/other':
                     this.apps = store.state.otherskey
                     break;
-                case '/keys':
+                default:
                     this.apps = store.state.steamkey.concat(store.state.uplaykey.concat(store.state.originkey
                         .concat(store.state.otherskey)))
                     break;

@@ -22,7 +22,7 @@ Dexie.exists('GameKey_DB').then(async function (exists) {
         const uplayjs = await uplay.json();
         db.uplay.bulkPut(uplayjs.applist);
         
-        getdata();
+        opendb();
     }
 
 })
