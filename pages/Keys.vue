@@ -210,6 +210,10 @@
                                     </v-flex>
                                 </tr>
                                 <tr>
+                                    <v-chip disabled class="mx-auto" text-color="white" color="green">
+                                        <v-icon>mdi-key</v-icon>
+                                        <div class="pa-2 ma-2">Keys</div>
+                                    </v-chip>
                                     <v-flex xs12 sm12 md12 v-for="(index,i) in editedItem.keys" :key="i">
                                         <v-text-field v-model="index.key" :label="'Key '+ parseInt(i+1)"
                                             :rules="[max25chars]" color="red">
@@ -287,9 +291,9 @@
                                     </v-flex>
                                 </tr>
                                 <tr>
-                                    <v-chip disabled text-color="white" color="green">
+                                    <v-chip disabled class="mx-auto" text-color="white" color="green">
                                         <v-icon>mdi-key</v-icon>
-                                        Keys
+                                        <div class="pa-2 ma-2">Keys</div>
                                     </v-chip>
                                     <v-flex xs12 sm12 md12>
                                         <div v-for="(index,i) in itemtoadd.keys.length" :key="i">
