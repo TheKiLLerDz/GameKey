@@ -1,18 +1,21 @@
 var db;
-Dexie.exists('GameKey_DB').then(function (exists) {
-	if (exists) {
-		new Dexie('GameKey_DB').open()
-			.then(function (d) {
-				db = d
-			}).catch('NoSuchDatabaseError', function (e) {
-				// Database with that name did not exist
-				console.error("Database not found");
-			}).catch(function (e) {
-				console.error("Oh uh: " + e);
-			});
-	}
-})
 
+function opendb() {
+	Dexie.exists('GameKey_DB').then(function (exists) {
+		if (exists) {
+			new Dexie('GameKey_DB').open()
+				.then(function (d) {
+					db = d;
+					getdata();
+				}).catch('NoSuchDatabaseError', function (e) {
+					// Database with that name did not exist
+					console.error("Database not found");
+				}).catch(function (e) {
+					console.error("Oh uh: " + e);
+				});
+		}
+	})
+}
 
 function getdata() {
 	getuplaybdd()

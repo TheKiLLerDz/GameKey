@@ -44,7 +44,7 @@ const store = new Vuex.Store({
     otherskey: [],
     allkeys: [],
     temp: {},
-    tempimport : undefined,
+    tempimport: undefined,
   },
 })
 v = new Vue({
@@ -133,7 +133,7 @@ v = new Vue({
     }
   },
   beforeCreate() {
-    getdata()
+    opendb()
   },
   mounted() {
     if (localStorage.theme) this.theme = localStorage.theme;
