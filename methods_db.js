@@ -65,10 +65,10 @@ function getoriginbdd() {
 	})
 }
 
-function addkey(t, id, key) {
+function addkey(t, appid, key) {
 
 
-	db.tables[t].where("appid").equals(id).modify(game => {
+	db.tables[t].where("appid").equals(appid).modify(game => {
 		if (game.keys == undefined) {
 			game.keys = [{
 				'key': key
@@ -84,12 +84,26 @@ function addkey(t, id, key) {
 
 }
 
+function addtag(t,appid,tag) {
+	db.tables[t].where("appid").equals(appid).modify(game => {
+		if (game.tags == undefined) {
+			game.tags = [
+				tag
+			];
+		} else {
+			game.tags.push(tag);
+		}
+	});
+	
+}
 
-function delkey(t, id, key) {
+
+
+function delkey(t, appid, key) {
 
 
 
-	db.tables[t].where("appid").equals(id).modify(game => {
+	db.tables[t].where("appid").equals(appid).modify(game => {
 
 		if (game.keys.length > 1) {
 			game.keys = game.keys.filter((el) => {
@@ -107,11 +121,11 @@ function delkey(t, id, key) {
 
 
 
-function delgamekeys(t, id) {
+function delgamekeys(t, appid) {
 
 
 
-	db.tables[t].where("appid").equals(id).modify(game => {
+	db.tables[t].where("appid").equals(appid).modify(game => {
 
 		delete game.keys
 
@@ -120,11 +134,11 @@ function delgamekeys(t, id) {
 }
 
 
-function editkey(t, id, okey, nkey) {
+function editkey(t, appid, okey, nkey) {
 
 
 
-	db.tables[t].where("appid").equals(id).modify(game => {
+	db.tables[t].where("appid").equals(appid).modify(game => {
 
 		for (var i = 0; i < game.keys.length; i++) {
 			if (game.keys[i].key == okey) {

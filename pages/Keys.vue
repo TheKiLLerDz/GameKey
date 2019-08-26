@@ -799,6 +799,12 @@ return el.appid == item.appid
                 for (var i = 0; i < app.keys.length; i++) {
                     addkey(this.gettab(app.platform), this.getappid(app), app.keys[i].key);
                 }
+
+                for (var i =0; i < app.tags.length; i++) {
+         addtag(this.gettab(app.platform), this.getappid(app), app.tags[i]);
+         console.log(app.tags[i])
+
+                }
                 var index = this.apps.map(e => e.appid).indexOf(this.getappid(app));
                 if (index == -1)
                     this.apps.push({
