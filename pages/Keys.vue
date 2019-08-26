@@ -670,8 +670,9 @@ return el.appid == item.appid
 
             },
             removetag(item) {
-                this.gametagsselected.splice(this.gametagsselected.indexOf(item), 1)
-                this.gametagsselected = [...this.gametagsselected]
+                console.log(this.editedItem.tags.indexOf(item))
+                this.editedItem.tags.splice(this.editedItem.tags.indexOf(item), 1)
+                this.gametagsselected = [...this.editedItem.tags]
             },
             Lowercasefirst(text) {
                 return text.charAt(0).toLowerCase() + text.slice(1);
@@ -836,7 +837,7 @@ return el.appid == item.appid
             },
             deleteItem(item) {
                 const index = this.apps.indexOf(item)
-                confirm('Are you sure you want to delete all The keys of this game?') && delgamekeys(this.gettab(
+                confirm('Are you sure you want to delete all The keys of this game?') && delgametagskeys(this.gettab(
                         item.platform), item
                     .appid) & this.apps.splice(index, 1) & this.UpdateVuex(item.platform, this.apps)
             },
@@ -848,7 +849,7 @@ return el.appid == item.appid
                     index].keys.splice(indexi, 1);
                 if (item.keys.length == 0) {
                     this.apps.splice(index, 1);
-                    delgamekeys(this.gettab(item.platform), item.appid);
+                    delgametagskeys(this.gettab(item.platform), item.appid);
                 }
                 this.UpdateVuex(item.platform, this.apps);
             },

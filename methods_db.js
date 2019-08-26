@@ -80,8 +80,6 @@ function addkey(t, appid, key) {
 		}
 	});
 
-
-
 }
 
 function addtag(t,appid,tag) {
@@ -121,13 +119,14 @@ function delkey(t, appid, key) {
 
 
 
-function delgamekeys(t, appid) {
+function delgametagskeys(t, appid) {
 
 
 
 	db.tables[t].where("appid").equals(appid).modify(game => {
 
 		delete game.keys
+		delete game.tags
 
 
 	})
