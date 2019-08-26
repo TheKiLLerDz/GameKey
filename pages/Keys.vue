@@ -222,8 +222,8 @@
                                 </tr>
                                 <tr>
                                     <v-flex xs12 sm12 md12>
-                                        <v-combobox v-model="gametagsselected" :items="gametags" label="Game Tags" chips
-                                            clearable prepend-icon="filter_list" solo multiple>
+                                        <v-combobox  :items="gametags" label="Game Tags" chips
+                                            clearable prepend-icon="filter_list" solo multiple v-model="editedItem.tags">
                                             <template v-slot:selection="tags">
                                                 <v-chip :selected="tags.selected" close @input="removetag(tags.item)"
                                                     color="orange" outline>
@@ -312,7 +312,7 @@
 
                                 <tr>
                                     <v-flex xs12 sm12 md12>
-                                        <v-combobox v-model="gametagsselected" :items="gametags" label="Game Tags" chips
+                                        <v-combobox v-model="itemtoadd.tags" :items="gametags" label="Game Tags" chips
                                             clearable prepend-icon="filter_list" solo multiple>
                                             <template v-slot:selection="tags">
                                                 <v-chip :selected="tags.selected" close @input="removetag(tags.item)"
@@ -561,12 +561,14 @@
                     keys: [{
                         key: ''
                     }],
+                    tags : [],
                 },
                 editedItem: {
                     appid: '',
                     name: '',
                     platform: '',
                     keys: [],
+                    tags : [],
                 },
             }
         },
@@ -575,24 +577,36 @@
                 impport();
             },
 
-            gettags(appid) {
-            var i = 0 ; var test = true;
-                        while (i < this.apps.length & test) {
-if (appid == this.apps[i].appid ) {
-test = false;
-}
-i++
+            gettags(item) {
+                var i = 0;
+                var test = true;
+                while (i < this.apps.length & test) {
+                    if (item.appid == this.apps[i].appid) {
+                        test = false;
+                    }
+                    i++
+                }
+                if (test) {
+                    tags(item.appid)
+                    item.tags = tagsapp;
+                } else {
+                 
+               i =  this.apps.filter(el =>
+                        {
+return el.appid == item.appid
                         }
-                        if (test) {tags(appid)
-                        this.gametagsselected = tagsapp;}
-                        },
+                    )
+                    item.tags = i[0].tags 
+                    console.log(i.tags)
+                }
+            },
             IDEdited(item) {
                 switch (item.platform) {
-                    case 'Steam':                 
+                    case 'Steam':
                         index = store.state.steam.map(e => e.appid).indexOf(this.getappid(item));
                         if (index == -1) item.name = ''
                         else item.name = store.state.steam[index].name;
-                        this.gettags(item.appid)
+                        this.gettags(item)
                         break;
                     case 'Origin':
                         index = store.state.origin.map(e => e.appid).indexOf(this.getappid(item));
@@ -714,7 +728,8 @@ i++
                         name: this.editedItem.name,
                         appid: this.editedItem.appid,
                         platform: this.editedItem.platform,
-                        keys: this.editedItem.keys
+                        keys: this.editedItem.keys,
+                        tags: this.editedItem.tags
                     });
                     this.UpdateVuex(this.editedItem.platform, this.apps);
                     this.UpdateVuex(this.oldediteditem.platform, this.apps);
