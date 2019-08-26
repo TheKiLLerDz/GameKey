@@ -783,16 +783,16 @@ return el.appid == item.appid
             gettab(platform) {
                 switch (platform) {
                     case 'Steam':
-                        return 1
+                        return 2
                         break;
                     case 'Uplay':
-                        return 2
+                        return 3
                         break;
                     case 'Origin':
                         return 0
                         break;
                     case 'Other':
-                        return 3
+                        return 1
                         break;
                 }
             },
