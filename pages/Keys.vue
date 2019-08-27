@@ -10,7 +10,7 @@
                         </v-icon>
                         <v-icon v-else-if="$route.path=='/origin'" dense :color='platforms[2].color' x-large>mdi-origin
                         </v-icon>
-                        <v-icon v-else-if="$route.path=='/other'" dense :color='platforms[3].color' x-large>mdi-key
+                        <v-icon v-else-if="$route.path=='/other'" dense :color='platforms[3].color' x-large>mdi-alert-circle
                         </v-icon>
                         {{subStr($route.path)}} Keys
                     </h1>
@@ -222,8 +222,8 @@
                                 </tr>
                                 <tr>
                                     <v-flex xs12 sm12 md12>
-                                        <v-combobox v-model="gametagsselected" :items="gametags" label="Game Tags" chips
-                                            clearable prepend-icon="filter_list" solo multiple>
+                                        <v-combobox  :items="gametags" label="Game Tags" chips
+                                            clearable prepend-icon="filter_list" solo multiple v-model="editedItem.tags">
                                             <template v-slot:selection="tags">
                                                 <v-chip :selected="tags.selected" close @input="removetag(tags.item)"
                                                     color="orange" outline>
@@ -312,7 +312,7 @@
 
                                 <tr>
                                     <v-flex xs12 sm12 md12>
-                                        <v-combobox v-model="gametagsselected" :items="gametags" label="Game Tags" chips
+                                        <v-combobox v-model="itemtoadd.tags" :items="gametags" label="Game Tags" chips
                                             clearable prepend-icon="filter_list" solo multiple>
                                             <template v-slot:selection="tags">
                                                 <v-chip :selected="tags.selected" close @input="removetag(tags.item)"
@@ -432,7 +432,69 @@
                     rowsPerPage: 10
                 },
                 max25chars: v => v.length <= 25 || 'Key is too long!',
-                gametags: ['Action', 'AAA', 'Sport', 'Cars'],
+                gametags: ["Indie", "Action", "Adventure", "Casual", "Low Confidence Metric", "Simulation",
+                    "Strategy", "RPG", "Singleplayer", "Early Access", "Free to Play", "2D", "Great Soundtrack",
+                    "Atmospheric", "Puzzle", "Violent", "Multiplayer", "VR", "Story Rich", "Gore", "Fantasy",
+                    "Anime", "Nudity", "Difficult", "Sports", "Horror", "Sexual Content", "Pixel Graphics",
+                    "Platformer", "Sci-fi", "Funny", "Massively Multiplayer", "Racing", "Shooter",
+                    "Female Protagonist", "First-Person", "Open World", "Retro", "Turn-Based", "Co-op",
+                    "Arcade", "Family Friendly", "FPS", "Visual Novel", "Survival", "Comedy", "Sandbox", "Cute",
+                    "Exploration", "Online Co-Op", "Movie", "Point &amp; Click", "Classic", "Replay Value",
+                    "Relaxing", "Space", "Utilities", "Design &amp; Illustration", "Psychological Horror",
+                    "Masterpiece", "Colorful", "Third Person", "Software", "Local Multiplayer", "Fast-Paced",
+                    "RPGMaker", "Physics", "Controller", "Mystery", "Shoot 'Em Up", "Tactical", "Rogue-like",
+                    "Zombies", "Short", "Party-Based RPG", "Management", "Local Co-Op", "Side Scroller",
+                    "Building", "Dark", "Memes", "Hidden Object", "Realistic", "Adult Content",
+                    "Turn-Based Strategy", "Puzzle-Platformer", "Survival Horror", "Music", "RTS",
+                    "Choices Matter", "Education", "Web Publishing", "Historical", "Rogue-lite", "Bullet Hell",
+                    "War", "Top-Down", "Minimalist", "Mature", "Action-Adventure", "Crafting", "Action RPG",
+                    "JRPG", "Competitive", "Tower Defense", "Stealth", "Hack and Slash",
+                    "Procedural Generation", "Walking Simulator", "4 Player Local", "Fighting",
+                    "Dungeon Crawler", "PvP", "Audio Production", "Old School", "Post-apocalyptic", "Card Game",
+                    "Romance", "Drama", "Dark Fantasy", "Isometric", "Top-Down Shooter", "Turn-Based Combat",
+                    "Animation &amp; Modeling", "Character Customization", "Multiple Endings", "Medieval",
+                    "Third-Person Shooter", "Cartoony", "Base Building", "Stylized", "Cyberpunk",
+                    "Resource Management", "Dating Sim", "Surreal", "Turn-Based Tactics", "Episodic", "Economy",
+                    "Metroidvania", "Driving", "Moddable", "Futuristic", "World War II", "Military", "Magic",
+                    "Robots", "Board Game", "3D Platformer", "Text-Based", "City Builder", "Hand-drawn",
+                    "Choose Your Own Adventure", "Twin Stick Shooter", "Beat 'em up", "Soundtrack",
+                    "Dark Humor", "Thriller", "Flight", "1990's", "Experimental", "Aliens",
+                    "Interactive Fiction", "Detective", "Perma Death", "Match 3", "Level Editor", "Abstract",
+                    "Cult Classic", "Mouse only", "Addictive", "Beautiful", "Crime", "MMORPG",
+                    "Video Production", "Game Development", "Team-Based", "Arena Shooter", "Clicker", "Cartoon",
+                    "Destruction", "Parkour", "LGBTQ+", "Grand Strategy", "2.5D", "Rhythm", "Steampunk",
+                    "Psychological", "Trains", "Blood", "Logic", "Real-Time", "3D", "2D Fighter",
+                    "Lovecraftian", "Loot", "Kickstarter", "Remake", "Real-Time with Pause",
+                    "Software Training", "Space Sim", "1980s", "4X", "Score Attack", "GameMaker", "Mechs",
+                    "Dystopian ", "Pirates", "Alternate History", "Documentary", "Time Management", "Otome",
+                    "Demons", "Illuminati", "Tanks", "Wargame", "Real Time Tactics", "Linear", "Split Screen",
+                    "Tactical RPG", "Dungeons &amp; Dragons", "Touch-Friendly", "Narration", "Strategy RPG",
+                    "Voxel", "Science", "PvE", "Dark Comedy", "Hex Grid", "MOBA", "Western", "Runner",
+                    "Psychedelic", "Tutorial", "NSFW", "TrackIR", "Dragons", "Naval", "Noir", "Ninja",
+                    "Comic Book", "Dinosaurs", "Battle Royale", "Political", "Swordplay", "Superhero", "CRPG",
+                    "Hacking", "Trading Card Game", "Supernatural", "eSports", "Agriculture", "Politics",
+                    "Souls-like", "Photo Editing", "God Game", "Parody ", "Grid-Based Movement", "Mod",
+                    "Lore-Rich", "Underwater", "Character Action Game", "Mythology", "Cold War", "FMV",
+                    "Crowdfunded", "Cats", "Gothic", "Based On A Novel", "Nature", "Time Attack", "Cinematic",
+                    "Emotional", "Football", "Vampire", "Villain Protagonist", "Time Travel",
+                    "Inventory Management", "Epic", "Satire", "Games Workshop", "Trading", "Programming",
+                    "Modern", "Gaming", "Assassin", "Experience", "Soccer", "Philisophical",
+                    "Silent Protagonist", "Bullet Time", "Hunting", "Nonlinear", "Word Game", "Fishing",
+                    "Martial Arts", "Time Manipulation", "America", "3D Vision", "World War I",
+                    "Co-op Campaign", "Minigames", "Warhammer 40K", "Music-Based Procedural Generation",
+                    "Faith", "Heist", "Chess", "Gun Customization", "Investigation", "LEGO", "Sailing",
+                    "Offroad", "Capitalism", "Quick-Time Events", "Spectacle fighter", "6DOF", "Mars", "Dog",
+                    "Class-Based", "Asynchronous Multiplayer", "Typing", "Artificial Intelligence", "Rome",
+                    "Horses", "Sniper", "Conspiracy", "Pinball", "Dynamic Narration", "Mining", "360 Video",
+                    "Mystery Dungeon", "Sokoban", "Star Wars", "Werewolves", "On-Rails Shooter", "Golf",
+                    "Sequel", "Conversation", "Diplomacy", "Basketball", "Gambling", "Solitaire", "Bikes",
+                    "Batman", "Immersive Sim", "Underground", "Mini Golf", "Motorbike", "Unforgiving",
+                    "Intentionally Awkward Controls", "Submarine", "Benchmark", "Baseball", "Feature Film",
+                    "Transhumanism", "Tennis", "Wrestling", "Lemmings", "Automation", "Hockey", "Pool",
+                    "Motocross", "Lara Croft", "Voice Control", "Foreign", "Skateboarding", "Steam Machine",
+                    "Spelling", "Bowling", "Cycling", "Hardware", "Jet", "Snow", "Transportation", "Skating",
+                    "Asymmetric VR", "BMX", "Snowboarding", "ATV", "Skiing", "Social Deduction"
+                ],
                 gametagsselected: [],
                 fling: false,
                 tabs: null,
@@ -452,7 +514,7 @@
                     color: '#eb6a00'
                 }, {
                     name: 'Other',
-                    color: 'white'
+                    color: 'black'
                 }],
                 headers: [{
                         text: 'Pic',
@@ -499,12 +561,14 @@
                     keys: [{
                         key: ''
                     }],
+                    tags : [],
                 },
                 editedItem: {
                     appid: '',
                     name: '',
                     platform: '',
                     keys: [],
+                    tags : [],
                 },
             }
         },
@@ -512,12 +576,37 @@
             impport() {
                 impport();
             },
+
+            gettags(item) {
+                var i = 0;
+                var test = true;
+                while (i < this.apps.length & test) {
+                    if (item.appid == this.apps[i].appid) {
+                        test = false;
+                    }
+                    i++
+                }
+                if (test) {
+                    tags(item.appid)
+                    item.tags = tagsapp;
+                } else {
+                 
+               i =  this.apps.filter(el =>
+                        {
+return el.appid == item.appid
+                        }
+                    )
+                    item.tags = i[0].tags 
+                    console.log(i.tags)
+                }
+            },
             IDEdited(item) {
                 switch (item.platform) {
                     case 'Steam':
                         index = store.state.steam.map(e => e.appid).indexOf(this.getappid(item));
                         if (index == -1) item.name = ''
                         else item.name = store.state.steam[index].name;
+                        this.gettags(item)
                         break;
                     case 'Origin':
                         index = store.state.origin.map(e => e.appid).indexOf(this.getappid(item));
@@ -542,6 +631,7 @@
                         index = store.state.steam.map(e => e.name).indexOf(item.name);
                         if (index == -1) item.appid = ''
                         else item.appid = store.state.steam[index].appid;
+                        this.gettags(item.appid)
                         break;
                     case 'Origin':
                         index = store.state.origin.map(e => e.name).indexOf(item.name);
@@ -580,8 +670,9 @@
 
             },
             removetag(item) {
-                this.gametagsselected.splice(this.gametagsselected.indexOf(item), 1)
-                this.gametagsselected = [...this.gametagsselected]
+                console.log(this.editedItem.tags.indexOf(item))
+                this.editedItem.tags.splice(this.editedItem.tags.indexOf(item), 1)
+                this.gametagsselected = [...this.editedItem.tags]
             },
             Lowercasefirst(text) {
                 return text.charAt(0).toLowerCase() + text.slice(1);
@@ -638,7 +729,8 @@
                         name: this.editedItem.name,
                         appid: this.editedItem.appid,
                         platform: this.editedItem.platform,
-                        keys: this.editedItem.keys
+                        keys: this.editedItem.keys,
+                        tags: this.editedItem.tags
                     });
                     this.UpdateVuex(this.editedItem.platform, this.apps);
                     this.UpdateVuex(this.oldediteditem.platform, this.apps);
@@ -679,7 +771,7 @@
                             }, []);
                             break;
                         case 'Other':
-                            store.state.otherskey = newvalue.reduce(function (items, item) {
+                            store.state.others = newvalue.reduce(function (items, item) {
                                 if (item.platform == 'Other')
                                     return items.concat(item);
                                 else return items
@@ -691,22 +783,28 @@
             gettab(platform) {
                 switch (platform) {
                     case 'Steam':
-                        return 1
+                        return 2
                         break;
                     case 'Uplay':
-                        return 2
+                        return 3
                         break;
                     case 'Origin':
                         return 0
                         break;
                     case 'Other':
-                        return 3
+                        return 1
                         break;
                 }
             },
             add(app) {
                 for (var i = 0; i < app.keys.length; i++) {
                     addkey(this.gettab(app.platform), this.getappid(app), app.keys[i].key);
+                }
+
+                for (var i =0; i < app.tags.length; i++) {
+         addtag(this.gettab(app.platform), this.getappid(app), app.tags[i]);
+         console.log(app.tags[i])
+
                 }
                 var index = this.apps.map(e => e.appid).indexOf(this.getappid(app));
                 if (index == -1)
@@ -739,7 +837,7 @@
             },
             deleteItem(item) {
                 const index = this.apps.indexOf(item)
-                confirm('Are you sure you want to delete all The keys of this game?') && delgamekeys(this.gettab(
+                confirm('Are you sure you want to delete all The keys of this game?') && delgametagskeys(this.gettab(
                         item.platform), item
                     .appid) & this.apps.splice(index, 1) & this.UpdateVuex(item.platform, this.apps)
             },
@@ -751,7 +849,7 @@
                     index].keys.splice(indexi, 1);
                 if (item.keys.length == 0) {
                     this.apps.splice(index, 1);
-                    delgamekeys(this.gettab(item.platform), item.appid);
+                    delgametagskeys(this.gettab(item.platform), item.appid);
                 }
                 this.UpdateVuex(item.platform, this.apps);
             },
@@ -803,11 +901,11 @@
                     this.apps = store.state.originkey
                     break;
                 case '/other':
-                    this.apps = store.state.otherskey
+                    this.apps = store.state.others
                     break;
                 default:
                     this.apps = store.state.steamkey.concat(store.state.uplaykey.concat(store.state.originkey
-                        .concat(store.state.otherskey)))
+                        .concat(store.state.others)))
                     break;
             }
         },

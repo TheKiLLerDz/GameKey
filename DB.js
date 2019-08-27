@@ -4,7 +4,8 @@ Dexie.exists('GameKey_DB').then(async function (exists) {
         db.version(1).stores({
             steam: "appid,name",
             origin: "appid,name",
-            uplay: "appid,name"
+            uplay: "appid,name",
+            others : "++appid,name",
         });
         db.open();
         const steam = await fetch(
