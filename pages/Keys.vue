@@ -349,7 +349,7 @@
                 }">Cancel
                     </v-btn>
                     <v-btn color="blue darken-1" flat
-                        :disabled="itemtoadd.appid == '' || itemtoadd.platform == '' || itemtoadd.name == '' ? true : false"
+                        :disabled="itemtoadd.platform == '' || itemtoadd.name == '' || itemtoadd.appid == '' && itemtoadd.platform != 'Other' ? true : false"
                         :loading="isAdding" @click="add(itemtoadd);isAdding = true">Add</v-btn>
                 </v-card-actions>
             </v-card>
@@ -799,11 +799,21 @@ return el.appid == item.appid
                 }
             },
             add(app) {
-                for (var i = 0; i < app.keys.length; i++) {
-                    console.log(app)
+                if (this.gettab(app.platform) == 1 && app.appid == '') {
+                    console.log(app.appid)
+for (var i = 0; i < app.keys.length; i++) {
+                    addkey(this.gettab(app.platform), app.name, app.keys[i].key);
+
+                }
+                }else{
+for (var i = 0; i < app.keys.length; i++) {
                     addkey(this.gettab(app.platform), this.getappid(app), app.keys[i].key);
 
                 }
+
+                }
+
+                
 
         //         for (var i =0; i < app.tags.length; i++) {
         //  addtag(this.gettab(app.platform), this.getappid(app), app.tags[i]);
