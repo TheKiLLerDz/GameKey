@@ -271,7 +271,7 @@
                                     <v-flex xs12 sm12 md12>
                                         <v-select required :rules="[v => !!v || 'Platform is required']"
                                             :items='platforms.map(e => e.name)' v-model="itemtoadd.platform"
-                                            @change="PlatformEdited(itemtoadd.platform);itemtoadd.name='';itemtoadd.appid=''"
+                                            @change="PlatformEdited(itemtoadd.platform);itemtoadd.name='';itemtoadd.tags=[];itemtoadd.appid=''"
                                             :readonly="$route.path.includes('/keys') ? false : true" label="Platform"
                                             :prepend-icon="itemtoadd.platform=='Steam'||itemtoadd.platform=='Origin' ? 'mdi-'+itemtoadd.platform.toLowerCase() : 'mdi-key'">
                                         </v-select>
@@ -345,6 +345,7 @@
                     keys: [{
                         key: ''
                     }],
+                    tags : []
                 }">Cancel
                     </v-btn>
                     <v-btn color="blue darken-1" flat
@@ -798,14 +799,16 @@ return el.appid == item.appid
             },
             add(app) {
                 for (var i = 0; i < app.keys.length; i++) {
+                    console.log(app)
                     addkey(this.gettab(app.platform), this.getappid(app), app.keys[i].key);
-                }
-
-                for (var i =0; i < app.tags.length; i++) {
-         addtag(this.gettab(app.platform), this.getappid(app), app.tags[i]);
-         console.log(app.tags[i])
 
                 }
+
+        //         for (var i =0; i < app.tags.length; i++) {
+        //  addtag(this.gettab(app.platform), this.getappid(app), app.tags[i]);
+        //  console.log(app.tags[i])
+
+        //         }
                 var index = this.apps.map(e => e.appid).indexOf(this.getappid(app));
                 if (index == -1)
                     this.apps.push({
@@ -824,7 +827,8 @@ return el.appid == item.appid
                     platform: '',
                     keys: [{
                         key: ''
-                    }]
+                    }],
+                    tags : []
                 }
                 this.addialog = false;
             },
