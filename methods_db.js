@@ -54,9 +54,10 @@ function getuplaybdd() {
 function getothersbdd() {
 
 	db.tables[1].toArray().then(el => {
-		store.state.others = el.filter((el) => {
+		store.state.others = el
+		store.state.otherskey = el.filter((el) => {
 			el.platform = 'Other'
-			return el;
+			return el.keys !== undefined;
 		});
 	})
 }
