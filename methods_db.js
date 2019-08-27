@@ -54,9 +54,11 @@ function getuplaybdd() {
 function getothersbdd() {
 
 	db.tables[1].toArray().then(el => {
+
+		store.state.others = el
 		store.state.others = el.filter((el) => {
 			el.platform = 'Other'
-			return el;
+			return el.keys !== undefined;
 		});
 	})
 }
@@ -119,11 +121,12 @@ function addtag(t,appid,tag) {
 	
 }
 
-
+var dellapp = false
+var appid;
 
 function delkey(t, appid, key) {
 
-
+	
 
 	db.tables[t].where("appid").equals(appid).modify(game => {
 
@@ -132,13 +135,15 @@ function delkey(t, appid, key) {
 				return el.key !== key;
 			});
 		} else {
-			delete game.keys
+			if (t != 1) {
+			delete game.keys }
 		}
 
 	});
 
-
+	
 }
+
 
 
 

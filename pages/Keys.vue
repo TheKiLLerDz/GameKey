@@ -594,6 +594,7 @@
                  
                i =  this.apps.filter(el =>
                         {
+                            console.log(el.appid)
 return el.appid == item.appid
                         }
                     )
@@ -772,7 +773,7 @@ return el.appid == item.appid
                             }, []);
                             break;
                         case 'Other':
-                            store.state.others = newvalue.reduce(function (items, item) {
+                            store.state.otherskey = newvalue.reduce(function (items, item) {
                                 if (item.platform == 'Other')
                                     return items.concat(item);
                                 else return items
@@ -905,11 +906,11 @@ return el.appid == item.appid
                     this.apps = store.state.originkey
                     break;
                 case '/other':
-                    this.apps = store.state.others
+                    this.apps = store.state.otherskey
                     break;
                 default:
                     this.apps = store.state.steamkey.concat(store.state.uplaykey.concat(store.state.originkey
-                        .concat(store.state.others)))
+                        .concat(store.state.otherskey)))
                     break;
             }
         },

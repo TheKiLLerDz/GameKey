@@ -41,6 +41,7 @@ const store = new Vuex.Store({
     origin: [],
     originkey: [],
     others: [],
+    otherskey : [],
     allkeys: [],
     temp: {},
     tempimport: undefined,

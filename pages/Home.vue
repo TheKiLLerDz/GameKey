@@ -63,7 +63,7 @@
                     {
                         title: 'Other',
                         icon: 'mdi-alert-circle',
-                        games: store.state.others.length,
+                        games: store.state.otherskey.length,
                         keys: '',
                         link: '/other',
                         color: 'rgb(9, 102, 175)'
@@ -82,7 +82,7 @@
             this.items[3].keys = store.state.originkey.reduce(function (keys, item) {
                 return keys + (item.keys.length);
             }, 0)
-            this.items[4].keys = store.state.others.reduce(function (keys, item) {
+            this.items[4].keys = store.state.otherskey.reduce(function (keys, item) {
                 return keys + (item.keys.length);
             }, 0)
             this.items[0].keys = this.items[1].keys + this.items[2].keys + this.items[3].keys + this.items[4].keys;
