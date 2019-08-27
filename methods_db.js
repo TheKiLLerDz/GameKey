@@ -21,12 +21,13 @@ function getdata() {
 	getuplaybdd()
 	getoriginbdd()
 	getsteambdd()
+	getothersbdd()
 
 }
 
 function getsteambdd() {
 
-	db.tables[1].toArray().then(el => {
+	db.tables[2].toArray().then(el => {
 		store.state.steam = el;
 		store.state.steamkey = store.state.steam.filter((el) => {
 			el.platform = 'Steam'
@@ -40,7 +41,7 @@ function getsteambdd() {
 
 function getuplaybdd() {
 
-	db.tables[2].toArray().then(el => {
+	db.tables[3].toArray().then(el => {
 		store.state.uplay = el;
 		store.state.uplaykey = store.state.uplay.filter((el) => {
 			el.platform = 'Uplay'
@@ -48,6 +49,15 @@ function getuplaybdd() {
 		});
 
 
+	})
+}
+function getothersbdd() {
+
+	db.tables[1].toArray().then(el => {
+		store.state.others = el.filter((el) => {
+			el.platform = 'Other'
+			return el;
+		});
 	})
 }
 
@@ -65,10 +75,10 @@ function getoriginbdd() {
 	})
 }
 
-function addkey(t, appid, key) {
-
-
-	db.tables[t].where("appid").equals(appid).modify(game => {
+function addkey(t, appidorname, key) {
+	if (t != 1 || typeof appidorname == "number") {
+	db.tables[t].where("appid").equals(appidorname).modify(game => {
+	
 		if (game.keys == undefined) {
 			game.keys = [{
 				'key': key
@@ -79,9 +89,23 @@ function addkey(t, appid, key) {
 			});
 		}
 	});
-
+	}else {
+		game = store.state.others.filter(el => {
+			return el.name == appidorname
+		})
+			if (game.length == 0) {
+				addappkey(t,appidorname,key)
+			}else {
+				addkey(t,game[0].appid,key)
+			}
+	
+		
+	}
 }
-
+function addappkey(t,appidorname,key) {
+	var obj = {name : appidorname, keys : [{key: key}]}
+				db.tables[t].put(obj);
+}
 function addtag(t,appid,tag) {
 	db.tables[t].where("appid").equals(appid).modify(game => {
 		if (game.tags == undefined) {

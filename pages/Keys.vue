@@ -10,7 +10,7 @@
                         </v-icon>
                         <v-icon v-else-if="$route.path=='/origin'" dense :color='platforms[2].color' x-large>mdi-origin
                         </v-icon>
-                        <v-icon v-else-if="$route.path=='/other'" dense :color='platforms[3].color' x-large>mdi-key
+                        <v-icon v-else-if="$route.path=='/other'" dense :color='platforms[3].color' x-large>mdi-alert-circle
                         </v-icon>
                         {{subStr($route.path)}} Keys
                     </h1>
@@ -514,7 +514,7 @@
                     color: '#eb6a00'
                 }, {
                     name: 'Other',
-                    color: 'white'
+                    color: 'black'
                 }],
                 headers: [{
                         text: 'Pic',
@@ -771,7 +771,7 @@ return el.appid == item.appid
                             }, []);
                             break;
                         case 'Other':
-                            store.state.otherskey = newvalue.reduce(function (items, item) {
+                            store.state.others = newvalue.reduce(function (items, item) {
                                 if (item.platform == 'Other')
                                     return items.concat(item);
                                 else return items
@@ -901,11 +901,11 @@ return el.appid == item.appid
                     this.apps = store.state.originkey
                     break;
                 case '/other':
-                    this.apps = store.state.otherskey
+                    this.apps = store.state.others
                     break;
                 default:
                     this.apps = store.state.steamkey.concat(store.state.uplaykey.concat(store.state.originkey
-                        .concat(store.state.otherskey)))
+                        .concat(store.state.others)))
                     break;
             }
         },

@@ -41,7 +41,6 @@ const store = new Vuex.Store({
     origin: [],
     originkey: [],
     others: [],
-    otherskey: [],
     allkeys: [],
     temp: {},
     tempimport: undefined,
@@ -129,7 +128,7 @@ v = new Vue({
   computed: {
     games() {
       return store.state.steamkey.concat(store.state.uplaykey.concat(store.state.originkey
-        .concat(store.state.otherskey)));
+        .concat(store.state.others)));
     }
   },
   beforeCreate() {
