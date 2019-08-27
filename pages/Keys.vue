@@ -10,7 +10,8 @@
                         </v-icon>
                         <v-icon v-else-if="$route.path=='/origin'" dense :color='platforms[2].color' x-large>mdi-origin
                         </v-icon>
-                        <v-icon v-else-if="$route.path=='/other'" dense :color='platforms[3].color' x-large>mdi-alert-circle
+                        <v-icon v-else-if="$route.path=='/other'" dense :color='platforms[3].color' x-large>
+                            mdi-alert-circle
                         </v-icon>
                         {{subStr($route.path)}} Keys
                     </h1>
@@ -222,8 +223,8 @@
                                 </tr>
                                 <tr>
                                     <v-flex xs12 sm12 md12>
-                                        <v-combobox  :items="gametags" label="Game Tags" chips
-                                            clearable prepend-icon="filter_list" solo multiple v-model="editedItem.tags">
+                                        <v-combobox :items="gametags" label="Game Tags" chips clearable
+                                            prepend-icon="filter_list" solo multiple v-model="editedItem.tags">
                                             <template v-slot:selection="tags">
                                                 <v-chip :selected="tags.selected" close @input="removetag(tags.item)"
                                                     color="orange" outline>
@@ -499,7 +500,7 @@
                 fling: false,
                 tabs: null,
                 search: '',
-                appnames: null,
+                appnames: [],
                 editdialog: false,
                 infodialog: false,
                 addialog: false,
@@ -561,14 +562,14 @@
                     keys: [{
                         key: ''
                     }],
-                    tags : [],
+                    tags: [],
                 },
                 editedItem: {
                     appid: '',
                     name: '',
                     platform: '',
                     keys: [],
-                    tags : [],
+                    tags: [],
                 },
             }
         },
@@ -576,37 +577,24 @@
             impport() {
                 impport();
             },
-
             gettags(item) {
-                var i = 0;
-                var test = true;
-                while (i < this.apps.length & test) {
-                    if (item.appid == this.apps[i].appid) {
-                        test = false;
-                    }
-                    i++
-                }
-                if (test) {
+                index = store.state.steamkey.map(e => e.appid).indexOf(item.appid);
+                if (index == -1) {
                     tags(item.appid)
                     item.tags = tagsapp;
-                } else {
-                 
-               i =  this.apps.filter(el =>
-                        {
-return el.appid == item.appid
-                        }
-                    )
-                    item.tags = i[0].tags 
-                    console.log(i.tags)
                 }
             },
             IDEdited(item) {
                 switch (item.platform) {
                     case 'Steam':
                         index = store.state.steam.map(e => e.appid).indexOf(this.getappid(item));
-                        if (index == -1) item.name = ''
-                        else item.name = store.state.steam[index].name;
-                        this.gettags(item)
+                        if (index == -1) {
+                            item.name = '';
+                            item.tags = []
+                        } else {
+                            item.name = store.state.steam[index].name;
+                            this.gettags(item)
+                        }
                         break;
                     case 'Origin':
                         index = store.state.origin.map(e => e.appid).indexOf(this.getappid(item));
@@ -629,9 +617,13 @@ return el.appid == item.appid
                 switch (item.platform) {
                     case 'Steam':
                         index = store.state.steam.map(e => e.name).indexOf(item.name);
-                        if (index == -1) item.appid = ''
-                        else item.appid = store.state.steam[index].appid;
-                        this.gettags(item.appid)
+                        if (index == -1) {
+                            item.appid = '';
+                            item.tags = []
+                        } else {
+                            item.appid = store.state.steam[index].appid;
+                            this.gettags(item)
+                        }
                         break;
                     case 'Origin':
                         index = store.state.origin.map(e => e.name).indexOf(item.name);
@@ -703,6 +695,8 @@ return el.appid == item.appid
                         this.editkey(this.oldediteditem, this.oldediteditem.keys[i].key, this.editedItem.keys[i]
                             .key)
                 }
+                // check for tags if changed 
+                //add here
                 if (!this.Equals(this.oldediteditem, this.editedItem)) {
                     i = 0;
                     gameexists = false;
@@ -715,15 +709,15 @@ return el.appid == item.appid
                     }
                     index = this.apps.map(e => e.appid).indexOf(this.oldediteditem.appid);
                     k = 0;
-                    while (k < this.apps[index].keys.length) {
+                    while (k < this.editedItem.keys.length) {
                         addkey(this.gettab(this.editedItem.platform), this.getappid(this.editedItem), this
                             .editedItem.keys[k].key);
                         if (gameexists) {
-                            this.apps[i].keys.push(this.apps[index].keys[k]);
+                            this.apps[i].keys.push(this.editedItem.keys[k]);
                         }
                         k++;
                     }
-                    delgamekeys(this.gettab(this.oldediteditem.platform), this.getappid(this.oldediteditem));
+                    delgametagskeys(this.gettab(this.oldediteditem.platform), this.getappid(this.oldediteditem));
                     this.apps.splice(index, 1);
                     if (!gameexists) this.apps.push({
                         name: this.editedItem.name,
@@ -741,6 +735,7 @@ return el.appid == item.appid
                     name: '',
                     platform: '',
                     keys: [],
+                    tags: []
                 };
 
                 this.oldeditedItem = null;
@@ -801,9 +796,9 @@ return el.appid == item.appid
                     addkey(this.gettab(app.platform), this.getappid(app), app.keys[i].key);
                 }
 
-                for (var i =0; i < app.tags.length; i++) {
-         addtag(this.gettab(app.platform), this.getappid(app), app.tags[i]);
-         console.log(app.tags[i])
+                for (var i = 0; i < app.tags.length; i++) {
+                    addtag(this.gettab(app.platform), this.getappid(app), app.tags[i]);
+                    console.log(app.tags[i])
 
                 }
                 var index = this.apps.map(e => e.appid).indexOf(this.getappid(app));
@@ -812,7 +807,8 @@ return el.appid == item.appid
                         appid: this.getappid(app),
                         name: app.name,
                         keys: app.keys,
-                        platform: app.platform
+                        platform: app.platform,
+                        tags: app.tags
                     });
                 else {
                     this.apps[index].keys = this.apps[index].keys.concat(app.keys);
@@ -822,6 +818,7 @@ return el.appid == item.appid
                     appid: '',
                     name: '',
                     platform: '',
+                    tags: [],
                     keys: [{
                         key: ''
                     }]
@@ -837,7 +834,8 @@ return el.appid == item.appid
             },
             deleteItem(item) {
                 const index = this.apps.indexOf(item)
-                confirm('Are you sure you want to delete all The keys of this game?') && delgametagskeys(this.gettab(
+                confirm('Are you sure you want to delete all The keys of this game?') && delgametagskeys(this
+                    .gettab(
                         item.platform), item
                     .appid) & this.apps.splice(index, 1) & this.UpdateVuex(item.platform, this.apps)
             },
