@@ -277,7 +277,7 @@
                                     <v-flex xs12 sm12 md12>
                                         <v-select required :rules="[v => !!v || 'Platform is required']"
                                             :items='platforms.map(e => e.name)' v-model="itemtoadd.platform"
-                                            @change="PlatformEdited(itemtoadd.platform);itemtoadd.name='';itemtoadd.appid=''"
+                                            @change="PlatformEdited(itemtoadd.platform);itemtoadd.name='';itemtoadd.tags=[];itemtoadd.appid=''"
                                             :readonly="$route.path.includes('/keys') ? false : true" label="Platform"
                                             :prepend-icon="itemtoadd.platform=='Steam'||itemtoadd.platform=='Origin' ? 'mdi-'+itemtoadd.platform.toLowerCase() : 'mdi-key'">
                                         </v-select>
@@ -352,10 +352,11 @@
                     keys: [{
                         key: ''
                     }],
+                    tags : []
                 }">Cancel
                     </v-btn>
                     <v-btn color="blue darken-1" flat
-                        :disabled="itemtoadd.appid == '' || itemtoadd.platform == '' || itemtoadd.name == '' ? true : false"
+                        :disabled="itemtoadd.platform == '' || itemtoadd.name == '' || itemtoadd.appid == '' && itemtoadd.platform != 'Other' ? true : false"
                         :loading="isAdding" @click="add(itemtoadd);isAdding = true">Add</v-btn>
                 </v-card-actions>
             </v-card>
@@ -709,8 +710,9 @@
                     item1.keys.length == item2.keys.length
             },
             getappid(item) {
-                if (item.platform != 'Steam') return item.appid;
-                else return parseInt(item.appid);
+                if ((item.platform != 'Steam' || item.platform == 'Other') && (item.platform != 'Other' || item.platform == 'Steam')) return item.appid;
+                else return parseInt(item.appid); console.log(parseInt(item.appid));
+                
             },
             editkey(item, oldkey, newkey) {
                 editkey(this.gettab(item.platform), this.getappid(item), oldkey, newkey);
@@ -805,7 +807,7 @@
                             }, []);
                             break;
                         case 'Other':
-                            store.state.others = newvalue.reduce(function (items, item) {
+                            store.state.otherskey = newvalue.reduce(function (items, item) {
                                 if (item.platform == 'Other')
                                     return items.concat(item);
                                 else return items
@@ -831,14 +833,26 @@
                 }
             },
             add(app) {
-                this.hasSaved = true;
-                for (var i = 0; i < app.keys.length; i++) {
+                if (this.gettab(app.platform) == 1 && app.appid == '') {
+for (var i = 0; i < app.keys.length; i++) {
+                    addkey(this.gettab(app.platform), {appid : this.apps.length ,name :app.name}, app.keys[i].key);
+
+                }
+                }else{
+for (var i = 0; i < app.keys.length; i++) {
                     addkey(this.gettab(app.platform), this.getappid(app), app.keys[i].key);
+
                 }
 
-                for (var i = 0; i < app.tags.length; i++) {
-                    addtag(this.gettab(app.platform), this.getappid(app), app.tags[i]);
                 }
+
+                
+
+        //         for (var i =0; i < app.tags.length; i++) {
+        //  addtag(this.gettab(app.platform), this.getappid(app), app.tags[i]);
+        //  console.log(app.tags[i])
+
+        //         }
                 var index = this.apps.map(e => e.appid).indexOf(this.getappid(app));
                 if (index == -1)
                     this.apps.push({
@@ -851,7 +865,7 @@
                 else {
                     this.apps[index].keys = this.apps[index].keys.concat(app.keys);
                 }
-                this.UpdateVuex(app.platform, this.apps);
+this.UpdateVuex(app.platform, this.apps);
                 this.itemtoadd = {
                     appid: '',
                     name: '',
@@ -859,7 +873,8 @@
                     tags: [],
                     keys: [{
                         key: ''
-                    }]
+                    }],
+                    tags : []
                 }
                 this.msg.text = "App Added successfully";
                 this.hasSaved = true;
@@ -938,11 +953,11 @@
                     this.apps = store.state.originkey
                     break;
                 case '/other':
-                    this.apps = store.state.others
+                    this.apps = store.state.otherskey
                     break;
                 default:
                     this.apps = store.state.steamkey.concat(store.state.uplaykey.concat(store.state.originkey
-                        .concat(store.state.others)))
+                        .concat(store.state.otherskey)))
                     break;
             }
         },

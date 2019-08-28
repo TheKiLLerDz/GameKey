@@ -54,12 +54,25 @@ function getuplaybdd() {
 function getothersbdd() {
 
 	db.tables[1].toArray().then(el => {
-		store.state.others = el.filter((el) => {
+		store.state.others = el
+		store.state.otherskey = el.filter((el) => {
 			el.platform = 'Other'
-			return el;
+			return el.keys !== undefined;
 		});
 	})
 }
+
+function deltradeorused(t,appid,tradeorused) {db.tables[t].where('appid').equals(appid).modify(game => {
+	 tradeorused == 'trade'?delete game.trade:delete game.used
+	})}
+function addtradeorused(t,appid,tradeorused) {
+	db.tables[t].where('appid').equals(appid).modify(game =>{
+       game = Object.assign(game, tradeorused);
+	})
+	
+}
+
+
 
 function getoriginbdd() {
 
@@ -91,10 +104,11 @@ function addkey(t, appidorname, key) {
 	});
 	}else {
 		game = store.state.others.filter(el => {
-			return el.name == appidorname
+			return el.name == appidorname.name
 		})
 			if (game.length == 0) {
 				addappkey(t,appidorname,key)
+				store.state.others.push({appid : appidorname.appid , name : appidorname.name , platform : 'Other'})
 			}else {
 				addkey(t,game[0].appid,key)
 			}
@@ -102,8 +116,8 @@ function addkey(t, appidorname, key) {
 		
 	}
 }
-function addappkey(t,appidorname,key) {
-	var obj = {name : appidorname, keys : [{key: key}]}
+function addappkey(t,appidandname,key) {
+	var obj = {appid : appidandname.appid, name : appidandname.name, keys : [{key: key}]}
 				db.tables[t].put(obj);
 }
 function addtag(t,appid,tag) {
@@ -175,7 +189,13 @@ function editkey(t, appid, okey, nkey) {
 
 
 }
+function getappid(t , name) {
+	db.tables[t].where('name').equals(name).modify(game => {
 
+		return game.name
+
+	})
+}
 function getapp(t, idapp) {
 
 
