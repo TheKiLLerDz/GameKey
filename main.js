@@ -125,6 +125,16 @@ v = new Vue({
     keys: true,
     isDark: true,
   }),
+  methods: {
+    customFilter(item, queryText) {
+      const textOne = item.name.toLowerCase();
+      const textTwo = String(item.appid).toLowerCase();
+      const searchText = queryText.toLowerCase();
+
+      return textOne.indexOf(searchText) > -1 ||
+          textTwo.indexOf(searchText) > -1
+  }
+  },
   computed: {
     games() {
       return store.state.steamkey.concat(store.state.uplaykey.concat(store.state.originkey
