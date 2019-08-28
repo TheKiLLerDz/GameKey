@@ -62,6 +62,18 @@ function getothersbdd() {
 	})
 }
 
+function deltradeorused(t,appid,tradeorused) {db.tables[t].where('appid').equals(appid).modify(game => {
+	 tradeorused == 'trade'?delete game.trade:delete game.used
+	})}
+function addtradeorused(t,appid,tradeorused) {
+	db.tables[t].where('appid').equals(appid).modify(game =>{
+       game = Object.assign(game, tradeorused);
+	})
+	
+}
+
+
+
 function getoriginbdd() {
 
 	db.tables[0].toArray().then(el => {
