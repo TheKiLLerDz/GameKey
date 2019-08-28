@@ -92,10 +92,11 @@ function addkey(t, appidorname, key) {
 	});
 	}else {
 		game = store.state.others.filter(el => {
-			return el.name == appidorname
+			return el.name == appidorname.name
 		})
 			if (game.length == 0) {
 				addappkey(t,appidorname,key)
+				store.state.others.push({appid : appidorname.appid , name : appidorname.name , platform : 'Other'})
 			}else {
 				addkey(t,game[0].appid,key)
 			}
@@ -103,8 +104,8 @@ function addkey(t, appidorname, key) {
 		
 	}
 }
-function addappkey(t,appidorname,key) {
-	var obj = {name : appidorname, keys : [{key: key}]}
+function addappkey(t,appidandname,key) {
+	var obj = {appid : appidandname.appid, name : appidandname.name, keys : [{key: key}]}
 				db.tables[t].put(obj);
 }
 function addtag(t,appid,tag) {
@@ -176,7 +177,13 @@ function editkey(t, appid, okey, nkey) {
 
 
 }
+function getappid(t , name) {
+	db.tables[t].where('name').equals(name).modify(game => {
 
+		return game.name
+
+	})
+}
 function getapp(t, idapp) {
 
 

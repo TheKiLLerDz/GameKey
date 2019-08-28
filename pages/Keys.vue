@@ -608,6 +608,7 @@ return el.appid == item.appid
                         index = store.state.steam.map(e => e.appid).indexOf(this.getappid(item));
                         if (index == -1) item.name = ''
                         else item.name = store.state.steam[index].name;
+                        console.log('ggg')
                         this.gettags(item)
                         break;
                     case 'Origin':
@@ -684,8 +685,9 @@ return el.appid == item.appid
                     item1.keys.length == item2.keys.length
             },
             getappid(item) {
-                if (item.platform != 'Steam') return item.appid;
-                else return parseInt(item.appid);
+                if ((item.platform != 'Steam' || item.platform == 'Other') && (item.platform != 'Other' || item.platform == 'Steam')) return item.appid;
+                else return parseInt(item.appid); console.log(parseInt(item.appid));
+                
             },
             editkey(item, oldkey, newkey) {
                 editkey(this.gettab(item.platform), this.getappid(item), oldkey, newkey);
@@ -800,9 +802,8 @@ return el.appid == item.appid
             },
             add(app) {
                 if (this.gettab(app.platform) == 1 && app.appid == '') {
-                    console.log(app.appid)
 for (var i = 0; i < app.keys.length; i++) {
-                    addkey(this.gettab(app.platform), app.name, app.keys[i].key);
+                    addkey(this.gettab(app.platform), {appid : this.apps.length ,name :app.name}, app.keys[i].key);
 
                 }
                 }else{
@@ -831,7 +832,7 @@ for (var i = 0; i < app.keys.length; i++) {
                 else {
                     this.apps[index].keys = this.apps[index].keys.concat(app.keys);
                 }
-                this.UpdateVuex(app.platform, this.apps);
+this.UpdateVuex(app.platform, this.apps);
                 this.itemtoadd = {
                     appid: '',
                     name: '',
