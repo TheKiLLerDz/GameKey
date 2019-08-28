@@ -710,9 +710,10 @@
                     item1.keys.length == item2.keys.length
             },
             getappid(item) {
-                if ((item.platform != 'Steam' || item.platform == 'Other') && (item.platform != 'Other' || item.platform == 'Steam')) return item.appid;
-                else return parseInt(item.appid); console.log(parseInt(item.appid));
-                
+                if ((item.platform != 'Steam' || item.platform == 'Other') && (item.platform != 'Other' || item
+                        .platform == 'Steam')) return item.appid;
+                else return parseInt(item.appid);
+
             },
             editkey(item, oldkey, newkey) {
                 editkey(this.gettab(item.platform), this.getappid(item), oldkey, newkey);
@@ -834,25 +835,20 @@
             },
             add(app) {
                 if (this.gettab(app.platform) == 1 && app.appid == '') {
-for (var i = 0; i < app.keys.length; i++) {
-                    addkey(this.gettab(app.platform), {appid : this.apps.length ,name :app.name}, app.keys[i].key);
+                    for (var i = 0; i < app.keys.length; i++) {
+                        addkey(this.gettab(app.platform), {
+                            appid: this.apps.length,
+                            name: app.name
+                        }, app.keys[i].key);
 
+                    }
+                } else {
+                    for (var i = 0; i < app.keys.length; i++)
+                        addkey(this.gettab(app.platform), this.getappid(app), app.keys[i].key);
                 }
-                }else{
-for (var i = 0; i < app.keys.length; i++) {
-                    addkey(this.gettab(app.platform), this.getappid(app), app.keys[i].key);
-
-                }
-
-                }
-
+                for (var i = 0; i < app.tags.length; i++)
+                    addtag(this.gettab(app.platform), this.getappid(app), app.tags[i]);
                 
-
-        //         for (var i =0; i < app.tags.length; i++) {
-        //  addtag(this.gettab(app.platform), this.getappid(app), app.tags[i]);
-        //  console.log(app.tags[i])
-
-        //         }
                 var index = this.apps.map(e => e.appid).indexOf(this.getappid(app));
                 if (index == -1)
                     this.apps.push({
@@ -862,10 +858,9 @@ for (var i = 0; i < app.keys.length; i++) {
                         platform: app.platform,
                         tags: app.tags
                     });
-                else {
-                    this.apps[index].keys = this.apps[index].keys.concat(app.keys);
-                }
-this.UpdateVuex(app.platform, this.apps);
+                else this.apps[index].keys = this.apps[index].keys.concat(app.keys);
+                
+                this.UpdateVuex(app.platform, this.apps);
                 this.itemtoadd = {
                     appid: '',
                     name: '',
@@ -874,7 +869,7 @@ this.UpdateVuex(app.platform, this.apps);
                     keys: [{
                         key: ''
                     }],
-                    tags : []
+                    tags: []
                 }
                 this.msg.text = "App Added successfully";
                 this.hasSaved = true;
