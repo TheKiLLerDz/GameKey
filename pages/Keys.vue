@@ -722,7 +722,6 @@
                 this.apps[index].keys[indexk].key = newkey;
             },
             edit_key(item, index) {
-                // matemchich
                 editkey(this.gettab(item.platform), this.getappid(item), this.openedapp[index].key, item.keys[index]
                     .key)
             },
@@ -894,7 +893,7 @@
                 const indexi = this.apps[index].keys.map(e => e.key).indexOf(key);
                 confirm('Are you sure you want to delete this key?') && delkey(this.gettab(item.platform), item
                     .appid, key) & this.apps[
-                    index].keys.splice(indexi, 1);
+                    index].keys.splice(indexi, 1) & this.openedapp.splice(indexi,1);
                 if (item.keys.length == 0) {
                     this.apps.splice(index, 1);
                     delgametagskeys(this.gettab(item.platform), item.appid);
