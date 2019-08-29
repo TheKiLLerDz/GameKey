@@ -722,6 +722,7 @@
                 this.apps[index].keys[indexk].key = newkey;
             },
             edit_key(item, index) {
+                // matemchich
                 editkey(this.gettab(item.platform), this.getappid(item), this.openedapp[index].key, item.keys[index]
                     .key)
             },
