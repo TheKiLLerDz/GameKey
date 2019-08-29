@@ -62,12 +62,20 @@ function getothersbdd() {
 	})
 }
 
-function deltradeorused(t,appid,tradeorused) {db.tables[t].where('appid').equals(appid).modify(game => {
-	 tradeorused == 'trade'?delete game.trade:delete game.used
+function deltradeorused(t,appid,key,tradeorused) {
+	db.tables[t].where('appid').equals(appid).modify(game => {
+		for (var i = 0; i < game.keys.length; i++) {
+			if (game.keys[i].key == key) {
+	tradeorused == 'trade'?delete game.keys[i].trade:delete game.keys[i].used}}
 	})}
-function addtradeorused(t,appid,tradeorused) {
+function addtradeorused(t,appid,key,tradeorused) {
 	db.tables[t].where('appid').equals(appid).modify(game =>{
-       game = Object.assign(game, tradeorused);
+		for (var i = 0; i < game.keys.length; i++) {
+			if (game.keys[i].key == key) {
+				game.keys[i] = Object.assign(game.keys[i], tradeorused);
+			}
+
+		}
 	})
 	
 }
