@@ -29,12 +29,12 @@
     </div>
     <v-app v-cloak id="app" :class="theme">
         <v-toolbar dense color="blue darken-3" tabs app clipped-left>
-            <v-toolbar-side-icon @click.stop="show = !show"></v-toolbar-side-icon>
-            <v-toolbar-title style="width: 300px" class="ml-0 pl-3">
+            <v-toolbar-side-icon></v-toolbar-side-icon>
+            <v-toolbar-title style="width: 400px" class="ml-0 pl-3">
                 <h4 class="hidden-sm-and-down">GameKey</h4>
             </v-toolbar-title>
             <v-autocomplete v-if="$route.path=='/'" :loading="loading" :items="this.games" solo dense label="Search"
-                class="v-text-field--rounded" item-text="name" item-value="appid">
+                class="v-text-field--rounded" item-text="name" item-value="appid" :filter="customFilter">
                 <template v-slot:append>
                     <v-btn color="rgb(9, 102, 175)" value="search">
                         Search
@@ -103,15 +103,15 @@
                 </v-list>
             </v-menu>
         </v-toolbar>
-        <v-navigation-drawer v-model="show" :mini-variant="mini" floating clipped app>
+        <v-navigation-drawer permanent :mini-variant="mini" floating clipped app>
             <div class="transparent flat">
                 <v-list>
                     <v-list-tile avatar>
                         <v-list-tile-avatar @click.stop="mini = !mini">
-                            <img :src="data.pic" />
+                            <img :src="userdata.pic" />
                         </v-list-tile-avatar>
                         <v-list-tile-content>
-                            <v-list-tile-title>{{data.username}}</v-list-tile-title>
+                            <v-list-tile-title>{{userdata.username}}</v-list-tile-title>
                         </v-list-tile-content>
                         <v-list-tile-action>
                             <v-btn icon @click.stop="mini = !mini">

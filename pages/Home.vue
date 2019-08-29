@@ -5,7 +5,7 @@
                 <v-card :color="item.color"
                     style="top:-24px;margin: 0px 16px 0px;padding: 16px;border-radius: 8px;position: absolute;"
                     elevation="3">
-                    <v-icon color='white' size="60">{{item.icon}}</v-icon>
+                    <v-icon color='white' size="50">{{item.icon}}</v-icon>
                 </v-card>
                 <v-card-text>
                     <h2 class="text-xs-right">{{item.title}}</h2>

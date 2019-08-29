@@ -10,7 +10,8 @@
                         </v-icon>
                         <v-icon v-else-if="$route.path=='/origin'" dense :color='platforms[2].color' x-large>mdi-origin
                         </v-icon>
-                        <v-icon v-else-if="$route.path=='/other'" dense :color='platforms[3].color' x-large>mdi-alert-circle
+                        <v-icon v-else-if="$route.path=='/other'" dense :color='platforms[3].color' x-large>
+                            mdi-alert-circle
                         </v-icon>
                         {{subStr($route.path)}} Keys
                     </h1>
@@ -37,7 +38,8 @@
                                     <img :src="'apps/' + props.item.appid + '.jpg'"
                                         onerror="this.src='apps/undefined.gif'" height="42" width="100">
                                 </td>
-                                <td @click="props.expanded = !props.expanded">
+                                <td
+                                    @click="props.expanded = !props.expanded;openedapp=JSON.parse(JSON.stringify(props.item.keys))">
                                     <v-chip dark>{{ props.item.name }}</v-chip>
                                 </td>
                                 <td v-if="$route.path.includes('/keys')" @click="props.expanded = !props.expanded">
@@ -50,14 +52,15 @@
                                     <v-icon v-else-if="props.item.platform=='Other'" :color='platforms[3].color'>mdi-key
                                     </v-icon>
                                 </td>
-                                <td @click="props.expanded = !props.expanded">
+                                <td
+                                    @click="props.expanded = !props.expanded;openedapp=JSON.parse(JSON.stringify(props.item.keys))">
                                     <v-chip :color="getColor(props.item.keys.length)" dark>
                                         {{props.item.keys.length}}</v-chip>
                                 </td>
                                 <td>
                                     <v-tooltip top>
-                                        <v-btn slot="activator" @click="deleteItem(props.item)" color="error" icon
-                                            small>
+                                        <v-btn slot="activator" @click="deletedialog=true;Itemtodelete=props.item.keys"
+                                            color="error" icon small>
                                             <v-icon small>
                                                 delete
                                             </v-icon>
@@ -116,9 +119,9 @@
                                         <-- end !-->
                                         <table>
                                             <tr v-for="(index,i) in props.item.keys" :key="i.key">
-                                                <td style="width:50%">
+                                                <td style="width:20%">
                                                     <v-edit-dialog :value="index.key" :return-value.sync="index.key"
-                                                        large persistent color="red" @save="edit_key(props.item,index)">
+                                                        large persistent color="red" @save="edit_key(props.item,i)">
                                                         <v-chip text-color="white"
                                                             :color="getColor(props.item.keys.length)">{{ index.key }}
                                                         </v-chip>
@@ -178,11 +181,12 @@
                 </v-flex>
             </v-card>
         </v-flex>
-        <v-dialog v-model="editdialog" persistent max-width="500px">
+        <v-dialog v-model="editdialog" persistent scrollable max-width="800px">
             <v-card>
                 <v-card-title>
                     <span class="headline">Edit app</span>
                 </v-card-title>
+                <v-divider></v-divider>
                 <v-card-text>
                     <v-container grid-list-md>
                         <v-layout wrap>
@@ -222,11 +226,11 @@
                                 </tr>
                                 <tr>
                                     <v-flex xs12 sm12 md12>
-                                        <v-combobox  :items="gametags" label="Game Tags" chips
-                                            clearable prepend-icon="filter_list" solo multiple v-model="editedItem.tags">
+                                        <v-combobox :items="gametags" label="Game Tags" chips clearable
+                                            prepend-icon="filter_list" solo multiple v-model="editedItem.tags">
                                             <template v-slot:selection="tags">
-                                                <v-chip :selected="tags.selected" close @input="removetag(tags.item)"
-                                                    color="orange" outline>
+                                                <v-chip :selected="tags.selected" close
+                                                    @input="removetag(editedItem,tags.item)" color="orange" outline>
                                                     <strong>{{ tags.item }}</strong>
                                                 </v-chip>
                                             </template>
@@ -246,23 +250,25 @@
                         </v-layout>
                     </v-container>
                 </v-card-text>
+                <v-divider></v-divider>
                 <v-card-actions>
                     <v-spacer></v-spacer>
                     <v-btn color="blue darken-1" flat _click="close" @click="editdialog = !editdialog">Cancel
                     </v-btn>
                     <v-btn color="blue darken-1"
                         :disabled="editedItem.appid == '' || editedItem.platform == '' || editedItem.name == '' ? true : false"
-                        :loading="isAdding" flat @click="save();isAdding = true">Save</v-btn>
+                        :loading="isAdding" flat @click="save(editedItem,oldediteditem);isAdding = true">Save</v-btn>
                 </v-card-actions>
             </v-card>
         </v-dialog>
-        <v-dialog v-model="addialog" max-width="500px" persistent loading>
+        <v-dialog v-model="addialog" max-width="800px" persistent scrollable loading>
             <v-card>
                 <v-progress-linear :active="isAdding" class="ma-0" color="blue lighten-3" height="4" indeterminate>
                 </v-progress-linear>
                 <v-card-title>
                     <span class="headline">Add app</span>
                 </v-card-title>
+                <v-divider></v-divider>
                 <v-card-text>
                     <v-container grid-list-md>
                         <v-layout wrap>
@@ -315,8 +321,8 @@
                                         <v-combobox v-model="itemtoadd.tags" :items="gametags" label="Game Tags" chips
                                             clearable prepend-icon="filter_list" solo multiple>
                                             <template v-slot:selection="tags">
-                                                <v-chip :selected="tags.selected" close @input="removetag(tags.item)"
-                                                    color="orange" outline>
+                                                <v-chip :selected="tags.selected" close
+                                                    @input="removetag(itemtoadd,tags.item)" color="orange" outline>
                                                     <strong>{{ tags.item }}</strong>
                                                 </v-chip>
                                             </template>
@@ -336,6 +342,7 @@
                         </v-layout>
                     </v-container>
                 </v-card-text>
+                <v-divider></v-divider>
                 <v-card-actions>
                     <v-spacer></v-spacer>
                     <v-btn color="blue darken-1" flat _click="close" depressed @click="addialog = !addialog;itemtoadd={
@@ -371,6 +378,25 @@
                 </v-card-actions>
             </v-card>
         </v-dialog>
+        <v-dialog v-model="deletedialog" max-width="300" persistent>
+            <v-card>
+                <v-card-title class="headline">Delete this App?</v-card-title>
+                <v-card-text>
+                    Accepting This will result in loosing all the Keys of this game!
+                </v-card-text>
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+
+                    <v-btn color="green darken-1" flat="flat" @click="deletedialog = false">
+                        Cancel
+                    </v-btn>
+
+                    <v-btn color="red darken-1" flat="flat" @click="deleteItem(Itemtodelete)">
+                        Accept
+                    </v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
         <v-speed-dial v-model="fab" bottom right fixed direction="top" transition="slide-y-reverse-transition"
             open-on-hover>
             <template v-slot:activator>
@@ -390,6 +416,9 @@
                 <v-icon>mdi-import</v-icon>
             </v-btn>
         </v-speed-dial>
+        <v-snackbar v-model="hasSaved" :timeout="2000" absolute bottom :color="msg.color">
+            <div class="pa-2 ma-2">{{msg.text}}</div>
+        </v-snackbar>
     </v-layout>
 </template>
 <script>
@@ -424,6 +453,12 @@
         },
         data() {
             return {
+                msg: {
+                    text: '',
+                    color: 'green'
+                },
+                openedapp: null,
+                hasSaved: false,
                 isAdding: false,
                 expand: false,
                 direction: 'top',
@@ -500,7 +535,9 @@
                 fling: false,
                 tabs: null,
                 search: '',
-                appnames: null,
+                appnames: [],
+                Itemtodelete: null,
+                deletedialog: false,
                 editdialog: false,
                 infodialog: false,
                 addialog: false,
@@ -562,14 +599,14 @@
                     keys: [{
                         key: ''
                     }],
-                    tags : [],
+                    tags: [],
                 },
                 editedItem: {
                     appid: '',
                     name: '',
                     platform: '',
                     keys: [],
-                    tags : [],
+                    tags: [],
                 },
             }
         },
@@ -577,39 +614,24 @@
             impport() {
                 impport();
             },
-
             gettags(item) {
-                var i = 0;
-                var test = true;
-                while (i < this.apps.length & test) {
-                    if (item.appid == this.apps[i].appid) {
-                        test = false;
-                    }
-                    i++
-                }
-                if (test) {
+                index = store.state.steamkey.map(e => e.appid).indexOf(this.getappid(item));
+                if (index == -1) {
                     tags(item.appid)
                     item.tags = tagsapp;
-                } else {
-                 
-               i =  this.apps.filter(el =>
-                        {
-                            console.log(el.appid)
-return el.appid == item.appid
-                        }
-                    )
-                    item.tags = i[0].tags 
-                    console.log(i.tags)
-                }
+                } else item.tags = store.state.steamkey[index].tags;
             },
             IDEdited(item) {
                 switch (item.platform) {
                     case 'Steam':
                         index = store.state.steam.map(e => e.appid).indexOf(this.getappid(item));
-                        if (index == -1) item.name = ''
-                        else item.name = store.state.steam[index].name;
-                        console.log('ggg')
-                        this.gettags(item)
+                        if (index == -1) {
+                            item.name = '';
+                            item.tags = [];
+                        } else {
+                            item.name = store.state.steam[index].name;
+                            this.gettags(item);
+                        }
                         break;
                     case 'Origin':
                         index = store.state.origin.map(e => e.appid).indexOf(this.getappid(item));
@@ -632,9 +654,13 @@ return el.appid == item.appid
                 switch (item.platform) {
                     case 'Steam':
                         index = store.state.steam.map(e => e.name).indexOf(item.name);
-                        if (index == -1) item.appid = ''
-                        else item.appid = store.state.steam[index].appid;
-                        this.gettags(item.appid)
+                        if (index == -1) {
+                            item.appid = '';
+                            item.tags = []
+                        } else {
+                            item.appid = store.state.steam[index].appid;
+                            this.gettags(item)
+                        }
                         break;
                     case 'Origin':
                         index = store.state.origin.map(e => e.name).indexOf(item.name);
@@ -672,10 +698,9 @@ return el.appid == item.appid
                 }
 
             },
-            removetag(item) {
-                console.log(this.editedItem.tags.indexOf(item))
-                this.editedItem.tags.splice(this.editedItem.tags.indexOf(item), 1)
-                this.gametagsselected = [...this.editedItem.tags]
+            removetag(item, tag) {
+                item.tags.splice(item.tags.indexOf(tag), 1)
+                this.gametagsselected = [...item.tags]
             },
             Lowercasefirst(text) {
                 return text.charAt(0).toLowerCase() + text.slice(1);
@@ -685,9 +710,10 @@ return el.appid == item.appid
                     item1.keys.length == item2.keys.length
             },
             getappid(item) {
-                if ((item.platform != 'Steam' || item.platform == 'Other') && (item.platform != 'Other' || item.platform == 'Steam')) return item.appid;
-                else return parseInt(item.appid); console.log(parseInt(item.appid));
-                
+                if ((item.platform != 'Steam' || item.platform == 'Other') && (item.platform != 'Other' || item
+                        .platform == 'Steam')) return item.appid;
+                else return parseInt(item.appid);
+
             },
             editkey(item, oldkey, newkey) {
                 editkey(this.gettab(item.platform), this.getappid(item), oldkey, newkey);
@@ -696,48 +722,52 @@ return el.appid == item.appid
                 this.apps[index].keys[indexk].key = newkey;
             },
             edit_key(item, index) {
-
-
-                //console.log("item " + item.keys[0].key + "   " + index.key);
-
+                editkey(this.gettab(item.platform), this.getappid(item), this.openedapp[index].key, item.keys[index]
+                    .key)
             },
-            save() {
-                for (i = 0; i < this.oldediteditem.keys.length; i++) {
-                    if (this.oldediteditem.keys[i].key !== this.editedItem.keys[i].key)
-                        this.editkey(this.oldediteditem, this.oldediteditem.keys[i].key, this.editedItem.keys[i]
+            updatetags(item, newtags) {
+                index = this.apps.map(e => e.appid).indexOf(item.appid);
+                this.apps[index].tags = newtags;
+                /// update on db & on allkeys tab
+            },
+            save(item1, item2) {
+                for (i = 0; i < item2.keys.length; i++) {
+                    if (item2.keys[i].key !== item1.keys[i].key)
+                        this.editkey(item2, item2.keys[i].key, item1.keys[i]
                             .key)
                 }
-                if (!this.Equals(this.oldediteditem, this.editedItem)) {
+                this.updatetags(item2, item1.tags);
+
+                if (!this.Equals(item2, item1)) {
                     i = 0;
                     gameexists = false;
                     while (i < this.apps.length) {
-                        if (this.apps[i].appid == this.editedItem.appid) {
+                        if (this.apps[i].appid == item1.appid) {
                             gameexists = true;
                             break;
                         }
                         i++
                     }
-                    index = this.apps.map(e => e.appid).indexOf(this.oldediteditem.appid);
+                    index = this.apps.map(e => e.appid).indexOf(item2.appid);
                     k = 0;
-                    while (k < this.apps[index].keys.length) {
-                        addkey(this.gettab(this.editedItem.platform), this.getappid(this.editedItem), this
-                            .editedItem.keys[k].key);
+                    while (k < item1.keys.length) {
+                        addkey(this.gettab(item1.platform), this.getappid(item1), item1.keys[k].key);
                         if (gameexists) {
-                            this.apps[i].keys.push(this.apps[index].keys[k]);
+                            this.apps[i].keys.push(item1.keys[k]);
                         }
                         k++;
                     }
-                    delgamekeys(this.gettab(this.oldediteditem.platform), this.getappid(this.oldediteditem));
+                    delgametagskeys(this.gettab(item2.platform), this.getappid(item2));
                     this.apps.splice(index, 1);
                     if (!gameexists) this.apps.push({
-                        name: this.editedItem.name,
-                        appid: this.editedItem.appid,
-                        platform: this.editedItem.platform,
-                        keys: this.editedItem.keys,
-                        tags: this.editedItem.tags
+                        name: item1.name,
+                        appid: item1.appid,
+                        platform: item1.platform,
+                        keys: item1.keys,
+                        tags: item1.tags
                     });
-                    this.UpdateVuex(this.editedItem.platform, this.apps);
-                    this.UpdateVuex(this.oldediteditem.platform, this.apps);
+                    this.UpdateVuex(item1.platform, this.apps);
+                    this.UpdateVuex(item2.platform, this.apps);
                 }
                 //this.apps[0]={...this.apps[0],name:"test"};
                 this.editedItem = {
@@ -745,9 +775,12 @@ return el.appid == item.appid
                     name: '',
                     platform: '',
                     keys: [],
+                    tags: []
                 };
 
                 this.oldeditedItem = null;
+                this.msg.text = "App Saved successfully";
+                this.hasSaved = true;
                 this.editdialog = false;
             },
             UpdateVuex(platform, newvalue) {
@@ -802,46 +835,44 @@ return el.appid == item.appid
             },
             add(app) {
                 if (this.gettab(app.platform) == 1 && app.appid == '') {
-for (var i = 0; i < app.keys.length; i++) {
-                    addkey(this.gettab(app.platform), {appid : this.apps.length ,name :app.name}, app.keys[i].key);
+                    for (var i = 0; i < app.keys.length; i++) {
+                        addkey(this.gettab(app.platform), {
+                            appid: this.apps.length,
+                            name: app.name
+                        }, app.keys[i].key);
 
+                    }
+                } else {
+                    for (var i = 0; i < app.keys.length; i++)
+                        addkey(this.gettab(app.platform), this.getappid(app), app.keys[i].key);
                 }
-                }else{
-for (var i = 0; i < app.keys.length; i++) {
-                    addkey(this.gettab(app.platform), this.getappid(app), app.keys[i].key);
-
-                }
-
-                }
-
+                for (var i = 0; i < app.tags.length; i++)
+                    addtag(this.gettab(app.platform), this.getappid(app), app.tags[i]);
                 
-
-        //         for (var i =0; i < app.tags.length; i++) {
-        //  addtag(this.gettab(app.platform), this.getappid(app), app.tags[i]);
-        //  console.log(app.tags[i])
-
-        //         }
                 var index = this.apps.map(e => e.appid).indexOf(this.getappid(app));
                 if (index == -1)
                     this.apps.push({
                         appid: this.getappid(app),
                         name: app.name,
                         keys: app.keys,
-                        platform: app.platform
+                        platform: app.platform,
+                        tags: app.tags
                     });
-                else {
-                    this.apps[index].keys = this.apps[index].keys.concat(app.keys);
-                }
-this.UpdateVuex(app.platform, this.apps);
+                else this.apps[index].keys = this.apps[index].keys.concat(app.keys);
+                
+                this.UpdateVuex(app.platform, this.apps);
                 this.itemtoadd = {
                     appid: '',
                     name: '',
                     platform: '',
+                    tags: [],
                     keys: [{
                         key: ''
                     }],
-                    tags : []
+                    tags: []
                 }
+                this.msg.text = "App Added successfully";
+                this.hasSaved = true;
                 this.addialog = false;
             },
             editItem(item) {
@@ -853,9 +884,9 @@ this.UpdateVuex(app.platform, this.apps);
             },
             deleteItem(item) {
                 const index = this.apps.indexOf(item)
-                confirm('Are you sure you want to delete all The keys of this game?') && delgametagskeys(this.gettab(
-                        item.platform), item
-                    .appid) & this.apps.splice(index, 1) & this.UpdateVuex(item.platform, this.apps)
+                delgametagskeys(this.gettab(item.platform), item.appid) & this.apps.splice(index, 1) & this
+                    .UpdateVuex(item.platform, this.apps);
+                this.deletedialog = false;
             },
             deletekey(key, item) {
                 const index = this.apps.indexOf(item);
