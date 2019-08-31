@@ -72,7 +72,6 @@
             }
         },
         mounted() {
-            console.log(store.state.others.length)
             this.items[1].keys = store.state.steamkey.reduce(function (keys, item) {
                 return keys + (item.keys.length);
             }, 0)

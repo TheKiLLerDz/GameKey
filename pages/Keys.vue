@@ -25,7 +25,7 @@
                     </v-text-field>
                 </v-flex>
                 <v-flex xs12>
-                    <v-data-table hide-actions :headers="headers[2].show ? headers : headers.splice(2,1)" :items="apps"
+                    <v-data-table hide-actions :headers="headers[2].show ? headers : headers.splice(2,1)" sort-icon="mdi-menu-down" :items="apps"
                         :update:page="loading" :search="search" :single-expand="singleExpand" :expanded.sync="expanded"
                         :pagination.sync="pagination" show-expand ref="table" :expand="expand" item-key="appid">
                         <template slot="headerCell" slot-scope="{ header }">
@@ -39,7 +39,7 @@
                                         onerror="this.src='apps/undefined.gif'" height="42" width="100">
                                 </td>
                                 <td
-                                    @click="props.expanded = !props.expanded;openedapp=JSON.parse(JSON.stringify(props.item.keys))">
+                                    @click="props.expanded = !props.expanded">
                                     <v-chip dark>{{ props.item.name }}</v-chip>
                                 </td>
                                 <td v-if="$route.path.includes('/keys')" @click="props.expanded = !props.expanded">
@@ -53,13 +53,13 @@
                                     </v-icon>
                                 </td>
                                 <td
-                                    @click="props.expanded = !props.expanded;openedapp=JSON.parse(JSON.stringify(props.item.keys))">
+                                    @click="props.expanded = !props.expanded">
                                     <v-chip :color="getColor(props.item.keys.length)" dark>
                                         {{props.item.keys.length}}</v-chip>
                                 </td>
                                 <td>
                                     <v-tooltip top>
-                                        <v-btn slot="activator" @click="deletedialog=true;Itemtodelete=props.item.keys"
+                                        <v-btn slot="activator" @click="deletedialog=true;Itemtodelete=props.item"
                                             color="error" icon small>
                                             <v-icon small>
                                                 delete
@@ -122,7 +122,7 @@
                                                 <td style="width:20%">
                                                     <v-edit-dialog :value="index.key" :return-value.sync="index.key"
                                                         large persistent color="red" @save="edit_key(props.item,i)">
-                                                        <v-chip text-color="white"
+                                                        <v-chip text-color="white" @click="Keytochange=index.key"
                                                             :color="getColor(props.item.keys.length)">{{ index.key }}
                                                         </v-chip>
                                                         <template v-slot:input>
@@ -457,7 +457,7 @@
                     text: '',
                     color: 'green'
                 },
-                openedapp: null,
+                Keytochange: null,
                 hasSaved: false,
                 isAdding: false,
                 expand: false,
@@ -531,7 +531,6 @@
                     "Spelling", "Bowling", "Cycling", "Hardware", "Jet", "Snow", "Transportation", "Skating",
                     "Asymmetric VR", "BMX", "Snowboarding", "ATV", "Skiing", "Social Deduction"
                 ],
-                gametagsselected: [],
                 fling: false,
                 tabs: null,
                 search: '',
@@ -559,7 +558,7 @@
                         align: 'left',
                         sortable: false,
                         show: true,
-                        value: 'pic'
+                        value: 'appid'
                     },
                     {
                         text: 'Name',
@@ -700,7 +699,6 @@
             },
             removetag(item, tag) {
                 item.tags.splice(item.tags.indexOf(tag), 1)
-                this.gametagsselected = [...item.tags]
             },
             Lowercasefirst(text) {
                 return text.charAt(0).toLowerCase() + text.slice(1);
@@ -722,9 +720,8 @@
                 this.apps[index].keys[indexk].key = newkey;
             },
             edit_key(item, index) {
-                editkey(this.gettab(item.platform), this.getappid(item), this.openedapp[index].key, item.keys[index]
+                editkey(this.gettab(item.platform), this.getappid(item), this.Keytochange, item.keys[index]
                     .key)
-                this.openedapp[index].key = item.keys[index].key;
             },
             updatetags(item, newtags) {
                 index = this.apps.map(e => e.appid).indexOf(item.appid);
@@ -885,7 +882,7 @@
             },
             deleteItem(item) {
                 const index = this.apps.indexOf(item)
-                delgametagskeys(this.gettab(item.platform), item.appid) & this.apps.splice(index, 1) & this
+                delgametagskeys(this.gettab(item.platform), this.getappid(item)) & this.apps.splice(index, 1) & this
                     .UpdateVuex(item.platform, this.apps);
                 this.deletedialog = false;
             },
@@ -894,10 +891,10 @@
                 const indexi = this.apps[index].keys.map(e => e.key).indexOf(key);
                 confirm('Are you sure you want to delete this key?') && delkey(this.gettab(item.platform), item
                     .appid, key) & this.apps[
-                    index].keys.splice(indexi, 1) & this.openedapp.splice(indexi, 1);
+                    index].keys.splice(indexi, 1);
                 if (item.keys.length == 0) {
                     this.apps.splice(index, 1);
-                    delgametagskeys(this.gettab(item.platform), item.appid);
+                    delgametagskeys(this.gettab(item.platform), this.getappid(item));
                 }
                 this.UpdateVuex(item.platform, this.apps);
             },
