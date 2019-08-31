@@ -128,15 +128,9 @@ function addappkey(t,appidandname,key) {
 	var obj = {appid : appidandname.appid, name : appidandname.name, keys : [{key: key}]}
 				db.tables[t].put(obj);
 }
-function addtag(t,appid,tag) {
+function updatetags(t,appid,tags) {
 	db.tables[t].where("appid").equals(appid).modify(game => {
-		if (game.tags == undefined) {
-			game.tags = [
-				tag
-			];
-		} else {
-			game.tags.push(tag);
-		}
+		game.tags =tags
 	});
 	
 }

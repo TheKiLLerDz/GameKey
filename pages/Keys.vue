@@ -25,9 +25,10 @@
                     </v-text-field>
                 </v-flex>
                 <v-flex xs12>
-                    <v-data-table hide-actions :headers="headers[2].show ? headers : headers.splice(2,1)" sort-icon="mdi-menu-down" :items="apps"
-                        :update:page="loading" :search="search" :single-expand="singleExpand" :expanded.sync="expanded"
-                        :pagination.sync="pagination" show-expand ref="table" :expand="expand" item-key="appid">
+                    <v-data-table hide-actions :headers="headers[2].show ? headers : headers.splice(2,1)"
+                        sort-icon="mdi-menu-down" :items="apps" :update:page="loading" :search="search"
+                        :single-expand="singleExpand" :expanded.sync="expanded" :pagination.sync="pagination"
+                        show-expand ref="table" :expand="expand" item-key="appid">
                         <template slot="headerCell" slot-scope="{ header }">
                             <span :class="($route.path=='/origin') ? 'orange--text' : 'blue--text'"
                                 v-text="header.text" />
@@ -38,8 +39,7 @@
                                     <img :src="'apps/' + props.item.appid + '.jpg'"
                                         onerror="this.src='apps/undefined.gif'" height="42" width="100">
                                 </td>
-                                <td
-                                    @click="props.expanded = !props.expanded">
+                                <td @click="props.expanded = !props.expanded">
                                     <v-chip dark>{{ props.item.name }}</v-chip>
                                 </td>
                                 <td v-if="$route.path.includes('/keys')" @click="props.expanded = !props.expanded">
@@ -52,8 +52,7 @@
                                     <v-icon v-else-if="props.item.platform=='Other'" :color='platforms[3].color'>mdi-key
                                     </v-icon>
                                 </td>
-                                <td
-                                    @click="props.expanded = !props.expanded">
+                                <td @click="props.expanded = !props.expanded">
                                     <v-chip :color="getColor(props.item.keys.length)" dark>
                                         {{props.item.keys.length}}</v-chip>
                                 </td>
@@ -143,17 +142,18 @@
                                                         </v-btn>
                                                         <span class="top">Copy Key</span>
                                                     </v-tooltip>
-                                                    <v-tooltip top>
+                                                    <!--<v-tooltip top>
                                                         <v-btn slot="activator" color="info" icon small>
                                                             <v-icon small>
                                                                 mdi-tooltip-edit
                                                             </v-icon>
                                                         </v-btn>
                                                         <span class="top">Edit Key</span>
-                                                    </v-tooltip>
+                                                    </v-tooltip>!-->
                                                     <v-tooltip top>
                                                         <v-btn slot="activator" color="error"
-                                                            @click="deletekey(index.key,props.item)" icon small>
+                                                            @click="deletekeydialog=true;keytodelete=index.key;Itemtodelete=props.item"
+                                                            icon small>
                                                             <v-icon small>
                                                                 delete
                                                             </v-icon>
@@ -386,12 +386,26 @@
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
-
                     <v-btn color="green darken-1" flat="flat" @click="deletedialog = false">
                         Cancel
                     </v-btn>
-
                     <v-btn color="red darken-1" flat="flat" @click="deleteItem(Itemtodelete)">
+                        Accept
+                    </v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
+        <v-dialog v-model="deletekeydialog" max-width="300" persistent>
+            <v-card>
+                <v-card-title class="headline">Delete this Key?</v-card-title>
+                <v-card-text>
+                    Are you sure you want to delete this key ? </v-card-text>
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="green darken-1" flat="flat" @click="deletekeydialog = false">
+                        Cancel
+                    </v-btn>
+                    <v-btn color="red darken-1" flat="flat" @click="deletekey(keytodelete,Itemtodelete)">
                         Accept
                     </v-btn>
                 </v-card-actions>
@@ -536,7 +550,9 @@
                 search: '',
                 appnames: [],
                 Itemtodelete: null,
+                keytodelete: null,
                 deletedialog: false,
+                deletekeydialog: false,
                 editdialog: false,
                 infodialog: false,
                 addialog: false,
@@ -726,7 +742,7 @@
             updatetags(item, newtags) {
                 index = this.apps.map(e => e.appid).indexOf(item.appid);
                 this.apps[index].tags = newtags;
-                /// update on db & on allkeys tab
+                updatetags(this.gettab(item.platform), this.getappid(item), newtags);
             },
             save(item1, item2) {
                 for (i = 0; i < item2.keys.length; i++) {
@@ -767,7 +783,6 @@
                     this.UpdateVuex(item1.platform, this.apps);
                     this.UpdateVuex(item2.platform, this.apps);
                 }
-                //this.apps[0]={...this.apps[0],name:"test"};
                 this.editedItem = {
                     appid: '',
                     name: '',
@@ -844,8 +859,7 @@
                     for (var i = 0; i < app.keys.length; i++)
                         addkey(this.gettab(app.platform), this.getappid(app), app.keys[i].key);
                 }
-                for (var i = 0; i < app.tags.length; i++)
-                    addtag(this.gettab(app.platform), this.getappid(app), app.tags[i]);
+                updatetags(this.gettab(app.platform), this.getappid(app), app.tags);
 
                 var index = this.apps.map(e => e.appid).indexOf(this.getappid(app));
                 if (index == -1)
@@ -876,7 +890,6 @@
             editItem(item) {
                 this.editedItem = JSON.parse(JSON.stringify(item));
                 this.oldediteditem = JSON.parse(JSON.stringify(item));
-                //console.log( this.editedItem.keys === this.oldediteditem.keys);
                 this.PlatformEdited(this.editedItem.platform);
                 this.editdialog = true;
             },
@@ -889,14 +902,14 @@
             deletekey(key, item) {
                 const index = this.apps.indexOf(item);
                 const indexi = this.apps[index].keys.map(e => e.key).indexOf(key);
-                confirm('Are you sure you want to delete this key?') && delkey(this.gettab(item.platform), item
-                    .appid, key) & this.apps[
+                delkey(this.gettab(item.platform), this.getappid(item), key) & this.apps[
                     index].keys.splice(indexi, 1);
                 if (item.keys.length == 0) {
                     this.apps.splice(index, 1);
                     delgametagskeys(this.gettab(item.platform), this.getappid(item));
+                    this.UpdateVuex(item.platform, this.apps);
                 }
-                this.UpdateVuex(item.platform, this.apps);
+                this.deletekeydialog = false;
             },
             subStr(string) {
                 if (string.includes('/keys')) {
