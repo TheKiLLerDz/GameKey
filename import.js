@@ -1,14 +1,12 @@
 'use strict';
 
-var keys = []
-var key = [];
-var tagname = [];
 
-
+var keys;
+var game;
 
 
 function PatternKeySteam(string) {
-  keypattern = /\s([\dA-Z]{5}\-){2}[\dA-Z]{5}\s/gi;
+  const keypattern = /([\dA-Z]{5}\-){2}[\dA-Z]{5}/gi;
   return string.match(keypattern);
 }
 
@@ -25,26 +23,25 @@ function impport() {
 
   while (line = liner.next()) {
     linestr = line.toString('ascii');
-    word = linestr.split(' ')
-    if (validateKey(word[0])) {
-      key.push(word[0])
-      word = word.filter((el) => {
-        return el !== word[0] & el !== '';
-      })
-      var tag = word.join(' ');
-      tagname.push(tag)
-    } else {
-      index = word["length"] - 1
-      key.push(word[index])
-      word = word.filter((el) => {
-        return el !== word[index] & el !== '';
-      })
-      var tag = word.join(' ');
-      tagname.push(tag)
+    keys = PatternKeySteam(linestr);
+    var obj = {
+      game: '',
+      keys: []
     }
+    game = linestr;
+    for (var i = 0; i < keys.length; i++) {
+      game = game.replace(keys[i], '');
+      obj.keys.push({
+        key: keys[i]
+      })
+    }
+    obj.game = game;
+    console.log(obj);
+   //addkey = getappid(store.state.steamkey,game)
+   //addkey == 0?'game not found':addkey(2,addkey,key)
     lineNumber++;
   }
-  baseorxhr()
+  // baseorxhr()
 }
 
 function validateKey(key) {
@@ -104,6 +101,9 @@ function addtodb() {
 
 }
 
+function getappid(platform,name) {
 
+ var index = platform.map(el => el.name).indexOf(name)
+ return index == -1?false:platform[index].appid
+}
 
-// var promise =  
