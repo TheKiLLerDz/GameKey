@@ -1,14 +1,11 @@
 'use strict';
 
-var keys = []
-var key = [];
-var tagname = [];
 
-
+var key;var game;
 
 
 function PatternKeySteam(string) {
-  keypattern = /\s([\dA-Z]{5}\-){2}[\dA-Z]{5}\s/gi;
+ const keypattern = /\s([\dA-Z]{5}\-){2}[\dA-Z]{5}\s/gi;
   return string.match(keypattern);
 }
 
@@ -25,26 +22,13 @@ function impport() {
 
   while (line = liner.next()) {
     linestr = line.toString('ascii');
-    word = linestr.split(' ')
-    if (validateKey(word[0])) {
-      key.push(word[0])
-      word = word.filter((el) => {
-        return el !== word[0] & el !== '';
-      })
-      var tag = word.join(' ');
-      tagname.push(tag)
-    } else {
-      index = word["length"] - 1
-      key.push(word[index])
-      word = word.filter((el) => {
-        return el !== word[index] & el !== '';
-      })
-      var tag = word.join(' ');
-      tagname.push(tag)
-    }
-    lineNumber++;
+   key = PatternKeySteam(linestr)
+   game = linestr.replace(key , '');
+  var obj = {game : game , key : key}
+   console.log(obj)
+        lineNumber++;
   }
-  baseorxhr()
+  // baseorxhr()
 }
 
 function validateKey(key) {
