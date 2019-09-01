@@ -37,6 +37,8 @@ function impport() {
     }
     obj.game = game;
     console.log(obj);
+   //addkey = getappid(store.state.steamkey,game)
+   //addkey == 0?'game not found':addkey(2,addkey,key)
     lineNumber++;
   }
   // baseorxhr()
@@ -99,6 +101,9 @@ function addtodb() {
 
 }
 
+function getappid(platform,name) {
 
+ var index = platform.map(el => el.name).indexOf(name)
+ return index == -1?false:platform[index].appid
+}
 
-// var promise =  
