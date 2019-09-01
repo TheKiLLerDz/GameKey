@@ -1,11 +1,12 @@
 'use strict';
 
 
-var key;var game;
+var keys;
+var game;
 
 
 function PatternKeySteam(string) {
- const keypattern = /\s([\dA-Z]{5}\-){2}[\dA-Z]{5}\s/gi;
+  const keypattern = /([\dA-Z]{5}\-){2}[\dA-Z]{5}/gi;
   return string.match(keypattern);
 }
 
@@ -22,11 +23,21 @@ function impport() {
 
   while (line = liner.next()) {
     linestr = line.toString('ascii');
-   key = PatternKeySteam(linestr)
-   game = linestr.replace(key , '');
-  var obj = {game : game , key : key}
-   console.log(obj)
-        lineNumber++;
+    keys = PatternKeySteam(linestr);
+    var obj = {
+      game: '',
+      keys: []
+    }
+    game = linestr;
+    for (var i = 0; i < keys.length; i++) {
+      game = game.replace(keys[i], '');
+      obj.keys.push({
+        key: keys[i]
+      })
+    }
+    obj.game = game;
+    console.log(obj);
+    lineNumber++;
   }
   // baseorxhr()
 }
