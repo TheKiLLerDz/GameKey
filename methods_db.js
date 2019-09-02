@@ -116,6 +116,7 @@ function addkey(t, appidorname, key) {
 		})
 			if (game.length == 0) {
 				addappkey(t,appidorname,key)
+				
 				store.state.others.push({appid : appidorname.appid , name : appidorname.name , platform : 'Other'})
 			}else {
 				addkey(t,game[0].appid,key)
