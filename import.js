@@ -10,8 +10,6 @@ function PatternKeySteam(string) {
   return string.match(keypattern);
 }
 
-
-
 function impport() {
   const lineByLine = require('./readlines.js');
   const liner = new lineByLine('./text.txt');
@@ -25,20 +23,41 @@ function impport() {
     linestr = line.toString('ascii');
     keys = PatternKeySteam(linestr);
     var obj = {
-      game: '',
+      name: '',
       keys: []
     }
     game = linestr;
-    for (var i = 0; i < keys.length; i++) {
-      game = game.replace(keys[i], '');
-      obj.keys.push({
-        key: keys[i]
-      })
-    }
-    obj.game = game;
+    if (keys !== null)
+      for (var i = 0; i < keys.length; i++) {
+        game = game.replace(keys[i], '');
+        obj.keys.push({
+          key: keys[i]
+        })
+      }
+    obj.name = game.replace(/(\r\n|\n|\r)/gm, '').trim();
     console.log(obj);
-   //addkey = getappid(store.state.steamkey,game)
-   //addkey == 0?'game not found':addkey(2,addkey,key)
+    var index = getindex(store.state.steam, obj.name)
+    var uiindex = getindex(store.state.steamkey,obj.name)
+    if (index == -1) console.log('game not found');
+    else {
+      var item = store.state.steam[index]
+      console.log(item)
+      for (var i = 0; i < keys.length; i++) {
+        addkey(2, store.state.steam[index].appid, keys[i])
+        if (store.state.steam[index].keys == undefined) {
+          store.state.steam[index].keys = [{
+            key: keys[i]
+          }];
+        } else {
+          item.keys.push({
+            key: keys[i]
+          });
+        }
+      }
+      // problem here is if u delete a key of game then import it back it get's again, cz of store.state.steam variable
+      // when we delete a key our algorithme only deletes it from store.state.steamkey
+      uiindex == -1 ? store.state.steamkey.push(store.state.steam[index]) : console.log("game already exists")
+    }
     lineNumber++;
   }
   // baseorxhr()
@@ -101,9 +120,6 @@ function addtodb() {
 
 }
 
-function getappid(platform,name) {
-
- var index = platform.map(el => el.name).indexOf(name)
- return index == -1?false:platform[index].appid
+function getindex(platform, name) {
+  return platform.map(el => el.name).indexOf(name)
 }
-

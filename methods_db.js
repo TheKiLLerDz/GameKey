@@ -116,6 +116,7 @@ function addkey(t, appidorname, key) {
 		})
 			if (game.length == 0) {
 				addappkey(t,appidorname,key)
+				
 				store.state.others.push({appid : appidorname.appid , name : appidorname.name , platform : 'Other'})
 			}else {
 				addkey(t,game[0].appid,key)
@@ -128,15 +129,9 @@ function addappkey(t,appidandname,key) {
 	var obj = {appid : appidandname.appid, name : appidandname.name, keys : [{key: key}]}
 				db.tables[t].put(obj);
 }
-function addtag(t,appid,tag) {
+function updatetags(t,appid,tags) {
 	db.tables[t].where("appid").equals(appid).modify(game => {
-		if (game.tags == undefined) {
-			game.tags = [
-				tag
-			];
-		} else {
-			game.tags.push(tag);
-		}
+		game.tags =tags
 	});
 	
 }

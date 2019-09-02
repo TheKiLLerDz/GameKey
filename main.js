@@ -131,7 +131,6 @@ v = new Vue({
       const textOne = item.name.toLowerCase();
       const textTwo = String(item.appid).toLowerCase();
       const searchText = queryText.toLowerCase();
-
       return textOne.indexOf(searchText) > -1 ||
           textTwo.indexOf(searchText) > -1
   }
