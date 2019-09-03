@@ -864,7 +864,7 @@
                 var index = this.apps.map(e => e.appid).indexOf(this.getappid(app));
                 if (index == -1)
                     this.apps.push({
-                        appid: app.platform == 'Other'?this.apps.length:this.getappid(app),
+                        appid: app.platform == 'Other' ? this.apps.length : this.getappid(app),
                         name: app.name,
                         keys: app.keys,
                         platform: app.platform,
