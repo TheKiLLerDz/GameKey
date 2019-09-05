@@ -9,6 +9,20 @@ function PatternKeySteam(string) {
   return string.match(keypattern);
 }
 
+function PatternKeyOrigin(string) {
+  const keypattern = /([\dA-Z]{4}\-){4}[\dA-Z]{4}/gi;
+  return string.match(keypattern);
+}
+
+function PatternKeyUplay(string) {
+  const keypattern1 = /([\dA-Z]{4}\-){3}[\dA-Z]{4}/gi;
+  const keypattern2 = /[\dA-Z]{3}\-([\dA-Z]{4}\-){3}[\dA-Z]{4}/gi;
+  var format1 = string.match(keypattern1);
+  if (format1.length == 0) {
+    return string.match(keypattern2);
+  } else return format1
+}
+
 function impport() {
   const {
     dialog
@@ -33,6 +47,7 @@ function impport() {
       }
     ]
   })
+  console.log(path)
   if (path !== undefined) {
     const lineByLine = require('./readlines.js');
     const liner = new lineByLine(path[0]);
