@@ -1,43 +1,41 @@
 var tagsapp ;
-xhr = new XMLHttpRequest();
+http = new XMLHttpRequest();
 
 function tags(appid) {
     tagsapp = [];
 
 
-    xhr.onreadystatechange = function() {
-      if (xhr.readyState === 4) {
+   
+  
+    var http = new XMLHttpRequest();
+    var url = 'https://steamspy.com/api.php?request=appdetails';
+    var params = "appid="+appid;
+    http.open('GET', url);
+    http.send(params)
 
- ele = document.createElement('div')
-ele.innerHTML = xhr.responseText
-s = ele.getElementsByClassName('btn-tag')
-var i = 0
-while (i < s.length) {
-tagsapp.push(s[i].innerHTML)
-i++
-
+    http.onload = function() {
+      if (http.status == 200) {
+var obj = JSON.parse(http.responseText)
+console.log(obj)
+for (x in obj.tags) {
+ tagsapp.push(x);
 }
-
-
       }
     }
-  
-    xhr.open('GET', 'https://steamdb.info/app/'+appid+'/');
-    xhr.send('');
 }
 
 
 function sendData(i, callback) {
 
   
-    xhr.onreadystatechange = function () {
-      if (xhr.readyState === 4) {
-        // console.log(xhr.response); 
-        filtrer(xhr.responseText, i)
+    http.onreadystatechange = function () {
+      if (http.readyState === 4) {
+        // console.log(http.response); 
+        filtrer(http.responseText, i)
       }
     }
   
-    xhr.open('GET', 'https://store.steampowered.com/search/suggest?term=p&f=games&cc=DZ&l=french&excluded_content_descriptors%5B%5D=3&excluded_content_descriptors%5B%5D=4&v=6766867', true);
-    xhr.send('');
+    http.open('GET', 'https://store.steampowered.com/search/suggest?term=p&f=games&cc=DZ&l=french&excluded_content_descriptors%5B%5D=3&excluded_content_descriptors%5B%5D=4&v=6766867', true);
+    http.send('');
   
   }
