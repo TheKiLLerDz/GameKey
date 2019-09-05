@@ -7,9 +7,9 @@ var game;
 function PatternKeySteam(string) {
   const virtualkeypattern = /([\dA-Z]{5}\-){2}[\dA-Z]{5}/gi;
   const physicalkeypattern = /([\dA-Z]{5}\-){4}[\dA-Z]{5}/gi;
-  var virtualkey = string.match(virtualkeypattern);
-  if (virtualkey.length == 0) return string.match(physicalkeypattern);
-  else return virtualkey
+  var physicalkey = string.match(physicalkeypattern);
+  if (physicalkey == null) return string.match(virtualkeypattern);
+  else return physicalkey
 }
 
 function PatternKeyOrigin(string) {
@@ -21,7 +21,7 @@ function PatternKeyUplay(string) {
   const keypattern1 = /([\dA-Z]{4}\-){3}[\dA-Z]{4}/gi;
   const keypattern2 = /[\dA-Z]{3}\-([\dA-Z]{4}\-){3}[\dA-Z]{4}/gi;
   var format1 = string.match(keypattern1);
-  if (format1.length == 0) return string.match(keypattern2);
+  if (format1 == null) return string.match(keypattern2);
   else return format1
 }
 
@@ -49,6 +49,7 @@ function impport() {
       }
     ]
   })
+  ////////
   console.log(path)
   if (path !== undefined) {
     const lineByLine = require('./readlines.js');
@@ -67,37 +68,38 @@ function impport() {
         keys: []
       }
       game = linestr;
-      if (keys !== null)
+      if (keys !== null) {
         for (var i = 0; i < keys.length; i++) {
           game = game.replace(keys[i], '');
           obj.keys.push({
             key: keys[i]
           })
         }
-      obj.name = game.replace(/(\r\n|\n|\r)/gm, '').trim();
-      console.log(obj);
-      var index = getindex(store.state.steam, obj.name)
-      var uiindex = getindex(store.state.steamkey, obj.name)
-      if (index == -1) console.log('game not found');
-      else {
-        var item = store.state.steam[index]
-        console.log(item)
-        for (var i = 0; i < keys.length; i++) {
-          addkey(2, store.state.steam[index].appid, keys[i])
-          if (store.state.steam[index].keys == undefined) {
-            store.state.steam[index].keys = [{
-              key: keys[i]
-            }];
-          } else {
-            item.keys.push({
-              key: keys[i]
-            });
+        obj.name = game.replace(/(\r\n|\n|\r)/gm, '').trim();
+        console.log(obj);
+        var index = getindex(store.state.steam, obj.name)
+        var uiindex = getindex(store.state.steamkey, obj.name)
+        if (index == -1) console.log('game not found');
+        else {
+          var item = store.state.steam[index]
+          console.log(item)
+          for (var i = 0; i < keys.length; i++) {
+            addkey(2, store.state.steam[index].appid, keys[i])
+            if (store.state.steam[index].keys == undefined) {
+              store.state.steam[index].keys = [{
+                key: keys[i]
+              }];
+            } else {
+              item.keys.push({
+                key: keys[i]
+              });
+            }
           }
+          // problem here is if u delete a key of game then import it back it get's again, cz of store.state.steam variable
+          // when we delete a key our algorithme only deletes it from store.state.steamkey
+          uiindex == -1 ? store.state.steamkey.push(store.state.steam[index]) : console.log("game already exists")
         }
-        // problem here is if u delete a key of game then import it back it get's again, cz of store.state.steam variable
-        // when we delete a key our algorithme only deletes it from store.state.steamkey
-        uiindex == -1 ? store.state.steamkey.push(store.state.steam[index]) : console.log("game already exists")
-      }
+      } else console.log('key not found')
       lineNumber++;
     }
   }
