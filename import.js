@@ -14,7 +14,24 @@ function impport() {
     dialog
   } = require('electron').remote
   var path = dialog.showOpenDialog({
-    properties: ['openFile']
+    properties: ['openFile'],
+    filters: [{
+        name: 'Supported Files',
+        extensions: ['txt', 'xlsx', 'xls']
+      },
+      {
+        name: 'Text Files',
+        extensions: ['txt']
+      },
+      {
+        name: 'Excel Files',
+        extensions: ['xls', 'xlsx']
+      },
+      {
+        name: 'All Files',
+        extensions: ['*']
+      }
+    ]
   })
   if (path !== undefined) {
     const lineByLine = require('./readlines.js');
