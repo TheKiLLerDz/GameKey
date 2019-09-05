@@ -28,15 +28,11 @@ function getdata() {
 function getsteambdd() {
 
 	db.tables[2].toArray().then(el => {
+		store.state.steam = el;
 		store.state.steamkey = el.filter((e) => {
 			e.platform = 'Steam'
 			return e.keys !== undefined;
 		});
-		store.state.steam = el.reduce(function (items, item) {
-			delete item.keys
-			items.push(item)
-			return items
-		}, [])
 		document.getElementById('main').remove()
 		v.$mount('#app')
 	});
@@ -46,30 +42,33 @@ function getsteambdd() {
 function getuplaybdd() {
 
 	db.tables[3].toArray().then(el => {
+		store.state.uplay = el;
 		store.state.uplaykey = el.filter((e) => {
 			e.platform = 'Uplay'
 			return e.keys !== undefined;
 		});
-		store.state.uplay = el.reduce(function (items, item) {
-			delete item.keys
-			items.push(item)
-			return items
-		}, [])
+	})
+}
+
+function getoriginbdd() {
+
+	db.tables[0].toArray().then(el => {
+		store.state.origin = el;
+		store.state.originkey = el.filter((e) => {
+			e.platform = 'Origin'
+			return e.keys !== undefined;
+		});
 	})
 }
 
 function getothersbdd() {
 
 	db.tables[1].toArray().then(el => {
+		store.state.others = el;
 		store.state.otherskey = el.filter((e) => {
 			e.platform = 'Other'
 			return e.keys !== undefined;
 		});
-		store.state.others = el.reduce(function (items, item) {
-			delete item.keys
-			items.push(item)
-			return items
-		}, [])
 	})
 }
 
@@ -93,23 +92,6 @@ function addtradeorused(t, appid, key, tradeorused) {
 		}
 	})
 
-}
-
-
-
-function getoriginbdd() {
-
-	db.tables[0].toArray().then(el => {
-		store.state.originkey = el.filter((e) => {
-			e.platform = 'Origin'
-			return e.keys !== undefined;
-		});
-		store.state.origin = el.reduce(function (items, item) {
-			delete item.keys
-			items.push(item)
-			return items
-		}, [])
-	})
 }
 
 function addkey(t, appidorname, key) {
