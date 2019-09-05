@@ -8,10 +8,10 @@ function tags(appid) {
    
   
     var http = new XMLHttpRequest();
-    var url = 'https://steamspy.com/api.php?request=appdetails';
-    var params = "appid="+appid;
+    var url = 'https://steamspy.com/api.php?request=appdetails&appid='+appid;
+    // var params = "appid="+appid;
     http.open('GET', url);
-    http.send(params)
+    http.send()
 
     http.onload = function() {
       if (http.status == 200) {
