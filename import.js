@@ -5,8 +5,11 @@ var keys;
 var game;
 
 function PatternKeySteam(string) {
-  const keypattern = /([\dA-Z]{5}\-){2}[\dA-Z]{5}/gi;
-  return string.match(keypattern);
+  const virtualkeypattern = /([\dA-Z]{5}\-){2}[\dA-Z]{5}/gi;
+  const physicalkeypattern = /([\dA-Z]{5}\-){4}[\dA-Z]{5}/gi;
+  var virtualkey = string.match(virtualkeypattern);
+  if (virtualkey.length == 0) return string.match(physicalkeypattern);
+  else return virtualkey
 }
 
 function PatternKeyOrigin(string) {
@@ -18,9 +21,8 @@ function PatternKeyUplay(string) {
   const keypattern1 = /([\dA-Z]{4}\-){3}[\dA-Z]{4}/gi;
   const keypattern2 = /[\dA-Z]{3}\-([\dA-Z]{4}\-){3}[\dA-Z]{4}/gi;
   var format1 = string.match(keypattern1);
-  if (format1.length == 0) {
-    return string.match(keypattern2);
-  } else return format1
+  if (format1.length == 0) return string.match(keypattern2);
+  else return format1
 }
 
 function impport() {
