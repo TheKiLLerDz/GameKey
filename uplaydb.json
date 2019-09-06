@@ -1,843 +1,989 @@
 {
-  "applist": [{
-      "appid": "u0",
-      "name": "For Honor"
-    },
-    {
-      "appid": "u1",
-      "name": "Tom Clancy's Rainbow Six Siege"
-    },
-    {
-      "appid": "u2",
-      "name": "Tom Clancy's The Division 2"
-    },
-    {
-      "appid": "u3",
-      "name": "Assassin's Creed Odyssey"
-    },
-    {
-      "appid": "u4",
-      "name": "Far Cry 5"
-    },
-    {
-      "appid": "u5",
-      "name": "Anno 1800"
-    },
-    {
-      "appid": "u6",
-      "name": "Assassin's Creed Syndicate"
-    },
-    {
-      "appid": "u7",
-      "name": "Rayman 2: The Great Escape"
-    },
-    {
-      "appid": "u8",
-      "name": "Assassin's Creed"
-    },
-    {
-      "appid": "u9",
-      "name": "Watch Dogs: Legion"
-    },
-    {
-      "appid": "u10",
-      "name": "Watch Dogs: Legion"
-    },
-    {
-      "appid": "u11",
-      "name": "Watch Dogs: Legion"
-    },
-    {
-      "appid": "u12",
-      "name": "Gods & Monsters"
-    },
-    {
-      "appid": "u13",
-      "name": "Tom Clancy's Ghost Recon Breakpoint"
-    },
-    {
-      "appid": "u14",
-      "name": "Tom Clancy’s Ghost Recon Breakpoint"
-    },
-    {
-      "appid": "u15",
-      "name": "Tom Clancy’s Ghost Recon Breakpoint"
-    },
-    {
-      "appid": "u16",
-      "name": "Anno 1800"
-    },
-    {
-      "appid": "u17",
-      "name": "Starlink: Battle for Atlas"
-    },
-    {
-      "appid": "u18",
-      "name": "Starlink"
-    },
-    {
-      "appid": "u19",
-      "name": "Anno 1800"
-    },
-    {
-      "appid": "u20",
-      "name": "Anno 1800"
-    },
-    {
-      "appid": "u21",
-      "name": "Far Cry"
-    },
-    {
-      "appid": "u22",
-      "name": "Far Cry"
-    },
-    {
-      "appid": "u23",
-      "name": "Assassin's Creed"
-    },
-    {
-      "appid": "u24",
-      "name": "Assassin's Creed"
-    },
-    {
-      "appid": "u25",
-      "name": "Far Cry"
-    },
-    {
-      "appid": "u26",
-      "name": "Assassin's Creed"
-    },
-    {
-      "appid": "u27",
-      "name": "Far Cry"
-    },
-    {
-      "appid": "u28",
-      "name": "Assassin's Creed"
-    },
-    {
-      "appid": "u29",
-      "name": "Assassin's Creed"
-    },
-    {
-      "appid": "u30",
-      "name": "Assassin's Creed III Remastered"
-    },
-    {
-      "appid": "u31",
-      "name": "Tom Clancy's Signature Collection"
-    },
-    {
-      "appid": "u32",
-      "name": "Space Junkies"
-    },
-    {
-      "appid": "u33",
-      "name": "Tom Clancy's The Division 2"
-    },
-    {
-      "appid": "u34",
-      "name": "Tom Clancy's The Division 2"
-    },
-    {
-      "appid": "u35",
-      "name": "Tom Clancy's The Division 2"
-    },
-    {
-      "appid": "u36",
-      "name": "Trials Rising"
-    },
-    {
-      "appid": "u37",
-      "name": "Trials Rising"
-    },
-    {
-      "appid": "u38",
-      "name": "Far Cry New Dawn"
-    },
-    {
-      "appid": "u39",
-      "name": "Far Cry New Dawn"
-    },
-    {
-      "appid": "u40",
-      "name": "Far Cry New Dawn"
-    },
-    {
-      "appid": "u41",
-      "name": "Far Cry New Dawn"
-    },
-    {
-      "appid": "u42",
-      "name": "Tom Clancy's Rainbow Six Siege"
-    },
-    {
-      "appid": "u43",
-      "name": "Tom Clancy's Rainbow Six Siege"
-    },
-    {
-      "appid": "u44",
-      "name": "Tom Clancy's Rainbow Six Siege"
-    },
-    {
-      "appid": "u45",
-      "name": "For Honor Complete Edition"
-    },
-    {
-      "appid": "u46",
-      "name": "The Settlers II"
-    },
-    {
-      "appid": "u47",
-      "name": "The Settlers"
-    },
-    {
-      "appid": "u48",
-      "name": "The Settlers IV"
-    },
-    {
-      "appid": "u49",
-      "name": "The Settlers 7"
-    },
-    {
-      "appid": "u50",
-      "name": "The Settlers III"
-    },
-    {
-      "appid": "u51",
-      "name": "The Settlers"
-    },
-    {
-      "appid": "u52",
-      "name": "The Settlers"
-    },
-    {
-      "appid": "u53",
-      "name": "STEEP"
-    },
-    {
-      "appid": "u54",
-      "name": "For Honor"
-    },
-    {
-      "appid": "u55",
-      "name": "Assassin's Creed Odyssey"
-    },
-    {
-      "appid": "u56",
-      "name": "Assassin's Creed Odyssey"
-    },
-    {
-      "appid": "u57",
-      "name": "Assassin's Creed Odyssey"
-    },
-    {
-      "appid": "u58",
-      "name": "Assassin's Creed Odyssey"
-    },
-    {
-      "appid": "u59",
-      "name": "Tom Clancy's Ghost Recon Wildlands"
-    },
-    {
-      "appid": "u60",
-      "name": "Tom Clancy's Ghost Recon Wildlands"
-    },
-    {
-      "appid": "u61",
-      "name": "Transference"
-    },
-    {
-      "appid": "u62",
-      "name": "The Settlers (1993)"
-    },
-    {
-      "appid": "u63",
-      "name": "The Crew 2"
-    },
-    {
-      "appid": "u64",
-      "name": "The Crew 2"
-    },
-    {
-      "appid": "u65",
-      "name": "The Crew 2"
-    },
-    {
-      "appid": "u66",
-      "name": "Far Cry 5"
-    },
-    {
-      "appid": "u67",
-      "name": "Far Cry 5"
-    },
-    {
-      "appid": "u68",
-      "name": "Far Cry 5"
-    },
-    {
-      "appid": "u69",
-      "name": "For Honor"
-    },
-    {
-      "appid": "u70",
-      "name": "Discovery Tour by Assassin's Creed"
-    },
-    {
-      "appid": "u71",
-      "name": "Fossil Hunters"
-    },
-    {
-      "appid": "u72",
-      "name": "Ode"
-    },
-    {
-      "appid": "u73",
-      "name": "Assassin's Creed Origins"
-    },
-    {
-      "appid": "u74",
-      "name": "Assassin's Creed Origins"
-    },
-    {
-      "appid": "u75",
-      "name": "Assassin's Creed Origins"
-    },
-    {
-      "appid": "u76",
-      "name": "South Park: The Fractured But Whole"
-    },
-    {
-      "appid": "u77",
-      "name": "South Park: The Fractured but Whole"
-    },
-    {
-      "appid": "u78",
-      "name": "The Anno Collection"
-    },
-    {
-      "appid": "u79",
-      "name": "TrackMania 2 Lagoon"
-    },
-    {
-      "appid": "u80",
-      "name": "Tom Clancy's Splinter Cell Collection"
-    },
-    {
-      "appid": "u81",
-      "name": "Tom Clancy's Rainbow Six Collection"
-    },
-    {
-      "appid": "u82",
-      "name": "Tom Clancy's Origin Collection"
-    },
-    {
-      "appid": "u83",
-      "name": "Tom Clancy's Ghost Recon Wildlands"
-    },
-    {
-      "appid": "u84",
-      "name": "For Honor"
-    },
-    {
-      "appid": "u85",
-      "name": "UNO"
-    },
-    {
-      "appid": "u86",
-      "name": "STEEP"
-    },
-    {
-      "appid": "u87",
-      "name": "The Crew Ultimate"
-    },
-    {
-      "appid": "u88",
-      "name": "Watch Dogs 2"
-    },
-    {
-      "appid": "u89",
-      "name": "Anno 2205"
-    },
-    {
-      "appid": "u90",
-      "name": "Watch Dogs 2 Gold"
-    },
-    {
-      "appid": "u91",
-      "name": "Watch Dogs 2"
-    },
-    {
-      "appid": "u92",
-      "name": "Champions of Anteria"
-    },
-    {
-      "appid": "u93",
-      "name": "Might & Magic® Heroes® VII - Trial by Fire (Standalone Extension)"
-    },
-    {
-      "appid": "u94",
-      "name": "Might & Magic® Heroes® VII Full Pack"
-    },
-    {
-      "appid": "u95",
-      "name": "Trials of The Blood Dragon"
-    },
-    {
-      "appid": "u96",
-      "name": "Trackmania Turbo"
-    },
-    {
-      "appid": "u97",
-      "name": "Tom Clancy's The Division"
-    },
-    {
-      "appid": "u98",
-      "name": "Tom Clancy's The Division"
-    },
-    {
-      "appid": "u99",
-      "name": "Far Cry Primal"
-    },
-    {
-      "appid": "u100",
-      "name": "Far Cry Primal"
-    },
-    {
-      "appid": "u101",
-      "name": "Assassin's Creed Chronicles"
-    },
-    {
-      "appid": "u102",
-      "name": "Assassin's Creed Chronicles"
-    },
-    {
-      "appid": "u103",
-      "name": "Assassin's Creed Chronicles"
-    },
-    {
-      "appid": "u104",
-      "name": "Tom Clancy's Rainbow Six Siege"
-    },
-    {
-      "appid": "u105",
-      "name": "Assassin's Creed Syndicate"
-    },
-    {
-      "appid": "u106",
-      "name": "Assassin's Creed Syndicate"
-    },
-    {
-      "appid": "u107",
-      "name": "Anno 2205"
-    },
-    {
-      "appid": "u108",
-      "name": "Eagle Flight"
-    },
-    {
-      "appid": "u109",
-      "name": "Might and Magic Heroes VII"
-    },
-    {
-      "appid": "u110",
-      "name": "Zombi"
-    },
-    {
-      "appid": "u111",
-      "name": "Trials Fusion"
-    },
-    {
-      "appid": "u112",
-      "name": "Assassin's Creed Chronicles"
-    },
-    {
-      "appid": "u113",
-      "name": "Assassin's Creed Rogue"
-    },
-    {
-      "appid": "u114",
-      "name": "Assassin's Creed Rogue"
-    },
-    {
-      "appid": "u115",
-      "name": "The Crew™"
-    },
-    {
-      "appid": "u116",
-      "name": "MONOPOLY PLUS"
-    },
-    {
-      "appid": "u117",
-      "name": "Far Cry 4"
-    },
-    {
-      "appid": "u118",
-      "name": "Far Cry 4"
-    },
-    {
-      "appid": "u119",
-      "name": "Assassin's Creed Unity"
-    },
-    {
-      "appid": "u120",
-      "name": "Valiant Hearts - The Great War"
-    },
-    {
-      "appid": "u121",
-      "name": "Watch Dogs"
-    },
-    {
-      "appid": "u122",
-      "name": "Watch Dogs"
-    },
-    {
-      "appid": "u123",
-      "name": "Child of Light"
-    },
-    {
-      "appid": "u124",
-      "name": "Trials Fusion"
-    },
-    {
-      "appid": "u125",
-      "name": "South Park - The Stick of Truth"
-    },
-    {
-      "appid": "u126",
-      "name": "Might and Magic X Legacy"
-    },
-    {
-      "appid": "u127",
-      "name": "Assassin's Creed"
-    },
-    {
-      "appid": "u128",
-      "name": "Assassin's Creed IV Black Flag"
-    },
-    {
-      "appid": "u129",
-      "name": "Assassin's Creed IV Black Flag"
-    },
-    {
-      "appid": "u130",
-      "name": "Flashback"
-    },
-    {
-      "appid": "u131",
-      "name": "Rayman Legends"
-    },
-    {
-      "appid": "u132",
-      "name": "Trackmania 2 Valley"
-    },
-    {
-      "appid": "u133",
-      "name": "Far Cry 3"
-    },
-    {
-      "appid": "u134",
-      "name": "ShootMania"
-    },
-    {
-      "appid": "u135",
-      "name": "Anno 2070"
-    },
-    {
-      "appid": "u136",
-      "name": "Trackmania 2 Stadium"
-    },
-    {
-      "appid": "u137",
-      "name": "Far Cry 3"
-    },
-    {
-      "appid": "u138",
-      "name": "Heroes of Might and Magic 6"
-    },
-    {
-      "appid": "u139",
-      "name": "Tom Clancy's Splinter Cell Blacklist"
-    },
-    {
-      "appid": "u140",
-      "name": "Tom Clancy's Splinter Cell Blacklist"
-    },
-    {
-      "appid": "u141",
-      "name": "Tom Clancy's Ghost Recon Future Soldier"
-    },
-    {
-      "appid": "u142",
-      "name": "Rayman Origins"
-    },
-    {
-      "appid": "u143",
-      "name": "Heroes of Might and Magic 6"
-    },
-    {
-      "appid": "u144",
-      "name": "Ghost Recon Future Soldier"
-    },
-    {
-      "appid": "u145",
-      "name": "Far Cry 3"
-    },
-    {
-      "appid": "u146",
-      "name": "I am Alive"
-    },
-    {
-      "appid": "u147",
-      "name": "Assassin’s Creed Revelations"
-    },
-    {
-      "appid": "u148",
-      "name": "Anno 2070"
-    },
-    {
-      "appid": "u149",
-      "name": "TrackMania Canyon"
-    },
-    {
-      "appid": "u150",
-      "name": "Assassin's Creed Brotherhood"
-    },
-    {
-      "appid": "u151",
-      "name": "Assassin's Creed Brotherhood"
-    },
-    {
-      "appid": "u152",
-      "name": "From Dust"
-    },
-    {
-      "appid": "u153",
-      "name": "Anno 1404"
-    },
-    {
-      "appid": "u154",
-      "name": "Tom Clancy's Splinter Cell Conviction"
-    },
-    {
-      "appid": "u155",
-      "name": "The Settlers 7 : Path to a Kingdom"
-    },
-    {
-      "appid": "u156",
-      "name": "Prince of Persia: The Forgotten Sands"
-    },
-    {
-      "appid": "u157",
-      "name": "Anno 1503"
-    },
-    {
-      "appid": "u158",
-      "name": "Assassin's Creed II"
-    },
-    {
-      "appid": "u159",
-      "name": "Far Cry 2"
-    },
-    {
-      "appid": "u160",
-      "name": "Tom Clancy's Rainbow Six Vegas 2"
-    },
-    {
-      "appid": "u161",
-      "name": "Brothers in Arms - Hell's Highway"
-    },
-    {
-      "appid": "u162",
-      "name": "Assassin's Creed"
-    },
-    {
-      "appid": "u163",
-      "name": "Prince of Persia"
-    },
-    {
-      "appid": "u164",
-      "name": "Heroes of Might and Magic 5"
-    },
-    {
-      "appid": "u165",
-      "name": "Driver Parallel Lines"
-    },
-    {
-      "appid": "u166",
-      "name": "Silent Hunter 4: Wolves of the Pacific"
-    },
-    {
-      "appid": "u167",
-      "name": "Rayman Raving Rabbids"
-    },
-    {
-      "appid": "u168",
-      "name": "Anno 1701"
-    },
-    {
-      "appid": "u169",
-      "name": "Tom Clancy's Rainbow Six Lockdown"
-    },
-    {
-      "appid": "u170",
-      "name": "Heroes of Might and Magic 5"
-    },
-    {
-      "appid": "u171",
-      "name": "Tom Clancy's Splinter Cell Double Agent"
-    },
-    {
-      "appid": "u172",
-      "name": "Brothers In Arms - Earned In Blood"
-    },
-    {
-      "appid": "u173",
-      "name": "Tom Clancy's Splinter Cell Chaos Theory"
-    },
-    {
-      "appid": "u174",
-      "name": "Tom Clancy's End War"
-    },
-    {
-      "appid": "u175",
-      "name": "Brothers In Arms : Road to Hill 30"
-    },
-    {
-      "appid": "u176",
-      "name": "Silent Hunter 3"
-    },
-    {
-      "appid": "u177",
-      "name": "Prince of Persia: The Two Thrones"
-    },
-    {
-      "appid": "u178",
-      "name": "Prince Of Persia:  Warrior Within"
-    },
-    {
-      "appid": "u179",
-      "name": "Far Cry"
-    },
-    {
-      "appid": "u180",
-      "name": "Lock On: Modern Air Combat"
-    },
-    {
-      "appid": "u181",
-      "name": "Tom Clancy's Rainbow Six 3"
-    },
-    {
-      "appid": "u182",
-      "name": "Rayman 3: Hoodlum Havoc"
-    },
-    {
-      "appid": "u183",
-      "name": "Beyond Good And Evil"
-    },
-    {
-      "appid": "u184",
-      "name": "Prince of Persia: Sands of Time"
-    },
-    {
-      "appid": "u185",
-      "name": "Tom Clancy's Splinter Cell"
-    },
-    {
-      "appid": "u186",
-      "name": "Warlords Battlecry 2"
-    },
-    {
-      "appid": "u187",
-      "name": "Might and Magic IX"
-    },
-    {
-      "appid": "u188",
-      "name": "Tom Clancy's Ghost Recon"
-    },
-    {
-      "appid": "u189",
-      "name": "Silent Hunter 2"
-    },
-    {
-      "appid": "u190",
-      "name": "Rayman 2: The Great Escape"
-    },
-    {
-      "appid": "u191",
-      "name": "Warlords Battlecry"
-    },
-    {
-      "appid": "u192",
-      "name": "Battle Isle Platinum"
-    },
-    {
-      "appid": "u193",
-      "name": "Might and Magic VIII : Day of the Destroyer"
-    },
-    {
-      "appid": "u194",
-      "name": "Panzer General 3D Assault"
-    },
-    {
-      "appid": "u195",
-      "name": "Imperialism 2 : The Age of Exploration"
-    },
-    {
-      "appid": "u196",
-      "name": "Rayman Forever"
-    },
-    {
-      "appid": "u197",
-      "name": "Might and Magic VII : For Blood and Honor"
-    },
-    {
-      "appid": "u198",
-      "name": "Speed Busters: American Highways"
-    },
-    {
-      "appid": "u199",
-      "name": "Tom Clancy's Rainbow Six"
-    },
-    {
-      "appid": "u200",
-      "name": "Anno 1602"
-    },
-    {
-      "appid": "u201",
-      "name": "Panzer General 2"
-    },
-    {
-      "appid": "u202",
-      "name": "Imperialism"
-    },
-    {
-      "appid": "u203",
-      "name": "Planet of Death"
-    },
-    {
-      "appid": "u204",
-      "name": "Archimedean Dynasty"
-    },
-    {
-      "appid": "u205",
-      "name": "Heroes of Might and Magic 2"
-    },
-    {
-      "appid": "u206",
-      "name": "Anvil of Dawn"
-    },
-    {
-      "appid": "u207",
-      "name": "Albion"
-    },
-    {
-      "appid": "u208",
-      "name": "Roller Champions"
-    },
-    {
-      "appid": "u209",
-      "name": "Tom Clancy’s Rainbow Six Quarantine"
-    }
+  "applist": [
+    [{
+        "appid": "5d39a1a75cdf9a07a480a095",
+        "name": "The Settlers"
+      },
+      {
+        "appid": "5d39a1c65cdf9a07a480a096",
+        "name": "The Settlers"
+      },
+      {
+        "appid": "5cec2d5839798c0870c07698",
+        "name": "Watch Dogs: Legion"
+      },
+      {
+        "appid": "5cec2d8639798c0870c07699",
+        "name": "Watch Dogs: Legion"
+      },
+      {
+        "appid": "5cec2d9939798c0870c0769a",
+        "name": "Watch Dogs: Legion"
+      },
+      {
+        "appid": "5cec2da539798c0870c0769b",
+        "name": "Watch Dogs: Legion"
+      },
+      {
+        "appid": "5cec210a39798c0870c07684",
+        "name": "Gods & Monsters"
+      },
+      {
+        "appid": "5cebed3339798c0870c07669",
+        "name": "Just Dance 2020"
+      },
+      {
+        "appid": "5cc81f5f6b54a4cd3c0e9cfd",
+        "name": "Tom Clancy's Ghost Recon Breakpoint"
+      },
+      {
+        "appid": "5cc81f626b54a4cd3c0e9d37",
+        "name": "Tom Clancy’s Ghost Recon Breakpoint"
+      },
+      {
+        "appid": "5cc81f606b54a4cd3c0e9d1b",
+        "name": "Tom Clancy’s Ghost Recon Breakpoint"
+      },
+      {
+        "appid": "5cc81f636b54a4cd3c0e9d47",
+        "name": "Tom Clancy's Ghost Recon Breakpoint"
+      },
+      {
+        "appid": "5d2628e65cdf9a0bf0481659",
+        "name": "Anno 1800"
+      },
+      {
+        "appid": "5cbf26fd6b54a4a1e3c44104",
+        "name": "Starlink: Battle for Atlas"
+      },
+      {
+        "appid": "5cbf26fd6b54a4a1e3c44108",
+        "name": "Starlink"
+      },
+      {
+        "appid": "5b647010ef3aa548048c5958",
+        "name": "Anno 1800"
+      },
+      {
+        "appid": "5b647010ef3aa548048c595c",
+        "name": "Anno 1800"
+      },
+      {
+        "appid": "5b647011ef3aa548048c5960",
+        "name": "Anno 1800"
+      },
+      {
+        "appid": "5823123488a7e36b398b4567",
+        "name": "Far Cry"
+      },
+      {
+        "appid": "5822f64c29e123e45e8b4567",
+        "name": "Far Cry"
+      },
+      {
+        "appid": "5c9101796b54a4f661916015",
+        "name": "Assassin's Creed"
+      },
+      {
+        "appid": "5c9101796b54a4f661916005",
+        "name": "Assassin's Creed"
+      },
+      {
+        "appid": "5823121988a7e367398b4567",
+        "name": "Far Cry"
+      },
+      {
+        "appid": "5c9101796b54a4f66191600d",
+        "name": "Assassin's Creed"
+      },
+      {
+        "appid": "5c91017a6b54a4f661916021",
+        "name": "Far Cry"
+      },
+      {
+        "appid": "5c9101796b54a4f661915fff",
+        "name": "Assassin's Creed"
+      },
+      {
+        "appid": "5c9101796b54a4f661916019",
+        "name": "Assassin's Creed"
+      },
+      {
+        "appid": "5c62f61dadc72438053897eb",
+        "name": "Assassin's Creed III Remastered"
+      },
+      {
+        "appid": "58eb95edef3aa55d0a8b4567",
+        "name": "Tom Clancy's Signature Collection"
+      },
+      {
+        "appid": "5c4b0e014e0165d6f4eea54d",
+        "name": "Assassin's Creed III Remastered"
+      },
+      {
+        "appid": "5c8bebceadc724e3822b9e3f",
+        "name": "Space Junkies"
+      },
+      {
+        "appid": "5b06a3984e0165fa45ffdcc5",
+        "name": "Tom Clancy's The Division 2"
+      },
+      {
+        "appid": "5b06a3994e0165fa45ffdce1",
+        "name": "Tom Clancy's The Division 2"
+      },
+      {
+        "appid": "5b06a39b4e0165fa45ffdd1b",
+        "name": "Tom Clancy's The Division 2"
+      },
+      {
+        "appid": "5b06a39a4e0165fa45ffdcfb",
+        "name": "Tom Clancy's The Division 2"
+      },
+      {
+        "appid": "5b06a39a4e0165fa45ffdd05",
+        "name": "Tom Clancy's The Division 2"
+      },
+      {
+        "appid": "5b0e967a4e0165c827ee8dd2",
+        "name": "Trials Rising"
+      },
+      {
+        "appid": "5b0e967a4e0165c827ee8de0",
+        "name": "Trials Rising"
+      },
+      {
+        "appid": "5c462fff88a7e33b38290e49",
+        "name": "Far Cry New Dawn"
+      },
+      {
+        "appid": "5bfd4c28ca1a64ea70fe0ef3",
+        "name": "Far Cry New Dawn"
+      },
+      {
+        "appid": "5c462fff88a7e33b38290e45",
+        "name": "Far Cry New Dawn"
+      },
+      {
+        "appid": "5bf319696b54a4ddc91e8843",
+        "name": "Far Cry New Dawn"
+      },
+      {
+        "appid": "5c586c7d29e123fd15c55bba",
+        "name": "Tom Clancy's Rainbow Six Siege"
+      },
+      {
+        "appid": "5c586c7d29e123fd15c55bc6",
+        "name": "Tom Clancy's Rainbow Six Siege"
+      },
+      {
+        "appid": "5c586c7d29e123fd15c55bc0",
+        "name": "Tom Clancy's Rainbow Six Siege"
+      },
+      {
+        "appid": "5c37491fca1a640d6dd3f32f",
+        "name": "CHILD of LIGHT + VALIANT HEARTS - THE GREAT WAR"
+      },
+      {
+        "appid": "5bfd4c29ca1a64ea70fe0eff",
+        "name": "For Honor Complete Edition"
+      },
+      {
+        "appid": "5be2b34288a7e3b8170265d7",
+        "name": "The Settlers"
+      },
+      {
+        "appid": "5be2b34288a7e3b8170265cb",
+        "name": "The Settlers II"
+      },
+      {
+        "appid": "5be2b34288a7e3b8170265d3",
+        "name": "The Settlers IV"
+      },
+      {
+        "appid": "5be2b34288a7e3b8170265cf",
+        "name": "The Settlers III"
+      },
+      {
+        "appid": "5be2b34388a7e3b8170265df",
+        "name": "The Settlers 7"
+      },
+      {
+        "appid": "5b647011ef3aa548048c5977",
+        "name": "The Settlers"
+      },
+      {
+        "appid": "5be2b34388a7e3b8170265db",
+        "name": "The Settlers"
+      },
+      {
+        "appid": "5b68187e88a7e3993441dff7",
+        "name": "Sports Party"
+      },
+      {
+        "appid": "5ba265764e016529f4fc2177",
+        "name": "STEEP"
+      },
+      {
+        "appid": "5b68187d88a7e3993441dfdf",
+        "name": "Hasbro Game Night"
+      },
+      {
+        "appid": "5b0bf6046b54a435c7d9139e",
+        "name": "Just Dance"
+      },
+      {
+        "appid": "5b0586e3ca1a64ed97625eaf",
+        "name": "Starlink: Battle for Atlas"
+      },
+      {
+        "appid": "5b8fdf1c6b54a426c4fad31c",
+        "name": "For Honor"
+      },
+      {
+        "appid": "5afda5f788a7e34d25b5012f",
+        "name": "Assassin's Creed Odyssey"
+      },
+      {
+        "appid": "5afda8ab6b54a4271407a8a3",
+        "name": "Assassin's Creed Odyssey"
+      },
+      {
+        "appid": "5afda8aa6b54a4271407a875",
+        "name": "Assassin's Creed Odyssey"
+      },
+      {
+        "appid": "5afda8aa6b54a4271407a88d",
+        "name": "Assassin's Creed Odyssey"
+      },
+      {
+        "appid": "5afda8a96b54a4271407a85b",
+        "name": "Assassin's Creed Odyssey"
+      },
+      {
+        "appid": "5afda8a96b54a4271407a857",
+        "name": "Assassin's Creed Odyssey"
+      },
+      {
+        "appid": "5afda8aa6b54a4271407a87d",
+        "name": "Assassin's Creed Odyssey"
+      },
+      {
+        "appid": "62ca1a646842a14e68",
+        "name": "Legendary Fishing"
+      },
+      {
+        "appid": "5b9696c3ca1a64023f76fa28",
+        "name": "Tom Clancy's Ghost Recon Wildlands"
+      },
+      {
+        "appid": "5b969c88ca1a64033f76fa29",
+        "name": "Tom Clancy's Ghost Recon Wildlands"
+      },
+      {
+        "appid": "5b647010ef3aa548048c594c",
+        "name": "Transference"
+      },
+      {
+        "appid": "5b647012ef3aa548048c597b",
+        "name": "The Settlers (1993)"
+      },
+      {
+        "appid": "598d7de588a7e3b7368b4568",
+        "name": "The Crew 2"
+      },
+      {
+        "appid": "598c6a3e0c8ee469268b4568",
+        "name": "The Crew 2"
+      },
+      {
+        "appid": "5b28fad06b54a46442adabdf",
+        "name": "Far Cry 3"
+      },
+      {
+        "appid": "5927e76cca1a644d498b4570",
+        "name": "Mario + Rabbids Kingdom Battle"
+      },
+      {
+        "appid": "598d7de688a7e3b7368b4578",
+        "name": "The Crew 2"
+      },
+      {
+        "appid": "598d7de688a7e3b7368b457c",
+        "name": "The Crew 2"
+      },
+      {
+        "appid": "5aaa9f884e0165177ceb12ea",
+        "name": "Far Cry 5"
+      },
+      {
+        "appid": "591567f6ca1a6460388b4568",
+        "name": "Far Cry 5"
+      },
+      {
+        "appid": "5919a6846b54a425558b457a",
+        "name": "Far Cry 5"
+      },
+      {
+        "appid": "591980f94e0165260a8b4568",
+        "name": "Far Cry 5"
+      },
+      {
+        "appid": "5a4bab4dca1a644b199566f1",
+        "name": "Far Cry 5"
+      },
+      {
+        "appid": "5919b0d34e016541088b457a",
+        "name": "Far Cry 5"
+      },
+      {
+        "appid": "5a53843429e123ee466792bb",
+        "name": "Assassin’s Creed Rogue Remastered"
+      },
+      {
+        "appid": "5aa103940c8ee48384878ab2",
+        "name": "For Honor"
+      },
+      {
+        "appid": "5a7d728d0c8ee45b54018f23",
+        "name": "Discovery Tour by Assassin's Creed"
+      },
+      {
+        "appid": "5a7d728d0c8ee45b54018f1f",
+        "name": "Fossil Hunters"
+      },
+      {
+        "appid": "5a16aed74e01658f462610a8",
+        "name": "Ode"
+      },
+      {
+        "appid": "5a0dab5888a7e3fa0ea503ac",
+        "name": "Assassin's Creed Origins: Listen Wireless + Assassin's Creed Origins Full Game"
+      },
+      {
+        "appid": "5938068388a7e3055c8b4568",
+        "name": "Just Dance"
+      },
+      {
+        "appid": "59247e5fadc724363e8b4568",
+        "name": "Assassin's Creed Origins"
+      },
+      {
+        "appid": "592450934e0165f46c8b4568",
+        "name": "Assassin's Creed Origins"
+      },
+      {
+        "appid": "59245fb4adc724ef3f8b456c",
+        "name": "Assassin's Creed Origins"
+      },
+      {
+        "appid": "5924576188a7e3bc5a8b4568",
+        "name": "Assassin's Creed Origins"
+      },
+      {
+        "appid": "56c494ad88a7e300458b4d42",
+        "name": "South Park: The Fractured But Whole"
+      },
+      {
+        "appid": "5755b5a96b54a4ae5d8b4568",
+        "name": "South Park : The Fractured But Whole"
+      },
+      {
+        "appid": "57556d5c6b54a4b35d8b4567",
+        "name": "South Park: The Fractured but Whole"
+      },
+      {
+        "appid": "58b590ab88a7e3a86e8b4567",
+        "name": "Rayman Legends"
+      },
+      {
+        "appid": "5927e76cca1a644d498b4568",
+        "name": "Mario + Rabbids Kingdom Battle - Collector Edition"
+      },
+      {
+        "appid": "5927e76dca1a644d498b4578",
+        "name": "Mario + Rabbids Kingdom Battle"
+      },
+      {
+        "appid": "5965ef52ef3aa577548b4567",
+        "name": "Sundered"
+      },
+      {
+        "appid": "5964dedb88a7e326498b4567",
+        "name": "The Strategy Essentials Collection"
+      },
+      {
+        "appid": "5964e10a88a7e334498b4567",
+        "name": "The Anno Collection"
+      },
+      {
+        "appid": "592598cbef3aa5164c8b4568",
+        "name": "Assassin's Creed Origins"
+      },
+      {
+        "appid": "591ac64c88a7e3dc388b4567",
+        "name": "TrackMania 2 Lagoon"
+      },
+      {
+        "appid": "58eb8edd88a7e338398b4567",
+        "name": "Tom Clancy's Splinter Cell Collection"
+      },
+      {
+        "appid": "58eb92560c8ee463078b4567",
+        "name": "Tom Clancy's Rainbow Six Collection"
+      },
+      {
+        "appid": "58eb9428adc72403168b4568",
+        "name": "Tom Clancy's Origin Collection"
+      },
+      {
+        "appid": "574474b488a7e3b8638b456a",
+        "name": "Tom Clancy's Ghost Recon Wildlands"
+      },
+      {
+        "appid": "5759633788a7e3de678b4567",
+        "name": "For Honor"
+      },
+      {
+        "appid": "57c19450ef3aa52a768b4567",
+        "name": "UNO"
+      },
+      {
+        "appid": "57597f6a0c8ee468458b4567",
+        "name": "STEEP"
+      },
+      {
+        "appid": "57e8eac5ef3aa570618b4567",
+        "name": "The Crew Ultimate"
+      },
+      {
+        "appid": "5798ccc8adc7241d688b4568",
+        "name": "Assassin’s Creed® The Ezio Collection"
+      },
+      {
+        "appid": "5799ba476b54a4800f8b4567",
+        "name": "The Ezio Collection"
+      },
+      {
+        "appid": "574d3a8aca1a64fb3b8b4567",
+        "name": "Watch Dogs 2"
+      },
+      {
+        "appid": "574d3e9a0c8ee4c65d8b4567",
+        "name": "Watch Dogs 2 Gold"
+      },
+      {
+        "appid": "574d3e3e6b54a406348b4567",
+        "name": "Watch Dogs 2"
+      },
+      {
+        "appid": "5758093aef3aa5461e8b4567",
+        "name": "Just Dance"
+      },
+      {
+        "appid": "57f37acaca1a649a6e8b4567",
+        "name": "Anno 2205"
+      },
+      {
+        "appid": "574d3fa60c8ee4bd5d8b4567",
+        "name": "Watch_Dogs® 2 - The Return of Dedsec Collector's Case"
+      },
+      {
+        "appid": "573b05140c8ee4d51c8b4567",
+        "name": "Champions of Anteria"
+      },
+      {
+        "appid": "573b0354ef3aa5c3478b4567",
+        "name": "Might & Magic® Heroes® VII - Trial by Fire (Standalone Extension)"
+      },
+      {
+        "appid": "57a1a9894e016521478b4567",
+        "name": "Might & Magic® Heroes® VII Full Pack"
+      },
+      {
+        "appid": "5757fa3eadc724645b8b4567",
+        "name": "Trials of The Blood Dragon"
+      },
+      {
+        "appid": "56c4948c88a7e300458b486e",
+        "name": "Trackmania Turbo"
+      },
+      {
+        "appid": "56c494ad88a7e300458b4d62",
+        "name": "Tom Clancy's The Division"
+      },
+      {
+        "appid": "56c4948e88a7e300458b48ac",
+        "name": "Tom Clancy's The Division"
+      },
+      {
+        "appid": "56c4947a88a7e300458b45ea",
+        "name": "Far Cry Primal"
+      },
+      {
+        "appid": "56c4948588a7e300458b4760",
+        "name": "Far Cry Primal"
+      },
+      {
+        "appid": "56c4947a88a7e300458b45e8",
+        "name": "Far Cry Primal"
+      },
+      {
+        "appid": "57062ec488a7e316728b46a2",
+        "name": "Assassin's Creed Chronicles"
+      },
+      {
+        "appid": "57062ec488a7e316728b469e",
+        "name": "Assassin's Creed Chronicles"
+      },
+      {
+        "appid": "56c4947f88a7e300458b4686",
+        "name": "Assassin's Creed Chronicles"
+      },
+      {
+        "appid": "56c494ad88a7e300458b4d5a",
+        "name": "Tom Clancy's Rainbow Six Siege"
+      },
+      {
+        "appid": "56c4947988a7e300458b45c4",
+        "name": "Assassin's Creed Syndicate"
+      },
+      {
+        "appid": "56c4947988a7e300458b45c2",
+        "name": "Assassin's Creed Syndicate"
+      },
+      {
+        "appid": "56c4947988a7e300458b45c6",
+        "name": "Assassin's Creed Syndicate"
+      },
+      {
+        "appid": "56c4948288a7e300458b46ee",
+        "name": "Assassin's Creed Syndicate"
+      },
+      {
+        "appid": "56c4947988a7e300458b45c0",
+        "name": "Assassin's Creed Syndicate"
+      },
+      {
+        "appid": "56c4947888a7e300458b4570",
+        "name": "Anno 2205"
+      },
+      {
+        "appid": "56c4947888a7e300458b456e",
+        "name": "Anno 2205"
+      },
+      {
+        "appid": "57c16cc5ca1a64361e8b4567",
+        "name": "Eagle Flight"
+      },
+      {
+        "appid": "56c4947b88a7e300458b45f8",
+        "name": "Might and Magic Heroes VII"
+      },
+      {
+        "appid": "56c4947b88a7e300458b45f6",
+        "name": "Might and Magic Heroes VII"
+      },
+      {
+        "appid": "56c4948e88a7e300458b48a8",
+        "name": "Zombi"
+      },
+      {
+        "appid": "56c4948d88a7e300458b4876",
+        "name": "Trials Fusion"
+      },
+      {
+        "appid": "56c4947f88a7e300458b4682",
+        "name": "Assassin's Creed Chronicles"
+      },
+      {
+        "appid": "56c4948288a7e300458b46da",
+        "name": "Assassin's Creed Rogue"
+      },
+      {
+        "appid": "56c4947988a7e300458b45bc",
+        "name": "Assassin's Creed Rogue"
+      },
+      {
+        "appid": "56c494ad88a7e300458b4d50",
+        "name": "The Crew™"
+      },
+      {
+        "appid": "59ae6c7088a7e38f76eabdfd",
+        "name": "MONOPOLY PLUS"
+      },
+      {
+        "appid": "56c4948488a7e300458b474e",
+        "name": "Far Cry 4"
+      },
+      {
+        "appid": "56c4947a88a7e300458b45e2",
+        "name": "Far Cry 4"
+      },
+      {
+        "appid": "56c4947a88a7e300458b45e0",
+        "name": "Far Cry 4"
+      },
+      {
+        "appid": "56c4948d88a7e300458b4890",
+        "name": "Assassin's Creed Unity"
+      },
+      {
+        "appid": "56c494ae88a7e300458b4d72",
+        "name": "Assassin's Creed Unity"
+      },
+      {
+        "appid": "56c4948d88a7e300458b48a0",
+        "name": "Just Dance"
+      },
+      {
+        "appid": "56c494ae88a7e300458b4d76",
+        "name": "Valiant Hearts - The Great War"
+      },
+      {
+        "appid": "56c4948488a7e300458b472e",
+        "name": "Watch Dogs"
+      },
+      {
+        "appid": "56c4948d88a7e300458b4888",
+        "name": "Watch Dogs"
+      },
+      {
+        "appid": "56c494ad88a7e300458b4d44",
+        "name": "Watch_Dogs"
+      },
+      {
+        "appid": "56c4948788a7e300458b47c2",
+        "name": "Child of Light"
+      },
+      {
+        "appid": "56c4948188a7e300458b46ce",
+        "name": "Trials Fusion"
+      },
+      {
+        "appid": "56c4948088a7e300458b46aa",
+        "name": "South Park - The Stick of Truth"
+      },
+      {
+        "appid": "56c4948088a7e300458b46b0",
+        "name": "Might and Magic X Legacy"
+      },
+      {
+        "appid": "575ffd9aa3be1633568b4d7c",
+        "name": "Assassin's Creed"
+      },
+      {
+        "appid": "56c4948888a7e300458b47da",
+        "name": "Assassin's Creed IV Black Flag"
+      },
+      {
+        "appid": "56c4948c88a7e300458b486c",
+        "name": "Assassin's Creed IV Black Flag"
+      },
+      {
+        "appid": "56c4948488a7e300458b4744",
+        "name": "Flashback"
+      },
+      {
+        "appid": "56c4948988a7e300458b47f6",
+        "name": "Rayman Legends"
+      },
+      {
+        "appid": "56c4947888a7e300458b456c",
+        "name": "Trackmania 2 Valley"
+      },
+      {
+        "appid": "56c4948c88a7e300458b486a",
+        "name": "Far Cry 3"
+      },
+      {
+        "appid": "56c4948488a7e300458b4748",
+        "name": "ShootMania"
+      },
+      {
+        "appid": "59bfcb0c6b54a43c1b2290dd",
+        "name": "Anno 2070"
+      },
+      {
+        "appid": "586b7b78adc724e3588b4568",
+        "name": "Trackmania 2 Stadium"
+      },
+      {
+        "appid": "59bfcb0b6b54a43c1b2290d3",
+        "name": "Far Cry 3"
+      },
+      {
+        "appid": "59bfcb0c6b54a43c1b2290e7",
+        "name": "Mario + Rabbids Kingdom Battle - Mario Bundle"
+      },
+      {
+        "appid": "59bfcb0c6b54a43c1b2290f1",
+        "name": "Shape Up"
+      },
+      {
+        "appid": "56c4948588a7e300458b477e",
+        "name": "Mario + Rabbids Kingdom Battle"
+      },
+      {
+        "appid": "56c4948a88a7e300458b4828",
+        "name": "Mario + Rabbids Kingdom Battle"
+      },
+      {
+        "appid": "56c4948a88a7e300458b4822",
+        "name": "Mario + Rabbids Kingdom Battle"
+      },
+      {
+        "appid": "56c4948588a7e300458b4768",
+        "name": "Heroes of Might and Magic 6"
+      },
+      {
+        "appid": "56c4948888a7e300458b47dc",
+        "name": "Tom Clancy's Splinter Cell Blacklist"
+      },
+      {
+        "appid": "56c4948588a7e300458b4768",
+        "name": "Tom Clancy's Splinter Cell Blacklist"
+      },
+      {
+        "appid": "56c4948688a7e300458b4786",
+        "name": "Tom Clancy's Ghost Recon Future Soldier"
+      },
+      {
+        "appid": "56c4947a88a7e300458b45de",
+        "name": "Rayman Origins"
+      },
+      {
+        "appid": "56c4948688a7e300458b4796",
+        "name": "Ghost Recon Future Soldier"
+      },
+      {
+        "appid": "56c4948188a7e300458b46d2",
+        "name": "Heroes of Might and Magic 6"
+      },
+      {
+        "appid": "56c4947e88a7e300458b4662",
+        "name": "Far Cry 3"
+      },
+      {
+        "appid": "56c4948c88a7e300458b4868",
+        "name": "I am Alive"
+      },
+      {
+        "appid": "56c4948188a7e300458b46b8",
+        "name": "Assassin’s Creed Revelations"
+      },
+      {
+        "appid": "56c4948088a7e300458b46b6",
+        "name": "Anno 2070"
+      },
+      {
+        "appid": "56c4948588a7e300458b4766",
+        "name": "TrackMania Canyon"
+      },
+      {
+        "appid": "56c4947f88a7e300458b467c",
+        "name": "Assassin's Creed Brotherhood"
+      },
+      {
+        "appid": "56c4948a88a7e300458b481e",
+        "name": "Assassin's Creed Brotherhood"
+      },
+      {
+        "appid": "56c4948988a7e300458b47f0",
+        "name": "From Dust"
+      },
+      {
+        "appid": "56c4948788a7e300458b47c8",
+        "name": "Anno 1404"
+      },
+      {
+        "appid": "56c4947e88a7e300458b4660",
+        "name": "Tom Clancy's Splinter Cell Conviction"
+      },
+      {
+        "appid": "56c4947f88a7e300458b4690",
+        "name": "The Settlers 7 : Path to a Kingdom"
+      },
+      {
+        "appid": "56c4948488a7e300458b4742",
+        "name": "Prince of Persia: The Forgotten Sands"
+      },
+      {
+        "appid": "56c4948888a7e300458b47d8",
+        "name": "Anno 1503"
+      },
+      {
+        "appid": "56c4948388a7e300458b4714",
+        "name": "Assassin's Creed II"
+      },
+      {
+        "appid": "56c4947f88a7e300458b468e",
+        "name": "Far Cry 2"
+      },
+      {
+        "appid": "56c4948788a7e300458b47c6",
+        "name": "Tom Clancy's Rainbow Six Vegas 2"
+      },
+      {
+        "appid": "58aebb47ca1a64fb1a8b4567",
+        "name": "Brothers in Arms - Hell's Highway"
+      },
+      {
+        "appid": "56c4948588a7e300458b477a",
+        "name": "Assassin's Creed"
+      },
+      {
+        "appid": "575ffd97a3be1633568b4d60",
+        "name": "Prince of Persia"
+      },
+      {
+        "appid": "58aea96e6b54a467248b4567",
+        "name": "Petz Horsez 2"
+      },
+      {
+        "appid": "56c4948888a7e300458b47de",
+        "name": "Heroes of Might and Magic 5"
+      },
+      {
+        "appid": "56c4948888a7e300458b47d6",
+        "name": "Driver Parallel Lines"
+      },
+      {
+        "appid": "58ab30190c8ee463688b4567",
+        "name": "Silent Hunter 4: Wolves of the Pacific"
+      },
+      {
+        "appid": "56c4948888a7e300458b47d4",
+        "name": "Rayman Raving Rabbids"
+      },
+      {
+        "appid": "56c4948588a7e300458b4776",
+        "name": "Tom Clancy's Rainbow Six Vegas"
+      },
+      {
+        "appid": "56c4948a88a7e300458b482c",
+        "name": "Anno 1701"
+      },
+      {
+        "appid": "575ffd92a3be1633568b4d28",
+        "name": "Tom Clancy's Rainbow Six Lockdown"
+      },
+      {
+        "appid": "56c4948a88a7e300458b482a",
+        "name": "Heroes of Might and Magic 5"
+      },
+      {
+        "appid": "575ffdbda3be1633568b4f20",
+        "name": "Tom Clancy's Splinter Cell Double Agent"
+      },
+      {
+        "appid": "575ffd93a3be1633568b4d2e",
+        "name": "Brothers In Arms - Earned In Blood"
+      },
+      {
+        "appid": "56c4948988a7e300458b47f8",
+        "name": "Tom Clancy's Splinter Cell Chaos Theory"
+      },
+      {
+        "appid": "56c4948888a7e300458b47d0",
+        "name": "Tom Clancy's End War"
+      },
+      {
+        "appid": "575ffda7a3be1633568b4e08",
+        "name": "Brothers In Arms : Road to Hill 30"
+      },
+      {
+        "appid": "56c4948488a7e300458b4740",
+        "name": "Silent Hunter 3"
+      },
+      {
+        "appid": "5928435d29e12307548b456c",
+        "name": "Prince of Persia: The Two Thrones"
+      },
+      {
+        "appid": "58aeb87e29e1236d368b4567",
+        "name": "Prince Of Persia: Warrior Within"
+      },
+      {
+        "appid": "5800b15eef3aa5ab3e8b4567",
+        "name": "Far Cry"
+      },
+      {
+        "appid": "56c4948388a7e300458b470a",
+        "name": "Lock On: Modern Air Combat"
+      },
+      {
+        "appid": "56c4948888a7e300458b47ce",
+        "name": "Tom Clancy's Rainbow Six 3"
+      },
+      {
+        "appid": "56c4948a88a7e300458b481c",
+        "name": "Rayman 3: Hoodlum Havoc"
+      },
+      {
+        "appid": "5903049d4e01657f028b4567",
+        "name": "Beyond Good And Evil"
+      },
+      {
+        "appid": "56c4948788a7e300458b47b6",
+        "name": "Prince of Persia: Sands of Time"
+      },
+      {
+        "appid": "58aebeb4ef3aa5c5148b4568",
+        "name": "Tom Clancy's Splinter Cell"
+      },
+      {
+        "appid": "58aeae0b4e01650e298b4567",
+        "name": "Warlords Battlecry 2"
+      },
+      {
+        "appid": "56c4947e88a7e300458b465c",
+        "name": "Might and Magic IX"
+      },
+      {
+        "appid": "5902ff8529e1236c488b4567",
+        "name": "Tom Clancy's Ghost Recon"
+      },
+      {
+        "appid": "59030bc9ca1a64f2668b4568",
+        "name": "Silent Hunter 2"
+      },
+      {
+        "appid": "5800d3fc4e016524248b4567",
+        "name": "Rayman 2: The Great Escape"
+      },
+      {
+        "appid": "56c4948788a7e300458b47ba",
+        "name": "Warlords Battlecry"
+      },
+      {
+        "appid": "58c190c3ef3aa5e4498b4567",
+        "name": "Battle Isle Platinum"
+      },
+      {
+        "appid": "58e60b88ca1a64156f8b4567",
+        "name": "Might and Magic VIII : Day of the Destroyer"
+      },
+      {
+        "appid": "58ab345b6b54a4cc2a8b4567",
+        "name": "Panzer General 3D Assault"
+      },
+      {
+        "appid": "594001856b54a43f4d8b4567",
+        "name": "Imperialism 2 : The Age of Exploration"
+      },
+      {
+        "appid": "58c186896b54a436368b4567",
+        "name": "Rayman Forever"
+      },
+      {
+        "appid": "58c18e3eef3aa5fa498b4568",
+        "name": "Might and Magic VII : For Blood and Honor"
+      },
+      {
+        "appid": "590311f529e12389488b4567",
+        "name": "Speed Busters: American Highways"
+      }
+    ]
   ]
 }
