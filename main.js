@@ -45,10 +45,11 @@ const store = new Vuex.Store({
     origin: [],
     originkey: [],
     others: [],
-    otherskey : [],
+    otherskey: [],
     allkeys: [],
     temp: {},
     tempimport: undefined,
+    import: false
   },
 })
 v = new Vue({
@@ -132,14 +133,16 @@ v = new Vue({
       const textTwo = String(item.appid).toLowerCase();
       const searchText = queryText.toLowerCase();
       return textOne.indexOf(searchText) > -1 ||
-          textTwo.indexOf(searchText) > -1
-  }
+        textTwo.indexOf(searchText) > -1
+    }
   },
   computed: {
-    userdata() {return {
-      username: store.state.userdata.username,
-      pic: store.state.userdata.pic
-    }},
+    userdata() {
+      return {
+        username: store.state.userdata.username,
+        pic: store.state.userdata.pic
+      }
+    },
     games() {
       return store.state.steamkey.concat(store.state.uplaykey.concat(store.state.originkey
         .concat(store.state.others)));

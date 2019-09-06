@@ -411,6 +411,22 @@
                 </v-card-actions>
             </v-card>
         </v-dialog>
+        <v-dialog v-model="importdialog" max-width="300" persistent>
+            <v-card>
+                <v-card-title class="headline">Import Keys</v-card-title>
+                <v-card-text>
+                    show data here </v-card-text>
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="green darken-1" flat="flat" @click="importdialog=false">
+                        Cancel
+                    </v-btn>
+                    <v-btn color="red darken-1" flat="flat">
+                        Import
+                    </v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
         <v-speed-dial v-model="fab" bottom right fixed direction="top" transition="slide-y-reverse-transition"
             open-on-hover>
             <template v-slot:activator>
@@ -452,6 +468,9 @@
             }
         },
         computed: {
+            importdialog() {
+                return store.state.import
+            },
             loading() {
                 return !store.state.finished;
             },

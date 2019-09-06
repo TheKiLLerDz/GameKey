@@ -52,6 +52,7 @@ function impport(Platform) {
   ////////
   console.log(path)
   if (path !== undefined) {
+    store.state.import=true;
     const lineByLine = require('./readlines.js');
     const liner = new lineByLine(path[0]);
     var linestr;
