@@ -426,7 +426,7 @@
             <v-btn fab dark small color="green">
                 <v-icon>mdi-export</v-icon>
             </v-btn>
-            <v-btn fab dark small color="orange" @click='impport()'>
+            <v-btn fab dark small color="orange" @click='impport(this.window.location.hash.slice(2).charAt(0).toUpperCase()+this.window.location.hash.slice(3))'>
                 <v-icon>mdi-import</v-icon>
             </v-btn>
         </v-speed-dial>
@@ -626,8 +626,8 @@
             }
         },
         methods: {
-            impport() {
-                impport();
+            impport(Platform) {
+                impport(Platform);
             },
             gettags(item) {
                 index = store.state.steamkey.map(e => e.appid).indexOf(this.getappid(item));

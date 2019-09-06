@@ -25,7 +25,7 @@ function PatternKeyUplay(string) {
   else return format1
 }
 
-function impport() {
+function impport(Platform) {
   const {
     dialog
   } = require('electron').remote
@@ -60,9 +60,28 @@ function impport() {
     let line;
     let lineNumber = 0;
 
+    console.log(Platform)
     while (line = liner.next()) {
       linestr = line.toString('ascii');
-      keys = PatternKeySteam(linestr);
+      var platform;
+      var pushplatform;
+      switch (Platform) {
+        case 'Steam':
+          keys = PatternKeySteam(linestr);
+          platform = store.state.steam;
+          pushplatform = store.state.steamkey;
+          break;
+        case 'Origin':
+          keys = PatternKeyOrigin(linestr);
+          platform = store.state.origin;
+          pushplatform = store.state.originkey;
+          break;
+        case 'Uplay':
+          keys = PatternKeyOrigin(linestr);
+          platform = store.state.uplay;
+          pushplatform = store.state.uplaykey;
+          break;
+      }
       var obj = {
         name: '',
         keys: []
@@ -76,17 +95,27 @@ function impport() {
           })
         }
         obj.name = game.replace(/(\r\n|\n|\r)/gm, '').trim();
-        console.log(obj);
-        var index = getindex(store.state.steam, obj.name)
-        var uiindex = getindex(store.state.steamkey, obj.name)
-        if (index == -1) console.log('game not found');
+        var item;
+        var index = getindex(pushplatform, obj.name)
+        if (index !== -1) {
+          item = pushplatform[index]
+        } else {
+          index = getindex(platform, obj.name)
+          if (index !== -1) {
+            item = platform[index];
+            delete item.keys;
+            item.Platform=Platform;
+          }
+        }
+        if (index == -1)
+          console.log('game not found')
         else {
-          var item = store.state.steam[index]
-          console.log(item)
           for (var i = 0; i < keys.length; i++) {
-            addkey(2, store.state.steam[index].appid, keys[i])
-            if (store.state.steam[index].keys == undefined) {
-              store.state.steam[index].keys = [{
+            //// add table chooser method to choose the db table number
+            // add appid getter (to change appid according to the platform)
+            addkey(2, item.appid, keys[i])
+            if (item.keys == undefined) {
+              item.keys = [{
                 key: keys[i]
               }];
             } else {
@@ -95,9 +124,7 @@ function impport() {
               });
             }
           }
-          // problem here is if u delete a key of game then import it back it get's again, cz of store.state.steam variable
-          // when we delete a key our algorithme only deletes it from store.state.steamkey
-          uiindex == -1 ? store.state.steamkey.push(store.state.steam[index]) : console.log("game already exists")
+          getindex(pushplatform, obj.name) == -1 ? pushplatform.push(item) : console.log("game already exists")
         }
       } else console.log('key not found')
       lineNumber++;
@@ -105,6 +132,7 @@ function impport() {
   }
   // baseorxhr()
 }
+
 
 function validateKey(key) {
   // Pour vérifier j'ai utilisé pattern email
