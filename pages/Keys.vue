@@ -418,7 +418,7 @@
                     show data here </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn color="green darken-1" flat="flat" @click="importdialog=false">
+                    <v-btn color="green darken-1" flat="flat" @click="hideimportdialog()">
                         Cancel
                     </v-btn>
                     <v-btn color="red darken-1" flat="flat">
@@ -731,7 +731,6 @@
                         this.appnames = store.state.others.map(e => e.name)
                         break;
                 }
-
             },
             removetag(item, tag) {
                 item.tags.splice(item.tags.indexOf(tag), 1)
@@ -884,6 +883,9 @@
                 this.msg.text = "App Added successfully";
                 this.hasSaved = true;
                 this.addialog = false;
+            },
+            hideimportdialog() {
+                store.state.import = false
             },
             editItem(item) {
                 this.editedItem = JSON.parse(JSON.stringify(item));
