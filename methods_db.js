@@ -29,9 +29,9 @@ function getsteambdd() {
 
 	db.tables[2].toArray().then(el => {
 		store.state.steam = el;
-		store.state.steamkey = store.state.steam.filter((el) => {
-			el.platform = 'Steam'
-			return el.keys !== undefined;
+		store.state.steamkey = el.filter((e) => {
+			e.platform = 'Steam'
+			return e.keys !== undefined;
 		});
 		document.getElementById('main').remove()
 		v.$mount('#app')
@@ -43,33 +43,47 @@ function getuplaybdd() {
 
 	db.tables[3].toArray().then(el => {
 		store.state.uplay = el;
-		store.state.uplaykey = store.state.uplay.filter((el) => {
-			el.platform = 'Uplay'
-			return el.keys !== undefined;
+		store.state.uplaykey = el.filter((e) => {
+			e.platform = 'Uplay'
+			return e.keys !== undefined;
 		});
-
-
 	})
 }
+
+function getoriginbdd() {
+
+	db.tables[0].toArray().then(el => {
+		store.state.origin = el;
+		store.state.originkey = el.filter((e) => {
+			e.platform = 'Origin'
+			return e.keys !== undefined;
+		});
+	})
+}
+
 function getothersbdd() {
 
 	db.tables[1].toArray().then(el => {
-		store.state.others = el
-		store.state.otherskey = el.filter((el) => {
-			el.platform = 'Other'
-			return el.keys !== undefined;
+		store.state.others = el;
+		store.state.otherskey = el.filter((e) => {
+			e.platform = 'Other'
+			return e.keys !== undefined;
 		});
 	})
 }
 
-function deltradeorused(t,appid,key,tradeorused) {
+function deltradeorused(t, appid, key, tradeorused) {
 	db.tables[t].where('appid').equals(appid).modify(game => {
 		for (var i = 0; i < game.keys.length; i++) {
 			if (game.keys[i].key == key) {
-	tradeorused == 'trade'?delete game.keys[i].trade:delete game.keys[i].used}}
-	})}
-function addtradeorused(t,appid,key,tradeorused) {
-	db.tables[t].where('appid').equals(appid).modify(game =>{
+				tradeorused == 'trade' ? delete game.keys[i].trade : delete game.keys[i].used
+			}
+		}
+	})
+}
+
+function addtradeorused(t, appid, key, tradeorused) {
+	db.tables[t].where('appid').equals(appid).modify(game => {
 		for (var i = 0; i < game.keys.length; i++) {
 			if (game.keys[i].key == key) {
 				game.keys[i] = Object.assign(game.keys[i], tradeorused);
@@ -77,63 +91,59 @@ function addtradeorused(t,appid,key,tradeorused) {
 
 		}
 	})
-	
-}
 
-
-
-function getoriginbdd() {
-
-	db.tables[0].toArray().then(el => {
-		store.state.origin = el;
-		store.state.originkey = store.state.origin.filter((el) => {
-			el.platform = 'Origin'
-			return el.keys !== undefined;
-		});
-
-
-
-	})
 }
 
 function addkey(t, appidorname, key) {
 	if (t != 1 || typeof appidorname == "number") {
-	db.tables[t].where("appid").equals(appidorname).modify(game => {
-	
-		if (game.keys == undefined) {
-			game.keys = [{
-				'key': key
-			}];
-		} else {
-			game.keys.push({
-				'key': key
-			});
-		}
-	});
-	}else {
+		db.tables[t].where("appid").equals(appidorname).modify(game => {
+
+			if (game.keys == undefined) {
+				game.keys = [{
+					'key': key
+				}];
+			} else {
+				game.keys.push({
+					'key': key
+				});
+			}
+		});
+	} else {
 		game = store.state.others.filter(el => {
 			return el.name == appidorname.name
 		})
-			if (game.length == 0) {
-				addappkey(t,appidorname,key)
-				
-				store.state.others.push({appid : appidorname.appid , name : appidorname.name , platform : 'Other'})
-			}else {
-				addkey(t,game[0].appid,key)
-			}
-	
-		
+		if (game.length == 0) {
+			addappkey(t, appidorname, key)
+
+			store.state.others.push({
+				appid: appidorname.appid,
+				name: appidorname.name,
+				platform: 'Other'
+			})
+		} else {
+			addkey(t, game[0].appid, key)
+		}
+
+
 	}
 }
-function addappkey(t,appidandname,key) {
-	var obj = {appid : appidandname.appid, name : appidandname.name, keys : [{key: key}]}
-				db.tables[t].put(obj);
+
+function addappkey(t, appidandname, key) {
+	var obj = {
+		appid: appidandname.appid,
+		name: appidandname.name,
+		keys: [{
+			key: key
+		}]
+	}
+	db.tables[t].put(obj);
 }
-function updatetags(t,appid,tags) {
+
+function updatetags(t, appid, tags) {
 	db.tables[t].where("appid").equals(appid).modify(game => {
-		game.tags =tags
+		game.tags = tags
 	});
-	
+
 }
 
 
@@ -192,13 +202,15 @@ function editkey(t, appid, okey, nkey) {
 
 
 }
-function getappid(t , name) {
+
+function getappid(t, name) {
 	db.tables[t].where('name').equals(name).modify(game => {
 
 		return game.name
 
 	})
 }
+
 function getapp(t, idapp) {
 
 
