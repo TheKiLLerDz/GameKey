@@ -35,7 +35,7 @@
                         games: 0,
                         keys: '',
                         link: '/keys',
-                        color: 'rgb(9, 102, 175)',
+                        color: '#00acc1',
                         class: 'infocard'
                     },
                     {
@@ -44,7 +44,7 @@
                         games: store.state.steamkey.length,
                         keys: '',
                         link: '/steam',
-                        color: 'rgb(0, 57, 212)',
+                        color: '#151b64',
                         class: 'steamcard'
                     }, {
                         title: 'Uplay',
@@ -52,7 +52,7 @@
                         games: store.state.uplaykey.length,
                         keys: '',
                         link: '/uplay',
-                        color: '#0e82cf',
+                        color: '#00acc1',
                         class: 'infocard'
                     },
                     {
@@ -61,7 +61,7 @@
                         games: store.state.originkey.length,
                         keys: '',
                         link: '/origin',
-                        color: '#eb6a00',
+                        color: '#fb8c00',
                         class: 'orangecard'
                     },
                     {
@@ -70,7 +70,7 @@
                         games: store.state.otherskey.length,
                         keys: '',
                         link: '/other',
-                        color: 'rgb(9, 102, 175)',
+                        color: '#43a047',
                         class: 'greencard'
                     }
                 ]
