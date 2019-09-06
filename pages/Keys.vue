@@ -426,7 +426,8 @@
             <v-btn fab dark small color="green">
                 <v-icon>mdi-export</v-icon>
             </v-btn>
-            <v-btn fab dark small color="orange" @click='impport(this.window.location.hash.slice(2).charAt(0).toUpperCase()+this.window.location.hash.slice(3))'>
+            <v-btn fab dark small color="orange"
+                @click='impport(this.window.location.hash.slice(2).charAt(0).toUpperCase()+this.window.location.hash.slice(3))'>
                 <v-icon>mdi-import</v-icon>
             </v-btn>
         </v-speed-dial>
@@ -630,7 +631,7 @@
                 impport(Platform);
             },
             gettags(item) {
-                index = store.state.steamkey.map(e => e.appid).indexOf(this.getappid(item));
+                index = store.state.steamkey.map(e => e.appid).indexOf(getappid(item));
                 if (index == -1) {
                     tags(item.appid)
                     item.tags = tagsapp;
@@ -639,7 +640,7 @@
             IDEdited(item) {
                 switch (item.platform) {
                     case 'Steam':
-                        index = store.state.steam.map(e => e.appid).indexOf(this.getappid(item));
+                        index = store.state.steam.map(e => e.appid).indexOf(getappid(item));
                         if (index == -1) {
                             item.name = '';
                             item.tags = [];
@@ -649,17 +650,17 @@
                         }
                         break;
                     case 'Origin':
-                        index = store.state.origin.map(e => e.appid).indexOf(this.getappid(item));
+                        index = store.state.origin.map(e => e.appid).indexOf(getappid(item));
                         if (index == -1) item.name = ''
                         else item.name = store.state.origin[index].name;
                         break;
                     case 'Uplay':
-                        index = store.state.uplay.map(e => e.appid).indexOf(this.getappid(item));
+                        index = store.state.uplay.map(e => e.appid).indexOf(getappid(item));
                         if (index == -1) item.name = ''
                         else item.name = store.state.uplay[index].name;
                         break;
                     case 'Other':
-                        index = store.state.others.map(e => e.appid).indexOf(this.getappid(item));
+                        index = store.state.others.map(e => e.appid).indexOf(getappid(item));
                         if (index == -1) item.name = ''
                         else item.name = store.state.otehrs[index].name;
                         break;
@@ -723,26 +724,20 @@
                 return item1.platform == item2.platform & item1.name == item2.name & item1.appid == item2.appid &
                     item1.keys.length == item2.keys.length
             },
-            getappid(item) {
-                if ((item.platform != 'Steam' || item.platform == 'Other') && (item.platform != 'Other' || item
-                        .platform == 'Steam')) return item.appid;
-                else return parseInt(item.appid);
-
-            },
             editkey(item, oldkey, newkey) {
-                editkey(this.gettab(item.platform), this.getappid(item), oldkey, newkey);
-                index = this.apps.map(e => e.appid).indexOf(item.appid);
-                indexk = this.apps[index].keys.map(e => e.key).indexOf(oldkey);
-                this.apps[index].keys[indexk].key = newkey;
+                editkey(gettab(item.platform), getappid(item), oldkey, newkey);
+                // index = this.apps.map(e => e.appid).indexOf(getappid(item.appid));
+                // indexk = this.apps[index].keys.map(e => e.key).indexOf(oldkey);
+                //item.keys[indexk].key = newkey;
             },
             edit_key(item, index) {
-                editkey(this.gettab(item.platform), this.getappid(item), this.Keytochange, item.keys[index]
+                editkey(gettab(item.platform), getappid(item), this.Keytochange, item.keys[index]
                     .key)
             },
             updatetags(item, newtags) {
                 index = this.apps.map(e => e.appid).indexOf(item.appid);
                 this.apps[index].tags = newtags;
-                updatetags(this.gettab(item.platform), this.getappid(item), newtags);
+                updatetags(gettab(item.platform), getappid(item), newtags);
             },
             save(item1, item2) {
                 for (i = 0; i < item2.keys.length; i++) {
@@ -765,13 +760,13 @@
                     index = this.apps.map(e => e.appid).indexOf(item2.appid);
                     k = 0;
                     while (k < item1.keys.length) {
-                        addkey(this.gettab(item1.platform), this.getappid(item1), item1.keys[k].key);
+                        addkey(gettab(item1.platform), getappid(item1), item1.keys[k].key);
                         if (gameexists) {
                             this.apps[i].keys.push(item1.keys[k]);
                         }
                         k++;
                     }
-                    delgametagskeys(this.gettab(item2.platform), this.getappid(item2));
+                    delgametagskeys(gettab(item2.platform), getappid(item2));
                     this.apps.splice(index, 1);
                     if (!gameexists) this.apps.push({
                         name: item1.name,
@@ -830,26 +825,10 @@
                     }
                 }
             },
-            gettab(platform) {
-                switch (platform) {
-                    case 'Steam':
-                        return 2
-                        break;
-                    case 'Uplay':
-                        return 3
-                        break;
-                    case 'Origin':
-                        return 0
-                        break;
-                    case 'Other':
-                        return 1
-                        break;
-                }
-            },
             add(app) {
-                if (this.gettab(app.platform) == 1 && app.appid == '') {
+                if (gettab(app.platform) == 1 && app.appid == '') {
                     for (var i = 0; i < app.keys.length; i++) {
-                        addkey(this.gettab(app.platform), {
+                        addkey(gettab(app.platform), {
                             appid: this.apps.length,
                             name: app.name
                         }, app.keys[i].key);
@@ -857,14 +836,14 @@
                     }
                 } else {
                     for (var i = 0; i < app.keys.length; i++)
-                        addkey(this.gettab(app.platform), this.getappid(app), app.keys[i].key);
+                        addkey(gettab(app.platform), getappid(app), app.keys[i].key);
                 }
-                updatetags(this.gettab(app.platform), this.getappid(app), app.tags);
+                updatetags(gettab(app.platform), getappid(app), app.tags);
 
-                var index = this.apps.map(e => e.appid).indexOf(this.getappid(app));
+                var index = this.apps.map(e => e.appid).indexOf(getappid(app));
                 if (index == -1)
                     this.apps.push({
-                        appid: app.platform == 'Other' ? this.apps.length : this.getappid(app),
+                        appid: app.platform == 'Other' ? this.apps.length : getappid(app),
                         name: app.name,
                         keys: app.keys,
                         platform: app.platform,
@@ -895,18 +874,18 @@
             },
             deleteItem(item) {
                 const index = this.apps.indexOf(item)
-                delgametagskeys(this.gettab(item.platform), this.getappid(item)) & this.apps.splice(index, 1) & this
+                delgametagskeys(gettab(item.platform), getappid(item)) & this.apps.splice(index, 1) & this
                     .UpdateVuex(item.platform, this.apps);
                 this.deletedialog = false;
             },
             deletekey(key, item) {
                 const index = this.apps.indexOf(item);
                 const indexi = this.apps[index].keys.map(e => e.key).indexOf(key);
-                delkey(this.gettab(item.platform), this.getappid(item), key) & this.apps[
+                delkey(gettab(item.platform), getappid(item), key) & this.apps[
                     index].keys.splice(indexi, 1);
                 if (item.keys.length == 0) {
                     this.apps.splice(index, 1);
-                    delgametagskeys(this.gettab(item.platform), this.getappid(item));
+                    delgametagskeys(gettab(item.platform), getappid(item));
                     this.UpdateVuex(item.platform, this.apps);
                 }
                 this.deletekeydialog = false;

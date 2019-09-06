@@ -104,16 +104,14 @@ function impport(Platform) {
           if (index !== -1) {
             item = platform[index];
             delete item.keys;
-            item.Platform=Platform;
+            item.platform = Platform;
           }
         }
         if (index == -1)
           console.log('game not found')
         else {
           for (var i = 0; i < keys.length; i++) {
-            //// add table chooser method to choose the db table number
-            // add appid getter (to change appid according to the platform)
-            addkey(2, item.appid, keys[i])
+            addkey(gettab(Platform), getappid(item), keys[i])
             if (item.keys == undefined) {
               item.keys = [{
                 key: keys[i]
@@ -133,6 +131,29 @@ function impport(Platform) {
   // baseorxhr()
 }
 
+function gettab(platform) {
+  switch (platform) {
+    case 'Steam':
+      return 2
+      break;
+    case 'Uplay':
+      return 3
+      break;
+    case 'Origin':
+      return 0
+      break;
+    case 'Other':
+      return 1
+      break;
+  }
+}
+
+function getappid(item) {
+  if ((item.platform != 'Steam' || item.platform == 'Other') && (item.platform != 'Other' || item
+      .platform == 'Steam')) return item.appid;
+  else return parseInt(item.appid);
+
+}
 
 function validateKey(key) {
   // Pour vérifier j'ai utilisé pattern email
