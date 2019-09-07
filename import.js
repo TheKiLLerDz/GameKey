@@ -52,7 +52,7 @@ function impport(Platform) {
   ////////
   console.log(path)
   if (path !== undefined) {
-    store.state.import=true;
+    store.state.import = true;
     const lineByLine = require('./readlines.js');
     const liner = new lineByLine(path[0]);
     var linestr;
@@ -78,7 +78,7 @@ function impport(Platform) {
           pushplatform = store.state.originkey;
           break;
         case 'Uplay':
-          keys = PatternKeyOrigin(linestr);
+          keys = PatternKeyUplay(linestr);
           platform = store.state.uplay;
           pushplatform = store.state.uplaykey;
           break;
@@ -103,7 +103,7 @@ function impport(Platform) {
         } else {
           index = getindex(platform, obj.name)
           if (index !== -1) {
-            item = platform[index];
+            item = JSON.parse(JSON.stringify(platform[index]));
             delete item.keys;
             item.platform = Platform;
           }
