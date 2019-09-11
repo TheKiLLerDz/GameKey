@@ -50,85 +50,10 @@ function impport(Platform) {
     ]
   })
   ////////
-  console.log(path)
-  if (path !== undefined) {
-    store.state.import = true;
-    const lineByLine = require('./readlines.js');
-    const liner = new lineByLine(path[0]);
-    var linestr;
-    var index;
-    var word;
-    let line;
-    let lineNumber = 0;
-
-    console.log(Platform)
-    while (line = liner.next()) {
-      linestr = line.toString('ascii');
-      var platform;
-      var pushplatform;
-      switch (Platform) {
-        case 'Steam':
-          keys = PatternKeySteam(linestr);
-          platform = store.state.steam;
-          pushplatform = store.state.steamkey;
-          break;
-        case 'Origin':
-          keys = PatternKeyOrigin(linestr);
-          platform = store.state.origin;
-          pushplatform = store.state.originkey;
-          break;
-        case 'Uplay':
-          keys = PatternKeyUplay(linestr);
-          platform = store.state.uplay;
-          pushplatform = store.state.uplaykey;
-          break;
-      }
-      var obj = {
-        name: '',
-        keys: []
-      }
-      game = linestr;
-      if (keys !== null) {
-        for (var i = 0; i < keys.length; i++) {
-          game = game.replace(keys[i], '');
-          obj.keys.push({
-            key: keys[i]
-          })
-        }
-        obj.name = game.replace(/(\r\n|\n|\r)/gm, '').trim();
-        var item;
-        var index = getindex(pushplatform, obj.name)
-        if (index !== -1) {
-          item = pushplatform[index]
-        } else {
-          index = getindex(platform, obj.name)
-          if (index !== -1) {
-            item = JSON.parse(JSON.stringify(platform[index]));
-            delete item.keys;
-            item.platform = Platform;
-          }
-        }
-        if (index == -1)
-          console.log('game not found')
-        else {
-          for (var i = 0; i < keys.length; i++) {
-            addkey(gettab(Platform), getappid(item), keys[i])
-            if (item.keys == undefined) {
-              item.keys = [{
-                key: keys[i]
-              }];
-            } else {
-              item.keys.push({
-                key: keys[i]
-              });
-            }
-          }
-          getindex(pushplatform, obj.name) == -1 ? pushplatform.push(item) : console.log("game already exists")
-        }
-      } else console.log('key not found')
-      lineNumber++;
-    }
-  }
+ var indicSlash = path[0].lastIndexOf('\/');
+ var extension = path[0].substring(indicSlash+1).split(".");
+console.log(extension)
+  extension[1] == 'txt'?importtxt(Platform,path[0]):importxls(Platform,path[0])
   // baseorxhr()
 }
 
@@ -215,4 +140,96 @@ function addtodb() {
 
 function getindex(platform, name) {
   return platform.map(el => el.name).indexOf(name)
+}
+
+function importtxt(Platform,path) {
+    store.state.import = true;
+    const lineByLine = require('./readlines.js');
+    const liner = new lineByLine(path);
+    var linestr;
+    var index;
+    var word;
+    let line;
+    let lineNumber = 0;
+
+    while (line = liner.next()) {
+      linestr = line.toString('ascii');
+      var platform;
+      var pushplatform;
+      switch (Platform) {
+        case 'Steam':
+          keys = PatternKeySteam(linestr);
+          platform = store.state.steam;
+          pushplatform = store.state.steamkey;
+          break;
+        case 'Origin':
+          keys = PatternKeyOrigin(linestr);
+          platform = store.state.origin;
+          pushplatform = store.state.originkey;
+          break;
+        case 'Uplay':
+          keys = PatternKeyUplay(linestr);
+          platform = store.state.uplay;
+          pushplatform = store.state.uplaykey;
+          break;
+      }
+      var obj = {
+        name: '',
+        keys: []
+      }
+      game = linestr;
+      if (keys !== null) {
+        for (var i = 0; i < keys.length; i++) {
+          game = game.replace(keys[i], '');
+          obj.keys.push({
+            key: keys[i]
+          })
+        }
+        obj.name = game.replace(/(\r\n|\n|\r)/gm, '').trim();
+        var item;
+        var index = getindex(pushplatform, obj.name)
+        if (index !== -1) {
+          item = pushplatform[index]
+        } else {
+          index = getindex(platform, obj.name)
+          if (index !== -1) {
+            item = JSON.parse(JSON.stringify(platform[index]));
+            delete item.keys;
+            item.platform = Platform;
+          }
+        }
+        if (index == -1)
+          console.log('game not found')
+        else {
+          for (var i = 0; i < keys.length; i++) {
+            addkey(gettab(Platform), getappid(item), keys[i])
+            if (item.keys == undefined) {
+              item.keys = [{
+                key: keys[i]
+              }];
+            } else {
+              item.keys.push({
+                key: keys[i]
+              });
+            }
+          }
+          getindex(pushplatform, obj.name) == -1 ? pushplatform.push(item) : console.log("game already exists")
+        }
+      } else console.log('key not found')
+      lineNumber++;
+    }
+  }
+  var test 
+function importxls(Platform,path) {
+  const readXlsxFile = require('read-excel-file/node');
+  
+ 
+// File path.
+readXlsxFile(path).then((rows) => {
+  console.log(rows)
+test = rows
+})
+ 
+// Readable Stream.
+
 }
