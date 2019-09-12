@@ -123,9 +123,10 @@ v = new Vue({
         link: '/about'
       }
     ],
-    mini: false,
     keys: true,
     isDark: true,
+    mini:false,
+    windowWidth:0,
   }),
   methods: {
     customFilter(item, queryText) {
@@ -153,8 +154,17 @@ v = new Vue({
   },
   mounted() {
     if (localStorage.theme) this.theme = localStorage.theme;
+    this.$nextTick(() => {
+      window.addEventListener('resize', () => {
+        this.windowWidth = window.window.innerWidth
+      });
+    })
   },
   watch: {
+    windowWidth(newWidth, oldWidth) {
+      if (newWidth >= 1920) this.mini= false
+      else this.mini= true
+     },
     theme(mytheme) {
       localStorage.theme = mytheme;
     }
