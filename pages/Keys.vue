@@ -24,7 +24,7 @@
                 </v-card>
                 <v-flex xs12 sm8 md6 offset-md3 offset-sm2>
                     <v-text-field clear-icon="cancel" v-model='search' append-icon="search" label="Search" solo
-                        clearable>
+                        clearable light>
                     </v-text-field>
                 </v-flex>
                 <v-flex xs12>
@@ -457,538 +457,538 @@
 </template>
 <script>
     module.exports = {
-            props: {
-                searchvalue: {
-                    type: String,
-                    default: ''
+        props: {
+            searchvalue: {
+                type: String,
+                default: ''
+            }
+        },
+        watch: {
+            isAdding(val) {
+                if (val) {
+                    setTimeout(() => (this.isAdding = false), 500)
                 }
+            }
+        },
+        computed: {
+            importdialog() {
+                return store.state.import
             },
-            watch: {
-                isAdding(val) {
-                    if (val) {
-                        setTimeout(() => (this.isAdding = false), 500)
+            loading() {
+                return !store.state.finished;
+            },
+            totalItems() {
+                this.pagination.totalItems = this.apps.length;
+                return this.apps.length;
+            },
+            pages() {
+                if (this.pagination.rowsPerPage == null ||
+                    this.totalItems == null
+                ) return 0
+                return Math.ceil(this.totalItems / this.pagination.rowsPerPage)
+            }
+        },
+        data() {
+            return {
+                msg: {
+                    text: '',
+                    color: 'green'
+                },
+                Keytochange: null,
+                hasSaved: false,
+                isAdding: false,
+                expand: false,
+                direction: 'top',
+                fab: false,
+                pagination: {
+                    totalItems: '',
+                    rowsPerPage: 10
+                },
+                max25chars: v => v.length <= 25 || 'Key is too long!',
+                gametags: ["Indie", "Action", "Adventure", "Casual", "Low Confidence Metric", "Simulation",
+                    "Strategy", "RPG", "Singleplayer", "Early Access", "Free to Play", "2D", "Great Soundtrack",
+                    "Atmospheric", "Puzzle", "Violent", "Multiplayer", "VR", "Story Rich", "Gore", "Fantasy",
+                    "Anime", "Nudity", "Difficult", "Sports", "Horror", "Sexual Content", "Pixel Graphics",
+                    "Platformer", "Sci-fi", "Funny", "Massively Multiplayer", "Racing", "Shooter",
+                    "Female Protagonist", "First-Person", "Open World", "Retro", "Turn-Based", "Co-op",
+                    "Arcade", "Family Friendly", "FPS", "Visual Novel", "Survival", "Comedy", "Sandbox", "Cute",
+                    "Exploration", "Online Co-Op", "Movie", "Point &amp; Click", "Classic", "Replay Value",
+                    "Relaxing", "Space", "Utilities", "Design &amp; Illustration", "Psychological Horror",
+                    "Masterpiece", "Colorful", "Third Person", "Software", "Local Multiplayer", "Fast-Paced",
+                    "RPGMaker", "Physics", "Controller", "Mystery", "Shoot 'Em Up", "Tactical", "Rogue-like",
+                    "Zombies", "Short", "Party-Based RPG", "Management", "Local Co-Op", "Side Scroller",
+                    "Building", "Dark", "Memes", "Hidden Object", "Realistic", "Adult Content",
+                    "Turn-Based Strategy", "Puzzle-Platformer", "Survival Horror", "Music", "RTS",
+                    "Choices Matter", "Education", "Web Publishing", "Historical", "Rogue-lite", "Bullet Hell",
+                    "War", "Top-Down", "Minimalist", "Mature", "Action-Adventure", "Crafting", "Action RPG",
+                    "JRPG", "Competitive", "Tower Defense", "Stealth", "Hack and Slash",
+                    "Procedural Generation", "Walking Simulator", "4 Player Local", "Fighting",
+                    "Dungeon Crawler", "PvP", "Audio Production", "Old School", "Post-apocalyptic", "Card Game",
+                    "Romance", "Drama", "Dark Fantasy", "Isometric", "Top-Down Shooter", "Turn-Based Combat",
+                    "Animation &amp; Modeling", "Character Customization", "Multiple Endings", "Medieval",
+                    "Third-Person Shooter", "Cartoony", "Base Building", "Stylized", "Cyberpunk",
+                    "Resource Management", "Dating Sim", "Surreal", "Turn-Based Tactics", "Episodic", "Economy",
+                    "Metroidvania", "Driving", "Moddable", "Futuristic", "World War II", "Military", "Magic",
+                    "Robots", "Board Game", "3D Platformer", "Text-Based", "City Builder", "Hand-drawn",
+                    "Choose Your Own Adventure", "Twin Stick Shooter", "Beat 'em up", "Soundtrack",
+                    "Dark Humor", "Thriller", "Flight", "1990's", "Experimental", "Aliens",
+                    "Interactive Fiction", "Detective", "Perma Death", "Match 3", "Level Editor", "Abstract",
+                    "Cult Classic", "Mouse only", "Addictive", "Beautiful", "Crime", "MMORPG",
+                    "Video Production", "Game Development", "Team-Based", "Arena Shooter", "Clicker", "Cartoon",
+                    "Destruction", "Parkour", "LGBTQ+", "Grand Strategy", "2.5D", "Rhythm", "Steampunk",
+                    "Psychological", "Trains", "Blood", "Logic", "Real-Time", "3D", "2D Fighter",
+                    "Lovecraftian", "Loot", "Kickstarter", "Remake", "Real-Time with Pause",
+                    "Software Training", "Space Sim", "1980s", "4X", "Score Attack", "GameMaker", "Mechs",
+                    "Dystopian ", "Pirates", "Alternate History", "Documentary", "Time Management", "Otome",
+                    "Demons", "Illuminati", "Tanks", "Wargame", "Real Time Tactics", "Linear", "Split Screen",
+                    "Tactical RPG", "Dungeons &amp; Dragons", "Touch-Friendly", "Narration", "Strategy RPG",
+                    "Voxel", "Science", "PvE", "Dark Comedy", "Hex Grid", "MOBA", "Western", "Runner",
+                    "Psychedelic", "Tutorial", "NSFW", "TrackIR", "Dragons", "Naval", "Noir", "Ninja",
+                    "Comic Book", "Dinosaurs", "Battle Royale", "Political", "Swordplay", "Superhero", "CRPG",
+                    "Hacking", "Trading Card Game", "Supernatural", "eSports", "Agriculture", "Politics",
+                    "Souls-like", "Photo Editing", "God Game", "Parody ", "Grid-Based Movement", "Mod",
+                    "Lore-Rich", "Underwater", "Character Action Game", "Mythology", "Cold War", "FMV",
+                    "Crowdfunded", "Cats", "Gothic", "Based On A Novel", "Nature", "Time Attack", "Cinematic",
+                    "Emotional", "Football", "Vampire", "Villain Protagonist", "Time Travel",
+                    "Inventory Management", "Epic", "Satire", "Games Workshop", "Trading", "Programming",
+                    "Modern", "Gaming", "Assassin", "Experience", "Soccer", "Philisophical",
+                    "Silent Protagonist", "Bullet Time", "Hunting", "Nonlinear", "Word Game", "Fishing",
+                    "Martial Arts", "Time Manipulation", "America", "3D Vision", "World War I",
+                    "Co-op Campaign", "Minigames", "Warhammer 40K", "Music-Based Procedural Generation",
+                    "Faith", "Heist", "Chess", "Gun Customization", "Investigation", "LEGO", "Sailing",
+                    "Offroad", "Capitalism", "Quick-Time Events", "Spectacle fighter", "6DOF", "Mars", "Dog",
+                    "Class-Based", "Asynchronous Multiplayer", "Typing", "Artificial Intelligence", "Rome",
+                    "Horses", "Sniper", "Conspiracy", "Pinball", "Dynamic Narration", "Mining", "360 Video",
+                    "Mystery Dungeon", "Sokoban", "Star Wars", "Werewolves", "On-Rails Shooter", "Golf",
+                    "Sequel", "Conversation", "Diplomacy", "Basketball", "Gambling", "Solitaire", "Bikes",
+                    "Batman", "Immersive Sim", "Underground", "Mini Golf", "Motorbike", "Unforgiving",
+                    "Intentionally Awkward Controls", "Submarine", "Benchmark", "Baseball", "Feature Film",
+                    "Transhumanism", "Tennis", "Wrestling", "Lemmings", "Automation", "Hockey", "Pool",
+                    "Motocross", "Lara Croft", "Voice Control", "Foreign", "Skateboarding", "Steam Machine",
+                    "Spelling", "Bowling", "Cycling", "Hardware", "Jet", "Snow", "Transportation", "Skating",
+                    "Asymmetric VR", "BMX", "Snowboarding", "ATV", "Skiing", "Social Deduction"
+                ],
+                fling: false,
+                tabs: null,
+                search: '',
+                appnames: [],
+                Itemtodelete: null,
+                keytodelete: null,
+                deletedialog: false,
+                deletekeydialog: false,
+                editdialog: false,
+                infodialog: false,
+                addialog: false,
+                platforms: [{
+                    name: 'Steam',
+                    color: '#1d2f54'
+                }, {
+                    name: 'Uplay',
+                    color: '#0e82cf'
+                }, {
+                    name: 'Origin',
+                    color: '#eb6a00'
+                }, {
+                    name: 'Other',
+                    color: 'success'
+                }],
+                headers: [{
+                        text: 'Pic',
+                        align: 'left',
+                        sortable: false,
+                        show: true,
+                        value: 'appid'
+                    },
+                    {
+                        text: 'Name',
+                        align: 'left',
+                        sortable: true,
+                        show: true,
+                        value: 'name'
+                    },
+                    {
+                        text: 'Platform',
+                        align: 'left',
+                        sortable: true,
+                        show: true,
+                        value: 'platform'
+                    },
+                    {
+                        text: 'Qnt',
+                        align: 'left',
+                        sortable: true,
+                        show: true,
+                        value: 'qnt'
+                    },
+                    {
+                        sortable: false,
+                        show: true,
+                        text: 'Actions'
                     }
-                }
-            },
-            computed: {
-                importdialog() {
-                    return store.state.import
-                },
-                loading() {
-                    return !store.state.finished;
-                },
-                totalItems() {
-                    this.pagination.totalItems = this.apps.length;
-                    return this.apps.length;
-                },
-                pages() {
-                    if (this.pagination.rowsPerPage == null ||
-                        this.totalItems == null
-                    ) return 0
-                    return Math.ceil(this.totalItems / this.pagination.rowsPerPage)
-                }
-            },
-            data() {
-                return {
-                    msg: {
-                        text: '',
-                        color: 'green'
-                    },
-                    Keytochange: null,
-                    hasSaved: false,
-                    isAdding: false,
-                    expand: false,
-                    direction: 'top',
-                    fab: false,
-                    pagination: {
-                        totalItems: '',
-                        rowsPerPage: 10
-                    },
-                    max25chars: v => v.length <= 25 || 'Key is too long!',
-                    gametags: ["Indie", "Action", "Adventure", "Casual", "Low Confidence Metric", "Simulation",
-                        "Strategy", "RPG", "Singleplayer", "Early Access", "Free to Play", "2D", "Great Soundtrack",
-                        "Atmospheric", "Puzzle", "Violent", "Multiplayer", "VR", "Story Rich", "Gore", "Fantasy",
-                        "Anime", "Nudity", "Difficult", "Sports", "Horror", "Sexual Content", "Pixel Graphics",
-                        "Platformer", "Sci-fi", "Funny", "Massively Multiplayer", "Racing", "Shooter",
-                        "Female Protagonist", "First-Person", "Open World", "Retro", "Turn-Based", "Co-op",
-                        "Arcade", "Family Friendly", "FPS", "Visual Novel", "Survival", "Comedy", "Sandbox", "Cute",
-                        "Exploration", "Online Co-Op", "Movie", "Point &amp; Click", "Classic", "Replay Value",
-                        "Relaxing", "Space", "Utilities", "Design &amp; Illustration", "Psychological Horror",
-                        "Masterpiece", "Colorful", "Third Person", "Software", "Local Multiplayer", "Fast-Paced",
-                        "RPGMaker", "Physics", "Controller", "Mystery", "Shoot 'Em Up", "Tactical", "Rogue-like",
-                        "Zombies", "Short", "Party-Based RPG", "Management", "Local Co-Op", "Side Scroller",
-                        "Building", "Dark", "Memes", "Hidden Object", "Realistic", "Adult Content",
-                        "Turn-Based Strategy", "Puzzle-Platformer", "Survival Horror", "Music", "RTS",
-                        "Choices Matter", "Education", "Web Publishing", "Historical", "Rogue-lite", "Bullet Hell",
-                        "War", "Top-Down", "Minimalist", "Mature", "Action-Adventure", "Crafting", "Action RPG",
-                        "JRPG", "Competitive", "Tower Defense", "Stealth", "Hack and Slash",
-                        "Procedural Generation", "Walking Simulator", "4 Player Local", "Fighting",
-                        "Dungeon Crawler", "PvP", "Audio Production", "Old School", "Post-apocalyptic", "Card Game",
-                        "Romance", "Drama", "Dark Fantasy", "Isometric", "Top-Down Shooter", "Turn-Based Combat",
-                        "Animation &amp; Modeling", "Character Customization", "Multiple Endings", "Medieval",
-                        "Third-Person Shooter", "Cartoony", "Base Building", "Stylized", "Cyberpunk",
-                        "Resource Management", "Dating Sim", "Surreal", "Turn-Based Tactics", "Episodic", "Economy",
-                        "Metroidvania", "Driving", "Moddable", "Futuristic", "World War II", "Military", "Magic",
-                        "Robots", "Board Game", "3D Platformer", "Text-Based", "City Builder", "Hand-drawn",
-                        "Choose Your Own Adventure", "Twin Stick Shooter", "Beat 'em up", "Soundtrack",
-                        "Dark Humor", "Thriller", "Flight", "1990's", "Experimental", "Aliens",
-                        "Interactive Fiction", "Detective", "Perma Death", "Match 3", "Level Editor", "Abstract",
-                        "Cult Classic", "Mouse only", "Addictive", "Beautiful", "Crime", "MMORPG",
-                        "Video Production", "Game Development", "Team-Based", "Arena Shooter", "Clicker", "Cartoon",
-                        "Destruction", "Parkour", "LGBTQ+", "Grand Strategy", "2.5D", "Rhythm", "Steampunk",
-                        "Psychological", "Trains", "Blood", "Logic", "Real-Time", "3D", "2D Fighter",
-                        "Lovecraftian", "Loot", "Kickstarter", "Remake", "Real-Time with Pause",
-                        "Software Training", "Space Sim", "1980s", "4X", "Score Attack", "GameMaker", "Mechs",
-                        "Dystopian ", "Pirates", "Alternate History", "Documentary", "Time Management", "Otome",
-                        "Demons", "Illuminati", "Tanks", "Wargame", "Real Time Tactics", "Linear", "Split Screen",
-                        "Tactical RPG", "Dungeons &amp; Dragons", "Touch-Friendly", "Narration", "Strategy RPG",
-                        "Voxel", "Science", "PvE", "Dark Comedy", "Hex Grid", "MOBA", "Western", "Runner",
-                        "Psychedelic", "Tutorial", "NSFW", "TrackIR", "Dragons", "Naval", "Noir", "Ninja",
-                        "Comic Book", "Dinosaurs", "Battle Royale", "Political", "Swordplay", "Superhero", "CRPG",
-                        "Hacking", "Trading Card Game", "Supernatural", "eSports", "Agriculture", "Politics",
-                        "Souls-like", "Photo Editing", "God Game", "Parody ", "Grid-Based Movement", "Mod",
-                        "Lore-Rich", "Underwater", "Character Action Game", "Mythology", "Cold War", "FMV",
-                        "Crowdfunded", "Cats", "Gothic", "Based On A Novel", "Nature", "Time Attack", "Cinematic",
-                        "Emotional", "Football", "Vampire", "Villain Protagonist", "Time Travel",
-                        "Inventory Management", "Epic", "Satire", "Games Workshop", "Trading", "Programming",
-                        "Modern", "Gaming", "Assassin", "Experience", "Soccer", "Philisophical",
-                        "Silent Protagonist", "Bullet Time", "Hunting", "Nonlinear", "Word Game", "Fishing",
-                        "Martial Arts", "Time Manipulation", "America", "3D Vision", "World War I",
-                        "Co-op Campaign", "Minigames", "Warhammer 40K", "Music-Based Procedural Generation",
-                        "Faith", "Heist", "Chess", "Gun Customization", "Investigation", "LEGO", "Sailing",
-                        "Offroad", "Capitalism", "Quick-Time Events", "Spectacle fighter", "6DOF", "Mars", "Dog",
-                        "Class-Based", "Asynchronous Multiplayer", "Typing", "Artificial Intelligence", "Rome",
-                        "Horses", "Sniper", "Conspiracy", "Pinball", "Dynamic Narration", "Mining", "360 Video",
-                        "Mystery Dungeon", "Sokoban", "Star Wars", "Werewolves", "On-Rails Shooter", "Golf",
-                        "Sequel", "Conversation", "Diplomacy", "Basketball", "Gambling", "Solitaire", "Bikes",
-                        "Batman", "Immersive Sim", "Underground", "Mini Golf", "Motorbike", "Unforgiving",
-                        "Intentionally Awkward Controls", "Submarine", "Benchmark", "Baseball", "Feature Film",
-                        "Transhumanism", "Tennis", "Wrestling", "Lemmings", "Automation", "Hockey", "Pool",
-                        "Motocross", "Lara Croft", "Voice Control", "Foreign", "Skateboarding", "Steam Machine",
-                        "Spelling", "Bowling", "Cycling", "Hardware", "Jet", "Snow", "Transportation", "Skating",
-                        "Asymmetric VR", "BMX", "Snowboarding", "ATV", "Skiing", "Social Deduction"
-                    ],
-                    fling: false,
-                    tabs: null,
-                    search: '',
-                    appnames: [],
-                    Itemtodelete: null,
-                    keytodelete: null,
-                    deletedialog: false,
-                    deletekeydialog: false,
-                    editdialog: false,
-                    infodialog: false,
-                    addialog: false,
-                    platforms: [{
-                        name: 'Steam',
-                        color: '#1d2f54'
-                    }, {
-                        name: 'Uplay',
-                        color: '#0e82cf'
-                    }, {
-                        name: 'Origin',
-                        color: '#eb6a00'
-                    }, {
-                        name: 'Other',
-                        color: 'success'
+                ],
+                expanded: [],
+                singleExpand: false,
+                apps: [],
+                oldediteditem: null,
+                itemtoadd: {
+                    appid: '',
+                    name: '',
+                    platform: '',
+                    keys: [{
+                        key: ''
                     }],
-                    headers: [{
-                            text: 'Pic',
-                            align: 'left',
-                            sortable: false,
-                            show: true,
-                            value: 'appid'
-                        },
-                        {
-                            text: 'Name',
-                            align: 'left',
-                            sortable: true,
-                            show: true,
-                            value: 'name'
-                        },
-                        {
-                            text: 'Platform',
-                            align: 'left',
-                            sortable: true,
-                            show: true,
-                            value: 'platform'
-                        },
-                        {
-                            text: 'Qnt',
-                            align: 'left',
-                            sortable: true,
-                            show: true,
-                            value: 'qnt'
-                        },
-                        {
-                            sortable: false,
-                            show: true,
-                            text: 'Actions'
-                        }
-                    ],
-                    expanded: [],
-                    singleExpand: false,
-                    apps: [],
-                    oldediteditem: null,
-                    itemtoadd: {
-                        appid: '',
-                        name: '',
-                        platform: '',
-                        keys: [{
-                            key: ''
-                        }],
-                        tags: [],
-                    },
-                    editedItem: {
-                        appid: '',
-                        name: '',
-                        platform: '',
-                        keys: [],
-                        tags: [],
-                    },
-                }
-            },
-            methods: {
-                impport(Platform) {
-                    impport(Platform);
+                    tags: [],
                 },
-                gettags(item) {
-                    index = store.state.steamkey.map(e => e.appid).indexOf(getappid(item));
-                    if (index == -1) {
-                        tags(item.appid)
-                        item.tags = tagsapp;
-                    } else item.tags = store.state.steamkey[index].tags;
-                },
-                IDEdited(item) {
-                    switch (item.platform) {
-                        case 'Steam':
-                            index = store.state.steam.map(e => e.appid).indexOf(getappid(item));
-                            if (index == -1) {
-                                item.name = '';
-                                item.tags = [];
-                            } else {
-                                item.name = store.state.steam[index].name;
-                                this.gettags(item);
-                            }
-                            break;
-                        case 'Origin':
-                            index = store.state.origin.map(e => e.appid).indexOf(getappid(item));
-                            if (index == -1) item.name = ''
-                            else item.name = store.state.origin[index].name;
-                            break;
-                        case 'Uplay':
-                            index = store.state.uplay.map(e => e.appid).indexOf(getappid(item));
-                            if (index == -1) item.name = ''
-                            else item.name = store.state.uplay[index].name;
-                            break;
-                        case 'Other':
-                            index = store.state.others.map(e => e.appid).indexOf(getappid(item));
-                            if (index == -1) item.name = ''
-                            else item.name = store.state.otehrs[index].name;
-                            break;
-                    }
-                },
-                NameEdited(item) {
-                    switch (item.platform) {
-                        case 'Steam':
-                            index = store.state.steam.map(e => e.name).indexOf(item.name);
-                            if (index == -1) {
-                                item.appid = '';
-                                item.tags = []
-                            } else {
-                                item.appid = store.state.steam[index].appid;
-                                this.gettags(item)
-                            }
-                            break;
-                        case 'Origin':
-                            index = store.state.origin.map(e => e.name).indexOf(item.name);
-                            if (index == -1) item.appid = ''
-                            else item.appid = store.state.origin[index].appid;
-                            break;
-                        case 'Uplay':
-                            index = store.state.uplay.map(e => e.name).indexOf(item.name);
-                            if (index == -1) item.appid = ''
-                            else item.appid = store.state.uplay[index].appid;
-                            break;
-                        case 'Other':
-                            index = store.state.others.map(e => e.name).indexOf(item.name);
-                            if (index == -1) item.appid = ''
-                            else item.appid = store.state.others[index].appid;
-                            break;
-                    }
-
-
-                },
-                PlatformEdited(platform) {
-                    switch (platform) {
-                        case 'Steam':
-                            this.appnames = store.state.steam.map(e => e.name)
-                            break;
-                        case 'Uplay':
-                            this.appnames = store.state.uplay.map(e => e.name)
-                            break;
-                        case 'Origin':
-                            this.appnames = store.state.origin.map(e => e.name)
-                            break;
-                        case 'Other':
-                            this.appnames = store.state.others.map(e => e.name)
-                            break;
-                    }
-                },
-                removetag(item, tag) {
-                    item.tags.splice(item.tags.indexOf(tag), 1)
-                },
-                Lowercasefirst(text) {
-                    return text.charAt(0).toLowerCase() + text.slice(1);
-                },
-                Equals(item1, item2) {
-                    return item1.platform == item2.platform & item1.name == item2.name & item1.appid == item2.appid &
-                        item1.keys.length == item2.keys.length
-                },
-                editkey(item, oldkey, newkey) {
-                    editkey(gettab(item.platform), getappid(item), oldkey, newkey);
-                    // index = this.apps.map(e => e.appid).indexOf(getappid(item.appid));
-                    // indexk = this.apps[index].keys.map(e => e.key).indexOf(oldkey);
-                    //item.keys[indexk].key = newkey;
-                },
-                edit_key(item, index) {
-                    editkey(gettab(item.platform), getappid(item), this.Keytochange, item.keys[index]
-                        .key)
-                },
-                updatetags(item, newtags) {
-                    index = this.apps.map(e => e.appid).indexOf(item.appid);
-                    this.apps[index].tags = newtags;
-                    updatetags(gettab(item.platform), getappid(item), newtags);
-                },
-                save(item1, item2) {
-                    for (i = 0; i < item2.keys.length; i++) {
-                        if (item2.keys[i].key !== item1.keys[i].key)
-                            this.editkey(item2, item2.keys[i].key, item1.keys[i]
-                                .key)
-                    }
-                    this.updatetags(item2, item1.tags);
-
-                    if (!this.Equals(item2, item1)) {
-                        i = 0;
-                        gameexists = false;
-                        while (i < this.apps.length) {
-                            if (this.apps[i].appid == item1.appid) {
-                                gameexists = true;
-                                break;
-                            }
-                            i++
-                        }
-                        index = this.apps.map(e => e.appid).indexOf(item2.appid);
-                        k = 0;
-                        while (k < item1.keys.length) {
-                            addkey(gettab(item1.platform), getappid(item1), item1.keys[k].key);
-                            if (gameexists) {
-                                this.apps[i].keys.push(item1.keys[k]);
-                            }
-                            k++;
-                        }
-                        delgametagskeys(gettab(item2.platform), getappid(item2));
-                        this.apps.splice(index, 1);
-                        var newitem = {
-                            name: item1.name,
-                            appid: item1.appid,
-                            platform: item1.platform,
-                            keys: item1.keys,
-                            tags: item1.tags
-                        }
-                        if (!gameexists)
-                            if (!this.$route.path.includes('/keys')) {
-                                switch (item1.platform) {
-                                    case 'Steam':
-                                        store.state.steamkey.push(newitem);
-                                        break;
-                                    case 'Uplay':
-                                        store.state.uplaykey.push(newitem);
-                                        break;
-                                    case 'Origin':
-                                        store.state.originkey.push(newitem);
-                                        break;
-                                    case 'Other':
-                                        store.state.otherskey.push(newitem);
-                                            break;
-                                        }
-                                } else
-                                    this.apps.push(newitem);
-
-                                this.UpdateVuex(item1.platform, this.apps);
-                                this.UpdateVuex(item2.platform, this.apps);
-                            }
-                        this.editedItem = {
-                            appid: '',
-                            name: '',
-                            platform: '',
-                            keys: [],
-                            tags: []
-                        };
-
-                        this.oldeditedItem = null;
-                        this.msg.text = "App Saved successfully";
-                        this.hasSaved = true;
-                        this.editdialog = false;
-                    },
-                    UpdateVuex(platform, newvalue) {
-                            if (this.$route.path.includes('/keys')) {
-                                switch (platform) {
-                                    case 'Steam':
-                                        store.state.steamkey = newvalue.reduce(function (items, item) {
-                                            if (item.platform == 'Steam')
-                                                return items.concat(item);
-                                            else return items
-                                        }, []);
-                                        break;
-                                    case 'Uplay':
-                                        store.state.uplaykey = newvalue.reduce(function (items, item) {
-                                            if (item.platform == 'Uplay')
-                                                return items.concat(item);
-                                            else return items
-                                        }, []);
-                                        break;
-                                    case 'Origin':
-                                        store.state.originkey = newvalue.reduce(function (items, item) {
-                                            if (item.platform == 'Origin')
-                                                return items.concat(item);
-                                            else return items
-                                        }, []);
-                                        break;
-                                    case 'Other':
-                                        store.state.otherskey = newvalue.reduce(function (items, item) {
-                                            if (item.platform == 'Other')
-                                                return items.concat(item);
-                                            else return items
-                                        }, []);
-                                        break;
-                                }
-                            }
-                        },
-                        add(app) {
-                            if (gettab(app.platform) == 1 && app.appid == '') {
-                                for (var i = 0; i < app.keys.length; i++) {
-                                    addkey(gettab(app.platform), {
-                                        appid: this.apps.length,
-                                        name: app.name
-                                    }, app.keys[i].key);
-
-                                }
-                            } else {
-                                for (var i = 0; i < app.keys.length; i++)
-                                    addkey(gettab(app.platform), getappid(app), app.keys[i].key);
-                            }
-                            updatetags(gettab(app.platform), getappid(app), app.tags);
-
-                            var index = this.apps.map(e => e.appid).indexOf(getappid(app));
-                            if (index == -1)
-                                this.apps.push({
-                                    appid: app.platform == 'Other' ? this.apps.length : getappid(app),
-                                    name: app.name,
-                                    keys: app.keys,
-                                    platform: app.platform,
-                                    tags: app.tags
-                                });
-                            else this.apps[index].keys = this.apps[index].keys.concat(app.keys);
-
-                            this.UpdateVuex(app.platform, this.apps);
-                            this.itemtoadd = {
-                                appid: '',
-                                name: '',
-                                platform: '',
-                                tags: [],
-                                keys: [{
-                                    key: ''
-                                }],
-                                tags: []
-                            }
-                            this.msg.text = "App Added successfully";
-                            this.hasSaved = true;
-                            this.addialog = false;
-                        },
-                        hideimportdialog() {
-                            store.state.import = false
-                        },
-                        editItem(item) {
-                            this.editedItem = JSON.parse(JSON.stringify(item));
-                            this.oldediteditem = JSON.parse(JSON.stringify(item));
-                            this.PlatformEdited(this.editedItem.platform);
-                            this.editdialog = true;
-                        },
-                        deleteItem(item) {
-                            const index = this.apps.indexOf(item)
-                            delgametagskeys(gettab(item.platform), getappid(item)) & this.apps.splice(index, 1) & this
-                                .UpdateVuex(item.platform, this.apps);
-                            this.deletedialog = false;
-                        },
-                        deletekey(key, item) {
-                            const index = this.apps.indexOf(item);
-                            const indexi = this.apps[index].keys.map(e => e.key).indexOf(key);
-                            delkey(gettab(item.platform), getappid(item), key) & this.apps[
-                                index].keys.splice(indexi, 1);
-                            if (item.keys.length == 0) {
-                                this.apps.splice(index, 1);
-                                delgametagskeys(gettab(item.platform), getappid(item));
-                                this.UpdateVuex(item.platform, this.apps);
-                            }
-                            this.deletekeydialog = false;
-                        },
-                        subStr(string) {
-                            if (string.includes('/keys')) {
-                                return 'all'
-                            } else {
-                                return string.substring(1, 15).charAt(0).toUpperCase() + string.substring(1, 15).slice(
-                                    1);
-                            }
-
-                        },
-                        copykey(key) {
-                            var el = document.createElement('textarea');
-                            el.value = key;
-                            el.setAttribute('readonly', '');
-                            el.style = {
-                                position: 'absolute',
-                                left: '-9999px'
-                            };
-                            document.body.appendChild(el);
-                            el.select();
-                            document.execCommand('copy');
-                            document.body.removeChild(el);
-                        },
-                        otherinfo(item) {
-                            this.infodialog = true
-                        },
-                        getColor(qnt) {
-                            if (qnt < 1) return 'red'
-                            else if (qnt > 1) return 'green'
-                            else return 'orange'
-                        }
-                },
-                mounted() {
-                    this.search = this.searchvalue;
-                    if (window.location.hash.slice(1).includes("/keys")) {
-                        this.headers[2].show = true;
-                    } else {
-                        this.headers[2].show = false;
-                    }
-                    switch (window.location.hash.slice(1)) {
-                        case '/steam':
-                            this.apps = store.state.steamkey
-                            break;
-                        case '/uplay':
-                            this.apps = store.state.uplaykey
-                            break;
-                        case '/origin':
-                            this.apps = store.state.originkey
-                            break;
-                        case '/other':
-                            this.apps = store.state.otherskey
-                            break;
-                        default:
-                            this.apps = store.state.steamkey.concat(store.state.uplaykey.concat(store.state.originkey
-                                .concat(store.state.otherskey)))
-                            break;
-                    }
+                editedItem: {
+                    appid: '',
+                    name: '',
+                    platform: '',
+                    keys: [],
+                    tags: [],
                 },
             }
+        },
+        methods: {
+            impport(Platform) {
+                impport(Platform);
+            },
+            gettags(item) {
+                index = store.state.steamkey.map(e => e.appid).indexOf(getappid(item));
+                if (index == -1) {
+                    tags(item.appid)
+                    item.tags = tagsapp;
+                } else item.tags = store.state.steamkey[index].tags;
+            },
+            IDEdited(item) {
+                switch (item.platform) {
+                    case 'Steam':
+                        index = store.state.steam.map(e => e.appid).indexOf(getappid(item));
+                        if (index == -1) {
+                            item.name = '';
+                            item.tags = [];
+                        } else {
+                            item.name = store.state.steam[index].name;
+                            this.gettags(item);
+                        }
+                        break;
+                    case 'Origin':
+                        index = store.state.origin.map(e => e.appid).indexOf(getappid(item));
+                        if (index == -1) item.name = ''
+                        else item.name = store.state.origin[index].name;
+                        break;
+                    case 'Uplay':
+                        index = store.state.uplay.map(e => e.appid).indexOf(getappid(item));
+                        if (index == -1) item.name = ''
+                        else item.name = store.state.uplay[index].name;
+                        break;
+                    case 'Other':
+                        index = store.state.others.map(e => e.appid).indexOf(getappid(item));
+                        if (index == -1) item.name = ''
+                        else item.name = store.state.otehrs[index].name;
+                        break;
+                }
+            },
+            NameEdited(item) {
+                switch (item.platform) {
+                    case 'Steam':
+                        index = store.state.steam.map(e => e.name).indexOf(item.name);
+                        if (index == -1) {
+                            item.appid = '';
+                            item.tags = []
+                        } else {
+                            item.appid = store.state.steam[index].appid;
+                            this.gettags(item)
+                        }
+                        break;
+                    case 'Origin':
+                        index = store.state.origin.map(e => e.name).indexOf(item.name);
+                        if (index == -1) item.appid = ''
+                        else item.appid = store.state.origin[index].appid;
+                        break;
+                    case 'Uplay':
+                        index = store.state.uplay.map(e => e.name).indexOf(item.name);
+                        if (index == -1) item.appid = ''
+                        else item.appid = store.state.uplay[index].appid;
+                        break;
+                    case 'Other':
+                        index = store.state.others.map(e => e.name).indexOf(item.name);
+                        if (index == -1) item.appid = ''
+                        else item.appid = store.state.others[index].appid;
+                        break;
+                }
+
+
+            },
+            PlatformEdited(platform) {
+                switch (platform) {
+                    case 'Steam':
+                        this.appnames = store.state.steam.map(e => e.name)
+                        break;
+                    case 'Uplay':
+                        this.appnames = store.state.uplay.map(e => e.name)
+                        break;
+                    case 'Origin':
+                        this.appnames = store.state.origin.map(e => e.name)
+                        break;
+                    case 'Other':
+                        this.appnames = store.state.others.map(e => e.name)
+                        break;
+                }
+            },
+            removetag(item, tag) {
+                item.tags.splice(item.tags.indexOf(tag), 1)
+            },
+            Lowercasefirst(text) {
+                return text.charAt(0).toLowerCase() + text.slice(1);
+            },
+            Equals(item1, item2) {
+                return item1.platform == item2.platform & item1.name == item2.name & item1.appid == item2.appid &
+                    item1.keys.length == item2.keys.length
+            },
+            editkey(item, oldkey, newkey) {
+                editkey(gettab(item.platform), getappid(item), oldkey, newkey);
+                // index = this.apps.map(e => e.appid).indexOf(getappid(item.appid));
+                // indexk = this.apps[index].keys.map(e => e.key).indexOf(oldkey);
+                //item.keys[indexk].key = newkey;
+            },
+            edit_key(item, index) {
+                editkey(gettab(item.platform), getappid(item), this.Keytochange, item.keys[index]
+                    .key)
+            },
+            updatetags(item, newtags) {
+                index = this.apps.map(e => e.appid).indexOf(item.appid);
+                this.apps[index].tags = newtags;
+                updatetags(gettab(item.platform), getappid(item), newtags);
+            },
+            save(item1, item2) {
+                for (i = 0; i < item2.keys.length; i++) {
+                    if (item2.keys[i].key !== item1.keys[i].key)
+                        this.editkey(item2, item2.keys[i].key, item1.keys[i]
+                            .key)
+                }
+                this.updatetags(item2, item1.tags);
+
+                if (!this.Equals(item2, item1)) {
+                    i = 0;
+                    gameexists = false;
+                    while (i < this.apps.length) {
+                        if (this.apps[i].appid == item1.appid) {
+                            gameexists = true;
+                            break;
+                        }
+                        i++
+                    }
+                    index = this.apps.map(e => e.appid).indexOf(item2.appid);
+                    k = 0;
+                    while (k < item1.keys.length) {
+                        addkey(gettab(item1.platform), getappid(item1), item1.keys[k].key);
+                        if (gameexists) {
+                            this.apps[i].keys.push(item1.keys[k]);
+                        }
+                        k++;
+                    }
+                    delgametagskeys(gettab(item2.platform), getappid(item2));
+                    this.apps.splice(index, 1);
+                    var newitem = {
+                        name: item1.name,
+                        appid: item1.appid,
+                        platform: item1.platform,
+                        keys: item1.keys,
+                        tags: item1.tags
+                    }
+                    if (!gameexists)
+                        if (!this.$route.path.includes('/keys')) {
+                            switch (item1.platform) {
+                                case 'Steam':
+                                    store.state.steamkey.push(newitem);
+                                    break;
+                                case 'Uplay':
+                                    store.state.uplaykey.push(newitem);
+                                    break;
+                                case 'Origin':
+                                    store.state.originkey.push(newitem);
+                                    break;
+                                case 'Other':
+                                    store.state.otherskey.push(newitem);
+                                    break;
+                            }
+                        } else
+                            this.apps.push(newitem);
+
+                    this.UpdateVuex(item1.platform, this.apps);
+                    this.UpdateVuex(item2.platform, this.apps);
+                }
+                this.editedItem = {
+                    appid: '',
+                    name: '',
+                    platform: '',
+                    keys: [],
+                    tags: []
+                };
+
+                this.oldeditedItem = null;
+                this.msg.text = "App Saved successfully";
+                this.hasSaved = true;
+                this.editdialog = false;
+            },
+            UpdateVuex(platform, newvalue) {
+                if (this.$route.path.includes('/keys')) {
+                    switch (platform) {
+                        case 'Steam':
+                            store.state.steamkey = newvalue.reduce(function (items, item) {
+                                if (item.platform == 'Steam')
+                                    return items.concat(item);
+                                else return items
+                            }, []);
+                            break;
+                        case 'Uplay':
+                            store.state.uplaykey = newvalue.reduce(function (items, item) {
+                                if (item.platform == 'Uplay')
+                                    return items.concat(item);
+                                else return items
+                            }, []);
+                            break;
+                        case 'Origin':
+                            store.state.originkey = newvalue.reduce(function (items, item) {
+                                if (item.platform == 'Origin')
+                                    return items.concat(item);
+                                else return items
+                            }, []);
+                            break;
+                        case 'Other':
+                            store.state.otherskey = newvalue.reduce(function (items, item) {
+                                if (item.platform == 'Other')
+                                    return items.concat(item);
+                                else return items
+                            }, []);
+                            break;
+                    }
+                }
+            },
+            add(app) {
+                if (gettab(app.platform) == 1 && app.appid == '') {
+                    for (var i = 0; i < app.keys.length; i++) {
+                        addkey(gettab(app.platform), {
+                            appid: this.apps.length,
+                            name: app.name
+                        }, app.keys[i].key);
+
+                    }
+                } else {
+                    for (var i = 0; i < app.keys.length; i++)
+                        addkey(gettab(app.platform), getappid(app), app.keys[i].key);
+                }
+                updatetags(gettab(app.platform), getappid(app), app.tags);
+
+                var index = this.apps.map(e => e.appid).indexOf(getappid(app));
+                if (index == -1)
+                    this.apps.push({
+                        appid: app.platform == 'Other' ? this.apps.length : getappid(app),
+                        name: app.name,
+                        keys: app.keys,
+                        platform: app.platform,
+                        tags: app.tags
+                    });
+                else this.apps[index].keys = this.apps[index].keys.concat(app.keys);
+
+                this.UpdateVuex(app.platform, this.apps);
+                this.itemtoadd = {
+                    appid: '',
+                    name: '',
+                    platform: '',
+                    tags: [],
+                    keys: [{
+                        key: ''
+                    }],
+                    tags: []
+                }
+                this.msg.text = "App Added successfully";
+                this.hasSaved = true;
+                this.addialog = false;
+            },
+            hideimportdialog() {
+                store.state.import = false
+            },
+            editItem(item) {
+                this.editedItem = JSON.parse(JSON.stringify(item));
+                this.oldediteditem = JSON.parse(JSON.stringify(item));
+                this.PlatformEdited(this.editedItem.platform);
+                this.editdialog = true;
+            },
+            deleteItem(item) {
+                const index = this.apps.indexOf(item)
+                delgametagskeys(gettab(item.platform), getappid(item)) & this.apps.splice(index, 1) & this
+                    .UpdateVuex(item.platform, this.apps);
+                this.deletedialog = false;
+            },
+            deletekey(key, item) {
+                const index = this.apps.indexOf(item);
+                const indexi = this.apps[index].keys.map(e => e.key).indexOf(key);
+                delkey(gettab(item.platform), getappid(item), key) & this.apps[
+                    index].keys.splice(indexi, 1);
+                if (item.keys.length == 0) {
+                    this.apps.splice(index, 1);
+                    delgametagskeys(gettab(item.platform), getappid(item));
+                    this.UpdateVuex(item.platform, this.apps);
+                }
+                this.deletekeydialog = false;
+            },
+            subStr(string) {
+                if (string.includes('/keys')) {
+                    return 'all'
+                } else {
+                    return string.substring(1, 15).charAt(0).toUpperCase() + string.substring(1, 15).slice(
+                        1);
+                }
+
+            },
+            copykey(key) {
+                var el = document.createElement('textarea');
+                el.value = key;
+                el.setAttribute('readonly', '');
+                el.style = {
+                    position: 'absolute',
+                    left: '-9999px'
+                };
+                document.body.appendChild(el);
+                el.select();
+                document.execCommand('copy');
+                document.body.removeChild(el);
+            },
+            otherinfo(item) {
+                this.infodialog = true
+            },
+            getColor(qnt) {
+                if (qnt < 1) return 'red'
+                else if (qnt > 1) return 'green'
+                else return 'orange'
+            }
+        },
+        mounted() {
+            this.search = this.searchvalue;
+            if (window.location.hash.slice(1).includes("/keys")) {
+                this.headers[2].show = true;
+            } else {
+                this.headers[2].show = false;
+            }
+            switch (window.location.hash.slice(1)) {
+                case '/steam':
+                    this.apps = store.state.steamkey
+                    break;
+                case '/uplay':
+                    this.apps = store.state.uplaykey
+                    break;
+                case '/origin':
+                    this.apps = store.state.originkey
+                    break;
+                case '/other':
+                    this.apps = store.state.otherskey
+                    break;
+                default:
+                    this.apps = store.state.steamkey.concat(store.state.uplaykey.concat(store.state.originkey
+                        .concat(store.state.otherskey)))
+                    break;
+            }
+        },
+    }
 </script>

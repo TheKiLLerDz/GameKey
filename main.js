@@ -79,13 +79,12 @@ v = new Vue({
     show: true,
     items: [{
         title: 'Home',
-        color: '#1d2f54',
         icon: 'mdi-home',
         link: '/'
       }, {
         title: 'All Keys',
-        color: '#1d2f54',
         icon: 'mdi-key',
+        color: 'success',
         link: '/keys'
       }, {
         title: 'Steam',
@@ -100,33 +99,30 @@ v = new Vue({
       },
       {
         title: 'Origin',
-        color: '#eb6a00',
+        color: 'orange',
         icon: 'mdi-origin',
         link: '/origin'
       },
       {
         title: 'Other',
-        color: 'black',
         icon: 'mdi-alert-circle',
         link: '/other'
       },
       {
         title: 'Settings',
-        color: '#1d2f54',
         icon: 'mdi-settings',
         link: '/settings'
       },
       {
         title: 'About',
-        color: '#1d2f54',
         icon: 'mdi-help-circle',
         link: '/about'
       }
     ],
     keys: true,
-    isDark: true,
-    mini:false,
-    windowWidth:0,
+    isDark: false,
+    mini: false,
+    windowWidth: 0,
   }),
   methods: {
     customFilter(item, queryText) {
@@ -154,6 +150,7 @@ v = new Vue({
   },
   mounted() {
     if (localStorage.theme) this.theme = localStorage.theme;
+    if (localStorage.Dark) this.isDark = localStorage.Dark;
     this.$nextTick(() => {
       window.addEventListener('resize', () => {
         this.windowWidth = window.window.innerWidth
@@ -162,11 +159,15 @@ v = new Vue({
   },
   watch: {
     windowWidth(newWidth, oldWidth) {
-      if (newWidth >= 1920) this.mini= false
-      else this.mini= true
-     },
+      if (newWidth >= 1920) this.mini = false
+      else this.mini = true
+    },
     theme(mytheme) {
       localStorage.theme = mytheme;
+
+    },
+    isDark(value) {
+      localStorage.Dark = value;
     }
   }
 })

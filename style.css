@@ -136,9 +136,9 @@
     border-color: #4caf50 !important;
 }
 
-.theme--blue .v-content__wrap {
+/* .theme--blue .v-content__wrap {
     background-color: #eee;
-}
+} */
 
 .v-list-item-mini-active {
     background: #e9ebee;

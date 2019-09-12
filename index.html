@@ -27,14 +27,14 @@
             <span>.</span>
         </div>
     </div>
-    <v-app v-cloak id="app" :class="theme">
+    <v-app v-cloak id="app" :dark="isDark" :class="theme">
         <v-toolbar dense color="blue darken-3" tabs app clipped-left>
             <v-toolbar-side-icon></v-toolbar-side-icon>
             <v-toolbar-title style="width: 400px" class="ml-0 pl-3">
                 <h4 class="hidden-sm-and-down">GameKey</h4>
             </v-toolbar-title>
             <v-autocomplete v-if="$route.path=='/'" :loading="loading" :items="this.games" solo dense label="Search"
-                class="v-text-field--rounded" item-text="name" item-value="appid" :filter="customFilter">
+                class="v-text-field--rounded" item-text="name" item-value="appid" :filter="customFilter" light>
                 <template v-slot:append>
                     <v-btn color="rgb(9, 102, 175)" value="search">
                         Search
@@ -138,7 +138,7 @@
                 </v-list>
             </div>
         </v-navigation-drawer>
-        <v-content>
+        <v-content :style="isDark ? '' : 'background-color: #eee'">
             <v-container fluid grid-list-lg>
                 <v-menu v-model='settingstab' :close-on-content-click="false" bottom left min-width="300"
                     max-width="300" nudge-left="12" offset-x transition="slide-y-transition">
@@ -147,8 +147,11 @@
                         <v-icon>mdi-settings</v-icon>
                     </v-btn>
                     <v-card>
-                        <v-container grid-list-xl fluid style="background: #e9ebee;">
+                        <v-container grid-list-xl fluid>
                             <v-layout wrap>
+                                <v-flex>
+                                    <v-switch color='black' v-model="isDark" :label="isDark? 'Dark Mode is Switched : On' : 'Dark Mode is Switched : Off'"></v-switch>
+                                </v-flex>
                                 <v-flex xs12>
                                     <div class="text-xs-center body-2 text-uppercase sidebar-filter">Others Themes</div>
                                 </v-flex>
