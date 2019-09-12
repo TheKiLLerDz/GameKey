@@ -83,8 +83,8 @@ v = new Vue({
         link: '/'
       }, {
         title: 'All Keys',
+        color: '#0e82cf',
         icon: 'mdi-key',
-        color: 'success',
         link: '/keys'
       }, {
         title: 'Steam',
@@ -105,6 +105,7 @@ v = new Vue({
       },
       {
         title: 'Other',
+        color: 'success',
         icon: 'mdi-alert-circle',
         link: '/other'
       },
@@ -150,7 +151,7 @@ v = new Vue({
   },
   mounted() {
     if (localStorage.theme) this.theme = localStorage.theme;
-    if (localStorage.Dark) this.isDark = localStorage.Dark;
+    this.isDark = localStorage.Dark;
     this.$nextTick(() => {
       window.addEventListener('resize', () => {
         this.windowWidth = window.window.innerWidth
