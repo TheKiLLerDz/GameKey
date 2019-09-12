@@ -151,10 +151,11 @@ v = new Vue({
   },
   mounted() {
     if (localStorage.theme) this.theme = localStorage.theme;
-    this.isDark = localStorage.Dark;
+    if (localStorage.theme) this.isDark = (localStorage.Dark == 'true');
+    this.windowWidth = window.innerWidth;
     this.$nextTick(() => {
       window.addEventListener('resize', () => {
-        this.windowWidth = window.window.innerWidth
+        this.windowWidth = window.innerWidth
       });
     })
   },

@@ -8,7 +8,6 @@
                     <h1 v-if="!$route.path.includes('/keys')">
                         <v-icon v-if="$route.path=='/steam'" dense color='white' x-large>mdi-steam
                         </v-icon>
-
                         <v-icon v-else-if="$route.path=='/uplay'" color='white' x-large>mdi-ubisoft
                         </v-icon>
                         <v-icon v-else-if="$route.path=='/origin'" dense color='white' x-large>mdi-origin
