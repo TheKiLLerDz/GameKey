@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/TheKiLLerDz/GameKey#readme",
   "dependencies": {
+    "json2xls": "^0.1.2",
     "n-readlines": "^1.0.0",
     "read-excel-file": "^4.0.2"
   }

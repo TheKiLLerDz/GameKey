@@ -88,8 +88,6 @@ function validateKey(key) {
   return re.test(String(key).toLowerCase());
 }
 
-
-
 function filtrer(tag, i) {
   var el = document.createElement('div');
   el.innerHTML = tag
@@ -100,28 +98,28 @@ function filtrer(tag, i) {
 
 }
 
-function baseorxhr() {
-  var i = 0;
-  while (i < tagname.length) {
-    var j = 0;
-    var test = true
-    while (j < store.state.steam.length & test) {
-      if (tagname[i] == store.state.steam[j].name) {
-        addtokeys(store.state.steam[j].appid, i)
-        test = false;
-      }
-      j++
-    }
-    if (test) {
-      sendData(i)
-    }
+// function baseorxhr() {
+//   var i = 0;
+//   while (i < tagname.length) {
+//     var j = 0;
+//     var test = true
+//     while (j < store.state.steam.length & test) {
+//       if (tagname[i] == store.state.steam[j].name) {
+//         addtokeys(store.state.steam[j].appid, i)
+//         test = false;
+//       }
+//       j++
+//     }
+//     if (test) {
+//       sendData(i)
+//     }
 
-    i++
+//     i++
 
-  }
+//   }
 
-  addtodb();
-}
+//   addtodb();
+// }
 
 
 function addtokeys(appid, i) {
@@ -219,7 +217,6 @@ function importtxt(Platform,path) {
       lineNumber++;
     }
   }
-  var test 
 function importxls(Platform,path) {
   const readXlsxFile = require('read-excel-file/node');
   
@@ -232,4 +229,14 @@ test = rows
  
 // Readable Stream.
 
+}
+
+function exportxlxs(platform) {
+  var json2xls = require('json2xls');
+  var fs = require('fs')
+  var appskey
+// convert data to the table
+  var xls = json2xls(platform, {});
+  
+  fs.writeFileSync('data.xlsx', xls, 'binary');  
 }
