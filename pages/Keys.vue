@@ -463,6 +463,22 @@
             }
         },
         watch: {
+            'itemtoadd.keys': {
+                handler: function (after, before) {
+                    for (var i = 0; i < after.length; i++) {
+                        after[i].key = after[i].key.toUpperCase();
+                    }
+                },
+                deep: true
+            },
+            'editedItem.keys': {
+                handler: function (after, before) {
+                    for (var i = 0; i < after.length; i++) {
+                        after[i].key = after[i].key.toUpperCase();
+                    }
+                },
+                deep: true
+            },
             isAdding(val) {
                 if (val) {
                     setTimeout(() => (this.isAdding = false), 500)
