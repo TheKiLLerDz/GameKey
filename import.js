@@ -234,9 +234,15 @@ test = rows
 function exportxlxs(platform) {
   var json2xls = require('json2xls');
   var fs = require('fs')
-  var appskey
-// convert data to the table
-  var xls = json2xls(platform, {});
+  var appskey = []
+platform.forEach(app => {
+  app.keys.forEach(key => {
+    var obj = {name : app.name , key : key.key}
+    appskey.push(obj)
+    console.log(appskey)
+  })
+})
+  var xls = json2xls(appskey, {});
   
   fs.writeFileSync('data.xlsx', xls, 'binary');  
 }
