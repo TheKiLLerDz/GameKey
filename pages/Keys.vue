@@ -38,7 +38,7 @@
                         <template slot="items" slot-scope="props">
                             <tr>
                                 <td @click="props.expanded = !props.expanded">
-                                    <img :src="'apps/' + props.item.appid + '.jpg'"
+                                    <img :src="props.item.platform == 'Steam' ? 'https://steamcdn-a.akamaihd.net/steam/apps/' + props.item.appid + '/header.jpg?t=1566587391' : props.item.platform == 'Uplay' ? 'https://transform.dis.commercecloud.salesforce.com/transform/ABBS_PRD/on/demandware.static/-/Sites-masterCatalog/default/images/large/'+props.item.appid+'.jpg?sw=500&sh=200&sm=cut' : 'apps/undefined.gif'"
                                         onerror="this.src='apps/undefined.gif'" height="42" width="100">
                                 </td>
                                 <td @click="props.expanded = !props.expanded">
