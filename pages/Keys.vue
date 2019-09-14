@@ -38,7 +38,7 @@
                         <template slot="items" slot-scope="props">
                             <tr>
                                 <td @click="props.expanded = !props.expanded">
-                                    <img :src="props.item.platform == 'Steam' ? 'https://steamcdn-a.akamaihd.net/steam/apps/' + props.item.appid + '/header.jpg?t=1566587391' : props.item.platform == 'Uplay' ? 'https://transform.dis.commercecloud.salesforce.com/transform/ABBS_PRD/on/demandware.static/-/Sites-masterCatalog/default/images/large/'+props.item.appid+'.jpg?sw=500&sh=200&sm=cut' : 'apps/undefined.gif'"
+                                    <img :src="props.item.platform == 'Steam' ? 'https://steamcdn-a.akamaihd.net/steam/apps/' + props.item.appid + '/header.jpg' : props.item.platform == 'Uplay' ? 'https://transform.dis.commercecloud.salesforce.com/transform/ABBS_PRD/on/demandware.static/-/Sites-masterCatalog/default/images/large/'+props.item.appid+'.jpg?sw=500&sh=200&sm=cut' : 'apps/undefined.gif'"
                                         onerror="this.src='apps/undefined.gif'" height="42" width="100">
                                 </td>
                                 <td @click="props.expanded = !props.expanded">
@@ -363,22 +363,54 @@
                 </v-card-actions>
             </v-card>
         </v-dialog>
-        <v-dialog v-model="infodialog" persistent max-width="500px">
-            <v-card>
-                <v-card-title>
-                    <span class="headline">App Info</span>
-                </v-card-title>
-                <v-card-text>
-                    <v-container grid-list-md>
-                        <v-layout wrap>
-                        </v-layout>
-                    </v-container>
-                </v-card-text>
-                <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn color="blue darken-1" flat _click="close" @click="infodialog=!infodialog">Ok</v-btn>
-                </v-card-actions>
-            </v-card>
+        <v-dialog v-model="infodialog" persistent max-width="40%">
+            <v-flex xs12>
+                <v-card class="white--text">
+                    <v-img
+                        :src="itemtoadd.platform == 'Steam' ? 'https://steamcdn-a.akamaihd.net/steam/apps/' + itemtoadd.appid + '/header.jpg' : itemtoadd.platform == 'Uplay' ? 'https://transform.dis.commercecloud.salesforce.com/transform/ABBS_PRD/on/demandware.static/-/Sites-masterCatalog/default/images/large/'+itemtoadd.appid+'.jpg' : 'apps/undefined.gif'"
+                        onerror="this.src='apps/undefined.gif'" height="410px">
+                        <div style='background: rgb(0,0,0);
+background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rgba(0,0,0,1) 100%);'>
+                            <v-layout row>
+                                <v-flex xs5>
+                                    <v-img
+                                        :src="itemtoadd.platform == 'Steam' ? 'https://steamcdn-a.akamaihd.net/steam/apps/' + itemtoadd.appid + '/header.jpg' : itemtoadd.platform == 'Uplay' ? 'https://transform.dis.commercecloud.salesforce.com/transform/ABBS_PRD/on/demandware.static/-/Sites-masterCatalog/default/images/large/'+itemtoadd.appid+'.jpg' : 'apps/undefined.gif'"
+                                        onerror="this.src='apps/undefined.gif'" height="350px" contain>
+                                    </v-img>
+                                </v-flex>
+                                <v-flex xs7>
+                                    <v-card-title primary-title>
+                                        <div height="50px">
+                                            <div class="headline">{{itemtoadd.name}}</div>
+                                            <div class="pa-2 ma-2">
+                                                <v-icon v-if="itemtoadd.platform=='Steam'" dense color='white'>mdi-steam
+                                                </v-icon>
+                                                <v-icon v-else-if="itemtoadd.platform=='Uplay'" color='white'>
+                                                    mdi-ubisoft
+                                                </v-icon>
+                                                <v-icon v-else-if="itemtoadd.platform=='Origin'" dense color='white'>
+                                                    mdi-origin
+                                                </v-icon>
+                                                <v-icon v-else-if="itemtoadd.platform=='Other'" dense color='white'>
+                                                    mdi-alert-circle
+                                                </v-icon> <span>{{itemtoadd.platform}}</span>
+                                            </div>
+                                        </div>
+                                    </v-card-title>
+                                </v-flex>
+                            </v-layout>
+                            <v-divider light></v-divider>
+                            <v-card-actions class="pa-3">
+                                <v-btn> More </v-btn>
+                                <v-spacer></v-spacer>
+                                <v-btn color="blue darken-1" flat round _click="close" @click="infodialog=!infodialog">
+                                    Ok
+                                </v-btn>
+                            </v-card-actions>
+                        </div>
+                    </v-img>
+                </v-card>
+            </v-flex>
         </v-dialog>
         <v-dialog v-model="deletedialog" max-width="300" persistent>
             <v-card>
@@ -972,6 +1004,7 @@
             },
             otherinfo(item) {
                 this.infodialog = true
+                this.itemtoadd = item;
             },
             getColor(qnt) {
                 if (qnt < 1) return 'red'
