@@ -95,7 +95,9 @@ function addtradeorused(t, appid, key, tradeorused) {
 }
 
 function addkey(t, appidorname, key) {
-	if (t != 1 || typeof appidorname == "number") {
+	if (typeof appidorname != "object") {
+		existorno(t,appidorname,key)
+		if (!exist) {
 		db.tables[t].where("appid").equals(appidorname).modify(game => {
 
 			if (game.keys == undefined) {
@@ -107,20 +109,21 @@ function addkey(t, appidorname, key) {
 					'key': key
 				});
 			}
-		});
+		}); }
 	} else {
 		game = store.state.others.filter(el => {
 			return el.name == appidorname.name
 		})
 		if (game.length == 0) {
-			addappkey(t, appidorname, key)
+			if (!existorno(t,appidorname,key)) {
+				addappkey(t, appidorname, key)
 
 			store.state.others.push({
 				appid: appidorname.appid,
 				name: appidorname.name,
 				platform: 'Other'
 			})
-		} else {
+		}} else {
 			addkey(t, game[0].appid, key)
 		}
 
@@ -236,4 +239,23 @@ function testappname(t, i) {
 
 
 
+}
+var exist
+function existorno(t, appid, key) {
+
+	db.tables[t].where("appid").equals(appid).each(game => {
+		
+
+	var i = 0;
+	 exist = false;
+		while ( i < game.keys.length & !exist & game.keys != undefined ) {
+			if (game.keys[i].key == key) {
+
+				exist = true
+			}
+			i++
+		}
+		
+	});
+	
 }
