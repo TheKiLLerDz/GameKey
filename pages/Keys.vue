@@ -119,20 +119,41 @@
                                         </v-flex>
                                         <-- end !-->
                                         <table>
-                                            <tr v-for="(index,i) in props.item.keys" :key="i.key">
+                                            <tr v-for="(index,i) in props.item.keys" :key="i.key" style="width:20%">
                                                 <td style="width:20%">
-                                                    <v-edit-dialog :value="index.key" :return-value.sync="index.key"
-                                                        large persistent color="red" @save="edit_key(props.item,i)">
-                                                        <v-chip text-color="white" @click="Keytochange=index.key"
-                                                            :color="getColor(props.item.keys.length)">{{ index.key }}
-                                                        </v-chip>
-                                                        <template v-slot:input>
-                                                            <v-text-field v-model="index.key" :rules="[max25chars]"
-                                                                label="Edit" single-line counter autofocus color="red"
-                                                                return-object>
-                                                            </v-text-field>
+                                                    <v-tooltip top>
+                                                        <template slot="activator" color="success">
+                                                            <v-edit-dialog :value="index.key"
+                                                                :return-value.sync="index.key" large persistent
+                                                                color="red" @save="edit_key(props.item,i)">
+                                                                <v-chip text-color="white"
+                                                                    @click="Keytochange=index.key"
+                                                                    :color="getColor(props.item.keys.length)">
+                                                                    {{ index.key }}
+                                                                </v-chip>
+                                                                <template v-slot:input>
+                                                                    <v-text-field v-model="index.key"
+                                                                        :rules="[max25chars]" label="Edit" single-line
+                                                                        counter autofocus color="red" return-object>
+                                                                    </v-text-field>
+                                                                </template>
+                                                            </v-edit-dialog>
                                                         </template>
-                                                    </v-edit-dialog>
+                                                        <span>Click to Edit Key</span>
+                                                    </v-tooltip>
+
+                                                </td>
+                                                <td>
+                                                    <v-checkbox v-model="index.traded" hide-details></v-checkbox>
+                                                </td>
+                                                <td>
+                                                    <v-text-field :disabled="index.traded == undefined || !index.traded" label="Traded"></v-text-field>
+                                                </td>
+                                                <td>
+                                                    <v-checkbox hide-details class="shrink mr-2 mt-0"></v-checkbox>
+                                                </td>
+                                                <td>
+                                                    <v-text-field label="Date OR Sum"></v-text-field>
                                                 </td>
                                                 <td style="width:20%">
                                                     <v-tooltip top>
@@ -317,7 +338,6 @@
                                         <v-btn round @click="itemtoadd.keys.push({key:''})">add key</v-btn>
                                     </v-flex>
                                 </tr>
-
                                 <tr>
                                     <v-flex xs12 sm12 md12>
                                         <v-combobox v-model="itemtoadd.tags" :items="gametags" label="Game Tags" chips
@@ -395,6 +415,12 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                                                     mdi-alert-circle
                                                 </v-icon> <span>{{itemtoadd.platform}}</span>
                                             </div>
+                                            <div>"developer": "Valve, Hidden Path Entertainment" </div>
+                                            <div>"publisher": "Valve" </div>
+                                            <div>
+                                                "price": "0"
+                                            </div>
+                                            <div>"genre": "Action, Free to Play"</div>
                                         </div>
                                     </v-card-title>
                                 </v-flex>
@@ -461,8 +487,7 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                 </v-card-actions>
             </v-card>
         </v-dialog>
-        <v-speed-dial v-model="fab" bottom right fixed direction="top" transition="slide-y-reverse-transition"
-            open-on-hover>
+        <v-speed-dial v-model="fab" bottom right fixed direction="top" transition="slide-y-transition" open-on-hover>
             <template v-slot:activator>
                 <v-btn v-model="fab" color="blue darken-2" dark fab>
                     <v-icon style="top : -10px">add</v-icon>

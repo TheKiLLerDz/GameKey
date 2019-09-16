@@ -42,7 +42,8 @@
                 </template>
                 <template v-slot:item="data">
                     <v-list-tile-avatar @click="$router.push('keys/'+data.item.name)">
-                        <img :src="'https://steamcdn-a.akamaihd.net/steam/apps/'+data.item.appid+'/header.jpg'"
+                        <img style="height: 90%;width: 90%;background: rgb(0,0,0);
+                        background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rgba(0,0,0,0.5382528011204482) 100%);" :src="'https://steamcdn-a.akamaihd.net/steam/apps/'+data.item.appid+'/header.jpg'"
                             onerror="this.src='apps/undefined.gif'">
                     </v-list-tile-avatar>
                     <v-list-tile-content @click="$router.push('keys/'+data.item.name)">
