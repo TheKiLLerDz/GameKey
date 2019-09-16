@@ -56,6 +56,9 @@ v = new Vue({
   store,
   router,
   data: ({
+    App: {
+      version: '1.0'
+    },
     loading: false,
     theme: '',
     themes: [{

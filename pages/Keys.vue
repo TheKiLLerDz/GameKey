@@ -415,12 +415,12 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                                                     mdi-alert-circle
                                                 </v-icon> <span>{{itemtoadd.platform}}</span>
                                             </div>
-                                            <div>"developer": "Valve, Hidden Path Entertainment" </div>
-                                            <div>"publisher": "Valve" </div>
+                                            <div>Developer : "Valve, Hidden Path Entertainment" </div>
+                                            <div>Publisher : "Valve" </div>
                                             <div>
-                                                "price": "0"
+                                                Price : "0"
                                             </div>
-                                            <div>"genre": "Action, Free to Play"</div>
+                                            <div>Genre : "Action, Free to Play"</div>
                                         </div>
                                     </v-card-title>
                                 </v-flex>
