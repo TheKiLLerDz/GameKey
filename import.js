@@ -50,10 +50,12 @@ function impport(Platform) {
     ]
   })
   ////////
+  if (path != undefined) {
  var indicSlash = path[0].lastIndexOf('\/');
  var extension = path[0].substring(indicSlash+1).split(".");
 console.log(extension)
   extension[1] == 'txt'?importtxt(Platform,path[0]):importxls(Platform,path[0])
+  }
   // baseorxhr()
 }
 
