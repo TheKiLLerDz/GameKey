@@ -415,12 +415,12 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                                                     mdi-alert-circle
                                                 </v-icon> <span>{{itemtoadd.platform}}</span>
                                             </div>
-                                            <div>Developer : "Valve, Hidden Path Entertainment" </div>
-                                            <div>Publisher : "Valve" </div>
+                                            <div>Developer : {{infoapp.Developer}} </div>
+                                            <div>Publisher : {{infoapp.Publisher}} </div>
                                             <div>
-                                                Price : "0"
+                                                Price : {{infoapp.Price}}
                                             </div>
-                                            <div>Genre : "Action, Free to Play"</div>
+                                            <div>Genre : {{infoapp.Genre}}</div>
                                         </div>
                                     </v-card-title>
                                 </v-flex>
@@ -643,6 +643,7 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                 fling: false,
                 tabs: null,
                 search: '',
+                infoapp : {Developer : 'v',Publisher : 'v' , Genre : 'v', Price : '0'},
                 appnames: [],
                 Itemtodelete: null,
                 keytodelete: null,
@@ -1028,8 +1029,12 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                 document.body.removeChild(el);
             },
             otherinfo(item) {
+               getinfo(item)
+              setTimeout(() => {
+                  this.infoapp = infoapp
                 this.infodialog = true
                 this.itemtoadd = item;
+              }, 200); 
             },
             getColor(qnt) {
                 if (qnt < 1) return 'red'

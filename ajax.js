@@ -4,10 +4,6 @@ http = new XMLHttpRequest();
 function tags(appid) {
     tagsapp = [];
 
-
-   
-  
-    var http = new XMLHttpRequest();
     var url = 'https://steamspy.com/api.php?request=appdetails&appid='+appid;
     // var params = "appid="+appid;
     http.open('GET', url);
@@ -39,3 +35,21 @@ function sendData(i, callback) {
     http.send('');
   
   }
+var infoapp;
+  function getinfo(item) {
+    tagsapp = [];
+
+    var url = 'https://steamspy.com/api.php?request=appdetails&appid='+item.appid;
+    // var params = "appid="+appid;
+    http.open('GET', url);
+    http.send()
+
+    http.onload = function() {
+      if (http.status == 200) {
+var obj = JSON.parse(http.responseText)
+console.log({Developer : obj.developer , Publisher : obj.publisher , Genre : obj.genre , Price : obj.price})
+infoapp = {Developer : obj.developer , Publisher : obj.publisher , Genre : obj.genre , Price : obj.price}
+
+      }
+    }
+}
