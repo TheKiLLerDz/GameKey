@@ -141,19 +141,31 @@
                                                         </template>
                                                         <span>Click to Edit Key</span>
                                                     </v-tooltip>
-
                                                 </td>
                                                 <td>
-                                                    <v-checkbox v-model="index.traded" hide-details></v-checkbox>
+                                                    <v-checkbox v-model="index.traded" hide-details></v-checkbox> Traded
+                                                </td>
+                                                <td v-if="index.traded">
+                                                    <v-text-field label="Traded With ?"></v-text-field>
                                                 </td>
                                                 <td>
-                                                    <v-text-field :disabled="index.traded == undefined || !index.traded" label="Traded"></v-text-field>
+                                                    <v-checkbox v-model="index.beta" hide-details
+                                                        @change="index.beta ? index.betadate=new Date().toISOString().slice(0, 10) : delete index.betadate"
+                                                        class="shrink mr-2 mt-0"></v-checkbox> Beta
                                                 </td>
-                                                <td>
-                                                    <v-checkbox hide-details class="shrink mr-2 mt-0"></v-checkbox>
-                                                </td>
-                                                <td>
-                                                    <v-text-field label="Date OR Sum"></v-text-field>
+                                                <td v-if="index.beta">
+                                                    <v-menu v-model="datepicker" :close-on-content-click="false"
+                                                        :nudge-right="40" lazy transition="scale-transition" offset-y
+                                                        full-width max-width="290px" min-width="290px">
+                                                        <template v-slot:activator="{ on }">
+                                                            <v-text-field v-model="index.betadate"
+                                                                label="Beta Ending Date" prepend-icon="event" readonly
+                                                                v-on="on"></v-text-field>
+                                                        </template>
+                                                        <v-date-picker v-model="index.betadate"
+                                                            @input="datepicker = false">
+                                                        </v-date-picker>
+                                                    </v-menu>
                                                 </td>
                                                 <td style="width:20%">
                                                     <v-tooltip top>
@@ -383,7 +395,8 @@
                 </v-card-actions>
             </v-card>
         </v-dialog>
-        <v-dialog v-model="infodialog" persistent max-width="40%">
+        <v-dialog v-model="infodialog" persistent max-width="40%" @keydown.esc="infodialog = false"
+            @keydown.enter="infodialog = false">
             <v-flex xs12>
                 <v-card class="white--text">
                     <v-img
@@ -438,7 +451,8 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                 </v-card>
             </v-flex>
         </v-dialog>
-        <v-dialog v-model="deletedialog" max-width="300" persistent>
+        <v-dialog v-model="deletedialog" max-width="300px" persistent @keydown.esc="deletedialog = false"
+            @keydown.enter="deleteItem(Itemtodelete)">
             <v-card>
                 <v-card-title class="headline">Delete this App?</v-card-title>
                 <v-card-text>
@@ -455,7 +469,8 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                 </v-card-actions>
             </v-card>
         </v-dialog>
-        <v-dialog v-model="deletekeydialog" max-width="300" persistent>
+        <v-dialog v-model="deletekeydialog" max-width="300" persistent @keydown.esc="deletekeydialog = false"
+            @keydown.enter="deletekey(keytodelete,Itemtodelete)">
             <v-card>
                 <v-card-title class="headline">Delete this Key?</v-card-title>
                 <v-card-text>
@@ -471,11 +486,22 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                 </v-card-actions>
             </v-card>
         </v-dialog>
-        <v-dialog v-model="importdialog" max-width="300" persistent>
+        <v-dialog v-model="importdialog" max-width="700px" scrollable persistent>
             <v-card>
                 <v-card-title class="headline">Import Keys</v-card-title>
                 <v-card-text>
-                    show data here </v-card-text>
+                    show data here
+                    <table>
+                        <tr v-for="(index,i) in platforms" :key="i">
+                            <td style="width : 70%">
+                                <v-text-field label="Name"></v-text-field>
+                            </td>
+                            <td style="width : 30%">
+                                <v-text-field label="Key"></v-text-field>
+                            </td>
+                        </tr>
+                    </table>
+                </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
                     <v-btn color="green darken-1" flat="flat" @click="hideimportdialog()">
@@ -648,6 +674,7 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                 Itemtodelete: null,
                 keytodelete: null,
                 deletedialog: false,
+                datepicker: false,
                 deletekeydialog: false,
                 editdialog: false,
                 infodialog: false,

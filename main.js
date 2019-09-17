@@ -49,7 +49,7 @@ const store = new Vuex.Store({
     allkeys: [],
     temp: {},
     tempimport: undefined,
-    import: false
+    import: true
   },
 })
 v = new Vue({
@@ -57,7 +57,8 @@ v = new Vue({
   router,
   data: ({
     App: {
-      version: '1.0'
+      version: '1.0',
+      year: '2019'
     },
     loading: false,
     theme: '',
