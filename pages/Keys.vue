@@ -150,7 +150,7 @@
                                                 </td>
                                                 <td>
                                                     <v-checkbox v-model="index.beta" hide-details
-                                                        @change="index.beta ? index.betadate=getTodaysdate() : delete index.betadate"
+                                                        @change="index.beta ? index.betadate=new Date().toISOString().slice(0, 10) : delete index.betadate"
                                                         class="shrink mr-2 mt-0"></v-checkbox> Beta
                                                 </td>
                                                 <td v-if="index.beta">
@@ -949,10 +949,6 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                             break;
                     }
                 }
-            },
-            getTodaysdate() {
-                var today = new Date()
-                return today.getFullYear() + '-' + today.getMonth() + '-' + today.getDate()
             },
             add(app) {
                 if (gettab(app.platform) == 1 && app.appid == '') {
