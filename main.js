@@ -49,7 +49,7 @@ const store = new Vuex.Store({
     allkeys: [],
     temp: {},
     tempimport: undefined,
-    import: true
+    import: false
   },
 })
 v = new Vue({
