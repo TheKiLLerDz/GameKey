@@ -134,7 +134,9 @@
                                                                 <template v-slot:input>
                                                                     <v-text-field v-model="index.key"
                                                                         :rules="[max25chars]" label="Edit" single-line
-                                                                        counter autofocus color="red" return-object>
+                                                                        counter autofocus color="red"
+                                                                        @input="index.key=GetKeyFormat(index.key)"
+                                                                        return-object>
                                                                     </v-text-field>
                                                                 </template>
                                                             </v-edit-dialog>
@@ -146,7 +148,9 @@
                                                     <v-checkbox v-model="index.traded" hide-details></v-checkbox> Traded
                                                 </td>
                                                 <td v-if="index.traded">
-                                                    <v-text-field label="Traded With ?"></v-text-field>
+                                                    <v-text-field v-model="index.tradedwith" label="Traded With ?"
+                                                        @input="index.tradedwith=index.tradedwith.toUpperCase()">
+                                                    </v-text-field>
                                                 </td>
                                                 <td>
                                                     <v-checkbox v-model="index.beta" hide-details
@@ -255,7 +259,8 @@
                                     </v-chip>
                                     <v-flex xs12 sm12 md12 v-for="(index,i) in editedItem.keys" :key="i">
                                         <v-text-field v-model="index.key" :label="'Key '+ parseInt(i+1)"
-                                            :rules="[max25chars]" color="red">
+                                            :rules="[max25chars]" color="red"
+                                            @input="index.key=GetKeyFormat(index.key)">
                                         </v-text-field>
                                     </v-flex>
                                 </tr>
@@ -340,7 +345,8 @@
                                         <div v-for="(index,i) in itemtoadd.keys.length" :key="i">
                                             <v-text-field placeholder="XXXX-XXXX-XXXX-XXXX"
                                                 v-model="itemtoadd.keys[i].key" :label="'Key '+parseInt(i+1)"
-                                                :rules="[max25chars]" color="red">
+                                                :rules="[max25chars]" color="red"
+                                                @input="itemtoadd.keys[i].key=GetKeyFormat(itemtoadd.keys[i].key)">
                                             </v-text-field>
                                         </div>
                                     </v-flex>
@@ -546,22 +552,6 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
             }
         },
         watch: {
-            'itemtoadd.keys': {
-                handler: function (after, before) {
-                    for (var i = 0; i < after.length; i++) {
-                        after[i].key = after[i].key.toUpperCase();
-                    }
-                },
-                deep: true
-            },
-            'editedItem.keys': {
-                handler: function (after, before) {
-                    for (var i = 0; i < after.length; i++) {
-                        after[i].key = after[i].key.toUpperCase();
-                    }
-                },
-                deep: true
-            },
             isAdding(val) {
                 if (val) {
                     setTimeout(() => (this.isAdding = false), 500)
@@ -669,7 +659,12 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                 fling: false,
                 tabs: null,
                 search: '',
-                infoapp : {Developer : 'v',Publisher : 'v' , Genre : 'v', Price : '0'},
+                infoapp: {
+                    Developer: 'v',
+                    Publisher: 'v',
+                    Genre: 'v',
+                    Price: '0'
+                },
                 appnames: [],
                 Itemtodelete: null,
                 keytodelete: null,
@@ -749,6 +744,12 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
             }
         },
         methods: {
+            GetKeyFormat(key) {
+                key = key.toUpperCase()
+                if (key.substring(key.lastIndexOf("-") + 1).length > 4)
+                    return key + '-'
+                else return key
+            },
             impport(Platform) {
                 impport(Platform);
             },
@@ -1056,12 +1057,12 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                 document.body.removeChild(el);
             },
             otherinfo(item) {
-               getinfo(item)
-              setTimeout(() => {
-                  this.infoapp = infoapp
-                this.infodialog = true
-                this.itemtoadd = item;
-              }, 200); 
+                getinfo(item)
+                setTimeout(() => {
+                    this.infoapp = infoapp
+                    this.infodialog = true
+                    this.itemtoadd = item;
+                }, 200);
             },
             getColor(qnt) {
                 if (qnt < 1) return 'red'
