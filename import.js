@@ -51,10 +51,10 @@ function impport(Platform) {
   })
   ////////
   if (path != undefined) {
- var indicSlash = path[0].lastIndexOf('\/');
- var extension = path[0].substring(indicSlash+1).split(".");
-console.log(extension)
-  extension[1] == 'txt'?importtxt(Platform,path[0]):importxls(Platform,path[0])
+    var indicSlash = path[0].lastIndexOf('\/');
+    var extension = path[0].substring(indicSlash + 1).split(".");
+    console.log(extension)
+    extension[1] == 'txt' ? importtxt(Platform, path[0]) : importxls(Platform, path[0])
   }
   // baseorxhr()
 }
@@ -142,98 +142,99 @@ function getindex(platform, name) {
   return platform.map(el => el.name).indexOf(name)
 }
 
-function importtxt(Platform,path) {
-    store.state.import = true;
-    const lineByLine = require('./readlines.js');
-    const liner = new lineByLine(path);
-    var linestr;
-    var index;
-    var word;
-    let line;
+function importtxt(Platform, path) {
+  store.state.import = true;
+  const lineByLine = require('./readlines.js');
+  const liner = new lineByLine(path);
+  var linestr;
+  var index;
+  var word;
+  let line;
 
-    while (line = liner.next()) {
-      linestr = line.toString('ascii');
-     filters(Platform,linestr)
+  while (line = liner.next()) {
+    linestr = line.toString('ascii');
+    filters(Platform, linestr)
   }
 
-  
-  }
 
-function filters(Platform,linestr) {
+}
+
+function filters(Platform, linestr) {
   let lineNumber = 0;
 
-    var platform;
-    var pushplatform;
-    switch (Platform) {
-      case 'Steam':
-        keys = PatternKeySteam(linestr);
-        platform = store.state.steam;
-        pushplatform = store.state.steamkey;
-        break;
-      case 'Origin':
-        keys = PatternKeyOrigin(linestr);
-        platform = store.state.origin;
-        pushplatform = store.state.originkey;
-        break;
-      case 'Uplay':
-        keys = PatternKeyUplay(linestr);
-        platform = store.state.uplay;
-        pushplatform = store.state.uplaykey;
-        break;
-    }
-    var obj = {
-      name: '',
-      keys: []
-    }
-    game = linestr;
-    if (keys !== null) {
-      for (var i = 0; i < keys.length; i++) {
-        game = game.replace(keys[i], '');
-        obj.keys.push({
-          key: keys[i]
-        })
-      }
-      obj.name = game.replace(/(\r\n|\n|\r)/gm, '').trim();
-      var item;
-      var index = getindex(pushplatform, obj.name)
-      if (index !== -1) {
-        item = pushplatform[index]
-      } else {
-        index = getindex(platform, obj.name)
-        if (index !== -1) {
-          item = JSON.parse(JSON.stringify(platform[index]));
-          delete item.keys;
-          item.platform = Platform;
-        }
-      }
-      if (index == -1)
-        console.log('game not found')
-      else {
-        for (var i = 0; i < keys.length; i++) {
-          addkey(gettab(Platform), getappid(item), keys[i])
-          if (item.keys == undefined) {
-            item.keys = [{
-              key: keys[i]
-            }];
-          } else {
-            item.keys.push({
-              key: keys[i]
-            });
-          }
-        }
-        getindex(pushplatform, obj.name) == -1 ? pushplatform.push(item) : console.log("game already exists")
-      }
-    } else console.log('key not found')
-    lineNumber++;
+  var platform;
+  var pushplatform;
+  switch (Platform) {
+    case 'Steam':
+      keys = PatternKeySteam(linestr);
+      platform = store.state.steam;
+      pushplatform = store.state.steamkey;
+      break;
+    case 'Origin':
+      keys = PatternKeyOrigin(linestr);
+      platform = store.state.origin;
+      pushplatform = store.state.originkey;
+      break;
+    case 'Uplay':
+      keys = PatternKeyUplay(linestr);
+      platform = store.state.uplay;
+      pushplatform = store.state.uplaykey;
+      break;
   }
-function importxls(Platform,path) {
+  var obj = {
+    name: '',
+    keys: []
+  }
+  game = linestr;
+  if (keys !== null) {
+    for (var i = 0; i < keys.length; i++) {
+      game = game.replace(keys[i], '');
+      obj.keys.push({
+        key: keys[i]
+      })
+    }
+    obj.name = game.replace(/(\r\n|\n|\r)/gm, '').trim();
+    var item;
+    var index = getindex(pushplatform, obj.name)
+    if (index !== -1) {
+      item = pushplatform[index]
+    } else {
+      index = getindex(platform, obj.name)
+      if (index !== -1) {
+        item = JSON.parse(JSON.stringify(platform[index]));
+        delete item.keys;
+        item.platform = Platform;
+      }
+    }
+    if (index == -1)
+      console.log('game not found')
+    else {
+      for (var i = 0; i < keys.length; i++) {
+        addkey(gettab(Platform), getappid(item), keys[i])
+        if (item.keys == undefined) {
+          item.keys = [{
+            key: keys[i]
+          }];
+        } else {
+          item.keys.push({
+            key: keys[i]
+          });
+        }
+      }
+      getindex(pushplatform, obj.name) == -1 ? pushplatform.push(item) : console.log("game already exists")
+    }
+  } else console.log('key not found')
+  lineNumber++;
+}
+
+function importxls(Platform, path) {
   const readXlsxFile = require('read-excel-file/node');
 
-readXlsxFile(path).then((rows) => {
-rows.forEach(el => {
-  filters(Platform,el.join(' '))
-})
-})
+  readXlsxFile(path).then((rows) => {
+    rows.forEach(el => {
+      filters(Platform, el.join(' '))
+    })
+  })
 
 }
 
@@ -243,17 +244,32 @@ rows.forEach(el => {
 
 
 function exportxlxs(platform) {
-  var json2xls = require('json2xls');
-  var fs = require('fs')
-  var appskey = []
-platform.forEach(app => {
-  app.keys.forEach(key => {
-    var obj = {name : app.name , key : key.key}
-    appskey.push(obj)
-    console.log(appskey)
+  const {
+    dialog
+  } = require('electron').remote
+  var path = dialog.showSaveDialog({
+    properties: ['saveFile'],
+    title: "Choose Export Path",
+    filters: [{
+      name: 'Excel File',
+      extensions: ['xlsx']
+    }]
   })
-})
-  var xls = json2xls(appskey, {});
-  
-  fs.writeFileSync('data.xlsx', xls, 'binary');  
+  if (path != undefined) {
+    var json2xls = require('json2xls');
+    var fs = require('fs')
+    var appskey = []
+    platform.forEach(app => {
+      app.keys.forEach(key => {
+        var obj = {
+          name: app.name,
+          key: key.key
+        }
+        appskey.push(obj)
+      })
+    })
+
+    fs.writeFileSync(path, json2xls(appskey, {}), 'binary');
+    return true
+  } else return false
 }

@@ -407,17 +407,19 @@
                 <v-card class="white--text">
                     <v-img
                         :src="itemtoadd.platform == 'Steam' ? 'https://steamcdn-a.akamaihd.net/steam/apps/' + itemtoadd.appid + '/header.jpg' : itemtoadd.platform == 'Uplay' ? 'https://transform.dis.commercecloud.salesforce.com/transform/ABBS_PRD/on/demandware.static/-/Sites-masterCatalog/default/images/large/'+itemtoadd.appid+'.jpg' : 'apps/undefined.gif'"
-                        onerror="this.src='apps/undefined.gif'" height="410px">
+                        onerror="this.src='apps/undefined.gif'" transition="fade-transition"
+                        lazy-src="apps/undefined.gif" height="410px">
                         <div style='background: rgb(0,0,0);
 background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rgba(0,0,0,1) 100%);'>
                             <v-layout row>
-                                <v-flex xs5>
+                                <v-flex xs5 lg8>
                                     <v-img
                                         :src="itemtoadd.platform == 'Steam' ? 'https://steamcdn-a.akamaihd.net/steam/apps/' + itemtoadd.appid + '/header.jpg' : itemtoadd.platform == 'Uplay' ? 'https://transform.dis.commercecloud.salesforce.com/transform/ABBS_PRD/on/demandware.static/-/Sites-masterCatalog/default/images/large/'+itemtoadd.appid+'.jpg' : 'apps/undefined.gif'"
-                                        onerror="this.src='apps/undefined.gif'" height="350px" contain>
+                                        onerror="this.src='apps/undefined.gif'" transition="fade-transition"
+                                        lazy-src="apps/undefined.gif" height="350px" contain>
                                     </v-img>
                                 </v-flex>
-                                <v-flex xs7>
+                                <v-flex xs7 lg4>
                                     <v-card-title primary-title>
                                         <div height="50px">
                                             <div class="headline">{{itemtoadd.name}}</div>
@@ -434,12 +436,15 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                                                     mdi-alert-circle
                                                 </v-icon> <span>{{itemtoadd.platform}}</span>
                                             </div>
-                                            <div>Developer : {{infoapp.Developer}} </div>
-                                            <div>Publisher : {{infoapp.Publisher}} </div>
-                                            <div>
-                                                Price : {{infoapp.Price}}
+                                            <div v-if="itemtoadd.platform=='Steam'">
+                                                <div>Developer : {{infoapp.Developer}} </div>
+                                                <div>Publisher : {{infoapp.Publisher}} </div>
+                                                <div>
+                                                    Price : {{infoapp.Price}} $
+                                                </div>
+                                                <div>Genre : {{infoapp.Genre}}</div>
                                             </div>
-                                            <div>Genre : {{infoapp.Genre}}</div>
+                                            <h3 v-else>Info not Available</h3>
                                         </div>
                                     </v-card-title>
                                 </v-flex>
@@ -537,7 +542,7 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                 <span class="top">Add Key</span>
             </v-tooltip>
             <v-tooltip top>
-                <v-btn slot="activator" fab dark small color="green">
+                <v-btn slot="activator" fab dark small color="green" @click='exportxlxs(apps)'>
                     <v-icon>
                         mdi-export
                     </v-icon>
@@ -676,9 +681,9 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                 tabs: null,
                 search: '',
                 infoapp: {
-                    Developer: 'v',
-                    Publisher: 'v',
-                    Genre: 'v',
+                    Developer: 'Undefined',
+                    Publisher: 'Undefined',
+                    Genre: '',
                     Price: '0'
                 },
                 appnames: [],
@@ -767,7 +772,13 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                 else return key
             },
             impport(Platform) {
-                impport(Platform);
+                impport(Platform)
+            },
+            exportxlxs(apps) {
+                if (exportxlxs(apps)) {
+                    this.msg.text = "Apps Exported successfully";
+                    this.hasSaved = true;
+                }
             },
             gettags(item) {
                 index = store.state.steamkey.map(e => e.appid).indexOf(getappid(item));
@@ -1074,11 +1085,12 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
             },
             otherinfo(item) {
                 getinfo(item)
-                setTimeout(() => {
-                    this.infoapp = infoapp
-                    this.infodialog = true
-                    this.itemtoadd = item;
-                }, 200);
+                if (item.platform == 'Steam')
+                    setTimeout(() => {
+                        this.infoapp = infoapp
+                    }, 200);
+                this.itemtoadd = item;
+                this.infodialog = true
             },
             getColor(qnt) {
                 if (qnt < 1) return 'red'

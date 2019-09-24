@@ -28,8 +28,8 @@
         </div>
     </div>
     <v-app v-cloak id="app" :dark="isDark" :class="theme">
-        <v-toolbar dense color="blue darken-3" tabs app clipped-left>
-            <v-toolbar-side-icon><v-img src='fav.png'></v-toolbar-side-icon>
+        <v-toolbar dense color="blue darken-3" app clipped-left>
+            <v-icon></v-icon>
             <v-toolbar-title style="width: 400px" class="ml-0 pl-3">
                 <h4 class="hidden-sm-and-down">GameKey</h4>
             </v-toolbar-title>
@@ -43,7 +43,8 @@
                 <template v-slot:item="data">
                     <v-list-tile-avatar @click="$router.push('keys/'+data.item.name)">
                         <img style="height: 90%;width: 90%;background: rgb(0,0,0);
-                        background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rgba(0,0,0,0.5382528011204482) 100%);" :src="'https://steamcdn-a.akamaihd.net/steam/apps/'+data.item.appid+'/header.jpg'"
+                        background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rgba(0,0,0,0.5) 100%);"
+                            :src="'https://steamcdn-a.akamaihd.net/steam/apps/'+data.item.appid+'/header.jpg'"
                             onerror="this.src='apps/undefined.gif'">
                     </v-list-tile-avatar>
                     <v-list-tile-content @click="$router.push('keys/'+data.item.name)">
@@ -151,7 +152,9 @@
                         <v-container grid-list-xl fluid>
                             <v-layout wrap>
                                 <v-flex>
-                                    <v-switch color='black' v-model="isDark" :label="isDark? 'Dark Mode is Switched : On' : 'Dark Mode is Switched : Off'"></v-switch>
+                                    <v-switch color='black' v-model="isDark"
+                                        :label="isDark? 'Dark Mode is Switched : On' : 'Dark Mode is Switched : Off'">
+                                    </v-switch>
                                 </v-flex>
                                 <v-flex xs12>
                                     <div class="text-xs-center body-2 text-uppercase sidebar-filter">Others Themes</div>
