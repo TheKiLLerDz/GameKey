@@ -135,7 +135,7 @@
                                                                     <v-text-field v-model="index.key"
                                                                         :rules="[max25chars]" label="Edit" single-line
                                                                         counter autofocus color="red"
-                                                                        @input="index.key=GetKeyFormat(index.key)"
+                                                                        @input="index.key=GetKeyFormat(props.item.platform,index.key)"
                                                                         return-object>
                                                                     </v-text-field>
                                                                 </template>
@@ -145,17 +145,25 @@
                                                     </v-tooltip>
                                                 </td>
                                                 <td>
-                                                    <v-checkbox v-model="index.traded" hide-details></v-checkbox> Traded
+                                                    <v-checkbox v-model="index.traded"
+                                                        @change="index.traded ? index.tradedwith='' : delete index.tradedwith"
+                                                        hide-details><template v-slot:label>
+                                                            <div :class="index.traded ? 'black--text' : 'gray--text'">
+                                                                Traded
+                                                        </template></v-checkbox>
                                                 </td>
                                                 <td v-if="index.traded">
                                                     <v-text-field v-model="index.tradedwith" label="Traded With ?"
-                                                        @input="index.tradedwith=index.tradedwith.toUpperCase()">
+                                                        @change="KeyinfoEdit(props.item,index.key,index.tradedwith)">
                                                     </v-text-field>
                                                 </td>
                                                 <td>
                                                     <v-checkbox v-model="index.beta" hide-details
                                                         @change="index.beta ? index.betadate=new Date().toISOString().slice(0, 10) : delete index.betadate"
-                                                        class="shrink mr-2 mt-0"></v-checkbox> Beta
+                                                        class="shrink mr-2 mt-0"><template v-slot:label>
+                                                            <div :class="index.beta ? 'black--text' : 'gray--text'">
+                                                                Beta
+                                                        </template></v-checkbox>
                                                 </td>
                                                 <td v-if="index.beta">
                                                     <v-menu v-model="datepicker" :close-on-content-click="false"
@@ -260,7 +268,7 @@
                                     <v-flex xs12 sm12 md12 v-for="(index,i) in editedItem.keys" :key="i">
                                         <v-text-field v-model="index.key" :label="'Key '+ parseInt(i+1)"
                                             :rules="[max25chars]" color="red"
-                                            @input="index.key=GetKeyFormat(index.key)">
+                                            @input="index.key=GetKeyFormat(editedItem.platform,index.key)">
                                         </v-text-field>
                                     </v-flex>
                                 </tr>
@@ -343,10 +351,11 @@
                                     </v-chip>
                                     <v-flex xs12 sm12 md12>
                                         <div v-for="(index,i) in itemtoadd.keys.length" :key="i">
-                                            <v-text-field placeholder="XXXX-XXXX-XXXX-XXXX"
+                                            <v-text-field
+                                                :placeholder="itemtoadd.platform == 'Steam' ? 'XXXXX-XXXXX-XXXXX' : itemtoadd.platform == 'Origin' ? 'XXXX-XXXX-XXXX-XXXX' : 'XXXX-XXXX-XXXX-XXXX-XXXX'"
                                                 v-model="itemtoadd.keys[i].key" :label="'Key '+parseInt(i+1)"
                                                 :rules="[max25chars]" color="red"
-                                                @input="itemtoadd.keys[i].key=GetKeyFormat(itemtoadd.keys[i].key)">
+                                                @input="itemtoadd.keys[i].key=GetKeyFormat(itemtoadd.platform,itemtoadd.keys[i].key)">
                                             </v-text-field>
                                         </div>
                                     </v-flex>
@@ -765,11 +774,24 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
             }
         },
         methods: {
-            GetKeyFormat(key) {
-                key = key.toUpperCase()
-                if (key.substring(key.lastIndexOf("-") + 1).length > 4)
-                    return key + '-'
-                else return key
+            GetKeyFormat(platform, key) {
+                switch (platform) {
+                    case 'Steam':
+                        key = key.toUpperCase().replace(/-/g, '');
+                        return key.match(/(.){1,5}/g).join("-");
+                        break;
+                    case 'Origin':
+                        key = key.toUpperCase().replace(/-/g, '');
+                        return key.match(/(.){1,4}/g).join("-");
+                        break;
+                    case 'Uplay':
+                        key = key.toUpperCase().replace(/-/g, '');
+                        return key.match(/(.){1,4}/g).join("-");
+                        break;
+                    default:
+                        return key.toUpperCase();
+                }
+
             },
             impport(Platform) {
                 impport(Platform)
@@ -844,7 +866,12 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                         else item.appid = store.state.others[index].appid;
                         break;
                 }
-
+            },
+            KeyinfoEdit(item, key, user, betadate) {
+                addtradeorused(gettab(item.platform), getappid(item), key, {
+                    tradedwith: user,
+                    beta: betadate
+                })
 
             },
             PlatformEdited(platform) {
