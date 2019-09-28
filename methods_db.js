@@ -96,34 +96,36 @@ function addtradeorbeta(t, appid, key, tradedorbeta) {
 
 function addkey(t, appidorname, key) {
 	if (typeof appidorname != "object") {
-		existorno(t,appidorname,key)
+		existorno(t, appidorname, key)
 		if (!exist) {
-		db.tables[t].where("appid").equals(appidorname).modify(game => {
+			db.tables[t].where("appid").equals(appidorname).modify(game => {
 
-			if (game.keys == undefined) {
-				game.keys = [{
-					'key': key
-				}];
-			} else {
-				game.keys.push({
-					'key': key
-				});
-			}
-		}); }
+				if (game.keys == undefined) {
+					game.keys = [{
+						'key': key
+					}];
+				} else {
+					game.keys.push({
+						'key': key
+					});
+				}
+			});
+		}
 	} else {
 		game = store.state.others.filter(el => {
 			return el.name == appidorname.name
 		})
 		if (game.length == 0) {
-			if (!existorno(t,appidorname,key)) {
+			if (!existorno(t, appidorname, key)) {
 				addappkey(t, appidorname, key)
 
-			store.state.others.push({
-				appid: appidorname.appid,
-				name: appidorname.name,
-				platform: 'Other'
-			})
-		}} else {
+				store.state.others.push({
+					appid: appidorname.appid,
+					name: appidorname.name,
+					platform: 'Other'
+				})
+			}
+		} else {
 			addkey(t, game[0].appid, key)
 		}
 
@@ -241,21 +243,22 @@ function testappname(t, i) {
 
 }
 var exist
+
 function existorno(t, appid, key) {
 
 	db.tables[t].where("appid").equals(appid).each(game => {
-		
 
-	var i = 0;
-	 exist = false;
-		while ( i < game.keys.length & !exist & game.keys != undefined ) {
+
+		var i = 0;
+		exist = false;
+		while (i < game.keys.length & !exist & game.keys != undefined) {
 			if (game.keys[i].key == key) {
 
 				exist = true
 			}
 			i++
 		}
-		
+
 	});
-	
+
 }
