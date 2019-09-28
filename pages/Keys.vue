@@ -148,36 +148,34 @@
                                                     <v-checkbox v-model="index.traded"
                                                         @change="index.traded ? index.tradedwith='' : delete index.tradedwith"
                                                         hide-details><template v-slot:label>
-                                                            <div :class="index.traded ? 'black--text' : 'gray--text'">
+                                                            <v-text-field v-if="index.traded" v-model="index.tradedwith" label="Traded With ?"
+                                                        @change="KeyinfoEdit(props.item,index.key,index.tradedwith)" @click.stop.prevent="doNothing()"> </v-text-field>
+                                                            <div v-else :class="index.traded ? 'black--text' : 'gray--text'">
                                                                 Traded
+                                                            </div>
+                                                            
                                                         </template></v-checkbox>
-                                                </td>
-                                                <td v-if="index.traded">
-                                                    <v-text-field v-model="index.tradedwith" label="Traded With ?"
-                                                        @change="KeyinfoEdit(props.item,index.key,index.tradedwith)">
-                                                    </v-text-field>
                                                 </td>
                                                 <td>
                                                     <v-checkbox v-model="index.beta" hide-details
                                                         @change="index.beta ? index.betadate=new Date().toISOString().slice(0, 10) : delete index.betadate"
                                                         class="shrink mr-2 mt-0"><template v-slot:label>
-                                                            <div :class="index.beta ? 'black--text' : 'gray--text'">
-                                                                Beta
-                                                        </template></v-checkbox>
-                                                </td>
-                                                <td v-if="index.beta">
-                                                    <v-menu v-model="datepicker" :close-on-content-click="false"
-                                                        :nudge-right="40" lazy transition="scale-transition" offset-y
+                                                            <v-menu v-if="index.beta" v-model="datepicker" :close-on-content-click="false"
+                                                        :nudge-right="90" lazy transition="scale-transition" offset-y
                                                         full-width max-width="290px" min-width="290px">
                                                         <template v-slot:activator="{ on }">
-                                                            <v-text-field v-model="index.betadate"
+                                                            <v-text-field v-model="index.betadate" @click.stop.prevent="doNothing()"
                                                                 label="Beta Ending Date" prepend-icon="event" readonly
                                                                 v-on="on"></v-text-field>
                                                         </template>
-                                                        <v-date-picker v-model="index.betadate"
+                                                        <v-date-picker v-model="index.betadate" @click.stop.prevent="doNothing()"
                                                             @input="datepicker = false">
                                                         </v-date-picker>
                                                     </v-menu>
+                                                            <div v-else :class="index.beta ? 'black--text' : 'gray--text'">
+                                                                Beta
+                                                            </div>
+                                                        </template></v-checkbox>
                                                 </td>
                                                 <td style="width:20%">
                                                     <v-tooltip top>
@@ -890,6 +888,7 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                         break;
                 }
             },
+            doNothing(){},
             removetag(item, tag) {
                 item.tags.splice(item.tags.indexOf(tag), 1)
             },

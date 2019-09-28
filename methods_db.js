@@ -72,21 +72,21 @@ function getothersbdd() {
 	})
 }
 
-function deltradeorused(t, appid, key, tradeorused) {
+function deltradeorbeta(t, appid, key, tradedorbeta) {
 	db.tables[t].where('appid').equals(appid).modify(game => {
 		for (var i = 0; i < game.keys.length; i++) {
 			if (game.keys[i].key == key) {
-				tradeorused == 'trade' ? delete game.keys[i].trade : delete game.keys[i].used
+				tradedorbeta == 'beta' ? delete game.keys[i].beta : delete game.keys[i].tradedwith
 			}
 		}
 	})
 }
 
-function addtradeorused(t, appid, key, tradeorused) {
+function addtradeorbeta(t, appid, key, tradedorbeta) {
 	db.tables[t].where('appid').equals(appid).modify(game => {
 		for (var i = 0; i < game.keys.length; i++) {
 			if (game.keys[i].key == key) {
-				game.keys[i] = Object.assign(game.keys[i], tradeorused);
+				game.keys[i] = Object.assign(game.keys[i], tradedorbeta);
 			}
 
 		}
