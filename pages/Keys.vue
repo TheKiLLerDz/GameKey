@@ -884,7 +884,6 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                 })
             },
             BetaKeyEdit(item, key, betadate) {
-                console.log("clicked beta editi")
                 var index = item.keys.map(e => e.key).indexOf(key)
                 item.keys[index].beta = {
                     value: true,
