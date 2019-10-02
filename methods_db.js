@@ -76,7 +76,7 @@ function deltradeorbeta(t, appid, key, tradedorbeta) {
 	db.tables[t].where('appid').equals(appid).modify(game => {
 		for (var i = 0; i < game.keys.length; i++) {
 			if (game.keys[i].key == key) {
-				tradedorbeta == 'beta' ? delete game.keys[i].beta : delete game.keys[i].tradedwith
+				tradedorbeta == 'beta' ? delete game.keys[i].beta : delete game.keys[i].trade
 			}
 		}
 	})
@@ -88,10 +88,8 @@ function addtradeorbeta(t, appid, key, tradedorbeta) {
 			if (game.keys[i].key == key) {
 				game.keys[i] = Object.assign(game.keys[i], tradedorbeta);
 			}
-
 		}
 	})
-
 }
 
 function addkey(t, appidorname, key) {
