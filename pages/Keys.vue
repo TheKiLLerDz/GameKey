@@ -55,11 +55,10 @@
                                     </v-icon>
                                 </td>
                                 <td @click="props.expanded = !props.expanded">
-                                    <v-chip :color="getColor(props.item.keys.reduce(function (length, key) {
-                                        if (key.trade != undefined && key.trade.value)
-                return length
-                else return length + 1
-            }, 0))" dark>
+                                    <v-chip
+                                        :color="getColor(props.item.keys.reduce(function (length, key) {
+                                        if (key.trade != undefined && key.trade.value) return length; else return length + 1 }, 0))"
+                                        dark>
                                         {{props.item.keys.length}}</v-chip>
                                 </td>
                                 <td>
@@ -96,10 +95,8 @@
                             <v-card flat>
                                 <v-card-text>
                                     <v-alert value="true" :color="getColor(props.item.keys.reduce(function (length, key) {
-                                        if (key.trade != undefined && key.trade.value)
-                return length
-                else return length + 1
-            }, 0))" outline>
+                                        if (key.trade && key.trade.value) return length; else return length + 1 }, 0))"
+                                        outline>
                                         <!-- start !--
                                         <v-flex xs12 sm6>
                                             <v-card>
@@ -1156,12 +1153,12 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                 document.body.removeChild(el);
             },
             otherinfo(item) {
-                getinfo(item)
-                if (item.platform == 'Steam')
-                    setTimeout(() => {
-                        this.infoapp = infoapp
-                    }, 200);
                 this.itemtoadd = item;
+                if (item.platform == 'Steam')
+                    getinfo(item)
+                setTimeout(() => {
+                    this.infoapp = infoapp
+                }, 200);
                 this.infodialog = true
             },
             getColor(qnt) {
