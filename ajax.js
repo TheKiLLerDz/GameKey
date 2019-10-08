@@ -53,3 +53,11 @@ infoapp = {Developer : obj.developer , Publisher : obj.publisher , Genre : obj.g
       }
     }
 }
+
+function getnotification(oldversion) {
+  
+  var xhr = new window.XMLHttpRequest()
+  xhr.open('POST', 'http://localhost:3000/messages', true)
+  xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8')
+  xhr.send(JSON.stringify(oldversion))
+}
