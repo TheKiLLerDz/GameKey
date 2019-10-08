@@ -35,7 +35,12 @@ function sendData(i, callback) {
     http.send('');
   
   }
-var infoapp;
+var infoapp={
+  Developer: 'Undefined',
+  Publisher: 'Undefined',
+  Genre: '',
+  Price: '0'
+};
   function getinfo(item) {
     tagsapp = [];
 
@@ -47,8 +52,8 @@ var infoapp;
     http.onload = function() {
       if (http.status == 200) {
 var obj = JSON.parse(http.responseText)
-console.log({Developer : obj.developer , Publisher : obj.publisher , Genre : obj.genre , Price : obj.price})
-infoapp = {Developer : obj.developer , Publisher : obj.publisher , Genre : obj.genre , Price : obj.price}
+console.log({Developer : obj.developer , Publisher : obj.publisher , Genre : obj.genre , Price : obj.price/100})
+infoapp = {Developer : obj.developer , Publisher : obj.publisher , Genre : obj.genre , Price : obj.price/100}
 
       }
     }

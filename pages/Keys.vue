@@ -55,7 +55,11 @@
                                     </v-icon>
                                 </td>
                                 <td @click="props.expanded = !props.expanded">
-                                    <v-chip :color="getColor(props.item.keys.length)" dark>
+                                    <v-chip :color="getColor(props.item.keys.reduce(function (length, key) {
+                                        if (key.trade != undefined && key.trade.value)
+                return length
+                else return length + 1
+            }, 0))" dark>
                                         {{props.item.keys.length}}</v-chip>
                                 </td>
                                 <td>
@@ -91,7 +95,11 @@
                         <template v-slot:expand="props">
                             <v-card flat>
                                 <v-card-text>
-                                    <v-alert value="true" :color="getColor(props.item.keys.length)" outline>
+                                    <v-alert value="true" :color="getColor(props.item.keys.reduce(function (length, key) {
+                                        if (key.trade != undefined && key.trade.value)
+                return length
+                else return length + 1
+            }, 0))" outline>
                                         <!-- start !--
                                         <v-flex xs12 sm6>
                                             <v-card>
@@ -128,7 +136,7 @@
                                                                 color="red" @save="edit_key(props.item,i)">
                                                                 <v-chip text-color="white"
                                                                     @click="Keytochange=index.key"
-                                                                    :color="getColor(props.item.keys.length)">
+                                                                    :color="index.trade && index.trade.value ? 'red': 'blue'">
                                                                     {{ index.key }}
                                                                 </v-chip>
                                                                 <template v-slot:input>
@@ -145,9 +153,8 @@
                                                     </v-tooltip>
                                                 </td>
                                                 <td>
-                                                    <v-checkbox v-if="index.trade != undefined"
-                                                        v-model="index.trade.value"
-                                                        @change="index.trade.value ? '' : deletetrade(props.item,index.key)"
+                                                    <v-checkbox v-if="index.trade" v-model="index.trade.value"
+                                                        @change="if (index.trade.value!=undefined && index.trade.value) TradeKeyEdit(props.item,index.key,''); else deletetrade(props.item,index);"
                                                         hide-details><template v-slot:label>
                                                             <v-text-field v-if="index.trade.value"
                                                                 v-model="index.trade.user" label="Traded With ?"
@@ -155,14 +162,15 @@
                                                                 @click.stop.prevent="doNothing()"> </v-text-field>
                                                             <div v-else>Traded</div>
                                                         </template></v-checkbox>
-                                                    <v-checkbox v-else label="Traded" v-model="index.tradevalue"
-                                                        @change="index.trade={value:true,user:''}; delete index.tradevalue"
-                                                        hide-details></v-checkbox>
+                                                    <v-checkbox v-else v-model="index.tradevalue" false-value="false"
+                                                        true-value="true"
+                                                        @change="TradeKeyEdit(props.item,index.key,'');index.trade={value:true,user:''};delete index.tradevalue"
+                                                        hide-details label="Traded"></v-checkbox>
                                                 </td>
                                                 <td>
-                                                    <v-checkbox v-if="index.beta != undefined"
-                                                        v-model="index.beta.value" hide-details
-                                                        @change="index.beta.value ? BetaKeyEdit(props.item,index.key,new Date().toISOString().slice(0, 10)) : deletebeta(props.item,index.key)"
+                                                    <v-checkbox v-if="index.beta" v-model="index.beta.value"
+                                                        hide-details
+                                                        @change="index.beta.value ? BetaKeyEdit(props.item,index,new Date().toISOString().slice(0, 10)) : deletebeta(props.item,index)"
                                                         class="shrink mr-2 mt-0"><template v-slot:label>
                                                             <v-menu v-if="index.beta.value" v-model="index.datepicker"
                                                                 :close-on-content-click="false" :nudge-right="90" lazy
@@ -176,16 +184,15 @@
                                                                 </template>
                                                                 <v-date-picker v-model="index.beta.enddate"
                                                                     @click.stop.prevent="doNothing()"
-                                                                    @input="BetaKeyEdit(props.item,index.key,index.beta.enddate);index.datepicker = false">
+                                                                    @input="BetaKeyEdit(props.item,index,index.beta.enddate);index.datepicker = false">
                                                                 </v-date-picker>
                                                             </v-menu>
-                                                            <div v-else
-                                                                :class="index.beta ? 'black--text' : 'gray--text'">
+                                                            <div v-else>
                                                                 Beta
                                                             </div>
                                                         </template></v-checkbox>
                                                     <v-checkbox v-else label="Beta" v-model="index.betavalue"
-                                                        @change="BetaKeyEdit(props.item,index.key,new Date().toISOString().slice(0, 10));delete index.betavalue"
+                                                        @change="BetaKeyEdit(props.item,index,new Date().toISOString().slice(0, 10));delete index.betavalue"
                                                         hide-details></v-checkbox>
                                                 </td>
                                                 <td style="width:20%">
@@ -471,7 +478,12 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                             <v-card-actions class="pa-3">
                                 <v-btn> More </v-btn>
                                 <v-spacer></v-spacer>
-                                <v-btn color="blue darken-1" flat round _click="close" @click="infodialog=!infodialog">
+                                <v-btn color="blue darken-1" flat round _click="close" @click="this.infoapp= {
+                    Developer: 'Undefined',
+                    Publisher: 'Undefined',
+                    Genre: '',
+                    Price: '0'
+                };infodialog=!infodialog">
                                     Ok
                                 </v-btn>
                             </v-card-actions>
@@ -883,30 +895,28 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                     }
                 })
             },
-            BetaKeyEdit(item, key, betadate) {
-                var index = item.keys.map(e => e.key).indexOf(key)
-                item.keys[index].beta = {
+            BetaKeyEdit(item, index, betadate) {
+                index.beta = {
                     value: true,
                     enddate: betadate
                 }
-                addtradeorbeta(gettab(item.platform), getappid(item), key, {
+                addtradeorbeta(gettab(item.platform), getappid(item), index.key, {
                     beta: {
                         value: true,
                         enddate: betadate
                     }
                 })
             },
-            deletetrade(item, key) {
-                var index = item.keys.map(e => e.key).indexOf(key)
-                deltradeorbeta(gettab(item.platform), getappid(item), key, "trade")
-                item.keys[index].trade.value = false
-                item.keys[index].trade.user = ''
+            deletetrade(item, index) {
+                deltradeorbeta(gettab(item.platform), getappid(item), index.key, "trade");
+                index.trade.value = false;
+                index.trade.user = '';
+                index.tradevalue = false;
             },
-            deletebeta(item, key) {
-                var index = item.keys.map(e => e.key).indexOf(key)
-                deltradeorbeta(gettab(item.platform), getappid(item), key, "beta")
-                item.keys[index].beta.value = false
-                item.keys[index].beta.enddate = ''
+            deletebeta(item, index) {
+                deltradeorbeta(gettab(item.platform), getappid(item), index.key, "beta")
+                index.beta.value = false
+                index.beta.enddate = ''
             },
             PlatformEdited(platform) {
                 switch (platform) {
