@@ -44,7 +44,7 @@
                     <v-list-tile-avatar @click="$router.push('keys/'+data.item.name)">
                         <img style="height: 90%;width: 90%;background: rgb(0,0,0);
                         background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rgba(0,0,0,0.5) 100%);"
-                            :src="'https://steamcdn-a.akamaihd.net/steam/apps/'+data.item.appid+'/header.jpg'"
+                            :src="data.item.platform == 'Steam' ? 'https://steamcdn-a.akamaihd.net/steam/apps/' + data.item.appid + '/header.jpg' : data.item.platform == 'Uplay' ? 'https://transform.dis.commercecloud.salesforce.com/transform/ABBS_PRD/on/demandware.static/-/Sites-masterCatalog/default/images/large/'+data.item.appid+'.jpg?sw=500&sh=200&sm=cut' : 'apps/undefined.gif'"
                             onerror="this.src='apps/undefined.gif'">
                     </v-list-tile-avatar>
                     <v-list-tile-content @click="$router.push('keys/'+data.item.name)">
@@ -55,7 +55,8 @@
                 <template v-slot:selection="data">
                     <v-chip :selected="selected">
                         <v-avatar>
-                            <img :src="'https://steamcdn-a.akamaihd.net/steam/apps/'+data.item.appid+'/header.jpg'">
+                            <img
+                                :src="data.item.platform == 'Steam' ? 'https://steamcdn-a.akamaihd.net/steam/apps/' + data.item.appid + '/header.jpg' : data.item.platform == 'Uplay' ? 'https://transform.dis.commercecloud.salesforce.com/transform/ABBS_PRD/on/demandware.static/-/Sites-masterCatalog/default/images/large/'+data.item.appid+'.jpg?sw=500&sh=200&sm=cut' : 'apps/undefined.gif'">
                         </v-avatar>
                         {{ data.item.name }}
                     </v-chip>
