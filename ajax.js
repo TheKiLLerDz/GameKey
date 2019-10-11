@@ -61,8 +61,27 @@ infoapp = {Developer : obj.developer , Publisher : obj.publisher , Genre : obj.g
 
 function getnotification(oldversion) {
   
-  var xhr = new window.XMLHttpRequest()
-  xhr.open('POST', 'http://localhost:3000/messages', true)
-  xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8')
-  xhr.send(JSON.stringify(oldversion))
+  http.open('POST', 'http://localhost:3000/notification', true)
+  http.setRequestHeader('Content-Type', 'application/json;charset=UTF-8')
+  http.send(JSON.stringify(oldversion))
+
+  http.onload = function() {
+    if (http.status == 200) {
+var obj = JSON.parse(http.response)
+console.log(obj)
+    }
+  }
+}
+
+function updateDB(olversion) {
+  http.open('POST', 'http://localhost:3000/updatedb', true)
+  http.setRequestHeader('Content-Type', 'application/json;charset=UTF-8')
+  http.send(JSON.stringify(oldversion))
+
+  http.onload = function() {
+    if (http.status == 200) {
+var obj = JSON.parse(http.response)
+console.log(obj )
+    }
+  }
 }
