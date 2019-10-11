@@ -28,83 +28,97 @@
         </div>
     </div>
     <v-app v-cloak id="app" :dark="isDark" :class="theme">
-        <v-toolbar dense color="blue darken-3" app clipped-left>
-            <v-icon></v-icon>
-            <v-toolbar-title style="width: 400px" class="ml-0 pl-3">
-                <h4 class="hidden-sm-and-down">GameKey</h4>
-            </v-toolbar-title>
-            <v-autocomplete v-if="$route.path=='/'" :loading="loading" :items="this.games" solo dense label="Search"
-                class="v-text-field--rounded" item-text="name" item-value="appid" :filter="customFilter" light>
-                <template v-slot:append>
-                    <v-btn color="rgb(9, 102, 175)" value="search">
-                        Search
-                    </v-btn>
-                </template>
-                <template v-slot:item="data">
-                    <v-list-tile-avatar @click="$router.push('keys/'+data.item.name)">
-                        <img style="height: 90%;width: 90%;background: rgb(0,0,0);
-                        background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rgba(0,0,0,0.5) 100%);"
-                            :src="data.item.platform == 'Steam' ? 'https://steamcdn-a.akamaihd.net/steam/apps/' + data.item.appid + '/header.jpg' : data.item.platform == 'Uplay' ? 'https://transform.dis.commercecloud.salesforce.com/transform/ABBS_PRD/on/demandware.static/-/Sites-masterCatalog/default/images/large/'+data.item.appid+'.jpg?sw=500&sh=200&sm=cut' : 'apps/undefined.gif'"
-                            onerror="this.src='apps/undefined.gif'">
-                    </v-list-tile-avatar>
-                    <v-list-tile-content @click="$router.push('keys/'+data.item.name)">
-                        <v-list-tile-title v-html="data.item.name"></v-list-tile-title>
-                        <v-list-tile-sub-title v-html="data.item.platform"></v-list-tile-sub-title>
-                    </v-list-tile-content>
-                </template>
-                <template v-slot:selection="data">
-                    <v-chip :selected="selected">
-                        <v-avatar>
-                            <img
-                                :src="data.item.platform == 'Steam' ? 'https://steamcdn-a.akamaihd.net/steam/apps/' + data.item.appid + '/header.jpg' : data.item.platform == 'Uplay' ? 'https://transform.dis.commercecloud.salesforce.com/transform/ABBS_PRD/on/demandware.static/-/Sites-masterCatalog/default/images/large/'+data.item.appid+'.jpg?sw=500&sh=200&sm=cut' : 'apps/undefined.gif'">
-                        </v-avatar>
-                        {{ data.item.name }}
-                    </v-chip>
-                </template>
-            </v-autocomplete>
+        <v-toolbar dense color="blue darken-3" app clipped-left extended height="33px" extension-height="50px">
+            <span style="align-content :center;position: relative">GameKey</span>
             <v-spacer></v-spacer>
-            <v-tooltip bottom v-if='!($route.path == "/")'>
-                <v-btn icon slot="activator" to="/">
-                    <v-icon>mdi-home</v-icon>
-                </v-btn>
-                <span class="bottom">Home</span>
-            </v-tooltip>
-            <v-tooltip bottom>
-                <v-btn icon slot="activator" @click=''>
-                    <v-badge color="error" overlap left>
-                        <span slot="badge">10</span>
-                        <v-icon>notifications</v-icon>
-                    </v-badge>
-                </v-btn>
-                <span class="bottom">Notifications</span>
-            </v-tooltip>
-            <v-menu content-class="dropdown-menu" offset-y origin="top right" transition="scale-transition">
-                <v-tooltip bottom slot="activator" dark>
-                    <v-btn icon slot="activator">
-                        <v-icon>mdi-account</v-icon>
+            <v-btn color="darken-3" icon round small @click="Minimize()">
+                <v-icon>mdi-window-minimize</v-icon>
+            </v-btn>
+            <v-btn color="darken-3" icon round small @click="Maximize()">
+                <v-icon>mdi-window-maximize</v-icon>
+            </v-btn>
+            <v-btn color="darken-3" icon round small @click="Close()">
+                <v-icon>mdi-close</v-icon>
+            </v-btn>
+            <template v-slot:extension>
+                <v-icon></v-icon>
+                <v-toolbar-title style="width: 400px" class="ml-0 pl-3">
+                    <h4 class="hidden-sm-and-down">GameKey</h4>
+                </v-toolbar-title>
+                <v-autocomplete v-if="$route.path=='/'" :loading="loading" :items="games" solo dense label="Search"
+                    prominent tabs class="v-text-field--rounded" item-text="name" item-value="appid"
+                    :filter="customFilter" light>
+                    <template v-slot:append>
+                        <v-btn color="rgb(9, 102, 175)" value="search">
+                            Search
+                        </v-btn>
+                    </template>
+                    <template v-slot:item="data">
+                        <v-list-tile-avatar @click="$router.push('keys/'+data.item.name)">
+                            <img style="height: 90%;width: 90%;background: rgb(0,0,0);
+                        background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rgba(0,0,0,0.5) 100%);"
+                                :src="data.item.platform == 'Steam' ? 'https://steamcdn-a.akamaihd.net/steam/apps/' + data.item.appid + '/header.jpg' : data.item.platform == 'Uplay' ? 'https://transform.dis.commercecloud.salesforce.com/transform/ABBS_PRD/on/demandware.static/-/Sites-masterCatalog/default/images/large/'+data.item.appid+'.jpg?sw=500&sh=200&sm=cut' : 'apps/undefined.gif'"
+                                onerror="this.src='apps/undefined.gif'">
+                        </v-list-tile-avatar>
+                        <v-list-tile-content @click="$router.push('keys/'+data.item.name)">
+                            <v-list-tile-title v-html="data.item.name"></v-list-tile-title>
+                            <v-list-tile-sub-title v-html="data.item.platform"></v-list-tile-sub-title>
+                        </v-list-tile-content>
+                    </template>
+                    <template v-slot:selection="data">
+                        <v-chip :selected="selected">
+                            <v-avatar>
+                                <img
+                                    :src="data.item.platform == 'Steam' ? 'https://steamcdn-a.akamaihd.net/steam/apps/' + data.item.appid + '/header.jpg' : data.item.platform == 'Uplay' ? 'https://transform.dis.commercecloud.salesforce.com/transform/ABBS_PRD/on/demandware.static/-/Sites-masterCatalog/default/images/large/'+data.item.appid+'.jpg?sw=500&sh=200&sm=cut' : 'apps/undefined.gif'">
+                            </v-avatar>
+                            {{ data.item.name }}
+                        </v-chip>
+                    </template>
+                </v-autocomplete>
+                <v-spacer></v-spacer>
+                <v-tooltip bottom v-if='!($route.path == "/")'>
+                    <v-btn icon slot="activator" to="/">
+                        <v-icon>mdi-home</v-icon>
                     </v-btn>
-                    <span class="bottom">profile</span>
+                    <span class="bottom">Home</span>
                 </v-tooltip>
-                <v-list class="py-0">
-                    <v-list-tile ripple to='/settings'>
-                        <v-list-tile-action>
-                            <v-icon>settings</v-icon>
-                        </v-list-tile-action>
-                        <v-list-tile-content>
-                            <v-list-tile-title>Settings</v-list-tile-title>
-                        </v-list-tile-content>
-                    </v-list-tile>
-                    <v-divider></v-divider>
-                    <v-list-tile @click="settingstab=!settingstab">
-                        <v-list-tile-action>
-                            <v-icon>mdi-settings-box</v-icon>
-                        </v-list-tile-action>
-                        <v-list-tile-content>
-                            <v-list-tile-title>Change Theme</v-list-tile-title>
-                        </v-list-tile-content>
-                    </v-list-tile>
-                </v-list>
-            </v-menu>
+                <v-tooltip bottom>
+                    <v-btn icon slot="activator" @click=''>
+                        <v-badge color="error" overlap left>
+                            <span slot="badge">10</span>
+                            <v-icon>notifications</v-icon>
+                        </v-badge>
+                    </v-btn>
+                    <span class="bottom">Notifications</span>
+                </v-tooltip>
+                <v-menu content-class="dropdown-menu" offset-y origin="top right" transition="scale-transition">
+                    <v-tooltip bottom slot="activator" dark>
+                        <v-btn icon slot="activator">
+                            <v-icon>mdi-account</v-icon>
+                        </v-btn>
+                        <span class="bottom">profile</span>
+                    </v-tooltip>
+                    <v-list class="py-0">
+                        <v-list-tile ripple to='/settings'>
+                            <v-list-tile-action>
+                                <v-icon>settings</v-icon>
+                            </v-list-tile-action>
+                            <v-list-tile-content>
+                                <v-list-tile-title>Settings</v-list-tile-title>
+                            </v-list-tile-content>
+                        </v-list-tile>
+                        <v-divider></v-divider>
+                        <v-list-tile @click="settingstab=!settingstab">
+                            <v-list-tile-action>
+                                <v-icon>mdi-settings-box</v-icon>
+                            </v-list-tile-action>
+                            <v-list-tile-content>
+                                <v-list-tile-title>Change Theme</v-list-tile-title>
+                            </v-list-tile-content>
+                        </v-list-tile>
+                    </v-list>
+                </v-menu>
+            </template>
         </v-toolbar>
         <v-navigation-drawer permanent :mini-variant="mini" floating clipped app>
             <div class="transparent flat">
@@ -142,7 +156,7 @@
             </div>
         </v-navigation-drawer>
         <v-content :style="isDark ? '' : 'background-color: #eee'">
-            <v-container fluid grid-list-lg>
+            <v-container fluid grid-list-lg style="max-height: calc(100vh - 100px);" class="scroll-y">
                 <v-menu v-model='settingstab' :close-on-content-click="false" bottom left min-width="300"
                     max-width="300" nudge-left="12" offset-x transition="slide-y-transition">
                     <v-btn slot="activator" class="elevation-0 theme" color="grey" dark fab fixed style="top: 100px;"
@@ -187,7 +201,7 @@
                     </v-card>
                 </v-menu>
                 <v-fade-transition mode="out-in">
-                    <router-view></router-view>
+                    <router-view />
                 </v-fade-transition>
             </v-container>
         </v-content>

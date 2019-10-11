@@ -130,6 +130,25 @@ v = new Vue({
     windowWidth: 0,
   }),
   methods: {
+    Minimize() {
+      const {
+        remote
+      } = require('electron')
+      remote.BrowserWindow.getFocusedWindow().minimize();
+    },
+    Maximize() {
+      const {
+        remote
+      } = require('electron')
+      var window = remote.BrowserWindow.getFocusedWindow();
+      window.isMaximized() ? window.unmaximize() : window.maximize();
+    },
+    Close() {
+      const {
+        remote
+      } = require('electron')
+      remote.BrowserWindow.getFocusedWindow().close();
+    },
     customFilter(item, queryText) {
       const textOne = item.name.toLowerCase();
       const textTwo = String(item.appid).toLowerCase();
