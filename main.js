@@ -128,6 +128,7 @@ v = new Vue({
     isDark: false,
     mini: false,
     windowWidth: 0,
+    minimized: false,
   }),
   methods: {
     Minimize() {
@@ -141,7 +142,13 @@ v = new Vue({
         remote
       } = require('electron')
       var window = remote.BrowserWindow.getFocusedWindow();
-      window.isMaximized() ? window.unmaximize() : window.maximize();
+      if (window.isMaximized()) {
+        window.unmaximize();
+        this.minimized = true
+      } else {
+        window.maximize();
+        this.minimized = false
+      }
     },
     Close() {
       const {

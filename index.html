@@ -29,25 +29,28 @@
     </div>
     <v-app v-cloak id="app" :dark="isDark" :class="theme">
         <v-toolbar dense color="blue darken-3" app clipped-left extended height="33px" extension-height="50px">
-            <span style="align-content :center;position: relative">GameKey</span>
+            <span style="position: absolute; left: 50%; transform: translate(-50%, 0px);">GameKey</span>
             <v-spacer></v-spacer>
             <v-btn color="darken-3" icon round small @click="Minimize()">
                 <v-icon>mdi-window-minimize</v-icon>
             </v-btn>
             <v-btn color="darken-3" icon round small @click="Maximize()">
-                <v-icon>mdi-window-maximize</v-icon>
+                <v-icon v-if="minimized">mdi-window-maximize</v-icon>
+                <v-icon v-else>mdi-window-restore</v-icon>
             </v-btn>
             <v-btn color="darken-3" icon round small @click="Close()">
                 <v-icon>mdi-close</v-icon>
             </v-btn>
             <template v-slot:extension>
                 <v-icon></v-icon>
-                <v-toolbar-title style="width: 400px" class="ml-0 pl-3">
-                    <h4 class="hidden-sm-and-down">GameKey</h4>
+                <v-toolbar-title class="ml-0 pl-3"
+                    style="font-weight: bold;animation: animate 5s linear 2;font-family: 'Comic Sans MS', cursive, sans-serif">
+                    GameKey
                 </v-toolbar-title>
                 <v-autocomplete v-if="$route.path=='/'" :loading="loading" :items="games" solo dense label="Search"
                     prominent tabs class="v-text-field--rounded" item-text="name" item-value="appid"
-                    :filter="customFilter" light>
+                    :filter="customFilter" light
+                    style="position: absolute; left: 50%; transform: translate(-50%, 0px);min-width:100px;width:30vw;max-width:40vw;">
                     <template v-slot:append>
                         <v-btn color="rgb(9, 102, 175)" value="search">
                             Search
