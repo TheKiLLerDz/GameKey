@@ -213,14 +213,27 @@ html {
 .v-toolbar__content {
     background: #2a3033;
 }
+
 .v-toolbar__extension_ {
     background: linear-gradient(60deg, #171b5f, #151b64) !important;
     box-shadow: 0 12px 20px -10px rgba(4, 38, 133, 0.5), 0 4px 20px 0 rgba(0, 0, 0, .12), 0 7px 8px -5px rgba(20, 8, 66, 0.5) !important;
 }
+
 .v-footer_ {
     background: linear-gradient(60deg, #171b5f, #151b64) !important;
     box-shadow: 0 12px 20px -10px rgba(4, 38, 133, 0.5), 0 4px 20px 0 rgba(0, 0, 0, .12), 0 7px 8px -5px rgba(20, 8, 66, 0.5) !important;
 }
+
 .v-autocomplete .v-input__control {
     height: 4px;
+}
+
+.unselectable {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: default
 }

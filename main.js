@@ -191,7 +191,7 @@ v = new Vue({
   },
   watch: {
     windowWidth(newWidth, oldWidth) {
-      if (newWidth >= 1920) this.mini = false
+      if (newWidth >= 0.6 * screen.width) this.mini = false
       else this.mini = true
     },
     theme(mytheme) {

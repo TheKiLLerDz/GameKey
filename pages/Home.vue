@@ -8,7 +8,7 @@
                     <v-icon color='white' size="50">{{item.icon}}</v-icon>
                 </v-card>
                 <v-card-text>
-                    <h2 class="text-xs-right">{{item.title}}</h2>
+                    <h2 class="text-xs-right unselectable">{{item.title}}</h2>
                     <v-divider :color="item.color"></v-divider>
                 </v-card-text>
                 <div class="text-xs-center">Library : {{item.games}}</div>

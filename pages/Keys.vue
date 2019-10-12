@@ -1,10 +1,11 @@
 <template>
     <v-layout row wrap>
         <v-flex xs12 sm12 md12>
-            <v-card class="elevation-5 mb-4 mt-5 px-2 py-0" style="border-radius: 8px; height: calc(100% - 70px)">
+            <v-card class="elevation-5 px-2"
+                style="border-radius: 8px; height: calc(100% - 70px);padding: 0px 0px 75px 0px;">
                 <v-card
                     :class="$route.path.includes('/other') ? 'greencard' : $route.path.includes('/steam') ? 'steamcard':$route.path.includes('/origin') ? 'orangecard': 'infocard'"
-                    class='white--text' style="top:-24px; padding: 15px;border-radius: 8px;">
+                    class='white--text unselectable' style="top:-30px; padding: 15px;border-radius: 8px;">
                     <h1 v-if="!$route.path.includes('/keys')">
                         <v-icon v-if="$route.path=='/steam'" dense color='white' x-large>mdi-steam
                         </v-icon>
@@ -55,10 +56,9 @@
                                     </v-icon>
                                 </td>
                                 <td @click="props.expanded = !props.expanded">
-                                    <v-chip
+                                    <v-chip class='unselectable'
                                         :color="getColor(props.item.keys.reduce(function (length, key) {
-                                        if (key.trade != undefined && key.trade.value) return length; else return length + 1 }, 0))"
-                                        dark>
+                                        if (key.trade != undefined && key.trade.value) return length; else return length + 1 }, 0))" dark>
                                         {{props.item.keys.length}}</v-chip>
                                 </td>
                                 <td>
@@ -475,7 +475,7 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                             <v-card-actions class="pa-3">
                                 <v-btn> More </v-btn>
                                 <v-spacer></v-spacer>
-                                <v-btn color="blue darken-1" flat round _click="close" @click="this.infoapp= {
+                                <v-btn color="success" class="white--text" round @click="this.infoapp= {
                     Developer: 'Undefined',
                     Publisher: 'Undefined',
                     Genre: '',
@@ -758,7 +758,7 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                     {
                         text: 'Qnt',
                         align: 'left',
-                        sortable: true,
+                        sortable: false,
                         show: true,
                         value: 'qnt'
                     },

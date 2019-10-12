@@ -14,7 +14,7 @@
 
 <body>
     <div id="main">
-        <div class="loader">
+        <div class="loader unselectable">
             <span>G</span>
             <span>A</span>
             <span>M</span>
@@ -28,7 +28,8 @@
         </div>
     </div>
     <v-app v-cloak id="app" :dark="isDark" :class="theme">
-        <v-toolbar dense color="blue darken-3" app clipped-left extended height="33px" extension-height="50px">
+        <v-toolbar dense color="blue darken-3" app clipped-left extended height="33px" extension-height="50px"
+            @dblclick="Maximize()" class="unselectable">
             <span style="position: absolute; left: 50%; transform: translate(-50%, 0px);">GameKey</span>
             <v-spacer></v-spacer>
             <v-btn color="darken-3" icon round small @click="Minimize()">
@@ -43,7 +44,7 @@
             </v-btn>
             <template v-slot:extension>
                 <v-icon></v-icon>
-                <v-toolbar-title class="ml-0 pl-3"
+                <v-toolbar-title class="ml-0 pl-3 unselectable"
                     style="font-weight: bold;animation: animate 5s linear 2;font-family: 'Comic Sans MS', cursive, sans-serif">
                     GameKey
                 </v-toolbar-title>
