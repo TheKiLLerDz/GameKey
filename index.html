@@ -48,10 +48,9 @@
                     style="font-weight: bold;animation: animate 5s linear 2;font-family: 'Comic Sans MS', cursive, sans-serif">
                     GameKey
                 </v-toolbar-title>
-                <v-autocomplete v-if="$route.path=='/'" :loading="loading" :items="games" solo dense label="Search"
-                    prominent tabs class="v-text-field--rounded" item-text="name" item-value="appid"
-                    :filter="customFilter" light
-                    style="position: absolute; left: 50%; transform: translate(-50%, 0px);min-width:100px;width:30vw;max-width:40vw;">
+                <v-autocomplete v-if="$route.path=='/'" :loading="loading" :items="games" solo label="Search"
+                    class="v-text-field--rounded" item-text="name" item-value="appid" :filter="customFilter" light
+                    style="top: 35px; position: absolute;left: 50%;transform: translate(-50%, 0px);min-width:100px;width:30vw;max-width:40vw;">
                     <template v-slot:append>
                         <v-btn color="rgb(9, 102, 175)" value="search">
                             Search
@@ -127,7 +126,7 @@
         <v-navigation-drawer permanent :mini-variant="mini" floating clipped app>
             <div class="transparent flat">
                 <v-list>
-                    <v-list-tile avatar>
+                    <v-list-tile class='unselectable' avatar>
                         <v-list-tile-avatar @click.stop="mini = !mini">
                             <img :src="userdata.pic" />
                         </v-list-tile-avatar>
@@ -176,7 +175,8 @@
                                     </v-switch>
                                 </v-flex>
                                 <v-flex xs12>
-                                    <div class="text-xs-center body-2 text-uppercase sidebar-filter">Others Themes</div>
+                                    <div class="text-xs-center body-2 text-uppercase sidebar-filter unselectable">Themes
+                                    </div>
                                 </v-flex>
                                 <v-flex xs12>
                                     <v-radio-group class="justify-center pl-4" v-model="theme" row>
@@ -188,7 +188,7 @@
                                     </v-radio-group>
                                 </v-flex>
                                 <v-flex xs12>
-                                    <div class="text-xs-center body-2 text-uppercase">
+                                    <div class="text-xs-center body-2 text-uppercase unselectable">
                                         Connect With Us!
                                         <div>
                                             <v-btn color="indigo" class="white--text" fab icon small round>
