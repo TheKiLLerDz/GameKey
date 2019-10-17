@@ -559,8 +559,8 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
             open-on-hover>
             <template v-slot:activator>
                 <v-btn v-model="fab" color="blue darken-2" dark fab>
-                    <v-icon style="top : -10px">add</v-icon>
-                    <v-icon style="top : -10px">close</v-icon>
+                    <v-icon style="top : -11px">add</v-icon>
+                    <v-icon style="top : -11px">close</v-icon>
                 </v-btn>
             </template>
             <v-tooltip top>
@@ -645,7 +645,7 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                 fab: false,
                 pagination: {
                     totalItems: '',
-                    rowsPerPage: 10
+                    rowsPerPage: 9
                 },
                 max25chars: v => v.length <= 25 || 'Key is too long!',
                 gametags: ["Indie", "Action", "Adventure", "Casual", "Low Confidence Metric", "Simulation",

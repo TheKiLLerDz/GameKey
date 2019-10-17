@@ -176,6 +176,7 @@ html {
 
 .tile:hover {
     background: #8c948c;
+    border-radius: 8px;
 }
 
 .tile:active {

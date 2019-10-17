@@ -1,6 +1,6 @@
 <template>
     <v-layout row wrap>
-        <v-flex v-for="item in items" :key="item.title" xs12 sm12 md6 lg4>
+        <v-flex v-for="item in items" :key="item.title" xs12 sm6 md6 lg4>
             <v-card elevation="2" class="mb-4 px-3 py-0" style='border-radius:10px'>
                 <v-card :color="item.color" :to="{path:item.link}"
                     style="top:-24px;margin: 0px 16px 0px;padding: 16px;border-radius: 8px;position: absolute;"
