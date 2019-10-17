@@ -49,7 +49,8 @@ const store = new Vuex.Store({
     allkeys: [],
     temp: {},
     tempimport: undefined,
-    import: false
+    import: false,
+    importedapps: [],
   },
 })
 v = new Vue({

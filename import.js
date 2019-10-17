@@ -2,7 +2,7 @@
 
 
 var keys;
-var game;
+var gamename;
 
 function PatternKeySteam(string) {
   const virtualkeypattern = /([\dA-Z]{5}\-){2}[\dA-Z]{5}/gi;
@@ -161,7 +161,6 @@ function importtxt(Platform, path) {
 
 function filters(Platform, linestr) {
   let lineNumber = 0;
-
   var platform;
   var pushplatform;
   switch (Platform) {
@@ -185,45 +184,34 @@ function filters(Platform, linestr) {
     name: '',
     keys: []
   }
-  game = linestr;
+  gamename = linestr;
   if (keys !== null) {
     for (var i = 0; i < keys.length; i++) {
-      game = game.replace(keys[i], '');
+      gamename = gamename.replace(keys[i], '');
       obj.keys.push({
         key: keys[i]
       })
     }
-    obj.name = game.replace(/(\r\n|\n|\r)/gm, '').trim();
-    var item;
+    obj.name = gamename.replace(/(\r\n|\n|\r)/gm, '').trim();
     var index = getindex(pushplatform, obj.name)
     if (index !== -1) {
-      item = pushplatform[index]
+      obj.name = pushplatform[index].name;
+      obj.appid = pushplatform[index].appid;
+      obj.platform = Platform;
     } else {
       index = getindex(platform, obj.name)
       if (index !== -1) {
-        item = JSON.parse(JSON.stringify(platform[index]));
-        delete item.keys;
-        item.platform = Platform;
-      }
+        obj.name = platform[index].name;
+        obj.appid = platform[index].appid;
+        obj.platform = Platform;
+        //for (var i = 0; i < obj.keys.length; i++) {
+        //obj.keys.length != 0 ? addkey(gettab(obj.platform), getappid(obj), obj.keys[i].key) : console.log('key not found')
+        //}
+      } else console.log('game not found')
     }
-    if (index == -1)
-      console.log('game not found')
-    else {
-      for (var i = 0; i < keys.length; i++) {
-        addkey(gettab(Platform), getappid(item), keys[i])
-        if (item.keys == undefined) {
-          item.keys = [{
-            key: keys[i]
-          }];
-        } else {
-          item.keys.push({
-            key: keys[i]
-          });
-        }
-      }
-      getindex(pushplatform, obj.name) == -1 ? pushplatform.push(item) : console.log("game already exists")
-    }
-  } else console.log('key not found')
+    getindex(pushplatform, obj.name) == -1 && obj.appid != null ? store.state.importedapps.push(obj) : console.log("game already exists")
+  }
+
   lineNumber++;
 }
 

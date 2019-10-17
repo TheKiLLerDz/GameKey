@@ -530,12 +530,16 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                 <v-card-text>
                     show data here
                     <table>
-                        <tr v-for="(index,i) in platforms" :key="i">
-                            <td style="width : 70%">
-                                <v-text-field label="Name"></v-text-field>
+                        <tr v-for="(index,i) in importedapps" :key="i">
+                            <td style="width : 5%">{{i+1}}</td>
+                            <td style="width : 30%">
+                                <v-text-field label="Appid" v-model="index.appid"></v-text-field>
+                            </td>
+                            <td style="width : 35%">
+                                <v-text-field label="Name" v-model="index.name"></v-text-field>
                             </td>
                             <td style="width : 30%">
-                                <v-text-field label="Key"></v-text-field>
+                                <v-text-field label="Key" v-model="index.keys[0].key"></v-text-field>
                             </td>
                         </tr>
                     </table>
@@ -607,6 +611,9 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
             }
         },
         computed: {
+            importedapps() {
+                return store.state.importedapps
+            },
             importdialog() {
                 return store.state.import
             },
