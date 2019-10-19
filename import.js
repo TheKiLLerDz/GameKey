@@ -54,7 +54,7 @@ function impport(Platform) {
     var indicSlash = path[0].lastIndexOf('\/');
     var extension = path[0].substring(indicSlash + 1).split(".");
     console.log(extension)
-    extension[1] == 'txt' ? importtxt(Platform, path[0]) : importxls(Platform, path[0])
+    extension[1] == 'txt' ? importtxt(Platform, path[0]) : extension[1] == 'xlsx' ? importxls(Platform, path[0]) : console.log("Format Not Supported")
   }
   // baseorxhr()
 }
@@ -139,7 +139,7 @@ function addtodb() {
 }
 
 function getindex(platform, name) {
-  return platform.map(el => el.name).indexOf(name)
+  return platform.map(el => el.name.toLowerCase().replace(/\s/gi, '')).indexOf(name.toLowerCase().replace(/\s/gi, ''))
 }
 
 function importtxt(Platform, path) {
@@ -150,17 +150,18 @@ function importtxt(Platform, path) {
   var index;
   var word;
   let line;
+  let lineNumber = 1;
 
   while (line = liner.next()) {
     linestr = line.toString('ascii');
-    filters(Platform, linestr)
+    filters(Platform, linestr, lineNumber);
+    lineNumber++;
   }
 
 
 }
 
-function filters(Platform, linestr) {
-  let lineNumber = 0;
+function filters(Platform, linestr, lineNumber) {
   var platform;
   var pushplatform;
   switch (Platform) {
@@ -181,6 +182,7 @@ function filters(Platform, linestr) {
       break;
   }
   var obj = {
+    line: lineNumber,
     name: '',
     keys: []
   }
@@ -193,25 +195,31 @@ function filters(Platform, linestr) {
       })
     }
     obj.name = gamename.replace(/(\r\n|\n|\r)/gm, '').trim();
-    var index = getindex(pushplatform, obj.name)
+    //var index = getindex(pushplatform, obj.name)
+    var index = getindex(platform, obj.name)
+    //if (index !== -1) {
+    // obj.name = pushplatform[index].name;
+    // obj.appid = pushplatform[index].appid;
+    //  obj.platform = Platform;
+    // } else {
+    // index = getindex(platform, obj.name)
     if (index !== -1) {
-      obj.name = pushplatform[index].name;
-      obj.appid = pushplatform[index].appid;
+      obj.name = platform[index].name;
+      obj.appid = platform[index].appid;
       obj.platform = Platform;
+      store.state.importedapps.push(obj);
+      //for (var i = 0; i < obj.keys.length; i++) {
+      //obj.keys.length != 0 ? addkey(gettab(obj.platform), getappid(obj), obj.keys[i].key) : console.log('key not found')
+      //}
     } else {
-      index = getindex(platform, obj.name)
-      if (index !== -1) {
-        obj.name = platform[index].name;
-        obj.appid = platform[index].appid;
-        obj.platform = Platform;
-        //for (var i = 0; i < obj.keys.length; i++) {
-        //obj.keys.length != 0 ? addkey(gettab(obj.platform), getappid(obj), obj.keys[i].key) : console.log('key not found')
-        //}
-      } else console.log('game not found')
+      obj.appid = '';
+      obj.platform = Platform;
+      store.state.importedapps.push(obj);
+      console.log('game not found on line : ' + lineNumber)
     }
-    getindex(pushplatform, obj.name) == -1 && obj.appid != null ? store.state.importedapps.push(obj) : console.log("game already exists")
-  }
 
+    //getindex(platform, obj.name) == -1 && obj.appid != null ? store.state.importedapps.push(obj); : console.log("game already exists")
+  }
   lineNumber++;
 }
 

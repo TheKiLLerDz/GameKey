@@ -241,7 +241,7 @@
                 </v-flex>
             </v-card>
         </v-flex>
-        <v-dialog v-model="editdialog" persistent scrollable max-width="800px">
+        <v-dialog v-model="editdialog" persistent scrollable width="70vw">
             <v-card>
                 <v-card-title>
                     <span class="headline">Edit app</span>
@@ -322,7 +322,7 @@
                 </v-card-actions>
             </v-card>
         </v-dialog>
-        <v-dialog v-model="addialog" max-width="800px" persistent scrollable loading>
+        <v-dialog v-model="addialog" width="70vw" persistent scrollable loading>
             <v-card>
                 <v-progress-linear :active="isAdding" class="ma-0" color="blue lighten-3" height="4" indeterminate>
                 </v-progress-linear>
@@ -423,7 +423,7 @@
                 </v-card-actions>
             </v-card>
         </v-dialog>
-        <v-dialog v-model="infodialog" persistent max-width="40%" @keydown.esc="infodialog = false"
+        <v-dialog v-model="infodialog" persistent width="70vw" @keydown.esc="infodialog = false"
             @keydown.enter="infodialog = false">
             <v-flex xs12>
                 <v-card class="white--text">
@@ -524,19 +524,27 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                 </v-card-actions>
             </v-card>
         </v-dialog>
-        <v-dialog v-model="importdialog" max-width="700px" scrollable persistent>
+        <v-dialog v-model="importdialog" width="70vw" scrollable persistent>
             <v-card>
                 <v-card-title class="headline">Import Keys</v-card-title>
                 <v-card-text>
-                    show data here
+                    Apps with orange Won't be added
                     <table>
                         <tr v-for="(index,i) in importedapps" :key="i">
-                            <td style="width : 5%">{{i+1}}</td>
+                            <td style="width : 70vw">
+                                <v-chip class='unselectable white--text' :color="index.appid == '' ? 'orange' : 'blue'"
+                                    dark>
+                                    {{index.line}}</v-chip>
+                            </td>
+
                             <td style="width : 30%">
-                                <v-text-field label="Appid" v-model="index.appid"></v-text-field>
+                                <v-text-field label="Appid" v-model="index.appid" @input="IDEdited(index)">
+                                </v-text-field>
                             </td>
                             <td style="width : 35%">
-                                <v-text-field label="Name" v-model="index.name"></v-text-field>
+                                <v-combobox :items='appnames' v-model="index.name" @change="NameEdited(index)"
+                                    label="Name">
+                                </v-combobox>
                             </td>
                             <td style="width : 30%">
                                 <v-text-field label="Key" v-model="index.keys[0].key"></v-text-field>
@@ -546,11 +554,14 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn color="green darken-1" flat="flat" @click="hideimportdialog()">
+                    <v-btn color="red darken-1" flat="flat" @click="hideimportdialog()">
                         Cancel
                     </v-btn>
-                    <v-btn color="red darken-1" flat="flat">
-                        Import
+                    <v-btn color="blue darken-1" flat="flat">
+                        Added Selected
+                    </v-btn>
+                    <v-btn color="green darken-1" flat="flat">
+                        Added & Close
                     </v-btn>
                 </v-card-actions>
             </v-card>
@@ -818,7 +829,8 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
 
             },
             impport(Platform) {
-                impport(Platform)
+                impport(Platform);
+                this.PlatformEdited(Platform);
             },
             exportxlxs(apps) {
                 if (exportxlxs(apps)) {
