@@ -68,6 +68,8 @@ function getnotification(oldversion) {
   http.onload = function() {
     if (http.status == 200) {
 var obj = JSON.parse(http.response)
+store.state.updatedb = obj
+
 console.log(obj)
     }
   }
@@ -81,6 +83,7 @@ function updateDB(olversion) {
   http.onload = function() {
     if (http.status == 200) {
 var obj = JSON.parse(http.response)
+store.state.updatedb = obj
 console.log(obj )
     }
   }

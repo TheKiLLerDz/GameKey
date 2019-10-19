@@ -796,6 +796,7 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                 ],
                 expanded: [],
                 singleExpand: false,
+                updatedb : [],
                 apps: [],
                 oldediteditem: null,
                 itemtoadd: {
@@ -1219,6 +1220,7 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                         .concat(store.state.otherskey)))
                     break;
             }
-        },
+        this.updatedb =  store.state.updatedb.notifications == undefined ? []: store.state.updatedb.notifications
+              },
     }
 </script>

@@ -43,6 +43,7 @@ const store = new Vuex.Store({
     uplay: [],
     uplaykey: [],
     origin: [],
+    updatedb: {},
     originkey: [],
     others: [],
     otherskey: [],
