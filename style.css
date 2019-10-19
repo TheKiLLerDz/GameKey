@@ -13,6 +13,11 @@
     color: #fff;
 }
 
+.update {
+    width : 400px;
+    
+}
+
 html {
     overflow: hidden;
 }
