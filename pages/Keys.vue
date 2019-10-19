@@ -604,13 +604,10 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
         <v-snackbar v-model="hasSaved" :timeout="2000" absolute bottom :color="msg.color">
             <div class="pa-2 ma-2">{{msg.text}}</div>
         </v-snackbar>
-            <v-snackbar v-model="update" :timeout="600000" absolute bottom right  color="grey" >
+        <v-snackbar v-model="update" :timeout="2000" style="bottom: 0px;" right color="blue">
             <div class="pa-2 ma-2 update">Update Your Data Base</div>
         </v-snackbar>
-        <v-snackbar v-model="update" :timeout="600000" absolute right style="margin-bottom : 60px" color="grey" >
-            <div class="pa-2 ma-2 update">Update Your Data Base</div>
-        </v-snackbar>
-         <v-snackbar v-model="update" :timeout="600000" absolute right style="margin-bottom : 60px" color="grey" >
+        <v-snackbar v-model="update2" :timeout="3000" style="bottom: 60px;" right color="red">
             <div class="pa-2 ma-2 update">Update Your Data Base</div>
         </v-snackbar>
     </v-layout>
@@ -661,7 +658,8 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                 hasSaved: false,
                 isAdding: false,
                 expand: false,
-                update : true,
+                update: true,
+                update2: true,
                 direction: 'top',
                 fab: false,
                 pagination: {
