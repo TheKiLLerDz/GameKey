@@ -604,12 +604,10 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
         <v-snackbar v-model="hasSaved" :timeout="2000" absolute bottom :color="msg.color">
             <div class="pa-2 ma-2">{{msg.text}}</div>
         </v-snackbar>
-        <v-snackbar v-model="update" :timeout="2000" style="bottom: 0px;" right color="blue">
-            <div class="pa-2 ma-2 update">Update Your Data Base</div>
+        <v-snackbar v-for="item in updatedb" :key="item.notification" v-model="item.value" :timeout="2000" style="margin-bottom: 60px;" absolute right color="blue">
+            <div class="pa-2 ma-2 update">{{item.notification}}</div>
         </v-snackbar>
-        <v-snackbar v-model="update2" :timeout="3000" style="bottom: 60px;" right color="red">
-            <div class="pa-2 ma-2 update">Update Your Data Base</div>
-        </v-snackbar>
+   
     </v-layout>
 </template>
 <script>
@@ -1220,7 +1218,8 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                         .concat(store.state.otherskey)))
                     break;
             }
-        this.updatedb =  store.state.updatedb.notifications == undefined ? []: store.state.updatedb.notifications
+    store.state.updatedb.notifications == undefined ? this.updatedb= []: store.state.updatedb.notifications.forEach(el => {el.value='true'; this.updatedb.push(el)})
+        console.log(this.updatedb)
               },
     }
 </script>
