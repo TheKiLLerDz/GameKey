@@ -3,6 +3,8 @@
 
 var keys;
 var gamename;
+var platform;
+var pushplatform;
 
 function PatternKeySteam(string) {
   const virtualkeypattern = /([\dA-Z]{5}\-){2}[\dA-Z]{5}/gi;
@@ -50,12 +52,15 @@ function impport(Platform) {
     ]
   })
   ////////
-  if (path != undefined) {
-    var indicSlash = path[0].lastIndexOf('\/');
-    var extension = path[0].substring(indicSlash + 1).split(".");
-    console.log(extension)
-    extension[1] == 'txt' ? importtxt(Platform, path[0]) : extension[1] == 'xlsx' ? importxls(Platform, path[0]) : console.log("Format Not Supported")
-  }
+  store.state.waitingdialog = true
+  setTimeout(() => {
+    if (path != undefined) {
+      var indicSlash = path[0].lastIndexOf('\/');
+      var extension = path[0].substring(indicSlash + 1).split(".");
+      console.log(extension)
+      extension[1] == 'txt' ? importtxt(Platform, path[0]) : extension[1] == 'xlsx' ? importxls(Platform, path[0]) : console.log("Format Not Supported")
+    }
+  }, 2000);
   // baseorxhr()
 }
 
@@ -144,6 +149,7 @@ function getindex(platform, name) {
 
 function importtxt(Platform, path) {
   store.state.import = true;
+  store.state.waitingdialog = false;
   const lineByLine = require('./readlines.js');
   const liner = new lineByLine(path);
   var linestr;
@@ -162,8 +168,6 @@ function importtxt(Platform, path) {
 }
 
 function filters(Platform, linestr, lineNumber) {
-  var platform;
-  var pushplatform;
   switch (Platform) {
     case 'Steam':
       keys = PatternKeySteam(linestr);
@@ -215,9 +219,7 @@ function filters(Platform, linestr, lineNumber) {
       obj.appid = '';
       obj.platform = Platform;
       store.state.importedapps.push(obj);
-      console.log('game not found on line : ' + lineNumber)
     }
-
     //getindex(platform, obj.name) == -1 && obj.appid != null ? store.state.importedapps.push(obj); : console.log("game already exists")
   }
   lineNumber++;

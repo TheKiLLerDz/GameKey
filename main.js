@@ -51,6 +51,7 @@ const store = new Vuex.Store({
     temp: {},
     tempimport: undefined,
     import: false,
+    waitingdialog: false,
     importedapps: [],
   },
 })

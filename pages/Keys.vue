@@ -529,41 +529,58 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                 <v-card-title class="headline">Import Keys</v-card-title>
                 <v-card-text>
                     Apps with orange Won't be added
-                    <table>
-                        <tr v-for="(index,i) in importedapps" :key="i">
-                            <td style="width : 70vw">
-                                <v-chip class='unselectable white--text' :color="index.appid == '' ? 'orange' : 'blue'"
-                                    dark>
-                                    {{index.line}}</v-chip>
+                    <v-data-table :items="importedapps" class="elevation-1" hide-actions hide-headers>
+                        <template v-slot:items="props">
+                            <td>
+                                <v-chip class='unselectable white--text'
+                                    :color="props.item.appid == '' ? 'orange' : 'blue'" dark>
+                                    {{props.item.line}}</v-chip>
                             </td>
-
-                            <td style="width : 30%">
-                                <v-text-field label="Appid" v-model="index.appid" @input="IDEdited(index)">
+                            <td>
+                                <v-text-field label="Appid" v-model="props.item.appid" @input="IDEdited(props.item)">
                                 </v-text-field>
                             </td>
-                            <td style="width : 35%">
-                                <v-combobox :items='appnames' v-model="index.name" @change="NameEdited(index)"
+                            <td>
+                                <v-combobox :items='appnames' v-model="props.item.name" @change="NameEdited(props.item)"
                                     label="Name">
                                 </v-combobox>
+                            </td>
+                            <td>{{ props.item.keys }}</td>
+                        </template>
+                    </v-data-table>
+                    <!--<table>
+                        <tr v-for="(index,i) in importedapps" :key="i">
+                            
+                            <td style="width : 30%">
+                            </td>
+                            <td style="width : 35%">
                             </td>
                             <td style="width : 30%">
                                 <v-text-field label="Key" v-model="index.keys[0].key"></v-text-field>
                             </td>
                         </tr>
-                    </table>
+                    </table>!-->
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
                     <v-btn color="red darken-1" flat="flat" @click="hideimportdialog()">
                         Cancel
                     </v-btn>
-                    <v-btn color="blue darken-1" flat="flat">
+                    <v-btn color="blue darken-1" flat="flat" @click="addimportedkeys()">
                         Added Selected
                     </v-btn>
                     <v-btn color="green darken-1" flat="flat">
                         Added & Close
                     </v-btn>
                 </v-card-actions>
+            </v-card>
+        </v-dialog>
+        <v-dialog v-model="waitingdialog" hide-overlay persistent width="300">
+            <v-card color="primary" dark>
+                <v-card-text>
+                    Please stand by
+                    <v-progress-linear indeterminate color="white" class="mb-0"></v-progress-linear>
+                </v-card-text>
             </v-card>
         </v-dialog>
         <v-speed-dial v-model="fab" absolute bottom right fixed direction="left" transition="slide-y-transition"
@@ -604,10 +621,10 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
         <v-snackbar v-model="hasSaved" :timeout="2000" absolute bottom :color="msg.color">
             <div class="pa-2 ma-2">{{msg.text}}</div>
         </v-snackbar>
-        <v-snackbar v-for="item in updatedb" :key="item.notification" v-model="item.value" :timeout="2000" style="margin-bottom: 60px;" absolute right color="blue">
+        <v-snackbar v-for="item in updatedb" :key="item.notification" v-model="item.value" :timeout="2000"
+            style="margin-bottom: 60px;" absolute right color="blue">
             <div class="pa-2 ma-2 update">{{item.notification}}</div>
         </v-snackbar>
-   
     </v-layout>
 </template>
 <script>
@@ -626,6 +643,9 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
             }
         },
         computed: {
+            waitingdialog() {
+                return store.state.waitingdialog
+            },
             importedapps() {
                 return store.state.importedapps
             },
@@ -794,7 +814,7 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                 ],
                 expanded: [],
                 singleExpand: false,
-                updatedb : [],
+                updatedb: [],
                 apps: [],
                 oldediteditem: null,
                 itemtoadd: {
@@ -834,6 +854,31 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                         return key.toUpperCase();
                 }
 
+            },
+            addimportedkeys() {
+                for (var i = 0; i < this.importedapps.length; i++)
+                    if (this.importedapps[i].name != '' && this.importedapps[i].appid != '') {
+                        var index = pushplatform.map(el => el.appid).indexOf(getappid(this.importedapps[i]));
+                        if (index !== -1) {
+                            for (var j = 0; j < this.importedapps[i].keys.length; j++) {
+                                addkey(gettab(this.importedapps[i].platform), getappid(store.state
+                                    .importedapps[i]), this.importedapps[i].keys[j].key);
+                                pushplatform[index].keys.push({
+                                    key: this.importedapps[i].keys[j].key
+                                });
+                            }
+                        } else {
+                            for (var j = 0; j < this.importedapps[i].keys.length; j++) {
+                                addkey(gettab(this.importedapps[i].platform), getappid(store.state
+                                    .importedapps[i]), this.importedapps[i].keys[j].key);
+                            }
+                            pushplatform.push(this.importedapps[i]);
+                        }
+                    }
+                for (var i = this.importedapps.length - 1; i >= 0; i--)
+                    if (this.importedapps[i].name != '' && this.importedapps[i].appid != '') {
+                        this.importedapps.splice(i, 1)
+                    }
             },
             impport(Platform) {
                 impport(Platform);
@@ -1218,8 +1263,12 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                         .concat(store.state.otherskey)))
                     break;
             }
-    store.state.updatedb.notifications == undefined ? this.updatedb= []: store.state.updatedb.notifications.forEach(el => {el.value='true'; this.updatedb.push(el)})
-        console.log(this.updatedb)
-              },
+            store.state.updatedb.notifications == undefined ? this.updatedb = [] : store.state.updatedb
+                .notifications.forEach(el => {
+                    el.value = 'true';
+                    this.updatedb.push(el)
+                })
+            console.log(this.updatedb)
+        },
     }
 </script>
