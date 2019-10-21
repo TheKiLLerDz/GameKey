@@ -52,16 +52,13 @@ function impport(Platform) {
     ]
   })
   ////////
-  store.state.waitingdialog = true
-  setTimeout(() => {
-    if (path != undefined) {
-      var indicSlash = path[0].lastIndexOf('\/');
-      var extension = path[0].substring(indicSlash + 1).split(".");
-      console.log(extension)
-      extension[1] == 'txt' ? importtxt(Platform, path[0]) : extension[1] == 'xlsx' ? importxls(Platform, path[0]) : console.log("Format Not Supported")
-    }
-  }, 2000);
-  // baseorxhr()
+  if (path != undefined) {
+    var indicSlash = path[0].lastIndexOf('\/');
+    var extension = path[0].substring(indicSlash + 1).split(".");
+    console.log(extension)
+    extension[1] == 'txt' ? importtxt(Platform, path[0]) : extension[1] == 'xlsx' ? importxls(Platform, path[0]) : console.log("Format Not Supported")
+    // baseorxhr()
+  }
 }
 
 function gettab(platform) {
@@ -148,22 +145,24 @@ function getindex(platform, name) {
 }
 
 function importtxt(Platform, path) {
-  store.state.import = true;
-  store.state.waitingdialog = false;
-  const lineByLine = require('./readlines.js');
-  const liner = new lineByLine(path);
-  var linestr;
-  var index;
-  var word;
-  let line;
-  let lineNumber = 1;
+  store.state.waitingdialog = true
+  setTimeout(() => {
+    store.state.import = true;
+    store.state.waitingdialog = false;
+    const lineByLine = require('./readlines.js');
+    const liner = new lineByLine(path);
+    var linestr;
+    var index;
+    var word;
+    let line;
+    let lineNumber = 1;
 
-  while (line = liner.next()) {
-    linestr = line.toString('ascii');
-    filters(Platform, linestr, lineNumber);
-    lineNumber++;
-  }
-
+    while (line = liner.next()) {
+      linestr = line.toString('ascii');
+      filters(Platform, linestr, lineNumber);
+      lineNumber++;
+    }
+  }, 2000);
 
 }
 
@@ -199,28 +198,17 @@ function filters(Platform, linestr, lineNumber) {
       })
     }
     obj.name = gamename.replace(/(\r\n|\n|\r)/gm, '').trim();
-    //var index = getindex(pushplatform, obj.name)
     var index = getindex(platform, obj.name)
-    //if (index !== -1) {
-    // obj.name = pushplatform[index].name;
-    // obj.appid = pushplatform[index].appid;
-    //  obj.platform = Platform;
-    // } else {
-    // index = getindex(platform, obj.name)
     if (index !== -1) {
       obj.name = platform[index].name;
-      obj.appid = platform[index].appid;
+      obj.appid = getappid(platform[index]);
       obj.platform = Platform;
       store.state.importedapps.push(obj);
-      //for (var i = 0; i < obj.keys.length; i++) {
-      //obj.keys.length != 0 ? addkey(gettab(obj.platform), getappid(obj), obj.keys[i].key) : console.log('key not found')
-      //}
     } else {
       obj.appid = '';
       obj.platform = Platform;
       store.state.importedapps.push(obj);
     }
-    //getindex(platform, obj.name) == -1 && obj.appid != null ? store.state.importedapps.push(obj); : console.log("game already exists")
   }
   lineNumber++;
 }

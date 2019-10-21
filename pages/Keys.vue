@@ -857,12 +857,14 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
             },
             addimportedkeys() {
                 for (var i = this.importedapps.length - 1; i >= 0; i--) {
+                    this.importedapps[i].appid = getappid(this.importedapps[i]);
                     if (this.importedapps[i].name != '' && this.importedapps[i].appid != '') {
                         for (var j = 0; j < this.importedapps[i].keys.length; j++) {
                             addkey(gettab(this.importedapps[i].platform), getappid(store.state
                                 .importedapps[i]), this.importedapps[i].keys[j].key);
                         }
-                        var index = pushplatform.map(el => el.appid).indexOf(getappid(this.importedapps[i]));
+                        var index = pushplatform.map(el => el.appid).indexOf(this.importedapps[i].appid);
+                        console.log("name " + this.importedapps[i].name + " index " + index)
                         index != -1 ? pushplatform[index].keys = pushplatform[index].keys.concat(this.importedapps[
                             i].keys) : pushplatform.push(this.importedapps[i]);
                         this.importedapps.splice(i, 1);
