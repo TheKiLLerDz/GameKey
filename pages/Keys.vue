@@ -566,10 +566,10 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                     <v-btn color="red darken-1" flat="flat" @click="hideimportdialog()">
                         Cancel
                     </v-btn>
-                    <v-btn color="blue darken-1" flat="flat" @click="addimportedkeys()">
+                    <v-btn color="blue darken-1" flat="flat" @click="addimportedkeys(false)">
                         Added Selected
                     </v-btn>
-                    <v-btn color="green darken-1" flat="flat">
+                    <v-btn color="green darken-1" flat="flat" @click="addimportedkeys(true)">
                         Added & Close
                     </v-btn>
                 </v-card-actions>
@@ -853,22 +853,24 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                     default:
                         return key.toUpperCase();
                 }
-
             },
-            addimportedkeys() {
+            addimportedkeys(close) {
                 for (var i = this.importedapps.length - 1; i >= 0; i--) {
-                    this.importedapps[i].appid = getappid(this.importedapps[i]);
                     if (this.importedapps[i].name != '' && this.importedapps[i].appid != '') {
+                        this.importedapps[i].appid = getappid(this.importedapps[i]);
                         for (var j = 0; j < this.importedapps[i].keys.length; j++) {
                             addkey(gettab(this.importedapps[i].platform), getappid(store.state
                                 .importedapps[i]), this.importedapps[i].keys[j].key);
                         }
                         var index = pushplatform.map(el => el.appid).indexOf(this.importedapps[i].appid);
-                        console.log("name " + this.importedapps[i].name + " index " + index)
                         index != -1 ? pushplatform[index].keys = pushplatform[index].keys.concat(this.importedapps[
                             i].keys) : pushplatform.push(this.importedapps[i]);
                         this.importedapps.splice(i, 1);
                     }
+                }
+                if (close || this.importedapps.length == 0) {
+                    store.state.importedapps = [];
+                    store.state.import = false;
                 }
             },
             impport(Platform) {
@@ -1162,6 +1164,7 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                 this.addialog = false;
             },
             hideimportdialog() {
+                store.state.importedapps = [];
                 store.state.import = false
             },
             editItem(item) {

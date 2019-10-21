@@ -199,9 +199,9 @@ function filters(Platform, linestr, lineNumber) {
     }
     obj.name = gamename.replace(/(\r\n|\n|\r)/gm, '').trim();
     var index = getindex(platform, obj.name)
-    if (index !== -1) {
+    if (index != -1) {
       obj.name = platform[index].name;
-      obj.appid = getappid(platform[index]);
+      obj.appid = platform[index].appid;
       obj.platform = Platform;
       store.state.importedapps.push(obj);
     } else {
