@@ -856,29 +856,18 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
 
             },
             addimportedkeys() {
-                for (var i = 0; i < this.importedapps.length; i++)
+                for (var i = this.importedapps.length - 1; i >= 0; i--) {
                     if (this.importedapps[i].name != '' && this.importedapps[i].appid != '') {
-                        var index = pushplatform.map(el => el.appid).indexOf(getappid(this.importedapps[i]));
-                        if (index !== -1) {
-                            for (var j = 0; j < this.importedapps[i].keys.length; j++) {
-                                addkey(gettab(this.importedapps[i].platform), getappid(store.state
-                                    .importedapps[i]), this.importedapps[i].keys[j].key);
-                                pushplatform[index].keys.push({
-                                    key: this.importedapps[i].keys[j].key
-                                });
-                            }
-                        } else {
-                            for (var j = 0; j < this.importedapps[i].keys.length; j++) {
-                                addkey(gettab(this.importedapps[i].platform), getappid(store.state
-                                    .importedapps[i]), this.importedapps[i].keys[j].key);
-                            }
-                            pushplatform.push(this.importedapps[i]);
+                        for (var j = 0; j < this.importedapps[i].keys.length; j++) {
+                            addkey(gettab(this.importedapps[i].platform), getappid(store.state
+                                .importedapps[i]), this.importedapps[i].keys[j].key);
                         }
+                        var index = pushplatform.map(el => el.appid).indexOf(getappid(this.importedapps[i]));
+                        index != -1 ? pushplatform[index].keys = pushplatform[index].keys.concat(this.importedapps[
+                            i].keys) : pushplatform.push(this.importedapps[i]);
+                        this.importedapps.splice(i, 1);
                     }
-                for (var i = this.importedapps.length - 1; i >= 0; i--)
-                    if (this.importedapps[i].name != '' && this.importedapps[i].appid != '') {
-                        this.importedapps.splice(i, 1)
-                    }
+                }
             },
             impport(Platform) {
                 impport(Platform);
@@ -1038,14 +1027,7 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
 
                 if (!this.Equals(item2, item1)) {
                     i = 0;
-                    gameexists = false;
-                    while (i < this.apps.length) {
-                        if (this.apps[i].appid == item1.appid) {
-                            gameexists = true;
-                            break;
-                        }
-                        i++
-                    }
+                    this.apps.map(e => e.appid).indexOf(item1.appid) != -1 ? gameexists = true : gameexists = false
                     index = this.apps.map(e => e.appid).indexOf(item2.appid);
                     k = 0;
                     while (k < item1.keys.length) {
@@ -1064,40 +1046,43 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                         keys: item1.keys,
                         tags: item1.tags
                     }
-                    if (!gameexists)
-                        if (!this.$route.path.includes('/keys')) {
-                            switch (item1.platform) {
-                                case 'Steam':
-                                    store.state.steamkey.push(newitem);
-                                    break;
-                                case 'Uplay':
-                                    store.state.uplaykey.push(newitem);
-                                    break;
-                                case 'Origin':
-                                    store.state.originkey.push(newitem);
-                                    break;
-                                case 'Other':
-                                    store.state.otherskey.push(newitem);
-                                    break;
-                            }
-                        } else
-                            this.apps.push(newitem);
 
+                    gameexists ? this.apps[i].keys = this.apps[i].keys.concat(item1.keys) : this.Methode(item1,
+                        item2, newitem)
+                    this.editedItem = {
+                        appid: '',
+                        name: '',
+                        platform: '',
+                        keys: [],
+                        tags: []
+                    };
+
+                    this.oldeditedItem = null;
+                    this.msg.text = "App Saved successfully";
+                    this.hasSaved = true;
+                    this.editdialog = false;
+                }
+            },
+            Methode(item1, item2, newitem) {
+                if (!this.$route.path
+                    .includes('/keys')) {
+                    switch (item1.platform) {
+                        case 'Steam':
+                            store.state.steamkey.push(newitem);
+                            break;
+                        case 'Uplay':
+                            store.state.uplaykey.push(newitem);
+                            break;
+                        case 'Origin':
+                            store.state.originkey.push(newitem);
+                            break;
+                        case 'Other':
+                            store.state.otherskey.push(newitem);
+                            break;
+                    };
                     this.UpdateVuex(item1.platform, this.apps);
                     this.UpdateVuex(item2.platform, this.apps);
                 }
-                this.editedItem = {
-                    appid: '',
-                    name: '',
-                    platform: '',
-                    keys: [],
-                    tags: []
-                };
-
-                this.oldeditedItem = null;
-                this.msg.text = "App Saved successfully";
-                this.hasSaved = true;
-                this.editdialog = false;
             },
             UpdateVuex(platform, newvalue) {
                 if (this.$route.path.includes('/keys')) {
