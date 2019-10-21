@@ -531,21 +531,25 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                     Apps with orange Won't be added
                     <v-data-table :items="importedapps" class="elevation-1" hide-actions hide-headers>
                         <template v-slot:items="props">
-                            <td>
+                            <td width="5%">
                                 <v-chip class='unselectable white--text'
                                     :color="props.item.appid == '' ? 'orange' : 'blue'" dark>
                                     {{props.item.line}}</v-chip>
                             </td>
-                            <td>
+                            <td width="10%">
                                 <v-text-field label="Appid" v-model="props.item.appid" @input="IDEdited(props.item)">
                                 </v-text-field>
                             </td>
-                            <td>
+                            <td width="45%">
                                 <v-combobox :items='appnames' v-model="props.item.name" @change="NameEdited(props.item)"
                                     label="Name">
                                 </v-combobox>
                             </td>
-                            <td>{{ props.item.keys }}</td>
+                            <td width="40%">
+                                <v-text-field label="Keys" readonly
+                                    :value="props.item.keys.map(el => el.key).join('  ||  ')">
+                                </v-text-field>
+                            </td>
                         </template>
                     </v-data-table>
                     <!--<table>
