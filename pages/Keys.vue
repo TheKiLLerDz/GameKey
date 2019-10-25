@@ -37,59 +37,56 @@
                                 v-text="header.text" />
                         </template>
                         <template slot="items" slot-scope="props">
-                            <tr>
-                                <td @click="props.expanded = !props.expanded">
-                                    <img :src="props.item.platform == 'Steam' ? 'https://steamcdn-a.akamaihd.net/steam/apps/' + props.item.appid + '/header.jpg' : props.item.platform == 'Uplay' ? 'https://transform.dis.commercecloud.salesforce.com/transform/ABBS_PRD/on/demandware.static/-/Sites-masterCatalog/default/images/large/'+props.item.appid+'.jpg?sw=500&sh=200&sm=cut' : 'apps/undefined.gif'"
-                                        onerror="this.src='apps/undefined.gif'" height="42" width="100">
-                                </td>
-                                <td @click="props.expanded = !props.expanded">
-                                    <v-chip dark>{{ props.item.name }}</v-chip>
-                                </td>
-                                <td v-if="$route.path.includes('/keys')" @click="props.expanded = !props.expanded">
-                                    <v-icon v-if="props.item.platform=='Steam'" :color='platforms[0].color'>mdi-steam
-                                    </v-icon>
-                                    <v-icon v-else-if="props.item.platform=='Uplay'" :color='platforms[1].color'>
-                                        mdi-ubisoft</v-icon>
-                                    <v-icon v-else-if="props.item.platform=='Origin'" :color='platforms[2].color'>
-                                        mdi-origin</v-icon>
-                                    <v-icon v-else-if="props.item.platform=='Other'" :color='platforms[3].color'>mdi-key
-                                    </v-icon>
-                                </td>
-                                <td @click="props.expanded = !props.expanded">
-                                    <v-chip class='unselectable'
-                                        :color="getColor(props.item.keys.reduce(function (length, key) {
+                            <td @click="props.expanded = !props.expanded">
+                                <img :src="props.item.platform == 'Steam' ? 'https://steamcdn-a.akamaihd.net/steam/apps/' + props.item.appid + '/header.jpg' : props.item.platform == 'Uplay' ? 'https://transform.dis.commercecloud.salesforce.com/transform/ABBS_PRD/on/demandware.static/-/Sites-masterCatalog/default/images/large/'+props.item.appid+'.jpg?sw=500&sh=200&sm=cut' : 'apps/undefined.gif'"
+                                    onerror="this.src='apps/undefined.gif'" height="42" width="100">
+                            </td>
+                            <td @click="props.expanded = !props.expanded">
+                                <v-chip dark>{{ props.item.name }}</v-chip>
+                            </td>
+                            <td v-if="$route.path.includes('/keys')" @click="props.expanded = !props.expanded">
+                                <v-icon v-if="props.item.platform=='Steam'" :color='platforms[0].color'>mdi-steam
+                                </v-icon>
+                                <v-icon v-else-if="props.item.platform=='Uplay'" :color='platforms[1].color'>
+                                    mdi-ubisoft</v-icon>
+                                <v-icon v-else-if="props.item.platform=='Origin'" :color='platforms[2].color'>
+                                    mdi-origin</v-icon>
+                                <v-icon v-else-if="props.item.platform=='Other'" :color='platforms[3].color'>mdi-key
+                                </v-icon>
+                            </td>
+                            <td @click="props.expanded = !props.expanded">
+                                <v-chip class='unselectable'
+                                    :color="getColor(props.item.keys.reduce(function (length, key) {
                                         if (key.trade != undefined && key.trade.value) return length; else return length + 1 }, 0))" dark>
-                                        {{props.item.keys.length}}</v-chip>
-                                </td>
-                                <td>
-                                    <v-tooltip top>
-                                        <v-btn slot="activator" @click="deletedialog=true;Itemtodelete=props.item"
-                                            color="error" icon small>
-                                            <v-icon small>
-                                                delete
-                                            </v-icon>
-                                        </v-btn>
-                                        <span class="top">Delete</span>
-                                    </v-tooltip>
-                                    <v-tooltip top>
-                                        <v-btn slot="activator" @click="editItem(props.item)" color="success" icon
-                                            small>
-                                            <v-icon small>
-                                                mdi-square-edit-outline
-                                            </v-icon>
-                                        </v-btn>
-                                        <span class="top">Edit</span>
-                                    </v-tooltip>
-                                    <v-tooltip top>
-                                        <v-btn slot="activator" @click="otherinfo(props.item)" color="info" icon small>
-                                            <v-icon small>
-                                                info
-                                            </v-icon>
-                                        </v-btn>
-                                        <span class="top">Other information</span>
-                                    </v-tooltip>
-                                </td>
-                            </tr>
+                                    {{props.item.keys.length}}</v-chip>
+                            </td>
+                            <td>
+                                <v-tooltip top>
+                                    <v-btn slot="activator" @click="deletedialog=true;Itemtodelete=props.item"
+                                        color="error" icon small>
+                                        <v-icon small>
+                                            delete
+                                        </v-icon>
+                                    </v-btn>
+                                    <span class="top">Delete</span>
+                                </v-tooltip>
+                                <v-tooltip top>
+                                    <v-btn slot="activator" @click="editItem(props.item)" color="success" icon small>
+                                        <v-icon small>
+                                            mdi-square-edit-outline
+                                        </v-icon>
+                                    </v-btn>
+                                    <span class="top">Edit</span>
+                                </v-tooltip>
+                                <v-tooltip top>
+                                    <v-btn slot="activator" @click="otherinfo(props.item)" color="info" icon small>
+                                        <v-icon small>
+                                            info
+                                        </v-icon>
+                                    </v-btn>
+                                    <span class="top">Other information</span>
+                                </v-tooltip>
+                            </td>
                         </template>
                         <template v-slot:expand="props">
                             <v-card flat>
@@ -647,6 +644,27 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
             }
         },
         computed: {
+            apps() {
+                switch (window.location.hash.slice(1)) {
+                    case '/steam':
+                        return store.state.steamkey
+                        break;
+                    case '/uplay':
+                        return store.state.uplaykey
+                        break;
+                    case '/origin':
+                        return store.state.originkey
+                        break;
+                    case '/other':
+                        return store.state.otherskey
+                        break;
+                    default:
+                        return store.state.steamkey.concat(store.state.uplaykey.concat(store.state
+                            .originkey
+                            .concat(store.state.otherskey)))
+                        break;
+                }
+            },
             waitingdialog() {
                 return store.state.waitingdialog
             },
@@ -819,7 +837,6 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                 expanded: [],
                 singleExpand: false,
                 updatedb: [],
-                apps: [],
                 oldediteditem: null,
                 itemtoadd: {
                     appid: '',
@@ -1035,18 +1052,25 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
 
                 if (!this.Equals(item2, item1)) {
                     i = 0;
-                    this.apps.map(e => e.appid).indexOf(item1.appid) != -1 ? gameexists = true : gameexists = false
-                    index = this.apps.map(e => e.appid).indexOf(item2.appid);
+                    this.getplatform(item1.platform).map(e => e.appid).indexOf(item1.appid) != -1 ? gameexists =
+                        true : gameexists = false
+                    index = this.getplatform(item2.platform).map(e => e.appid).indexOf(item2.appid);
                     k = 0;
                     while (k < item1.keys.length) {
                         addkey(gettab(item1.platform), getappid(item1), item1.keys[k].key);
+                        if (item1.keys[k].trade && item1.keys[k].trade.value) this.TradeKeyEdit(item1, item1.keys[k]
+                            .key, item1.keys[k]
+                            .trade.user)
+                        if (item1.keys[k].beta && item1.keys[k].beta.value) this.BetaKeyEdit(item1, item1.keys[k],
+                            item1.keys[k]
+                            .beta.enddate)
                         if (gameexists) {
-                            this.apps[i].keys.push(item1.keys[k]);
+                            this.getplatform(item2.platform)[i].keys.push(item1.keys[k]);
                         }
                         k++;
                     }
                     delgametagskeys(gettab(item2.platform), getappid(item2));
-                    this.apps.splice(index, 1);
+                    this.getplatform(item2.platform).splice(index, 1);
                     var newitem = {
                         name: item1.name,
                         appid: item1.appid,
@@ -1055,8 +1079,9 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                         tags: item1.tags
                     }
 
-                    gameexists ? this.apps[i].keys = this.apps[i].keys.concat(item1.keys) : this.Methode(item1,
-                        item2, newitem)
+                    gameexists ? this.getplatform(item1.platform)[i].keys = this.getplatform(item1.platform)[i].keys
+                        .concat(item1.keys) :
+                        this.getplatform(newitem.platform).push(newitem)
                     this.editedItem = {
                         appid: '',
                         name: '',
@@ -1064,66 +1089,10 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                         keys: [],
                         tags: []
                     };
-
                     this.oldeditedItem = null;
                     this.msg.text = "App Saved successfully";
                     this.hasSaved = true;
                     this.editdialog = false;
-                }
-            },
-            Methode(item1, item2, newitem) {
-                if (!this.$route.path
-                    .includes('/keys')) {
-                    switch (item1.platform) {
-                        case 'Steam':
-                            store.state.steamkey.push(newitem);
-                            break;
-                        case 'Uplay':
-                            store.state.uplaykey.push(newitem);
-                            break;
-                        case 'Origin':
-                            store.state.originkey.push(newitem);
-                            break;
-                        case 'Other':
-                            store.state.otherskey.push(newitem);
-                            break;
-                    };
-                    this.UpdateVuex(item1.platform, this.apps);
-                    this.UpdateVuex(item2.platform, this.apps);
-                }
-            },
-            UpdateVuex(platform, newvalue) {
-                if (this.$route.path.includes('/keys')) {
-                    switch (platform) {
-                        case 'Steam':
-                            store.state.steamkey = newvalue.reduce(function (items, item) {
-                                if (item.platform == 'Steam')
-                                    return items.concat(item);
-                                else return items
-                            }, []);
-                            break;
-                        case 'Uplay':
-                            store.state.uplaykey = newvalue.reduce(function (items, item) {
-                                if (item.platform == 'Uplay')
-                                    return items.concat(item);
-                                else return items
-                            }, []);
-                            break;
-                        case 'Origin':
-                            store.state.originkey = newvalue.reduce(function (items, item) {
-                                if (item.platform == 'Origin')
-                                    return items.concat(item);
-                                else return items
-                            }, []);
-                            break;
-                        case 'Other':
-                            store.state.otherskey = newvalue.reduce(function (items, item) {
-                                if (item.platform == 'Other')
-                                    return items.concat(item);
-                                else return items
-                            }, []);
-                            break;
-                    }
                 }
             },
             add(app) {
@@ -1141,18 +1110,16 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                 }
                 updatetags(gettab(app.platform), getappid(app), app.tags);
 
-                var index = this.apps.map(e => e.appid).indexOf(getappid(app));
+                var index = this.getplatform(app.platform).map(e => e.appid).indexOf(getappid(app));
                 if (index == -1)
-                    this.apps.push({
+                    this.getplatform(app.platform).push({
                         appid: app.platform == 'Other' ? this.apps.length : getappid(app),
                         name: app.name,
                         keys: app.keys,
                         platform: app.platform,
                         tags: app.tags
                     });
-                else this.apps[index].keys = this.apps[index].keys.concat(app.keys);
-
-                this.UpdateVuex(app.platform, this.apps);
+                else this.getplatform(app.platform)[index].keys = this.getplatform(app.platform)[index].keys.concat(app.keys);
                 this.itemtoadd = {
                     appid: '',
                     name: '',
@@ -1167,6 +1134,22 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                 this.hasSaved = true;
                 this.addialog = false;
             },
+            getplatform(Platform) {
+                switch (Platform) {
+                    case 'Steam':
+                        return store.state.steamkey;
+                        break;
+                    case 'Uplay':
+                        return store.state.uplaykey;
+                        break;
+                    case 'Origin':
+                        return store.state.originkey;
+                        break;
+                    case 'Other':
+                        return store.state.otherskey;
+                        break;
+                };
+            },
             hideimportdialog() {
                 store.state.importedapps = [];
                 store.state.import = false
@@ -1178,20 +1161,19 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                 this.editdialog = true;
             },
             deleteItem(item) {
-                const index = this.apps.indexOf(item)
-                delgametagskeys(gettab(item.platform), getappid(item)) & this.apps.splice(index, 1) & this
-                    .UpdateVuex(item.platform, this.apps);
+                const index = this.getplatform(item.platform).indexOf(item)
+                delgametagskeys(gettab(item.platform), getappid(item)) & this.getplatform(item.platform).splice(
+                    index, 1)
                 this.deletedialog = false;
             },
             deletekey(key, item) {
-                const index = this.apps.indexOf(item);
-                const indexi = this.apps[index].keys.map(e => e.key).indexOf(key);
-                delkey(gettab(item.platform), getappid(item), key) & this.apps[
+                const index = this.getplatform(item.platform).indexOf(item);
+                const indexi = this.getplatform(item.platform)[index].keys.map(e => e.key).indexOf(key);
+                delkey(gettab(item.platform), getappid(item), key) & this.getplatform(item.platform)[
                     index].keys.splice(indexi, 1);
                 if (item.keys.length == 0) {
-                    this.apps.splice(index, 1);
+                    this.getplatform(item.platform).splice(index, 1);
                     delgametagskeys(gettab(item.platform), getappid(item));
-                    this.UpdateVuex(item.platform, this.apps);
                 }
                 this.deletekeydialog = false;
             },
@@ -1199,8 +1181,9 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                 if (string.includes('/keys')) {
                     return 'all'
                 } else {
-                    return string.substring(1, 15).charAt(0).toUpperCase() + string.substring(1, 15).slice(
-                        1);
+                    return string.substring(1, 15).charAt(0).toUpperCase() + string.substring(1, 15)
+                        .slice(
+                            1);
                 }
 
             },
@@ -1238,24 +1221,6 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                 this.headers[2].show = true;
             } else {
                 this.headers[2].show = false;
-            }
-            switch (window.location.hash.slice(1)) {
-                case '/steam':
-                    this.apps = store.state.steamkey
-                    break;
-                case '/uplay':
-                    this.apps = store.state.uplaykey
-                    break;
-                case '/origin':
-                    this.apps = store.state.originkey
-                    break;
-                case '/other':
-                    this.apps = store.state.otherskey
-                    break;
-                default:
-                    this.apps = store.state.steamkey.concat(store.state.uplaykey.concat(store.state.originkey
-                        .concat(store.state.otherskey)))
-                    break;
             }
             store.state.updatedb.notifications == undefined ? this.updatedb = [] : store.state.updatedb
                 .notifications.forEach(el => {
