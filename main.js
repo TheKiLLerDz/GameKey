@@ -176,7 +176,7 @@ v = new Vue({
     },
     games() {
       return store.state.steamkey.concat(store.state.uplaykey.concat(store.state.originkey
-        .concat(store.state.others)));
+        .concat(store.state.otherskey)));
     }
   },
   beforeCreate() {
