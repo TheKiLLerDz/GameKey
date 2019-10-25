@@ -1089,6 +1089,7 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                         keys: [],
                         tags: []
                     };
+                    this.appnames = [];
                     this.oldeditedItem = null;
                     this.msg.text = "App Saved successfully";
                     this.hasSaved = true;
@@ -1119,7 +1120,8 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                         platform: app.platform,
                         tags: app.tags
                     });
-                else this.getplatform(app.platform)[index].keys = this.getplatform(app.platform)[index].keys.concat(app.keys);
+                else this.getplatform(app.platform)[index].keys = this.getplatform(app.platform)[index].keys.concat(
+                    app.keys);
                 this.itemtoadd = {
                     appid: '',
                     name: '',
@@ -1130,6 +1132,7 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                     }],
                     tags: []
                 }
+                this.appnames = [];
                 this.msg.text = "App Added successfully";
                 this.hasSaved = true;
                 this.addialog = false;
