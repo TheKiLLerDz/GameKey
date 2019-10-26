@@ -1043,10 +1043,13 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                 updatetags(gettab(item.platform), getappid(item), newtags);
             },
             save(item1, item2) {
+                item2plat = this.getplatform(item2.platform);
                 for (i = 0; i < item2.keys.length; i++) {
-                    if (item2.keys[i].key !== item1.keys[i].key)
+                    if (item2.keys[i].key !== item1.keys[i].key) {
                         this.editkey(item2, item2.keys[i].key, item1.keys[i]
                             .key)
+                        item2plat[item2plat.map(e => e.appid).indexOf(item2.appid)].keys[i].key = item1.keys[i].key;
+                    }
                 }
                 this.updatetags(item2, item1.tags);
 
@@ -1078,7 +1081,6 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                         keys: item1.keys,
                         tags: item1.tags
                     }
-
                     gameexists ? this.getplatform(item1.platform)[i].keys = this.getplatform(item1.platform)[i].keys
                         .concat(item1.keys) :
                         this.getplatform(newitem.platform).push(newitem)
@@ -1089,12 +1091,12 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                         keys: [],
                         tags: []
                     };
-                    this.appnames = [];
-                    this.oldeditedItem = null;
-                    this.msg.text = "App Saved successfully";
-                    this.hasSaved = true;
-                    this.editdialog = false;
                 }
+                this.appnames = [];
+                this.oldeditedItem = null;
+                this.msg.text = "App Saved successfully";
+                this.hasSaved = true;
+                this.editdialog = false;
             },
             add(app) {
                 if (gettab(app.platform) == 1 && app.appid == '') {
