@@ -9,20 +9,25 @@ Dexie.exists('GameKey_DB').then(async function (exists) {
         });
         db.open();
         const steam = await fetch(
-            'http://127.0.0.1:5501/steamdb.json');
+            'http://127.0.0.1:3000/steamdb.json');
         const steamjs = await steam.json();
         db.steam.bulkPut(steamjs.applist);
 
         const origin = await fetch(
-            'http://127.0.0.1:5501/origindb.json');
+            'http://127.0.0.1:3000/origindb.json');
         const originjs = await origin.json();
         db.origin.bulkPut(originjs.applist);
 
         const uplay = await fetch(
-            'http://127.0.0.1:5501/uplaydb.json');
+            'http://127.0.0.1:3000/uplaydb.json');
         const uplayjs = await uplay.json();
         db.uplay.bulkPut(uplayjs.applist);
         
+        const version = await fetch(
+            'http://127.0.0.1:3000/version.json');
+        const versionjs = await version.json();
+        let versionstr = JSON.stringify(versionjs);
+        localStorage.setItem("version",versionstr);
         opendb();
     }
 
