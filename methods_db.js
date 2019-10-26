@@ -18,12 +18,7 @@ function opendb() {
 }
 
 function getdata() {
-	getnotification({
-		steam: 0.0,
-		uplay: 1.0,
-		origin: -1.0,
-		app: 0.0
-	})
+	getnotification(JSON.parse(localStorage.getItem("version")))
 	getuplaybdd()
 	getoriginbdd()
 	getsteambdd()
