@@ -127,6 +127,7 @@ v = new Vue({
         link: '/about'
       }
     ],
+    updatedb: [],
     keys: true,
     isDark: false,
     mini: false,
@@ -191,6 +192,12 @@ v = new Vue({
         this.windowWidth = window.innerWidth
       });
     })
+    store.state.updatedb.notifications == undefined ? this.updatedb = [] : store.state.updatedb
+      .notifications.forEach(el => {
+        el.value = 'true';
+        this.updatedb.push(el)
+      })
+    console.log(this.updatedb)
   },
   watch: {
     windowWidth(newWidth, oldWidth) {

@@ -210,6 +210,10 @@
             </v-container>
         </v-content>
         </v-layout>
+        <v-snackbar v-for="(item,index) in updatedb" :key="item.notification" v-model="item.value"
+            :timeout="2000*(index+1)" :style="'margin-bottom: '+60*(index+0.4)+'px;'" absolute right color="blue">
+            <div class="pa-2 ma-2 update">{{item.notification}}</div>
+        </v-snackbar>
         <v-footer color="blue darken-3" app>
             <h3 class="px-3 white--text">&copy; {{App.year}}</h3>
             <v-spacer></v-spacer>

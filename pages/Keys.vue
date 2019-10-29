@@ -622,10 +622,6 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
         <v-snackbar v-model="hasSaved" :timeout="2000" absolute bottom :color="msg.color">
             <div class="pa-2 ma-2">{{msg.text}}</div>
         </v-snackbar>
-        <v-snackbar v-for="item in updatedb" :key="item.notification" v-model="item.value" :timeout="2000"
-            style="margin-bottom: 60px;" absolute right color="blue">
-            <div class="pa-2 ma-2 update">{{item.notification}}</div>
-        </v-snackbar>
     </v-layout>
 </template>
 <script>
@@ -836,7 +832,6 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                 ],
                 expanded: [],
                 singleExpand: false,
-                updatedb: [],
                 oldediteditem: null,
                 itemtoadd: {
                     appid: '',
@@ -1227,12 +1222,6 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
             } else {
                 this.headers[2].show = false;
             }
-            store.state.updatedb.notifications == undefined ? this.updatedb = [] : store.state.updatedb
-                .notifications.forEach(el => {
-                    el.value = 'true';
-                    this.updatedb.push(el)
-                })
-            console.log(this.updatedb)
         },
     }
 </script>
