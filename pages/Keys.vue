@@ -531,7 +531,7 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                             <td width="5%">
                                 <v-chip class='unselectable white--text'
                                     :color="props.item.appid == '' ? 'orange' : 'blue'" dark>
-                                    {{props.item.line}}</v-chip>
+                                    {{props.index+1}}</v-chip>
                             </td>
                             <td width="10%">
                                 <v-text-field label="Appid" v-model="props.item.appid" @input="IDEdited(props.item)">

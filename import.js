@@ -145,77 +145,76 @@ function getindex(platform, name) {
 }
 
 function importtxt(Platform, path) {
-  store.state.waitingdialog = true
-  setTimeout(() => {
-    store.state.import = true;
-    store.state.waitingdialog = false;
-    const lineByLine = require('./readlines.js');
-    const liner = new lineByLine(path);
-    var linestr;
-    var index;
-    var word;
-    let line;
-    let lineNumber = 1;
+  var linestr;
+  var index;
+  var word;
+  let line;
+  let lineNumber = 1;
+  const lineByLine = require('./readlines.js');
+  const liner = new lineByLine(path);
+  while (line = liner.next()) {
+    linestr = line.toString('ascii');
+    filters(Platform, linestr, lineNumber);
+    lineNumber++;
+  }
 
-    while (line = liner.next()) {
-      linestr = line.toString('ascii');
-      filters(Platform, linestr, lineNumber);
-      lineNumber++;
-    }
-  }, 2000);
 
 }
 
 function filters(Platform, linestr, lineNumber) {
-  switch (Platform) {
-    case 'Steam':
-      keys = PatternKeySteam(linestr);
-      platform = store.state.steam;
-      pushplatform = store.state.steamkey;
-      break;
-    case 'Origin':
-      keys = PatternKeyOrigin(linestr);
-      platform = store.state.origin;
-      pushplatform = store.state.originkey;
-      break;
-    case 'Uplay':
-      keys = PatternKeyUplay(linestr);
-      platform = store.state.uplay;
-      pushplatform = store.state.uplaykey;
-      break;
-  }
-  var obj = {
-    line: lineNumber,
-    name: '',
-    keys: []
-  }
-  gamename = linestr;
-  if (keys !== null) {
-    for (var i = 0; i < keys.length; i++) {
-      gamename = gamename.replace(keys[i], '');
-      obj.keys.push({
-        key: keys[i]
-      })
+  store.state.waitingdialog = true
+  setTimeout(() => {
+    store.state.import = true;
+    store.state.waitingdialog = false;
+    switch (Platform) {
+      case 'Steam':
+        keys = PatternKeySteam(linestr);
+        platform = store.state.steam;
+        pushplatform = store.state.steamkey;
+        break;
+      case 'Origin':
+        keys = PatternKeyOrigin(linestr);
+        platform = store.state.origin;
+        pushplatform = store.state.originkey;
+        break;
+      case 'Uplay':
+        keys = PatternKeyUplay(linestr);
+        platform = store.state.uplay;
+        pushplatform = store.state.uplaykey;
+        break;
     }
-    obj.name = gamename.replace(/(\r\n|\n|\r)/gm, '').trim();
-    var index = getindex(platform, obj.name)
-    if (index != -1) {
-      obj.name = platform[index].name;
-      obj.appid = platform[index].appid;
-      obj.platform = Platform;
-      store.state.importedapps.push(obj);
-    } else {
-      obj.appid = '';
-      obj.platform = Platform;
-      store.state.importedapps.push(obj);
+    var obj = {
+      line: lineNumber,
+      name: '',
+      keys: []
     }
-  }
-  lineNumber++;
+    gamename = linestr;
+    if (keys !== null) {
+      for (var i = 0; i < keys.length; i++) {
+        gamename = gamename.replace(keys[i], '');
+        obj.keys.push({
+          key: keys[i]
+        })
+      }
+      obj.name = gamename.replace(/(\r\n|\n|\r)/gm, '').trim();
+      var index = getindex(platform, obj.name)
+      if (index != -1) {
+        obj.name = platform[index].name;
+        obj.appid = platform[index].appid;
+        obj.platform = Platform;
+        store.state.importedapps.push(obj);
+      } else {
+        obj.appid = '';
+        obj.platform = Platform;
+        store.state.importedapps.push(obj);
+      }
+    }
+  }, 2000);
+    lineNumber++;
 }
 
 function importxls(Platform, path) {
   const readXlsxFile = require('read-excel-file/node');
-
   readXlsxFile(path).then((rows) => {
     rows.forEach(el => {
       filters(Platform, el.join(' '))
