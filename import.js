@@ -7,27 +7,30 @@ var platform;
 var pushplatform;
 
 function PatternKeySteam(string) {
+  var result = []
   const virtualkeypattern = /([\dA-Z]{5}\-){2}[\dA-Z]{5}/gi;
   const physicalkeypattern = /([\dA-Z]{5}\-){4}[\dA-Z]{5}/gi;
-  var physicalkey = string.match(physicalkeypattern);
-  if (physicalkey == null) return string.match(virtualkeypattern);
-  else return physicalkey
+  result = result.concat(string.match(virtualkeypattern), string.match(physicalkeypattern)).filter(Boolean);
+  if (result.length == 0) return null;
+  else return result
 }
 
 function PatternKeyOrigin(string) {
+  var result = []
   const keypattern1 = /MB-([\dA-Z]{16})/gi;
   const keypattern2 = /([\dA-Z]{4}\-){4}[\dA-Z]{4}/gi;
-  var format1 = string.match(keypattern1);
-  if (format1 == null) return string.match(keypattern2);
-  else return format1
+  result = result.concat(string.match(keypattern1), string.match(keypattern2)).filter(Boolean);
+  if (result.length == 0) return null;
+  else return result
 }
 
 function PatternKeyUplay(string) {
+  var result = []
   const keypattern1 = /([\dA-Z]{4}\-){3}[\dA-Z]{4}/gi;
   const keypattern2 = /[\dA-Z]{3}\-([\dA-Z]{4}\-){3}[\dA-Z]{4}/gi;
-  var format1 = string.match(keypattern1);
-  if (format1 == null) return string.match(keypattern2);
-  else return format1
+  result = result.concat(string.match(keypattern1), string.match(keypattern2)).filter(Boolean);
+  if (result.length == 0) return null;
+  else return result
 }
 
 function impport(Platform) {
