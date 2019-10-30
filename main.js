@@ -56,6 +56,7 @@ const store = new Vuex.Store({
   },
 })
 v = new Vue({
+  el: '#app',
   store,
   router,
   data: ({
@@ -63,6 +64,7 @@ v = new Vue({
       version: '1.0',
       year: '2019'
     },
+    Launch: false,
     loading: false,
     theme: '',
     themes: [{

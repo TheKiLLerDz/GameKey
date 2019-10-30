@@ -13,8 +13,14 @@
 </head>
 
 <body>
-    <div id="main">
-        <div class="loader unselectable">
+    <v-app v-cloak id="app" :dark="isDark" :class="theme">
+        <div class="loader unselectable" v-if="!Launch" style="margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background-color: #181a1b;">
             <span>G</span>
             <span>A</span>
             <span>M</span>
@@ -26,9 +32,7 @@
             <span>.</span>
             <span>.</span>
         </div>
-    </div>
-    <v-app v-cloak id="app" :dark="isDark" :class="theme">
-        <v-toolbar dense color="blue darken-3" app clipped-left extended height="33px" extension-height="50px"
+        <v-toolbar dense color="blue darken-3" app clipped-left :extended="Launch" height="33px" extension-height="50px"
             @dblclick="Maximize()" class="unselectable">
             <span style="position: absolute; left: 50%; transform: translate(-50%, 0px);">GameKey</span>
             <v-spacer></v-spacer>
@@ -42,7 +46,7 @@
             <v-btn color="darken-3" icon round small @click="Close()">
                 <v-icon>mdi-close</v-icon>
             </v-btn>
-            <template v-slot:extension>
+            <template v-slot:extension v-if="Launch">
                 <v-icon></v-icon>
                 <v-toolbar-title class="ml-0 pl-3 unselectable"
                     style="font-weight: bold;animation: animate 5s linear 2;font-family: 'Comic Sans MS', cursive, sans-serif">
@@ -123,7 +127,7 @@
                 </v-menu>
             </template>
         </v-toolbar>
-        <v-navigation-drawer permanent :mini-variant="mini" floating clipped app width="250">
+        <v-navigation-drawer permanent :mini-variant="mini" floating clipped app width="250" v-if="Launch">
             <div class="transparent flat">
                 <v-list>
                     <v-list-tile class='unselectable' avatar>
@@ -158,7 +162,7 @@
                 </v-list>
             </div>
         </v-navigation-drawer>
-        <v-content :style="isDark ? '' : 'background-color: #eee'">
+        <v-content :style="isDark ? '' : 'background-color: #eee'" v-if="Launch">
             <v-container fluid grid-list-lg style="max-height: calc(100vh - 100px);" class="scroll-y">
                 <v-menu v-model='settingstab' :close-on-content-click="false" bottom left min-width="300"
                     max-width="300" nudge-left="12" offset-x transition="slide-y-transition">
@@ -214,12 +218,13 @@
             :timeout="2000*(index+1)" :style="'margin-bottom: '+60*(index+0.4)+'px;'" absolute right color="blue">
             <div class="pa-2 ma-2 update">{{item.notification}}</div>
         </v-snackbar>
-        <v-footer color="blue darken-3" app>
+        <v-footer color="blue darken-3" app v-if="Launch">
             <h3 class="px-3 white--text">&copy; {{App.year}}</h3>
             <v-spacer></v-spacer>
             <h3 class="px-3 white--text">v {{App.version}}</h3>
         </v-footer>
     </v-app>
+    </div>
 </body>
 <script src="cdn/dexie.js"></script>
 <script src="DB.js"></script>

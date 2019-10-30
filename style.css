@@ -51,16 +51,6 @@ html {
     display: none;
 }
 
-#main {
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background-color: #181a1b;
-}
-
 .loader {
     position: relative;
     display: flex;
