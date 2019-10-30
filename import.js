@@ -15,8 +15,11 @@ function PatternKeySteam(string) {
 }
 
 function PatternKeyOrigin(string) {
-  const keypattern = /([\dA-Z]{4}\-){4}[\dA-Z]{4}/gi;
-  return string.match(keypattern);
+  const keypattern1 = /MB-([\dA-Z]{16})/gi;
+  const keypattern2 = /([\dA-Z]{4}\-){4}[\dA-Z]{4}/gi;
+  var format1 = string.match(keypattern1);
+  if (format1 == null) return string.match(keypattern2);
+  else return format1
 }
 
 function PatternKeyUplay(string) {
@@ -210,7 +213,7 @@ function filters(Platform, linestr, lineNumber) {
       }
     }
   }, 2000);
-    lineNumber++;
+  lineNumber++;
 }
 
 function importxls(Platform, path) {
