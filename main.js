@@ -129,7 +129,6 @@ v = new Vue({
         link: '/about'
       }
     ],
-    updatedb: [],
     keys: true,
     isDark: false,
     mini: false,
@@ -173,6 +172,17 @@ Update(item) {
 this.updatedb[item].type == 'ND' ? updateDB(JSON.parse(localStorage.getItem("version"))) : this.updatedb.type == 'NA' ? console.log('very soon') : console.log('Link')
   }},
   computed: {
+    updatedb() {
+      var x = [];
+      if (store.state.updatedb.notifications == undefined)
+        return [];
+      else store.state.updatedb
+        .notifications.forEach(el => {
+          el.value = 'true';
+          x.push(el)
+        })
+      return x;
+    },
     userdata() {
       return {
         username: store.state.userdata.username,
@@ -200,12 +210,6 @@ this.updatedb[item].type == 'ND' ? updateDB(JSON.parse(localStorage.getItem("ver
         this.windowWidth = window.innerWidth
       });
     })
-    store.state.updatedb.notifications == undefined ? this.updatedb = [] : store.state.updatedb
-      .notifications.forEach(el => {
-        el.value = 'true';
-        this.updatedb.push(el)
-      })
-    console.log(this.updatedb)
   },
   watch: {
     windowWidth(newWidth, oldWidth) {

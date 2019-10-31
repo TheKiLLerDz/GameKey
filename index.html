@@ -39,7 +39,7 @@
             <v-icon color="white darken-3" class="menuicons" @click="Minimize()">mdi-window-minimize</v-icon>
             <v-icon color="white darken-3" class="menuicons" @click="Maximize()">
                 {{Maximized ? 'mdi-window-restore' : 'mdi-window-maximize'}}</v-icon>
-            <v-icon color="white darken-3" class="menuicons" @click="Close()">mdi-close</v-icon>
+            <v-icon color="white darken-3" class="menuicons closebutton" @click="Close()">mdi-close</v-icon>
             <template v-slot:extension v-if="Launch">
                 <v-icon></v-icon>
                 <v-toolbar-title class="ml-0 pl-3 unselectable"
@@ -207,8 +207,7 @@
                 </v-fade-transition>
             </v-container>
         </v-content>
-        </v-layout>
-        <v-snackbar v-for="(item,index) in updatedb" :key="item.notification" @click='update(index)' v-model="item.value"
+        <v-snackbar v-if="Launch" v-for="(item,index) in updatedb" :key="item.notification" v-model="item.value"
             :timeout="2000*(index+1)" :style="'margin-bottom: '+60*(index+0.4)+'px;'" absolute right color="blue">
             <div class="pa-2 ma-2 update">{{item.notification}}</div>
         </v-snackbar>
@@ -218,7 +217,6 @@
             <h3 class="px-3 white--text">v {{App.version}}</h3>
         </v-footer>
     </v-app>
-    </div>
 </body>
 <script src="cdn/dexie.js"></script>
 <script src="DB.js"></script>
