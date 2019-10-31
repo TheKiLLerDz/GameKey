@@ -39,7 +39,7 @@
             <v-icon color="white darken-3" class="menuicons" @click="Minimize()">mdi-window-minimize</v-icon>
             <v-icon color="white darken-3" class="menuicons" @click="Maximize()">
                 {{Maximized ? 'mdi-window-restore' : 'mdi-window-maximize'}}</v-icon>
-            <v-icon color="white darken-3" class="menuicons" @click="Close()">mdi-close</v-icon>
+            <v-icon color="white darken-3" class="menuicons closebutton" @click="Close()">mdi-close</v-icon>
             <template v-slot:extension v-if="Launch">
                 <v-icon></v-icon>
                 <v-toolbar-title class="ml-0 pl-3 unselectable"
