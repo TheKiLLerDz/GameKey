@@ -168,8 +168,10 @@ v = new Vue({
       const searchText = queryText.toLowerCase();
       return textOne.indexOf(searchText) > -1 ||
         textTwo.indexOf(searchText) > -1
-    }
-  },
+    },
+Update(item) {
+this.updatedb[item].type == 'ND' ? updateDB(JSON.parse(localStorage.getItem("version"))) : this.updatedb.type == 'NA' ? console.log('very soon') : console.log('Link')
+  }},
   computed: {
     userdata() {
       return {

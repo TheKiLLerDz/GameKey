@@ -69,8 +69,6 @@ function getnotification(oldversion) {
     if (http.status == 200) {
 var obj = JSON.parse(http.response)
 store.state.updatedb = obj
-
-console.log(obj)
     }
   }
 }
