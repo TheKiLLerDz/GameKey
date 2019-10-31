@@ -134,7 +134,7 @@ v = new Vue({
     isDark: false,
     mini: false,
     windowWidth: 0,
-    minimized: false,
+    Maximized: null,
   }),
   methods: {
     Minimize() {
@@ -149,11 +149,11 @@ v = new Vue({
       } = require('electron')
       var window = remote.BrowserWindow.getFocusedWindow();
       if (window.isMaximized()) {
+        this.Maximized = false;
         window.unmaximize();
-        this.minimized = true
       } else {
+        this.Maximized = true;
         window.maximize();
-        this.minimized = false
       }
     },
     Close() {
@@ -186,6 +186,10 @@ v = new Vue({
     opendb()
   },
   mounted() {
+    const {
+      remote
+    } = require('electron')
+    this.Maximized = remote.BrowserWindow.getFocusedWindow().isMaximized();
     if (localStorage.theme) this.theme = localStorage.theme;
     if (localStorage.theme) this.isDark = (localStorage.Dark == 'true');
     this.windowWidth = window.innerWidth;

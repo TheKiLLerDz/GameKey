@@ -14,8 +14,8 @@
 }
 
 .update {
-    width : 400px;
-    
+    width: 400px;
+
 }
 
 html {
@@ -45,6 +45,21 @@ html {
             rgba(255, 255, 255, .2) 75%,
             transparent 75%,
             transparent)
+}
+
+.menuicons {
+    border-radius: 5%;
+    color: white;
+    margin-right: 5px;
+    margin-left: 5px;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-bottom: 2px;
+    padding-top: 2px;
+}
+
+.menuicons:hover {
+    background-color: rgba(128, 128, 128, 0.3)
 }
 
 [v-cloak] {

@@ -36,16 +36,10 @@
             @dblclick="Maximize()" class="unselectable">
             <span style="position: absolute; left: 50%; transform: translate(-50%, 0px);">GameKey</span>
             <v-spacer></v-spacer>
-            <v-btn color="darken-3" icon round small @click="Minimize()">
-                <v-icon>mdi-window-minimize</v-icon>
-            </v-btn>
-            <v-btn color="darken-3" icon round small @click="Maximize()">
-                <v-icon v-if="minimized">mdi-window-maximize</v-icon>
-                <v-icon v-else>mdi-window-restore</v-icon>
-            </v-btn>
-            <v-btn color="darken-3" icon round small @click="Close()">
-                <v-icon>mdi-close</v-icon>
-            </v-btn>
+            <v-icon color="white darken-3" class="menuicons" @click="Minimize()">mdi-window-minimize</v-icon>
+            <v-icon color="white darken-3" class="menuicons" @click="Maximize()">
+                {{Maximized ? 'mdi-window-restore' : 'mdi-window-maximize'}}</v-icon>
+            <v-icon color="white darken-3" class="menuicons" @click="Close()">mdi-close</v-icon>
             <template v-slot:extension v-if="Launch">
                 <v-icon></v-icon>
                 <v-toolbar-title class="ml-0 pl-3 unselectable"
