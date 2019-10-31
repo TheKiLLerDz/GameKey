@@ -207,7 +207,7 @@
                 </v-fade-transition>
             </v-container>
         </v-content>
-        <v-snackbar v-if="Launch" v-for="(item,index) in updatedb" :key="item.notification" v-model="item.value"
+        <v-snackbar v-if="Launch" v-for="(item,index) in updatedb" @click='Update(index)' :key="item.notification" v-model="item.value"
             :timeout="2000*(index+1)" :style="'margin-bottom: '+60*(index+0.4)+'px;'" absolute right color="blue">
             <div class="pa-2 ma-2 update">{{item.notification}}</div>
         </v-snackbar>

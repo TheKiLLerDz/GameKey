@@ -169,7 +169,7 @@ v = new Vue({
         textTwo.indexOf(searchText) > -1
     },
 Update(item) {
-this.updatedb[item].type == 'ND' ? updateDB(JSON.parse(localStorage.getItem("version"))) : this.updatedb.type == 'NA' ? console.log('very soon') : console.log('Link')
+this.updatedb[item].type == 'ND' ? updateDB(JSON.parse(localStorage.getItem("version"))) : this.updatedb[item].type == 'NA' ? console.log('very soon') : console.log('Link')
   }},
   computed: {
     updatedb() {

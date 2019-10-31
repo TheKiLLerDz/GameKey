@@ -85,7 +85,7 @@ function getnotification(oldversion) {
   }
 }
 
-function updateDB(olversion) {
+function updateDB(oldversion) {
   http.open('POST', 'http://localhost:3000/updatedb', true)
   http.setRequestHeader('Content-Type', 'application/json;charset=UTF-8')
   http.send(JSON.stringify(oldversion))
