@@ -5,6 +5,10 @@ var routes = [{
   path: '/keys',
   component: httpVueLoader('./pages/Keys.vue')
 }, {
+  path: '/keys/:searchvalue',
+  component: httpVueLoader('./pages/Keys.vue'),
+  props: true
+}, {
   path: '/steam',
   component: httpVueLoader('./pages/Keys.vue')
 }, {
@@ -29,24 +33,39 @@ const router = new VueRouter({
 
 const store = new Vuex.Store({
   state: {
+    userdata: {
+      username: 'TheKiLLerDz',
+      pic: 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/bc/bc562ea70469cfdb020f9a79ba1f08cc2e91bda0_full.jpg'
+    },
     finished: false,
     steam: [],
     steamkey: [],
     uplay: [],
     uplaykey: [],
     origin: [],
+    updatedb: {},
     originkey: [],
+    others: [],
     otherskey: [],
     allkeys: [],
     temp: {},
+    tempimport: undefined,
+    import: false,
+    waitingdialog: false,
+    importedapps: [],
   },
 })
 v = new Vue({
+  el: '#app',
   store,
   router,
   data: ({
+    App: {
+      version: '1.0',
+      year: '2019'
+    },
+    Launch: false,
     loading: false,
-    games: [],
     theme: '',
     themes: [{
         name: 'Dark Theme',
@@ -73,24 +92,29 @@ v = new Vue({
         link: '/'
       }, {
         title: 'All Keys',
+        color: '#0e82cf',
         icon: 'mdi-key',
         link: '/keys'
       }, {
         title: 'Steam',
+        color: '#1d2f54',
         icon: 'mdi-steam',
         link: '/steam'
       }, {
         title: 'Uplay',
+        color: '#0e82cf',
         icon: 'mdi-ubisoft',
         link: '/uplay'
       },
       {
         title: 'Origin',
+        color: 'orange',
         icon: 'mdi-origin',
         link: '/origin'
       },
       {
         title: 'Other',
+        color: 'success',
         icon: 'mdi-alert-circle',
         link: '/other'
       },
@@ -105,21 +129,99 @@ v = new Vue({
         link: '/about'
       }
     ],
-    mini: false,
     keys: true,
-    isDark: true,
+    isDark: false,
+    mini: false,
+    windowWidth: 0,
+    Maximized: null,
   }),
+  methods: {
+    Minimize() {
+      const {
+        remote
+      } = require('electron')
+      remote.BrowserWindow.getFocusedWindow().minimize();
+    },
+    Maximize() {
+      const {
+        remote
+      } = require('electron')
+      var window = remote.BrowserWindow.getFocusedWindow();
+      if (window.isMaximized()) {
+        this.Maximized = false;
+        window.unmaximize();
+      } else {
+        this.Maximized = true;
+        window.maximize();
+      }
+    },
+    Close() {
+      const {
+        remote
+      } = require('electron')
+      remote.BrowserWindow.getFocusedWindow().close();
+    },
+    customFilter(item, queryText) {
+      const textOne = item.name.toLowerCase();
+      const textTwo = String(item.appid).toLowerCase();
+      const searchText = queryText.toLowerCase();
+      return textOne.indexOf(searchText) > -1 ||
+        textTwo.indexOf(searchText) > -1
+    },
+Update(item) {
+this.updatedb[item].type == 'ND' ? updateDB(JSON.parse(localStorage.getItem("version"))) : this.updatedb[item].type == 'NA' ? console.log('very soon') : console.log('Link')
+  }},
+  computed: {
+    updatedb() {
+      var x = [];
+      if (store.state.updatedb.notifications == undefined)
+        return [];
+      else store.state.updatedb
+        .notifications.forEach(el => {
+          el.value = 'true';
+          x.push(el)
+        })
+      return x;
+    },
+    userdata() {
+      return {
+        username: store.state.userdata.username,
+        pic: store.state.userdata.pic
+      }
+    },
+    games() {
+      return store.state.steamkey.concat(store.state.uplaykey.concat(store.state.originkey
+        .concat(store.state.otherskey)));
+    }
+  },
   beforeCreate() {
-    getdata()
+    opendb()
   },
   mounted() {
-    this.games = store.state.steamkey.concat(store.state.uplaykey.concat(store.state.originkey
-      .concat(store.state.otherskey)));
+    const {
+      remote
+    } = require('electron')
+    this.Maximized = remote.BrowserWindow.getFocusedWindow().isMaximized();
     if (localStorage.theme) this.theme = localStorage.theme;
+    if (localStorage.theme) this.isDark = (localStorage.Dark == 'true');
+    this.windowWidth = window.innerWidth;
+    this.$nextTick(() => {
+      window.addEventListener('resize', () => {
+        this.windowWidth = window.innerWidth
+      });
+    })
   },
   watch: {
+    windowWidth(newWidth, oldWidth) {
+      if (newWidth >= 0.6 * screen.width) this.mini = false
+      else this.mini = true
+    },
     theme(mytheme) {
       localStorage.theme = mytheme;
+
+    },
+    isDark(value) {
+      localStorage.Dark = value;
     }
   }
 })

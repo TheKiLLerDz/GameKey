@@ -13,23 +13,61 @@
     color: #fff;
 }
 
+.update {
+    width: 400px;
+
+}
+
+html {
+    overflow: hidden;
+}
+
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    box-shadow: black;
+    background-color: #F5F5F5;
+}
+
 ::-webkit-scrollbar {
-    background-color: #ffffff;
+    width: 8px;
+    height: 8px;
+    background-color: #F5F5F5;
 }
-::-webkit-scrollbar-thumb{
-    background-color:rgba(9, 103, 175, 0.9);
+
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: #F90;
+    background-image: -webkit-linear-gradient(45deg,
+            rgba(255, 255, 255, .2) 25%,
+            transparent 25%,
+            transparent 50%,
+            rgba(255, 255, 255, .2) 50%,
+            rgba(255, 255, 255, .2) 75%,
+            transparent 75%,
+            transparent)
 }
+
+.menuicons {
+    border-radius: 5%;
+    color: white;
+    margin-right: 5px;
+    margin-left: 5px;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-bottom: 2px;
+    padding-top: 2px;
+}
+
+.menuicons:hover {
+    background-color: rgba(128, 128, 128, 0.3)
+}
+
+.menuicons.closebutton:hover {
+    background-color: red
+}
+
 [v-cloak] {
     display: none;
-}
-#main {
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background-color: #181a1b;
 }
 
 .loader {
@@ -41,7 +79,7 @@
 .loader span {
     color: rgb(217, 215, 209);
     margin: 0 20px;
-    font-size: 8em;
+    font-size: 8vw;
     font-weight: bold;
     animation: animate 3s linear infinite;
     font-family: sans-serif;
@@ -100,32 +138,114 @@
         transform: scale(1);
     }
 }
-.theme{
+
+.theme {
     border-radius: 6px;
     border-bottom-right-radius: 0;
     border-top-right-radius: 0;
-    background-color: rgba(0,0,0,.3)!important;
+    background-color: rgba(0, 0, 0, .3) !important;
     right: -50px;
     padding: 0;
     width: 64px;
 }
-.theme:hover{
+
+.theme:hover {
     right: 0;
 }
-.v-menu__content{
+
+.v-menu__content {
     border-radius: 16px;
 }
-.theme--blue.application .v-toolbar{
+
+.theme--blue.application .v-toolbar {
     background-color: rgb(9, 102, 175);
     color: #fff;
 }
-.theme--blue .v-toolbar .v-btn{
+
+.theme--blue .v-toolbar .v-btn {
     color: #fff;
 }
-.theme--blue .v-text-field--rounded .v-btn{
-    background-color: #4caf50!important;
-    border-color: #4caf50!important;
+
+.theme--blue .v-text-field--rounded .v-btn {
+    background-color: #4caf50 !important;
+    border-color: #4caf50 !important;
 }
-.theme--blue .v-content__wrap{
+
+/* .theme--blue .v-content__wrap {
     background-color: #eee;
+} */
+
+.v-list-item-mini-active {
+    background: #e9ebee;
+    border-left: 5px solid rgb(9, 102, 175) !important;
+    color: rgb(9, 102, 175) !important;
+    caret-color: rgb(9, 102, 175) !important;
+}
+
+.v-list-item-active {
+    margin: 0 15px;
+    color: #e9ebee !important;
+    caret-color: #e9ebee !important;
+    border-radius: 8px;
+}
+
+.tile:hover {
+    background: #8c948c;
+    border-radius: 8px;
+}
+
+.tile:active {
+    margin: 0 15px;
+    color: #e9ebee !important;
+    caret-color: #e9ebee !important;
+    border-radius: 8px;
+}
+
+.orangecard {
+    background: linear-gradient(60deg, #ffa726, #fb8c00) !important;
+    box-shadow: 0 12px 20px -10px rgba(255, 152, 0, .28), 0 4px 20px 0 rgba(0, 0, 0, .12), 0 7px 8px -5px rgba(255, 152, 0, .2) !important;
+}
+
+.greencard {
+    background: linear-gradient(60deg, #66bb6a, #43a047) !important;
+    box-shadow: 0 12px 20px -10px rgba(76, 175, 80, .28), 0 4px 20px 0 rgba(0, 0, 0, .12), 0 7px 8px -5px rgba(76, 175, 80, .2) !important;
+}
+
+.infocard {
+    background: linear-gradient(60deg, #26c6da, #00acc1) !important;
+    box-shadow: 0 12px 20px -10px rgba(0, 188, 212, .28), 0 4px 20px 0 rgba(0, 0, 0, .12), 0 7px 8px -5px rgba(0, 188, 212, .2) !important;
+}
+
+.redcard {
+    background: linear-gradient(60deg, #ef5350, #e53935) !important;
+    box-shadow: 0 12px 20px -10px rgba(244, 67, 54, .28), 0 4px 20px 0 rgba(0, 0, 0, .12), 0 7px 8px -5px rgba(244, 67, 54, .2) !important;
+}
+
+.steamcard {
+    background: linear-gradient(60deg, #171b5f, #151b64) !important;
+    box-shadow: 0 12px 20px -10px rgba(4, 38, 133, 0.5), 0 4px 20px 0 rgba(0, 0, 0, .12), 0 7px 8px -5px rgba(20, 8, 66, 0.5) !important;
+}
+
+.v-toolbar__content {
+    background: #2a3033;
+}
+
+.v-toolbar__extension_ {
+    background: linear-gradient(60deg, #171b5f, #151b64) !important;
+    box-shadow: 0 12px 20px -10px rgba(4, 38, 133, 0.5), 0 4px 20px 0 rgba(0, 0, 0, .12), 0 7px 8px -5px rgba(20, 8, 66, 0.5) !important;
+}
+
+.v-footer_ {
+    background: linear-gradient(60deg, #171b5f, #151b64) !important;
+    box-shadow: 0 12px 20px -10px rgba(4, 38, 133, 0.5), 0 4px 20px 0 rgba(0, 0, 0, .12), 0 7px 8px -5px rgba(20, 8, 66, 0.5) !important;
+}
+
+.unselectable {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: default
 }

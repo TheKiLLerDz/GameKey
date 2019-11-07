@@ -1,23 +1,12 @@
-function getdata() {
-	getuplaybdd()
-	getoriginbdd()
-	getsteambdd()
-}
+var db;
 
-function getsteambdd() {
+function opendb() {
 	Dexie.exists('GameKey_DB').then(function (exists) {
 		if (exists) {
 			new Dexie('GameKey_DB').open()
-				.then(function (db) {
-					db.tables[1].toArray().then(el => {
-						store.state.steam = el;
-						store.state.steamkey = store.state.steam.filter((el) => {
-							el.platform = 'Steam'
-							return el.keys !== undefined;
-						});
-						document.getElementById('main').remove()
-						v.$mount('#app')
-					});
+				.then(function (d) {
+					db = d;
+					getdata();
 				}).catch('NoSuchDatabaseError', function (e) {
 					// Database with that name did not exist
 					console.error("Database not found");
@@ -28,57 +17,87 @@ function getsteambdd() {
 	})
 }
 
-function getuplaybdd() {
-	Dexie.exists('GameKey_DB').then(function (exists) {
-		if (exists) {
-			new Dexie('GameKey_DB').open()
-				.then(function (db) {
-					db.tables[2].toArray().then(el => {
-						store.state.uplay = el;
-						store.state.uplaykey = store.state.uplay.filter((el) => {
-							el.platform = 'Uplay'
-							return el.keys !== undefined;
-						});
+function getdata() {
+	getnotification(JSON.parse(localStorage.getItem("version")))
+	getuplaybdd()
+	getoriginbdd()
+	getsteambdd()
+	getothersbdd()
 
-					});
-				}).catch('NoSuchDatabaseError', function (e) {
-					// Database with that name did not exist
-					console.error("Database not found");
-				}).catch(function (e) {
-					console.error("Oh uh: " + e);
-				});
-		}
+}
+
+function getsteambdd() {
+
+	db.tables[2].toArray().then(el => {
+		store.state.steam = el;
+		store.state.steamkey = el.filter((e) => {
+			e.platform = 'Steam'
+			return e.keys !== undefined;
+		});
+		v.Launch=true;
+	});
+
+}
+
+function getuplaybdd() {
+
+	db.tables[3].toArray().then(el => {
+		store.state.uplay = el;
+		store.state.uplaykey = el.filter((e) => {
+			e.platform = 'Uplay'
+			return e.keys !== undefined;
+		});
 	})
 }
 
 function getoriginbdd() {
-	Dexie.exists('GameKey_DB').then(function (exists) {
-		if (exists) {
-			new Dexie('GameKey_DB').open()
-				.then(function (db) {
-					db.tables[0].toArray().then(el => {
-						store.state.origin = el;
-						store.state.originkey = store.state.origin.filter((el) => {
-							el.platform = 'Origin'
-							return el.keys !== undefined;
-						});
 
-					});
-				}).catch('NoSuchDatabaseError', function (e) {
-					// Database with that name did not exist
-					console.error("Database not found");
-				}).catch(function (e) {
-					console.error("Oh uh: " + e);
-				});
+	db.tables[0].toArray().then(el => {
+		store.state.origin = el;
+		store.state.originkey = el.filter((e) => {
+			e.platform = 'Origin'
+			return e.keys !== undefined;
+		});
+	})
+}
+
+function getothersbdd() {
+
+	db.tables[1].toArray().then(el => {
+		store.state.others = el;
+		store.state.otherskey = el.filter((e) => {
+			e.platform = 'Other'
+			return e.keys !== undefined;
+		});
+	})
+}
+
+function deltradeorbeta(t, appid, key, tradedorbeta) {
+	db.tables[t].where('appid').equals(appid).modify(game => {
+		for (var i = 0; i < game.keys.length; i++) {
+			if (game.keys[i].key == key) {
+				tradedorbeta == 'beta' ? delete game.keys[i].beta : delete game.keys[i].trade
+			}
 		}
 	})
 }
 
-function addkey(t, id, key) {
+function addtradeorbeta(t, appid, key, tradedorbeta) {
+	db.tables[t].where('appid').equals(appid).modify(game => {
+		for (var i = 0; i < game.keys.length; i++) {
+			if (game.keys[i].key == key) {
+				game.keys[i] = Object.assign(game.keys[i], tradedorbeta);
+			}
+		}
+	})
+}
 
-	new Dexie('GameKey_DB').open()
-		.then(function (db) {
-			db.tables[t].where("appid").equals(id).modify(game => {
+function addkey(t, appidorname, key) {
+	if (typeof appidorname != "object") {
+		existorno(t, appidorname, key)
+		if (!exist) {
+			db.tables[t].where("appid").equals(appidorname).modify(game => {
+
 				if (game.keys == undefined) {
 					game.keys = [{
 						'key': key
@@ -89,103 +108,155 @@ function addkey(t, id, key) {
 					});
 				}
 			});
+		}
+	} else {
+		game = store.state.others.filter(el => {
+			return el.name == appidorname.name
+		})
+		if (game.length == 0) {
+			if (!existorno(t, appidorname, key)) {
+				addappkey(t, appidorname, key)
 
-		}).catch('NoSuchDatabaseError', function (e) {
-			// Database with that name did not exist
-			console.error("Database not found");
-		}).catch(function (e) {
-			console.error("Oh uh: " + e);
-		});
+				store.state.others.push({
+					appid: appidorname.appid,
+					name: appidorname.name,
+					platform: 'Other'
+				})
+			}
+		} else {
+			addkey(t, game[0].appid, key)
+		}
+
+
+	}
+}
+
+function addappkey(t, appidandname, key) {
+	var obj = {
+		appid: appidandname.appid,
+		name: appidandname.name,
+		keys: [{
+			key: key
+		}]
+	}
+	db.tables[t].put(obj);
+}
+
+function updatetags(t, appid, tags) {
+	db.tables[t].where("appid").equals(appid).modify(game => {
+		game.tags = tags
+	});
 
 }
 
 
-function delkey(t, id, key) {
 
-	new Dexie('GameKey_DB').open()
-		.then(function (db) {
+function delkey(t, appid, key) {
 
-			db.tables[t].where("appid").equals(id).modify(game => {
 
-				if (game.keys.length > 1) {
-					game.keys = game.keys.filter((el) => {
-						return el.key !== key;
-					});
-				} else {
-					delete game.keys
-				}
 
+	db.tables[t].where("appid").equals(appid).modify(game => {
+
+		if (game.keys.length > 1) {
+			game.keys = game.keys.filter((el) => {
+				return el.key !== key;
 			});
+		} else {
+			delete game.keys
+		}
 
-		}).catch('NoSuchDatabaseError', function (e) {
-			// Database with that name did not exist
-			console.error("Database not found");
-		}).catch(function (e) {
-			console.error("Oh uh: " + e);
-		})
+	});
+
+
 }
 
 
 
 
-function delgamekeys(t, id) {
+function delgametagskeys(t, appid) {
 
-	new Dexie('GameKey_DB').open()
-		.then(function (db) {
 
-			db.tables[t].where("appid").equals(id).modify(game => {
 
-				delete game.keys
+	db.tables[t].where("appid").equals(appid).modify(game => {
 
-			}).catch('NoSuchDatabaseError', function (e) {
-				// Database with that name did not exist
-				console.error("Database not found");
-			}).catch(function (e) {
-				console.error("Oh uh: " + e);
-			})
-		})
+		delete game.keys
+		delete game.tags
+
+
+	})
 }
 
 
-function editkey(t, id, okey, nkey) {
+function editkey(t, appid, okey, nkey) {
 
-	new Dexie('GameKey_DB').open()
-		.then(function (db) {
 
-			db.tables[t].where("appid").equals(id).modify(game => {
 
-				for (var i = 0; i < game.keys.length; i++) {
-					if (game.keys[i].key == okey) {
-						game.keys[i].key = nkey
-						i = game.keys.length
-					}
+	db.tables[t].where("appid").equals(appid).modify(game => {
 
-				}
+		for (var i = 0; i < game.keys.length; i++) {
+			if (game.keys[i].key == okey) {
+				game.keys[i].key = nkey
+				i = game.keys.length
+			}
 
-			});
+		}
 
-		}).catch('NoSuchDatabaseError', function (e) {
-			// Database with that name did not exist
-			console.error("Database not found");
-		}).catch(function (e) {
-			console.error("Oh uh: " + e);
-		})
+	});
+
+
+}
+
+function getappid(t, name) {
+	db.tables[t].where('name').equals(name).modify(game => {
+
+		return game.name
+
+	})
 }
 
 function getapp(t, idapp) {
-	new Dexie('GameKey_DB').open()
-		.then(function (db) {
 
-			db.tables[t].get(idapp).then(game => {
 
-				store.state.temp = game
+	db.tables[t].get(idapp).then(game => {
 
-			}).catch('NoSuchDatabaseError', function (e) {
-				// Database with that name did not exist
-				console.error("Database not found");
-			}).catch(function (e) {
-				console.error("Oh uh: " + e);
+		store.state.temp = game
+
+	})
+}
+
+function testappname(t, i) {
+
+	db.tables[t].where("name").equals(tagname[i]).modify(game => {
+		if (game != undefined) {
+			addtokeys(game.appid, i)
+			tagname = tagname.filter(el => {
+				return el != tagname[i]
+
 			})
+		}
+	})
 
-		})
+
+
+
+}
+var exist
+
+function existorno(t, appid, key) {
+
+	db.tables[t].where("appid").equals(appid).each(game => {
+
+
+		var i = 0;
+		exist = false;
+		while (i < game.keys.length & !exist & game.keys != undefined) {
+			if (game.keys[i].key == key) {
+
+				exist = true
+			}
+			i++
+		}
+
+	});
+
 }
