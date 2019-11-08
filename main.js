@@ -1,3 +1,6 @@
+const {
+  remote
+} = require('electron')
 var routes = [{
   path: '/',
   component: httpVueLoader('./pages/Home.vue')
@@ -137,28 +140,12 @@ v = new Vue({
   }),
   methods: {
     Minimize() {
-      const {
-        remote
-      } = require('electron')
       remote.BrowserWindow.getFocusedWindow().minimize();
     },
     Maximize() {
-      const {
-        remote
-      } = require('electron')
-      var window = remote.BrowserWindow.getFocusedWindow();
-      if (window.isMaximized()) {
-        this.Maximized = false;
-        window.unmaximize();
-      } else {
-        this.Maximized = true;
-        window.maximize();
-      }
+      this.Maximized = !this.Maximized;
     },
     Close() {
-      const {
-        remote
-      } = require('electron')
       remote.BrowserWindow.getFocusedWindow().close();
     },
     customFilter(item, queryText) {
@@ -168,9 +155,10 @@ v = new Vue({
       return textOne.indexOf(searchText) > -1 ||
         textTwo.indexOf(searchText) > -1
     },
-Update(item) {
-this.updatedb[item].type == 'ND' ? updateDB(JSON.parse(localStorage.getItem("version"))) : this.updatedb[item].type == 'NA' ? console.log('very soon') : console.log('Link')
-  }},
+    Update(item) {
+      this.updatedb[item].type == 'ND' ? updateDB(JSON.parse(localStorage.getItem("version"))) : this.updatedb[item].type == 'NA' ? console.log('very soon') : console.log('Link')
+    }
+  },
   computed: {
     updatedb() {
       var x = [];
@@ -198,9 +186,6 @@ this.updatedb[item].type == 'ND' ? updateDB(JSON.parse(localStorage.getItem("ver
     opendb()
   },
   mounted() {
-    const {
-      remote
-    } = require('electron')
     this.Maximized = remote.BrowserWindow.getFocusedWindow().isMaximized();
     if (localStorage.theme) this.theme = localStorage.theme;
     if (localStorage.theme) this.isDark = (localStorage.Dark == 'true');
@@ -212,6 +197,10 @@ this.updatedb[item].type == 'ND' ? updateDB(JSON.parse(localStorage.getItem("ver
     })
   },
   watch: {
+    Maximized(newValue) {
+      var window = remote.BrowserWindow.getFocusedWindow();
+      newValue ? window.unmaximize() : window.maximize()
+    },
     windowWidth(newWidth, oldWidth) {
       if (newWidth >= 0.6 * screen.width) this.mini = false
       else this.mini = true

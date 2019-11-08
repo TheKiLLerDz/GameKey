@@ -48,6 +48,7 @@ html {
 }
 
 .menuicons {
+    -webkit-app-region: no-drag;
     border-radius: 5%;
     color: white;
     margin-right: 5px;
