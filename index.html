@@ -33,7 +33,7 @@
             <span>.</span>
         </div>
         <v-toolbar dense color="blue darken-3" app clipped-left :extended="Launch" height="33px" extension-height="50px"
-            @dblclick="Maximize()" class="unselectable" style="-webkit-app-region: drag">
+            @dblclick="Maximize()" class="unselectable">
             <span style="position: absolute; left: 50%; transform: translate(-50%, 0px);">GameKey</span>
             <v-spacer></v-spacer>
             <v-icon color="white darken-3" class="menuicons" @click="Minimize()">mdi-window-minimize</v-icon>
@@ -207,8 +207,9 @@
                 </v-fade-transition>
             </v-container>
         </v-content>
-        <v-snackbar v-if="Launch" v-for="(item,index) in updatedb" @click='Update(index)' :key="item.notification" v-model="item.value"
-            :timeout="2000*(index+1)" :style="'margin-bottom: '+60*(index+0.4)+'px;'" absolute right color="blue">
+        <v-snackbar v-if="Launch" v-for="(item,index) in updatedb" @click='Update(index)' :key="item.notification"
+            v-model="item.value" :timeout="3000*(updatedb.length-index)" :style="'margin-bottom: '+60*(index+0.4)+'px;'"
+            absolute right color="blue">
             <div class="pa-2 ma-2 update">{{item.notification}}</div>
         </v-snackbar>
         <v-footer color="blue darken-3" app v-if="Launch" class="unselectable">
