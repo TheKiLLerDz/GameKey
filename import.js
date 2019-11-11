@@ -1,6 +1,5 @@
 'use strict';
 
-
 var keys;
 var gamename;
 var platform;
@@ -33,11 +32,11 @@ function PatternKeyUplay(string) {
   else return result
 }
 
-function impport(Platform) {
+async function impport(Platform) {
   const {
     dialog
   } = require('electron').remote
-  var path = dialog.showOpenDialog({
+  var path1 = dialog.showOpenDialog({
     properties: ['openFile'],
     filters: [{
         name: 'Supported Files',
@@ -58,6 +57,8 @@ function impport(Platform) {
     ]
   })
   ////////
+  var path;
+ await path1.then(el => path = el.filePaths)
   if (path != undefined) {
     var indicSlash = path[0].lastIndexOf('\/');
     var extension = path[0].substring(indicSlash + 1).split(".");

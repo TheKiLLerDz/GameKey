@@ -1,11 +1,11 @@
 Dexie.exists('GameKey_DB').then(async function (exists) {
     if (!exists) {
-        var db = new Dexie("GameKey_DB");
+        var db = new Dexie('GameKey_DB');
         db.version(1).stores({
-            steam: "appid,name",
-            origin: "appid,name",
-            uplay: "appid,name",
-            others : "appid,name",
+            steam: 'appid,name',
+            origin: 'appid,name',
+            uplay: 'appid,name',
+            others : 'appid,name',
         });
         db.open();
         const steam = await fetch(
@@ -27,7 +27,7 @@ Dexie.exists('GameKey_DB').then(async function (exists) {
             'http://127.0.0.1:3000/version.json');
         const versionjs = await version.json();
         let versionstr = JSON.stringify(versionjs);
-        localStorage.setItem("version",versionstr);
+        localStorage.setItem('version',versionstr);
         opendb();
     }
 
