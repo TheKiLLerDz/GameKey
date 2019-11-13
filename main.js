@@ -186,6 +186,7 @@ v = new Vue({
     opendb()
   },
   mounted() {
+    if (!localStorage.Patterns) localStorage.Patterns = true;
     this.Maximized = remote.BrowserWindow.getFocusedWindow().isMaximized();
     if (localStorage.theme) this.theme = localStorage.theme;
     if (localStorage.theme) this.isDark = (localStorage.Dark == 'true');

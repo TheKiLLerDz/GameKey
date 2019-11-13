@@ -853,22 +853,25 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
         },
         methods: {
             GetKeyFormat(platform, key) {
-                switch (platform) {
-                    case 'Steam':
-                        key = key.toUpperCase().replace(/-/g, '');
-                        return key.match(/(.){1,5}/g).join("-");
-                        break;
-                    case 'Origin':
-                        key = key.toUpperCase().replace(/-/g, '');
-                        return key.match(/(.){1,4}/g).join("-");
-                        break;
-                    case 'Uplay':
-                        key = key.toUpperCase().replace(/-/g, '');
-                        return key.match(/(.){1,4}/g).join("-");
-                        break;
-                    default:
-                        return key.toUpperCase();
-                }
+                if (localStorage.Patterns == 'true')
+                    switch (platform) {
+                        case 'Steam':
+                            key = key.toUpperCase().replace(/-/g, '');
+                            return key.match(/(.){1,5}/g).join("-");
+                            break;
+                        case 'Origin':
+                            key = key.toUpperCase().replace(/-/g, '');
+                            return key.match(/(.){1,4}/g).join("-");
+                            break;
+                        case 'Uplay':
+                            key = key.toUpperCase().replace(/-/g, '');
+                            return key.match(/(.){1,4}/g).join("-");
+                            break;
+                        default:
+                            return key.toUpperCase();
+                    }
+                else
+                    return key.toUpperCase();
             },
             addimportedkeys(close) {
                 for (var i = this.importedapps.length - 1; i >= 0; i--) {
