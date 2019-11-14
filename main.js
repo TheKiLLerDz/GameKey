@@ -202,6 +202,7 @@ v = new Vue({
       newValue ? ipcRenderer.send('unmaximize-app') : ipcRenderer.send('maximize-app')
     },
     windowWidth(newWidth, oldWidth) {
+      //console.log(newWidth)
       if (newWidth >= 0.6 * screen.width) this.mini = false
       else this.mini = true
     },

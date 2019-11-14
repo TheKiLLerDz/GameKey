@@ -31,7 +31,8 @@ ipcMain.on('maximize-app', (event) => {
 })
 
 ipcMain.on('unmaximize-app', (event) => {
-    win.unmaximize();
+    win.setSize(800, 500);
+    win.center();
 })
 
 ipcMain.on('close-app', (event) => {

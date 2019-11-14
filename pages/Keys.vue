@@ -856,7 +856,7 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                 if (localStorage.Patterns == 'true')
                     switch (platform) {
                         case 'Steam':
-                            
+                            key = key.toUpperCase().replace(/-/g, '');
                             return key.match(/(.){1,5}/g).join("-");
                             break;
                         case 'Origin':
