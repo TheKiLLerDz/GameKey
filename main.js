@@ -1,5 +1,5 @@
 const {
-  remote
+  ipcRenderer
 } = require('electron')
 var routes = [{
   path: '/',
@@ -140,13 +140,13 @@ v = new Vue({
   }),
   methods: {
     Minimize() {
-      remote.BrowserWindow.getFocusedWindow().minimize();
+      ipcRenderer.send('minimize-app');
     },
     Maximize() {
       this.Maximized = !this.Maximized;
     },
     Close() {
-      remote.BrowserWindow.getFocusedWindow().close();
+      ipcRenderer.send('close-app');
     },
     customFilter(item, queryText) {
       const textOne = item.name.toLowerCase();
@@ -187,7 +187,7 @@ v = new Vue({
   },
   mounted() {
     if (!localStorage.Patterns) localStorage.Patterns = true;
-    this.Maximized = remote.BrowserWindow.getFocusedWindow().isMaximized();
+    this.Maximized = screen.width == window.innerWidth && screen.height == window.innerHeight
     if (localStorage.theme) this.theme = localStorage.theme;
     if (localStorage.theme) this.isDark = (localStorage.Dark == 'true');
     this.windowWidth = window.innerWidth;
@@ -199,8 +199,7 @@ v = new Vue({
   },
   watch: {
     Maximized(newValue) {
-      var window = remote.BrowserWindow.getFocusedWindow();
-      newValue ? window.unmaximize() : window.maximize()
+      newValue ? ipcRenderer.send('unmaximize-app') : ipcRenderer.send('maximize-app')
     },
     windowWidth(newWidth, oldWidth) {
       if (newWidth >= 0.6 * screen.width) this.mini = false

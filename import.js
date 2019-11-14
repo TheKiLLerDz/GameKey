@@ -32,41 +32,20 @@ function PatternKeyUplay(string) {
   else return result
 }
 
-async function impport(Platform) {
-  const {
-    dialog
-  } = require('electron').remote
-  var path1 = dialog.showOpenDialog({
-    properties: ['openFile'],
-    filters: [{
-        name: 'Supported Files',
-        extensions: ['txt', 'xlsx']
-      },
-      {
-        name: 'Text Files',
-        extensions: ['txt']
-      },
-      {
-        name: 'Excel Files',
-        extensions: ['xlsx']
-      },
-      {
-        name: 'All Files',
-        extensions: ['*']
-      }
-    ]
-  })
-  ////////
-  var path;
- await path1.then(el => path = el.filePaths)
-  if (path != undefined) {
-    var indicSlash = path[0].lastIndexOf('\/');
-    var extension = path[0].substring(indicSlash + 1).split(".");
+function impport(Platform) {
+  ipcRenderer.send('Path-request', Platform);
+}
+
+ipcRenderer.on('Path-reply', (event, Paths,Platform) => {
+  if (Paths != undefined) {
+    var indicSlash = Paths[0].lastIndexOf('\/');
+    var extension = Paths[0].substring(indicSlash + 1).split(".");
     console.log(extension)
-    extension[1] == 'txt' ? importtxt(Platform, path[0]) : extension[1] == 'xlsx' ? importxls(Platform, path[0]) : console.log("Format Not Supported")
+    extension[1] == 'txt' ? importtxt(Platform, Paths[0]) : extension[1] == 'xlsx' ? importxls(Platform, Paths[0]) : console.log("Format Not Supported")
     // baseorxhr()
   }
-}
+})
+
 
 function gettab(platform) {
   switch (platform) {
