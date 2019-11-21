@@ -137,7 +137,7 @@
                                                                     <v-text-field v-model="index.key"
                                                                         :rules="[max25chars]" label="Edit" single-line
                                                                         counter autofocus color="red"
-                                                                        @input="index.key=GetKeyFormat(props.item.platform,index.key)"
+                                                                        @input="index.key=GetKeyFormat(props.item.platform,index.key.toUpperCase())"
                                                                         return-object>
                                                                     </v-text-field>
                                                                 </template>
@@ -238,7 +238,9 @@
                 </v-flex>
             </v-card>
         </v-flex>
-        <v-dialog v-model="editdialog" persistent scrollable width="70vw">
+        <v-dialog v-model="editdialog" persistent scrollable width="70vw" @keydown.esc="editdialog = !editdialog"
+            @keydown.enter="(editedItem.platform != '' && editedItem.name != '' && editedItem.appid != '') ?
+                       save(editedItem,oldediteditem) : null ;isAdding = true">
             <v-card>
                 <v-card-title>
                     <span class="headline">Edit app</span>
@@ -277,8 +279,9 @@
                                     </v-chip>
                                     <v-flex xs12 sm12 md12 v-for="(index,i) in editedItem.keys" :key="i">
                                         <v-text-field v-model="index.key" :label="'Key '+ parseInt(i+1)"
+                                            :maxLength="itemtoadd.platform == 'Steam' ? 17 : itemtoadd.platform == 'Origin' ? 19 : itemtoadd.platform == 'Uplay' ? 24 : 40"
                                             :rules="[max25chars]" color="red"
-                                            @input="index.key=GetKeyFormat(editedItem.platform,index.key)">
+                                            @input="index.key=GetKeyFormat(editedItem.platform,index.key.toUpperCase())">
                                         </v-text-field>
                                     </v-flex>
                                 </tr>
@@ -319,7 +322,16 @@
                 </v-card-actions>
             </v-card>
         </v-dialog>
-        <v-dialog v-model="addialog" width="70vw" persistent scrollable loading>
+        <v-dialog v-model="addialog" width="70vw" persistent scrollable loading @keydown.esc="addialog = !addialog;itemtoadd={
+                    appid: '',
+                    name: '',
+                    platform: '',
+                    keys: [{
+                        key: ''
+                    }],
+                    tags : []
+                }" @keydown.enter="(itemtoadd.platform != '' && itemtoadd.name != '' && itemtoadd.appid != '' || itemtoadd.platform == 'Other') ?
+                       add(itemtoadd): null ;isAdding = true">
             <v-card>
                 <v-progress-linear :active="isAdding" class="ma-0" color="blue lighten-3" height="4" indeterminate>
                 </v-progress-linear>
@@ -362,10 +374,11 @@
                                     <v-flex xs12 sm12 md12>
                                         <div v-for="(index,i) in itemtoadd.keys.length" :key="i">
                                             <v-text-field
+                                                :maxLength="itemtoadd.platform == 'Steam' ? 17 : itemtoadd.platform == 'Origin' ? 19 : itemtoadd.platform == 'Uplay' ? 24 : 40"
                                                 :placeholder="itemtoadd.platform == 'Steam' ? 'XXXXX-XXXXX-XXXXX' : itemtoadd.platform == 'Origin' ? 'XXXX-XXXX-XXXX-XXXX' : 'XXXX-XXXX-XXXX-XXXX-XXXX'"
                                                 v-model="itemtoadd.keys[i].key" :label="'Key '+parseInt(i+1)"
                                                 :rules="[max25chars]" color="red"
-                                                @input="itemtoadd.keys[i].key=GetKeyFormat(itemtoadd.platform,itemtoadd.keys[i].key)">
+                                                @input="itemtoadd.keys[i].key=GetKeyFormat(itemtoadd.platform,itemtoadd.keys[i].key.toUpperCase())">
                                             </v-text-field>
                                         </div>
                                     </v-flex>
@@ -856,22 +869,22 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                 if (localStorage.Patterns == 'true')
                     switch (platform) {
                         case 'Steam':
-                            key = key.toUpperCase().replace(/-/g, '');
+                            key = key.replace(/-/g, '');
                             return key.match(/(.){1,5}/g).join("-");
                             break;
                         case 'Origin':
-                            key = key.toUpperCase().replace(/-/g, '');
+                            key = key.replace(/-/g, '');
                             return key.match(/(.){1,4}/g).join("-");
                             break;
                         case 'Uplay':
-                            key = key.toUpperCase().replace(/-/g, '');
+                            key = key.replace(/-/g, '');
                             return key.match(/(.){1,4}/g).join("-");
                             break;
                         default:
-                            return key.toUpperCase();
+                            return key
                     }
                 else
-                    return key.toUpperCase();
+                    return key
             },
             addimportedkeys(close) {
                 for (var i = this.importedapps.length - 1; i >= 0; i--) {

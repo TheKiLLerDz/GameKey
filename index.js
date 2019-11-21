@@ -6,6 +6,8 @@ const {
 } = require('electron')
 var win;
 
+app.setPath('userData', "C:/OneDrive/GameKey")
+
 function createWindow() {
     win = new BrowserWindow({
         width: 800,
