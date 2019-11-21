@@ -13,17 +13,16 @@
                 </v-card>
                 <v-layout row wrap>
                     <v-flex xs3 sm3 md3 lg3>
-                        <v-img max-height="30vh" max-width="30vw" :src="userdata.pic" :lazy-src="userdata.pic"
+                        <v-img max-height="30vw" max-width="30vw" :src="userdata.pic" :lazy-src="userdata.pic"
                             aspect-ratio="1" class="imgcontainer grey lighten-2"
-                            style="border-radius: 8px;margin: 3vw;">
+                            style="border-radius: 50%;margin: 3vw;">
                             <template v-slot:placeholder>
                                 <v-layout fill-height align-center justify-center ma-0>
                                     <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
                                 </v-layout>
                             </template>
-                            <p class="title">Change Pic</p>
-                            <div class="overlay"></div>
-                            <div class="button"><a href="#"> Choose img </a></div>
+                            <h4 class="pictitle">Change Pic</h4>
+                            <v-btn class="picbutton white--text" color="white" outline> Choose img </v-btn>
                         </v-img>
                     </v-flex>
                     <v-flex xs6 sm6 md6 lg6>
