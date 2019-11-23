@@ -4,45 +4,73 @@ const {
     ipcMain,
     dialog
 } = require('electron')
-var win;
+var mainwin, Loginwin;
 
 app.setPath('userData', "C:/OneDrive/GameKey")
 
-function createWindow() {
-    win = new BrowserWindow({
+function createAppWindow() {
+    mainwin = new BrowserWindow({
         width: 800,
         height: 500,
         frame: false,
         transparent: true,
         webPreferences: {
+            nodeIntegration: true,
+            devTools: false
+        }
+    })
+
+    mainwin.loadURL('file://' + __dirname + '/index.html')
+}
+
+function createLoginWindow() {
+    Loginwin = new BrowserWindow({
+        width: 1000,
+        height: 800,
+        transparent: true,
+        frame: false,
+        webPreferences: {
             nodeIntegration: true
         }
     })
 
-    win.loadURL('file://' + __dirname + '/index.html')
+    Loginwin.loadURL('file://' + __dirname + '/Login.html')
 }
 
-app.on('ready', createWindow)
+app.on('ready', createLoginWindow)
 
 ipcMain.on('minimize-app', (event) => {
-    win.minimize();
+    if (mainwin != null)
+        mainwin.minimize();
+    else Loginwin.minimize();
 })
 
 ipcMain.on('maximize-app', (event) => {
-    win.maximize();
+    mainwin.maximize();
+})
+ipcMain.on('access-app', (event) => {
+    createAppWindow();
+    Loginwin.hide();
 })
 
 ipcMain.on('unmaximize-app', (event) => {
-    win.setSize(800, 500);
-    win.center();
+    if (mainwin != null) {
+        mainwin.setSize(800, 500);
+        mainwin.center();
+    } else {
+        Loginwin.setSize(800, 500);
+        Loginwin.center();
+    }
 })
 
 ipcMain.on('close-app', (event) => {
-    win.close();
+    if (mainwin != null) mainwin.close();
+    else
+        Loginwin.close();
 })
 
 ipcMain.on('Path-request', (event, Platform) => {
-    dialog.showOpenDialog(win, {
+    dialog.showOpenDialog(mainwin, {
         properties: ['openFile'],
         filters: [{
                 name: 'Supported Files',

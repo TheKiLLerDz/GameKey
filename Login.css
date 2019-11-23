@@ -1,0 +1,46 @@
+.v-system-bar {
+    -webkit-app-region: drag;
+}
+
+html {
+    overflow-y: hidden;
+}
+
+.unselectable {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: default
+}
+
+.menuicons {
+    -webkit-app-region: no-drag;
+    border-radius: 5%;
+    color: white;
+    margin-right: 5px;
+    margin-left: 5px;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-bottom: 2px;
+    padding-top: 2px;
+}
+
+.menuicons:hover {
+    background-color: rgba(128, 128, 128, 0.3)
+}
+
+.menuicons.closebutton:hover {
+    background-color: red
+}
+
+.v-btn {
+    margin: 10px;
+    padding: 10px;
+}
+
+.v-btn--outlined {
+    margin-left: 20px;
+}

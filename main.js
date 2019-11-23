@@ -38,7 +38,8 @@ const store = new Vuex.Store({
   state: {
     userdata: {
       username: 'TheKiLLerDz',
-      pic: 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/bc/bc562ea70469cfdb020f9a79ba1f08cc2e91bda0_full.jpg'
+      avatar: 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/bc/bc562ea70469cfdb020f9a79ba1f08cc2e91bda0_full.jpg',
+      password: '',
     },
     finished: false,
     steam: [],

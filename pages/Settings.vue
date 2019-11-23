@@ -32,7 +32,10 @@
                         <v-card-text>
                             <v-text-field color="red" label="Name" v-model="userdata.username">
                             </v-text-field>
-                            <v-text-field color="red" label="Profile Pic Link" v-model="userdata.pic">
+                            <v-text-field :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                                :rules="[rules.required, rules.min]" :type="show1 ? 'text' : 'password'"
+                                name="input-10-1" label="Password" hint="At least 8 characters" counter
+                                @click:append="show1 = !show1" color="red" v-model="userdata.password">
                             </v-text-field>
                         </v-card-text>
                         <v-card-title class='greencard white--text unselectable' style="border-radius: 8px;">
@@ -67,6 +70,12 @@
                 loading: false,
                 hasSaved: false,
                 Patterns: null,
+                show1: false,
+                password: 'Password',
+                rules: {
+                    required: value => !!value || 'Required.',
+                    min: v => v.length >= 8 || 'Min 8 characters',
+                },
             }
         },
         watch: {

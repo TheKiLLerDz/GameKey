@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@mdi/font@4.x/css/materialdesignicons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="Login.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>GameKey Login</title>
+</head>
+
+<body>
+    <v-app id="app" style="border-radius: 10px;">
+        <v-system-bar window dark style="border-top-left-radius: 5px;border-top-right-radius: 5px;">
+            <v-icon>mdi-message</v-icon>
+            <span>GameKey Login</span>
+            <v-spacer></v-spacer>
+            <v-icon class="menuicons" @click="Minimize()">mdi-minus</v-icon>
+            <v-icon class="menuicons" @click="Minimize()">mdi-checkbox-blank-outline</v-icon>
+            <v-icon class="menuicons closebutton" @click="Close()">mdi-close</v-icon>
+        </v-system-bar>
+        <v-img class="white--text" src="https://cdn.siasat.com/wp-content/uploads/2019/08/IMG-20190808-WA0091-1.jpg"
+            lazy-src="https://cdn.siasat.com/wp-content/uploads/2019/08/IMG-20190808-WA0091-1.jpg">
+            <v-card color="transparent" dark>
+                <v-card-title class="unselectable">
+                    <v-icon dense color='info' x-large>
+                        mdi-account
+                    </v-icon>GameKey Login
+                </v-card-title>
+                <v-card-text>
+                    <v-text-field prepend-icon="mdi-account" color="info" label="Username" v-model="userdata.username">
+                    </v-text-field>
+                    <v-text-field prepend-icon="mdi-lock" :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                        :rules="[rules.required, rules.min]" :type="show1 ? 'text' : 'password'" name="input-10-1"
+                        label="Password" hint="At least 8 characters" counter @click:append="show1 = !show1" color="red"
+                        v-model="userdata.password">
+                    </v-text-field>
+                    <v-checkbox v-model="rememberme" label="Remember me" required></v-checkbox>
+                </v-card-text>
+                <v-card-actions>
+                    <v-btn color="orange" text @click="Close()">
+                        Cancel
+                    </v-btn>
+                    <v-spacer></v-spacer>
+                    <v-btn color="info" text outlined @click="Login(userdata)">
+                        Login
+                    </v-btn>
+                </v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn icon @click="moreinfo = !moreinfo">
+                    <v-icon>{{ moreinfo ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+                </v-btn>
+                <v-expand-transition>
+                    <div v-show="moreinfo">
+                        <v-divider></v-divider>
+                        <v-card-text>
+                            If You Forgot Ur Password you won't get it back =) </v-card-text>
+                    </div>
+                </v-expand-transition>
+            </v-card>
+            <template v-slot:placeholder>
+                <v-layout fill-height align-center justify-center ma-0>
+                    <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
+                </v-layout>
+            </template>
+        </v-img>
+        <v-dialog v-model="createacc" width="70vw" persistent scrollable loading @keydown.esc="createacc = !createacc;"
+            @keydown.enter="createacc = true">
+            <v-card>
+                <v-progress-linear :active="isAdding" class="ma-0" color="blue lighten-3" height="4" indeterminate>
+                </v-progress-linear>
+                <v-card-title>
+                    <span class="headline">Create Account</span>
+                </v-card-title>
+                <v-divider></v-divider>
+                <v-card-text>
+                    <v-container grid-list-md>
+                        <v-layout wrap>
+                            <v-flex xs12 sm12 md12>
+                                <v-form ref="form" v-model="newacc.valid">
+                                    <v-text-field prepend-icon="mdi-account" color="info" label="Username"
+                                        v-model="newacc.username" required>
+                                    </v-text-field>
+                                    <v-text-field prepend-icon="mdi-lock"
+                                        :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                                        :rules="[rules.required, rules.min]" :type="show1 ? 'text' : 'password'"
+                                        name="input-10-1" label="Password" hint="At least 8 characters" counter
+                                        @click:append="show1 = !show1" color="red" v-model="newacc.password" required>
+                                    </v-text-field>
+                                    <v-file-input :rules="imgrules" accept="image/png, image/jpeg, image/bmp"
+                                        placeholder="Pick an avatar" prepend-icon="mdi-camera" label="Avatar" required=false>
+                                    </v-file-input>
+                            </v-flex>
+                        </v-layout>
+                    </v-container>
+                </v-card-text>
+                <v-divider></v-divider>
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="blue darken-1" _click="close" depressed @click="createacc = !createacc;">Cancel
+                    </v-btn>
+                    <v-btn color="blue darken-1" :disabled="!newacc.valid" :loading="isAdding"
+                        @click="createaccount(newacc);isAdding = true">Create</v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
+    </v-app>
+</body>
+
+</html>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
+<script src="Login.js"></script>
+<script src="Methods.js"></script>

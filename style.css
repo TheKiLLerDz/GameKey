@@ -252,7 +252,7 @@ html {
     cursor: default
 }
 
-.v-responsive__content:hover {
+.v-responsive__content:hover .v-image__image {
     opacity: 0.5;
     background: #632c65;
 }
