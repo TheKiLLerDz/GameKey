@@ -1,3 +1,4 @@
+CreateDB()
 const {
   ipcRenderer
 } = require('electron')
