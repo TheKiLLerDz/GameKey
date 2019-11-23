@@ -20,6 +20,20 @@ function tags(appid) {
   }
 }
 
+function testAPI() {
+  var url = 'https://127.0.0.1:3000';
+  // var params = "appid="+appid;
+  http.open('GET', url);
+  http.send()
+
+  http.onload = function () {
+    if (http.status == 200) { 
+      return true;
+    }else{
+      return false;
+    }
+}
+}
 
 function sendData(i, callback) {
 
