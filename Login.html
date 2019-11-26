@@ -19,33 +19,32 @@
             <span>GameKey Login</span>
             <v-spacer></v-spacer>
             <v-icon class="menuicons" @click="Minimize()">mdi-minus</v-icon>
-            <v-icon class="menuicons" @click="Minimize()">mdi-checkbox-blank-outline</v-icon>
             <v-icon class="menuicons closebutton" @click="Close()">mdi-close</v-icon>
         </v-system-bar>
         <v-img class="white--text" src="https://cdn.siasat.com/wp-content/uploads/2019/08/IMG-20190808-WA0091-1.jpg"
             lazy-src="https://cdn.siasat.com/wp-content/uploads/2019/08/IMG-20190808-WA0091-1.jpg">
-            <v-card color="transparent" dark>
-                <v-card-title class="unselectable">
+            <v-card color="transparent" dark @keydown.enter="Login(userdata)">
+                <v-card-title class="unselectable" style="text-align: center;">
                     <v-icon dense color='info' x-large>
                         mdi-account
                     </v-icon>GameKey Login
                 </v-card-title>
                 <v-card-text>
-                    <v-text-field prepend-icon="mdi-account" color="info" label="Username" v-model="userdata.username">
+                    <v-text-field prepend-icon="mdi-account" color="info" label="Username" v-model="userdata.username"
+                        @change="CredentialsEdited()">
                     </v-text-field>
-                    <v-text-field prepend-icon="mdi-lock" :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-                        :rules="[rules.required, rules.min]" :type="show1 ? 'text' : 'password'" name="input-10-1"
-                        label="Password" hint="At least 8 characters" counter @click:append="show1 = !show1" color="red"
-                        v-model="userdata.password">
+                    <v-text-field prepend-icon="mdi-lock" :rules="[rules.required, rules.min]" name="input-10-1"
+                        type="Password" label="Password" hint="At least 8 characters" counter color="red"
+                        v-model="userdata.password" @change="CredentialsEdited()">
                     </v-text-field>
                     <v-checkbox v-model="rememberme" label="Remember me" required></v-checkbox>
                 </v-card-text>
                 <v-card-actions>
-                    <v-btn color="orange" text @click="Close()">
+                    <v-btn color="orange" outlined rounded width="100px" @click="Close()">
                         Cancel
                     </v-btn>
                     <v-spacer></v-spacer>
-                    <v-btn color="info" text outlined @click="Login(userdata)">
+                    <v-btn color="info" outlined rounded width="100px" @click="Login(userdata)">
                         Login
                     </v-btn>
                 </v-card-actions>
@@ -57,7 +56,12 @@
                     <div v-show="moreinfo">
                         <v-divider></v-divider>
                         <v-card-text>
-                            If You Forgot Ur Password you won't get it back =) </v-card-text>
+                            <v-alert v-show="msg!=''" type="error">
+                                {{msg}}
+                            </v-alert>
+                            <v-btn @click="Maximize()">Forgot Password ?</v-btn>
+                        </v-card-text>
+
                     </div>
                 </v-expand-transition>
             </v-card>
@@ -91,7 +95,7 @@
                                         @click:append="show1 = !show1" color="red" v-model="newacc.password" required>
                                     </v-text-field>
                                     <v-file-input :rules="imgrules" accept="image/png, image/jpeg, image/bmp"
-                                        placeholder="Pick an avatar" prepend-icon="mdi-camera" label="Avatar" required=false>
+                                        placeholder="Pick an avatar" prepend-icon="mdi-camera" label="Avatar">
                                     </v-file-input>
                             </v-flex>
                         </v-layout>

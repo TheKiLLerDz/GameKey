@@ -2,7 +2,8 @@ const {
     app,
     BrowserWindow,
     ipcMain,
-    dialog
+    dialog,
+    screen
 } = require('electron')
 var mainwin, Loginwin;
 
@@ -16,7 +17,7 @@ function createAppWindow() {
         transparent: true,
         webPreferences: {
             nodeIntegration: true,
-            devTools: false
+            //devTools: false
         }
     })
 
@@ -24,9 +25,10 @@ function createAppWindow() {
 }
 
 function createLoginWindow() {
+    const { width, height } = screen.getPrimaryDisplay().workAreaSize;
     Loginwin = new BrowserWindow({
-        width: 1000,
-        height: 800,
+        width: width*0.5,
+        height: height*0.6,
         transparent: true,
         frame: false,
         webPreferences: {
@@ -65,7 +67,6 @@ ipcMain.on('unmaximize-app', (event) => {
 
 ipcMain.on('close-app', (event) => {
     if (mainwin != null) mainwin.close();
-    else
         Loginwin.close();
 })
 

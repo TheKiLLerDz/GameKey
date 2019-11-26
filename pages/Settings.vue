@@ -13,7 +13,7 @@
                 </v-card>
                 <v-layout row wrap>
                     <v-flex xs3 sm3 md3 lg3>
-                        <v-img max-height="30vw" max-width="30vw" :src="userdata.pic" :lazy-src="userdata.pic"
+                        <v-img max-height="30vw" max-width="30vw" :src="userdata.avatar" :lazy-src="userdata.avatar"
                             aspect-ratio="1" class="imgcontainer grey lighten-2"
                             style="border-radius: 50%;margin: 3vw;">
                             <template v-slot:placeholder>
@@ -55,6 +55,11 @@
                                     <v-btn color="success" @click="cancel()">Cancel</v-btn>
                                 </v-card-actions>
                     </v-flex>
+                    <v-flex xs3 sm3 md3 lg3>
+                        <v-btn color="error">
+                            Delete DataBase
+                        </v-btn>
+                    </v-flex>
                 </v-layout>
             </v-card>
         </v-flex>
@@ -94,8 +99,11 @@
         methods: {
             save() {
                 store.state.userdata = JSON.parse(JSON.stringify(this.userdata));
-                this.isEditing = !this.isEditing
-                this.hasSaved = true
+                this.isEditing = !this.isEditing;
+                localStorage.username = this.userdata.username;
+                localStorage.avatar = this.userdata.avatar;
+                //localStorage.pwhash=SHA1(this.userdata.password);
+                this.hasSaved = true;
             },
             cancel() {
                 this.userdata = JSON.parse(JSON.stringify(store.state.userdata));

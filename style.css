@@ -252,10 +252,10 @@ html {
     cursor: default
 }
 
-.v-responsive__content:hover .v-image__image {
+/*.v-responsive__content:hover .v-image__image {
     opacity: 0.5;
     background: #632c65;
-}
+}*/
 
 .picbutton {
     top: 20vh;

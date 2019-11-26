@@ -7,7 +7,6 @@ new Vue({
     vuetify: new Vuetify(),
     data: ({
         userdata: {
-            valid: false,
             username: '',
             password: '',
             avatar: ''
@@ -25,6 +24,7 @@ new Vue({
         moreinfo: false,
         rememberme: false,
         password: 'Password',
+        msg: "",
         imgrules: [
             value => !value || value.size < 2000000 || 'Avatar size should be less than 2 MB!',
         ],
@@ -33,22 +33,24 @@ new Vue({
             min: v => v.length >= 8 || 'Min 8 characters',
             emailMatch: () => ('The email and password you entered don\'t match'),
         },
-
     }),
     methods: {
         Minimize() {
             ipcRenderer.send('minimize-app');
         },
-        Maximize() {
-
-        },
         Close() {
             ipcRenderer.send('close-app');
+        },
+        CredentialsEdited() {
+            this.accessgranted = false;
         },
         Login(userdata) {
             if (userdata.username == localStorage.username && (SHA1(userdata.password) == localStorage.pwhash || this.accessgranted))
                 ipcRenderer.send('access-app');
-            else console.log("Wrong Login")
+            else {
+                this.msg = "Wrong Login Credentials";
+                this.moreinfo = true;
+            }
         },
         getdata() {
             this.rememberme = (localStorage.rememberme == 'true');
@@ -63,11 +65,15 @@ new Vue({
             }
         },
         createaccount(account) {
-            localStorage.account = true;
             localStorage.username = account.username;
             localStorage.pwlength = account.password.length;
             localStorage.pwhash = SHA1(account.password);
             this.createacc = false;
+            this.userdata = {
+                username: account.username,
+                password: account.password,
+                avatar: '' //account.avatar
+            }
         }
     },
     watch: {
@@ -79,7 +85,7 @@ new Vue({
         }
     },
     mounted() {
-        if (localStorage.account == 'true') {
+        if (localStorage.username && localStorage.pwlength) {
             this.createacc = false;
             this.getdata();
         }
