@@ -21,37 +21,52 @@
             <v-icon class="menuicons" @click="Minimize()">mdi-minus</v-icon>
             <v-icon class="menuicons closebutton" @click="Close()">mdi-close</v-icon>
         </v-system-bar>
-        <v-img class="white--text" src="https://cdn.siasat.com/wp-content/uploads/2019/08/IMG-20190808-WA0091-1.jpg"
-            lazy-src="https://cdn.siasat.com/wp-content/uploads/2019/08/IMG-20190808-WA0091-1.jpg">
-            <v-card color="transparent" dark @keydown.enter="Login(userdata)">
-                <v-card-title class="unselectable" style="text-align: center;">
-                    <v-icon dense color='info' x-large>
-                        mdi-account
-                    </v-icon>GameKey Login
+        <v-img class="white--text" src="Login-Background-1.jpg" lazy-src="Login-Background-1.jpg">
+            <v-card color="transparent" dark @keydown.enter="Login(userdata)" style="padding: 20px;">
+                <v-card-title class="unselectable" style="margin-left:30%">
+                    <h1>
+                        <v-icon dense color='info' x-large>
+                            mdi-account
+                        </v-icon>GameKey Login
+                    </h1>
                 </v-card-title>
                 <v-card-text>
-                    <v-text-field prepend-icon="mdi-account" color="info" label="Username" v-model="userdata.username"
-                        @change="CredentialsEdited()">
-                    </v-text-field>
-                    <v-text-field prepend-icon="mdi-lock" :rules="[rules.required, rules.min]" name="input-10-1"
-                        type="Password" label="Password" hint="At least 8 characters" counter color="red"
-                        v-model="userdata.password" @change="CredentialsEdited()">
-                    </v-text-field>
-                    <v-checkbox v-model="rememberme" label="Remember me" required></v-checkbox>
+                    <v-container>
+                        <v-row justify="space-around">
+                            <v-col cols="12" sm="12">
+                                <v-text-field prepend-icon="mdi-account" color="info" label="Username"
+                                    v-model="userdata.username">
+                                </v-text-field>
+                            </v-col>
+                            <v-col cols="12" sm="12">
+                                <v-text-field prepend-icon="mdi-lock" :rules="[rules.required, rules.min]"
+                                    name="input-10-1" type="Password" label="Password" hint="At least 8 characters"
+                                    counter color="red" v-model="userdata.password" @change="CredentialsEdited()">
+                                </v-text-field>
+                            </v-col>
+                            <v-col cols="12" sm="6">
+                                <v-checkbox color="info" v-model="rememberme" label="Remember me" required></v-checkbox>
+                            </v-col>
+                            <v-col cols="12" sm="6">
+                                <v-switch :disabled="!rememberme" style="margin-left:60%" color="purple"
+                                    v-model="AutoLogin" :label="`AutoLogin : ${AutoLogin.toString()}`"></v-switch>
+                            </v-col>
+                        </v-row>
+                    </v-container>
                 </v-card-text>
                 <v-card-actions>
                     <v-btn color="orange" outlined rounded width="100px" @click="Close()">
                         Cancel
                     </v-btn>
                     <v-spacer></v-spacer>
+                    <v-progress-circular :indeterminate="Loading" color="purple"></v-progress-circular>
                     <v-btn color="info" outlined rounded width="100px" @click="Login(userdata)">
                         Login
                     </v-btn>
+                    <v-btn icon @click="moreinfo = !moreinfo">
+                        <v-icon>{{ moreinfo ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+                    </v-btn>
                 </v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn icon @click="moreinfo = !moreinfo">
-                    <v-icon>{{ moreinfo ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
-                </v-btn>
                 <v-expand-transition>
                     <div v-show="moreinfo">
                         <v-divider></v-divider>
@@ -61,13 +76,12 @@
                             </v-alert>
                             <v-btn @click="Maximize()">Forgot Password ?</v-btn>
                         </v-card-text>
-
                     </div>
                 </v-expand-transition>
             </v-card>
             <template v-slot:placeholder>
                 <v-layout fill-height align-center justify-center ma-0>
-                    <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
+                    <v-progress-circular indeterminate color="success"></v-progress-circular>
                 </v-layout>
             </template>
         </v-img>
@@ -117,5 +131,5 @@
 </html>
 <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vuetify@2.x/dist/vuetify.js"></script>
-<script src="Login.js"></script>
 <script src="Methods.js"></script>
+<script src="Login.js"></script>

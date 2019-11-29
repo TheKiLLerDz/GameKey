@@ -28,7 +28,7 @@ function createLoginWindow() {
     const { width, height } = screen.getPrimaryDisplay().workAreaSize;
     Loginwin = new BrowserWindow({
         width: width*0.5,
-        height: height*0.6,
+        height: height*0.7,
         transparent: true,
         frame: false,
         webPreferences: {

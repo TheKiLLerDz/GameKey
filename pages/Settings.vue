@@ -42,9 +42,20 @@
                             <h3>App Settings</h3>
                         </v-card-title>
                         <v-card-text>
-                            <v-switch color='success' v-model="Patterns"
-                                :label="Patterns? 'Follow Key Patterns is : On' : 'Follow Key Patterns is Switched : Off'">
-                            </v-switch>
+                            <table>
+                            <tr>
+                                <td>
+                                    <v-switch color='success' v-model="Patterns"
+                                        :label="Patterns? 'Follow Key Patterns is : On' : 'Follow Key Patterns is Switched : Off'">
+                                    </v-switch>
+                                </td>
+                                <td style="padding-left: 10vw;">
+                                    <v-switch color="purple" v-model="AutoLogin"
+                                        :label="`AutoLogin : ${AutoLogin.toString()}`">
+                                    </v-switch>
+                                </td>
+                            </tr>
+                            </table>
                             <v-card-text>
                                 <v-card-actions>
                                     <v-btn color="info" :loading="loading" :disabled="loading"
@@ -72,6 +83,7 @@
     module.exports = {
         data() {
             return {
+                AutoLogin: false,
                 loading: false,
                 hasSaved: false,
                 Patterns: null,
@@ -84,6 +96,9 @@
             }
         },
         watch: {
+            AutoLogin(value) {
+                localStorage.AutoLogin = value
+            },
             Patterns(value) {
                 localStorage.Patterns = value;
             },
@@ -110,6 +125,7 @@
             }
         },
         mounted() {
+            this.AutoLogin = (localStorage.AutoLogin == 'true');
             this.Patterns = (localStorage.Patterns == 'true');
         }
     }
