@@ -1,7 +1,6 @@
 const {
     ipcRenderer
 } = require('electron')
-var mehdi ;
 vm = new Vue({
     el: '#app',
     vuetify: new Vuetify(),
@@ -16,7 +15,7 @@ vm = new Vue({
             password: '',
             avatar: ''
         },
-        files : [],
+        files: [],
         createacc: true,
         isAdding: false,
         loading: false,
@@ -70,17 +69,21 @@ vm = new Vue({
             }
         },
         createaccount(account) {
-            localStorage.username = account.username;
-            localStorage.pwlength = account.password.length;
-            localStorage.pwhash = SHA1(account.password);
-            localStorage.avatar = this.$refs.file.internalArrayValue[0].path
-            this.createacc = false;
-            this.userdata = {
-                username: account.username,
-                password: account.password,
-                avatar: this.$refs.file.internalArrayValue[0].path
-            }
-     mehdi =  this.$refs.file
+            const fs = require('fs');
+            avatar = 'avatar.' + this.$refs.file.initialValue.type.split('/')[1];
+            fs.copyFile(this.$refs.file.internalArrayValue[0].path, avatar, (err) => {
+                if (err) throw err;
+                localStorage.username = account.username;
+                localStorage.pwlength = account.password.length;
+                localStorage.pwhash = SHA1(account.password);
+                localStorage.avatar = avatar
+                this.createacc = false;
+                this.userdata = {
+                    username: account.username,
+                    password: account.password,
+                    avatar: avatar
+                }
+            });
         }
     },
     watch: {
