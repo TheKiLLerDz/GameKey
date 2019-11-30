@@ -26,6 +26,8 @@ vm = new Vue({
         rememberme: false,
         password: 'Password',
         msg: "",
+        AutoLogin: false,
+        Loading: false,
         imgrules: [
             value => !value || value.size < 2000000 || 'Avatar size should be less than 2 MB!',
         ],
@@ -47,7 +49,8 @@ vm = new Vue({
             this.accessgranted = false;
         },
         Login(userdata) {
-            if (userdata.username == localStorage.username && (SHA1(userdata.password) == localStorage.pwhash || this.accessgranted))
+            this.Loading = true;
+            if ((userdata.username == localStorage.username && SHA1(userdata.password) == localStorage.pwhash) || (userdata.username == localStorage.username && this.accessgranted))
                 ipcRenderer.send('access-app');
             else {
                 this.msg = "Wrong Login Credentials";
@@ -81,17 +84,33 @@ vm = new Vue({
         }
     },
     watch: {
+        Loading(value) {
+            if (value) {
+                setTimeout(() => (this.Loading = false), 2000)
+            }
+        },
+        AutoLogin(value) {
+            localStorage.AutoLogin = value
+        },
         rememberme(value) {
             localStorage.rememberme = value;
+            if (!value) this.AutoLogin = false;
         },
         loading() {
-            setTimeout(() => (this.loading = false), 2000)
+            setTimeout(() => (this.loading = false), 1000)
         }
     },
     mounted() {
         if (localStorage.username && localStorage.pwlength) {
             this.createacc = false;
             this.getdata();
+        }
+        if (localStorage.AutoLogin == 'true') {
+            this.AutoLogin = true;
+            this.Loading = true;
+            setTimeout(() => {
+                this.Login(this.userdata);
+            }, 2500);
         }
     }
 })

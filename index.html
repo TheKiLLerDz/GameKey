@@ -33,12 +33,14 @@
             <span>.</span>
         </div>
         <v-toolbar dense color="blue darken-3" app clipped-left :extended="Launch" height="33px" extension-height="50px"
-            @dblclick="Maximize()" class="unselectable">
-            <span style="position: absolute; left: 50%; transform: translate(-50%, 0px);">GameKey</span>
+            class="unselectable">
+            <span style="width:100%;-webkit-app-region: drag;" id="demo">
+                <div style="margin-left: 53%;">GameKey</div>
+            </span>
             <v-spacer></v-spacer>
             <v-icon color="white darken-3" class="menuicons" @click="Minimize()">mdi-window-minimize</v-icon>
             <v-icon color="white darken-3" class="menuicons" @click="Maximize()">
-                {{Maximized ? 'mdi-window-maximize' : 'mdi-window-restore'}}</v-icon>
+                {{Maximized ? 'mdi-window-restore' : 'mdi-window-maximize'}}</v-icon>
             <v-icon color="white darken-3" class="menuicons closebutton" @click="Close()">mdi-close</v-icon>
             <template v-slot:extension v-if="Launch">
                 <v-icon></v-icon>

@@ -229,7 +229,6 @@ html {
 
 .v-toolbar__content {
     background: #2a3033;
-    -webkit-app-region: drag;
 }
 
 .v-toolbar__extension_ {
