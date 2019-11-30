@@ -13,8 +13,8 @@ function createAppWindow() {
     mainwin = new BrowserWindow({
         width: 800,
         height: 500,
-        frame: false,
         transparent: true,
+        frame: false,
         webPreferences: {
             nodeIntegration: true,
             //devTools: false
