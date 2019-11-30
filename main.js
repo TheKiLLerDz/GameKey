@@ -146,6 +146,10 @@ v = new Vue({
     },
     Maximize() {
       this.Maximized = !this.Maximized;
+      // var targLink = document.getElementById("demo");
+      // var clickEvent = document.createEvent('MouseEvents');
+      // clickEvent.initEvent('dblclick', true, true);
+      // targLink.dispatchEvent(clickEvent);
     },
     Close() {
       ipcRenderer.send('close-app');
@@ -201,9 +205,10 @@ v = new Vue({
     })
   },
   watch: {
-    Maximized(newValue) {
-      newValue ? ipcRenderer.send('unmaximize-app') : ipcRenderer.send('maximize-app')
-    },
+    // Maximized(newValue) {
+    //   console.log('newValue ' + newValue)
+    //   newValue ? ipcRenderer.send('maximize-app') : ipcRenderer.send('unmaximize-app')
+    // },
     windowWidth(newWidth, oldWidth) {
       //console.log(newWidth)
       if (newWidth >= 0.6 * screen.width) this.mini = false

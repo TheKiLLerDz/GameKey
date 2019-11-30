@@ -25,10 +25,13 @@ function createAppWindow() {
 }
 
 function createLoginWindow() {
-    const { width, height } = screen.getPrimaryDisplay().workAreaSize;
+    const {
+        width,
+        height
+    } = screen.getPrimaryDisplay().workAreaSize;
     Loginwin = new BrowserWindow({
-        width: width*0.5,
-        height: height*0.7,
+        width: width * 0.5,
+        height: height * 0.7,
         transparent: true,
         frame: false,
         webPreferences: {
@@ -56,18 +59,13 @@ ipcMain.on('access-app', (event) => {
 })
 
 ipcMain.on('unmaximize-app', (event) => {
-    if (mainwin != null) {
-        mainwin.setSize(800, 500);
-        mainwin.center();
-    } else {
-        Loginwin.setSize(800, 500);
-        Loginwin.center();
-    }
+    mainwin.setSize(800, 500);
+    mainwin.center();
 })
 
 ipcMain.on('close-app', (event) => {
     if (mainwin != null) mainwin.close();
-        Loginwin.close();
+    Loginwin.close();
 })
 
 ipcMain.on('Path-request', (event, Platform) => {
