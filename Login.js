@@ -1,8 +1,8 @@
 const {
     ipcRenderer
 } = require('electron')
-
-new Vue({
+var mehdi ;
+vm = new Vue({
     el: '#app',
     vuetify: new Vuetify(),
     data: ({
@@ -16,6 +16,7 @@ new Vue({
             password: '',
             avatar: ''
         },
+        files : [],
         createacc: true,
         isAdding: false,
         loading: false,
@@ -35,6 +36,7 @@ new Vue({
         },
     }),
     methods: {
+
         Minimize() {
             ipcRenderer.send('minimize-app');
         },
@@ -68,12 +70,14 @@ new Vue({
             localStorage.username = account.username;
             localStorage.pwlength = account.password.length;
             localStorage.pwhash = SHA1(account.password);
+            localStorage.avatar = this.$refs.file.internalArrayValue[0].path
             this.createacc = false;
             this.userdata = {
                 username: account.username,
                 password: account.password,
-                avatar: '' //account.avatar
+                avatar: this.$refs.file.internalArrayValue[0].path
             }
+     mehdi =  this.$refs.file
         }
     },
     watch: {

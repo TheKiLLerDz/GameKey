@@ -94,8 +94,8 @@
                                         name="input-10-1" label="Password" hint="At least 8 characters" counter
                                         @click:append="show1 = !show1" color="red" v-model="newacc.password" required>
                                     </v-text-field>
-                                    <v-file-input :rules="imgrules" accept="image/png, image/jpeg, image/bmp"
-                                        placeholder="Pick an avatar" prepend-icon="mdi-camera" label="Avatar">
+                                    <v-file-input ref="file" :rules="imgrules" accept="image/png, image/jpeg, image/bmp"
+                                      placeholder="Pick an avatar" prepend-icon="mdi-camera" label="Avatar">
                                     </v-file-input>
                             </v-flex>
                         </v-layout>
