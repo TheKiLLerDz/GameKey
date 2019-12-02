@@ -44,26 +44,26 @@ function createLoginWindow() {
 
 app.on('ready', createLoginWindow)
 
-ipcMain.on('minimize-app', (event) => {
+ipcMain.on('minimize-app', () => {
     if (mainwin != null)
         mainwin.minimize();
     else Loginwin.minimize();
 })
 
-ipcMain.on('maximize-app', (event) => {
+ipcMain.on('maximize-app', () => {
     mainwin.maximize();
 })
-ipcMain.on('access-app', (event) => {
+ipcMain.on('access-app', () => {
     createAppWindow();
     Loginwin.hide();
 })
 
-ipcMain.on('unmaximize-app', (event) => {
+ipcMain.on('unmaximize-app', () => {
     mainwin.setSize(800, 500);
     mainwin.center();
 })
 
-ipcMain.on('close-app', (event) => {
+ipcMain.on('close-app', () => {
     if (mainwin != null) mainwin.close();
     Loginwin.close();
 })

@@ -37,7 +37,6 @@ vm = new Vue({
         },
     }),
     methods: {
-
         Minimize() {
             ipcRenderer.send('minimize-app');
         },

@@ -85,15 +85,30 @@
                     </v-btn>
                     <span class="bottom">Home</span>
                 </v-tooltip>
-                <v-tooltip bottom>
-                    <v-btn icon slot="activator" @click=''>
-                        <v-badge color="error" overlap left>
-                            <span slot="badge">10</span>
-                            <v-icon>notifications</v-icon>
-                        </v-badge>
-                    </v-btn>
-                    <span class="bottom">Notifications</span>
-                </v-tooltip>
+                <v-menu content-class="dropdown-menu" offset-y origin="top right" transition="scale-transition">
+                    <v-tooltip bottom slot="activator" dark>
+                        <v-btn icon slot="activator" @click=''>
+                            <v-badge color="error" overlap left>
+                                <span slot="badge" v-if="updatedb.length>0">{{updatedb.length}}</span>
+                                <v-icon>notifications</v-icon>
+                            </v-badge>
+                        </v-btn>
+                        <span class="bottom">Notifications</span>
+                    </v-tooltip>
+                    <v-list class="py-0">
+                        <div v-for="notification in updatedb" :key="notification.title">
+                            <v-list-tile ripple>
+                                <v-list-tile-content>
+                                    <v-list-tile-title>{{notification.title}}</v-list-tile-title>
+                                </v-list-tile-content>
+                                <v-list-tile-action>
+                                    <v-icon @click="ReadNotif(notification.title)" color="error">mdi-close</v-icon>
+                                </v-list-tile-action>
+                            </v-list-tile>
+                            <v-divider></v-divider>
+                        </div>
+                    </v-list>
+                </v-menu>
                 <v-menu content-class="dropdown-menu" offset-y origin="top right" transition="scale-transition">
                     <v-tooltip bottom slot="activator" dark>
                         <v-btn icon slot="activator">
@@ -209,10 +224,10 @@
                 </v-fade-transition>
             </v-container>
         </v-content>
-        <v-snackbar v-if="Launch" v-for="(item,index) in updatedb" @click='Update(index)' :key="item.notification"
-            v-model="item.value" :timeout="3000*(updatedb.length-index)" :style="'margin-bottom: '+60*(index+0.4)+'px;'"
-            absolute right color="blue">
-            <div class="pa-2 ma-2 update">{{item.notification}}</div>
+        <v-snackbar v-if="Launch" v-for="(notification,index) in updatedb" @click='Update(index)'
+            :key="notification.title" v-model="notification.value" :timeout="3000*(updatedb.length-index)"
+            :style="'margin-bottom: '+60*(index+0.4)+'px;'" absolute right color="blue">
+            <div class="pa-2 ma-2 update">{{notification.title}}</div>
         </v-snackbar>
         <v-footer color="blue darken-3" app v-if="Launch" class="unselectable">
             <h3 class="px-3 white--text">&copy; {{App.year}}</h3>

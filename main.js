@@ -161,6 +161,10 @@ v = new Vue({
       return textOne.indexOf(searchText) > -1 ||
         textTwo.indexOf(searchText) > -1
     },
+    ReadNotif(title) {
+      index = store.state.updatedb.notifications.map(e => e.title).indexOf(title);
+      store.state.updatedb.notifications[index].value = true;
+    },
     Update(item) {
       this.updatedb[item].type == 'ND' ? updateDB(JSON.parse(localStorage.getItem("version"))) : this.updatedb[item].type == 'NA' ? console.log('very soon') : console.log('Link')
     }
@@ -168,12 +172,12 @@ v = new Vue({
   computed: {
     updatedb() {
       var x = [];
-      if (store.state.updatedb.notifications == undefined)
-        return [];
-      else store.state.updatedb
-        .notifications.forEach(el => {
-          el.value = 'true';
-          x.push(el)
+      if (store.state.updatedb.notifications != undefined)
+        store.state.updatedb.notifications.forEach(el => {
+          if (!el.value) {
+            el.value = false;
+            x.push(el);
+          }
         })
       return x;
     },
