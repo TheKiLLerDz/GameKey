@@ -139,6 +139,7 @@ v = new Vue({
     mini: false,
     windowWidth: 0,
     Maximized: null,
+    updatedb: []
   }),
   methods: {
     Minimize() {
@@ -155,32 +156,31 @@ v = new Vue({
       ipcRenderer.send('close-app');
     },
     customFilter(item, queryText) {
-      const textOne = item.name.toLowerCase();
+      const textOne = item.name.toLowerCase().replace(/[^a-zA-Z0-9]/g, '');
       const textTwo = String(item.appid).toLowerCase();
-      const searchText = queryText.toLowerCase();
+      const searchText = queryText.toLowerCase().replace(/[^a-zA-Z0-9]/g, '');
       return textOne.indexOf(searchText) > -1 ||
         textTwo.indexOf(searchText) > -1
     },
-    ReadNotif(title) {
-      index = store.state.updatedb.notifications.map(e => e.title).indexOf(title);
-      store.state.updatedb.notifications[index].value = true;
+    ReadNotif(title, index) {
+      this.updatedb.splice(index, 1);
     },
     Update(item) {
       this.updatedb[item].type == 'ND' ? updateDB(JSON.parse(localStorage.getItem("version"))) : this.updatedb[item].type == 'NA' ? console.log('very soon') : console.log('Link')
-    }
+    },
+    getNotif() {
+      setTimeout(() => {
+        if (store.state.updatedb.notifications != undefined)
+          store.state.updatedb.notifications.forEach(el => {
+            if (!el.value || el.value != 'true') {
+              el.value = 'false';
+              this.updatedb.push(el);
+            }
+          })
+      }, 2000);
+    },
   },
   computed: {
-    updatedb() {
-      var x = [];
-      if (store.state.updatedb.notifications != undefined)
-        store.state.updatedb.notifications.forEach(el => {
-          if (!el.value) {
-            el.value = false;
-            x.push(el);
-          }
-        })
-      return x;
-    },
     userdata() {
       return {
         username: store.state.userdata.username,
@@ -207,6 +207,7 @@ v = new Vue({
         this.windowWidth = window.innerWidth
       });
     })
+    this.getNotif();
   },
   watch: {
     // Maximized(newValue) {

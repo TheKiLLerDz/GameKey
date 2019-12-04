@@ -96,17 +96,15 @@
                         <span class="bottom">Notifications</span>
                     </v-tooltip>
                     <v-list class="py-0">
-                        <div v-for="notification in updatedb" :key="notification.title">
-                            <v-list-tile ripple>
-                                <v-list-tile-content>
-                                    <v-list-tile-title>{{notification.title}}</v-list-tile-title>
-                                </v-list-tile-content>
-                                <v-list-tile-action>
-                                    <v-icon @click="ReadNotif(notification.title)" color="error">mdi-close</v-icon>
-                                </v-list-tile-action>
-                            </v-list-tile>
+                        <v-list-tile v-for="(notification,i) in updatedb" :key="i" @click="">
+                            <v-list-tile-content>
+                                <v-list-tile-title v-text="notification.title"></v-list-tile-title>
+                            </v-list-tile-content>
+                            <v-list-tile-action>
+                                <v-icon @click="ReadNotif(notification.title,i)" color="error">mdi-close</v-icon>
+                            </v-list-tile-action>
                             <v-divider></v-divider>
-                        </div>
+                        </v-list-tile>
                     </v-list>
                 </v-menu>
                 <v-menu content-class="dropdown-menu" offset-y origin="top right" transition="scale-transition">
