@@ -21,8 +21,8 @@
             <v-icon class="menuicons" @click="Minimize()">mdi-minus</v-icon>
             <v-icon class="menuicons closebutton" @click="Close()">mdi-close</v-icon>
         </v-system-bar>
-        <v-img class="white--text" src="Login-Background-1.jpg" lazy-src="Login-Background-1.jpg">
-            <v-card color="transparent" dark @keydown.enter="Login(userdata)" style="padding: 20px;">
+        <v-img class="white--text" src="Login-Background-1.jpg" lazy-src="Login-Background-1.jpg" @keydown.enter="Login(userdata)">
+            <v-card color="transparent" dark style="padding: 20px;">
                 <v-card-title class="unselectable" style="margin-left:30%">
                     <h1>
                         <v-icon dense color='info' x-large>
@@ -74,7 +74,7 @@
                             <v-alert v-show="msg!=''" type="error">
                                 {{msg}}
                             </v-alert>
-                            <v-btn @click="Maximize()">Forgot Password ?</v-btn>
+                            <v-btn @click="ForgotPW()">Forgot Password ?</v-btn>
                         </v-card-text>
                     </div>
                 </v-expand-transition>

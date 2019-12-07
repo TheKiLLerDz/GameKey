@@ -5,14 +5,19 @@ const {
     dialog,
     screen
 } = require('electron')
+
 var mainwin, Loginwin;
+
+const {
+    remote
+  } = require('electron')
 
 app.setPath('userData', "C:/OneDrive/GameKey")
 
 function createAppWindow() {
     mainwin = new BrowserWindow({
-        width: 800,
-        height: 500,
+        minWidth: 800,
+        minHeight: 600,
         transparent: true,
         frame: false,
         webPreferences: {
@@ -32,13 +37,14 @@ function createLoginWindow() {
     Loginwin = new BrowserWindow({
         width: width * 0.5,
         height: height * 0.7,
+        maxWidth: 950,
+        maxHeight: 700,
         transparent: true,
         frame: false,
         webPreferences: {
             nodeIntegration: true
         }
     })
-    
     Loginwin.loadURL('file://' + __dirname + '/Login.html')
 }
 
@@ -52,17 +58,14 @@ ipcMain.on('minimize-app', () => {
     else Loginwin.minimize();
 })
 
-ipcMain.on('maximize-app', () => {
-    mainwin.maximize();
-})
 ipcMain.on('access-app', () => {
     createAppWindow();
     Loginwin.hide();
 })
 
-ipcMain.on('unmaximize-app', () => {
-    mainwin.setSize(800, 500);
-    mainwin.center();
+ipcMain.on('maximize-app', () => {
+    var win = remote.getCurrentWindow();
+    win.isMaximized() ? win.unmaximize() : win.maximize();
 })
 
 ipcMain.on('close-app', () => {

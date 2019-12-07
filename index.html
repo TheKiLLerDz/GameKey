@@ -153,7 +153,7 @@
                         </v-list-tile-action>
                     </v-list-tile>
                     <v-divider class="mx-3 mb-3"></v-divider>
-                    <v-list-tile :active-class="!mini?'v-list-item-active greencard' : 'v-list-item-mini-active'"
+                    <v-list-tile :active-class="!mini?'v-list-item-active' : 'v-list-item-mini-active'"
                         v-for="item in items" :key="item.title" :class="!mini?'tile' : ''" :to="{path:item.link}">
                         <v-tooltip v-if="mini" right>
                             <v-list-tile-action slot="activator">
