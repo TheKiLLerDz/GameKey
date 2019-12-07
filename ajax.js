@@ -19,25 +19,26 @@ function tags(appid) {
     }
   }
 }
-var verifierAPI = false;
 
-function testAPI() {
+function testAPI(resolve, reject) {
   var url = 'http://127.0.0.1:3000';
-  // var params = "appid="+appid;
   http.open('GET', url);
-  http.send()
+  http.send();
 
   http.onload = function () {
-    if (http.status == 200) {
-      return true
-    } else {
-      return false
-    }
-  }
+    resolve("success");
+  };
+
+  http.onerror = function () {
+    reject("error");
+  };
+
+  http.onprogress = function (event) {
+    console.log(`Received ${event.loaded} of ${event.total}`)
+  };
 }
 
 function sendData(i, callback) {
-
 
   http.onreadystatechange = function () {
     if (http.readyState === 4) {
@@ -57,7 +58,7 @@ var infoapp = {
   Price: '0'
 };
 
-function getinfo(item,resolve, reject) {
+function getinfo(item, resolve, reject) {
   if (item.platform == 'Steam') {
     var url = 'https://steamspy.com/api.php?request=appdetails&appid=' + item.appid;
     http.open('GET', url);
@@ -65,7 +66,7 @@ function getinfo(item,resolve, reject) {
     http.onload = function () {
       if (http.status == 200) {
         var obj = JSON.parse(http.responseText);
-        store.state.moreinfo={
+        store.state.moreinfo = {
           Developer: obj.developer,
           Publisher: obj.publisher,
           Genre: obj.genre,
@@ -74,8 +75,7 @@ function getinfo(item,resolve, reject) {
         resolve("success");
       } else reject("error");
     }
-  }
-  else {
+  } else {
     resolve("success");
   }
 }
