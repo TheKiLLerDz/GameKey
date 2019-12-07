@@ -10,9 +10,9 @@ var mainwin, Loginwin;
 
 const {
     remote
-  } = require('electron')
+} = require('electron')
 
-app.setPath('userData', "C:/OneDrive/GameKey")
+app.setPath('userData', app.getPath('home') + '/OneDrive/GameKey')
 
 function createAppWindow() {
     mainwin = new BrowserWindow({
