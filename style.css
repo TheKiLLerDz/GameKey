@@ -183,6 +183,15 @@ html {
     caret-color: rgb(9, 102, 175) !important;
 }
 
+.v-card--reveal {
+  align-items: center;
+  bottom: 0;
+  justify-content: center;
+  opacity: .5;
+  position: absolute;
+  width: 100%;
+}
+
 .v-list-item-active {
     margin: 0 15px;
     color: #e9ebee !important;

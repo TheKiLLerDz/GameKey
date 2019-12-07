@@ -20,6 +20,7 @@ function tags(appid) {
   }
 }
 var verifierAPI = false;
+
 function testAPI() {
   var url = 'http://127.0.0.1:3000';
   // var params = "appid="+appid;
@@ -27,12 +28,12 @@ function testAPI() {
   http.send()
 
   http.onload = function () {
-    if (http.status == 200) { 
+    if (http.status == 200) {
       return true
-    }else{
-return false
+    } else {
+      return false
     }
-}
+  }
 }
 
 function sendData(i, callback) {
@@ -56,31 +57,26 @@ var infoapp = {
   Price: '0'
 };
 
-function getinfo(item) {
-  tagsapp = [];
-
-  var url = 'https://steamspy.com/api.php?request=appdetails&appid=' + item.appid;
-  // var params = "appid="+appid;
-  http.open('GET', url);
-  http.send()
-
-  http.onload = function () {
-    if (http.status == 200) {
-      var obj = JSON.parse(http.responseText)
-      console.log({
-        Developer: obj.developer,
-        Publisher: obj.publisher,
-        Genre: obj.genre,
-        Price: obj.price / 100
-      })
-      infoapp = {
-        Developer: obj.developer,
-        Publisher: obj.publisher,
-        Genre: obj.genre,
-        Price: obj.price / 100
-      }
-
+function getinfo(item,resolve, reject) {
+  if (item.platform == 'Steam') {
+    var url = 'https://steamspy.com/api.php?request=appdetails&appid=' + item.appid;
+    http.open('GET', url);
+    http.send();
+    http.onload = function () {
+      if (http.status == 200) {
+        var obj = JSON.parse(http.responseText);
+        store.state.moreinfo={
+          Developer: obj.developer,
+          Publisher: obj.publisher,
+          Genre: obj.genre,
+          Price: obj.price / 100
+        };
+        resolve("success");
+      } else reject("error");
     }
+  }
+  else {
+    resolve("success");
   }
 }
 

@@ -47,6 +47,13 @@ const store = new Vuex.Store({
     steamkey: [],
     uplay: [],
     uplaykey: [],
+    infodialog: false,
+    moreinfo:{
+      Developer: 'Undefined',
+      Publisher: 'Undefined',
+      Genre: '',
+      Price: '0'
+    },
     origin: [],
     updatedb: {},
     originkey: [],

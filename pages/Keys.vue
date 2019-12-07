@@ -433,48 +433,57 @@
                 </v-card-actions>
             </v-card>
         </v-dialog>
-        <v-dialog v-model="infodialog" persistent width="70vw" @keydown.esc="infodialog = false"
-            @keydown.enter="infodialog = false">
+        <v-dialog v-model="infodialog" persistent width="70vw" @keydown.esc="this.infoapp= {Developer: 'Undefined',Publisher: 'Undefined',
+                    Genre: '',
+                    Price: '0'
+                };infodialog = false" @keydown.enter="this.infoapp= {Developer: 'Undefined',Publisher: 'Undefined',Genre: '',Price: '0'
+                };infodialog = false">
             <v-flex xs12>
                 <v-card class="white--text">
                     <v-img
-                        :src="itemtoadd.platform == 'Steam' ? 'https://steamcdn-a.akamaihd.net/steam/apps/' + itemtoadd.appid + '/header.jpg' : itemtoadd.platform == 'Uplay' ? 'https://transform.dis.commercecloud.salesforce.com/transform/ABBS_PRD/on/demandware.static/-/Sites-masterCatalog/default/images/large/'+itemtoadd.appid+'.jpg' : 'apps/undefined.gif'"
+                        :src="infoapp.platform == 'Steam' ? 'https://steamcdn-a.akamaihd.net/steam/apps/' + infoapp.appid + '/header.jpg' : infoapp.platform == 'Uplay' ? 'https://transform.dis.commercecloud.salesforce.com/transform/ABBS_PRD/on/demandware.static/-/Sites-masterCatalog/default/images/large/'+infoapp.appid+'.jpg' : 'apps/undefined.gif'"
                         onerror="this.src='apps/undefined.gif'" transition="fade-transition"
                         lazy-src="apps/undefined.gif" height="410px">
                         <div style='background: rgb(0,0,0);
 background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rgba(0,0,0,1) 100%);'>
                             <v-layout row>
-                                <v-flex xs5 lg8>
-                                    <v-img
-                                        :src="itemtoadd.platform == 'Steam' ? 'https://steamcdn-a.akamaihd.net/steam/apps/' + itemtoadd.appid + '/header.jpg' : itemtoadd.platform == 'Uplay' ? 'https://transform.dis.commercecloud.salesforce.com/transform/ABBS_PRD/on/demandware.static/-/Sites-masterCatalog/default/images/large/'+itemtoadd.appid+'.jpg' : 'apps/undefined.gif'"
+                                <v-hover>
+                                    <v-img slot-scope="{ hover }"
+                                        :src="infoapp.platform == 'Steam' ? 'https://steamcdn-a.akamaihd.net/steam/apps/' + infoapp.appid + '/header.jpg' : infoapp.platform == 'Uplay' ? 'https://transform.dis.commercecloud.salesforce.com/transform/ABBS_PRD/on/demandware.static/-/Sites-masterCatalog/default/images/large/'+infoapp.appid+'.jpg' : 'apps/undefined.gif'"
                                         onerror="this.src='apps/undefined.gif'" transition="fade-transition"
                                         lazy-src="apps/undefined.gif" height="350px" contain>
+                                        <v-expand-transition>
+                                            <div v-if="hover"
+                                                class="d-flex transition-fast-in-fast-out orange darken-2 v-card--reveal display-3 white--text"
+                                                style="height: 100%;width:100%">{{moreinfo.Price}} $
+                                            </div>
+                                        </v-expand-transition>
                                     </v-img>
-                                </v-flex>
+                                </v-hover>
                                 <v-flex xs7 lg4>
                                     <v-card-title primary-title>
                                         <div height="50px">
-                                            <div class="headline">{{itemtoadd.name}}</div>
+                                            <div class="headline">{{infoapp.name}}</div>
                                             <div class="pa-2 ma-2">
-                                                <v-icon v-if="itemtoadd.platform=='Steam'" dense color='white'>mdi-steam
+                                                <v-icon v-if="infoapp.platform=='Steam'" dense color='white'>mdi-steam
                                                 </v-icon>
-                                                <v-icon v-else-if="itemtoadd.platform=='Uplay'" color='white'>
+                                                <v-icon v-else-if="infoapp.platform=='Uplay'" color='white'>
                                                     mdi-ubisoft
                                                 </v-icon>
-                                                <v-icon v-else-if="itemtoadd.platform=='Origin'" dense color='white'>
+                                                <v-icon v-else-if="infoapp.platform=='Origin'" dense color='white'>
                                                     mdi-origin
                                                 </v-icon>
-                                                <v-icon v-else-if="itemtoadd.platform=='Other'" dense color='white'>
+                                                <v-icon v-else-if="infoapp.platform=='Other'" dense color='white'>
                                                     mdi-alert-circle
-                                                </v-icon> <span>{{itemtoadd.platform}}</span>
+                                                </v-icon> <span>{{infoapp.platform}}</span>
                                             </div>
-                                            <div v-if="itemtoadd.platform=='Steam'">
-                                                <div>Developer : {{infoapp.Developer}} </div>
-                                                <div>Publisher : {{infoapp.Publisher}} </div>
+                                            <div v-if="infoapp.platform=='Steam'">
+                                                <span>Developer : {{moreinfo.Developer}} </span><br>
+                                                <div>Publisher : {{moreinfo.Publisher}} </div>
                                                 <div>
-                                                    Price : {{infoapp.Price}} $
+                                                    Price : {{moreinfo.Price}} $
                                                 </div>
-                                                <div>Genre : {{infoapp.Genre}}</div>
+                                                <div>Genre : {{moreinfo.Genre}}</div>
                                             </div>
                                             <h3 v-else>Info not Available</h3>
                                         </div>
@@ -653,6 +662,17 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
             }
         },
         computed: {
+            infodialog: {
+                get: function () {
+                    return store.state.infodialog;
+                },
+                set: function (newValue) {
+                    store.state.infodialog = newValue;
+                }
+            },
+            moreinfo(value) {
+                return store.state.moreinfo;
+            },
             apps() {
                 switch (window.location.hash.slice(1)) {
                     case '/steam':
@@ -782,19 +802,12 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                 fling: false,
                 tabs: null,
                 search: '',
-                infoapp: {
-                    Developer: 'Undefined',
-                    Publisher: 'Undefined',
-                    Genre: '',
-                    Price: '0'
-                },
                 appnames: [],
                 Itemtodelete: null,
                 keytodelete: null,
                 deletedialog: false,
                 deletekeydialog: false,
                 editdialog: false,
-                infodialog: false,
                 addialog: false,
                 platforms: [{
                     name: 'Steam',
@@ -847,6 +860,15 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                 singleExpand: false,
                 oldediteditem: null,
                 itemtoadd: {
+                    appid: '',
+                    name: '',
+                    platform: '',
+                    keys: [{
+                        key: ''
+                    }],
+                    tags: [],
+                },
+                infoapp: {
                     appid: '',
                     name: '',
                     platform: '',
@@ -1217,13 +1239,18 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                 document.body.removeChild(el);
             },
             otherinfo(item) {
-                this.itemtoadd = item;
-                if (item.platform == 'Steam')
-                    getinfo(item)
-                setTimeout(() => {
-                    this.infoapp = infoapp
-                }, 200);
-                this.infodialog = true
+                this.infoapp = item;
+                var promise1 = new Promise(function (resolve, reject) {
+                    getinfo(item, resolve, reject);
+                });
+                promise1.then(
+                    function (result) {
+                        store.state.infodialog = true;
+                    },
+                    function (error) {
+                        console.log(error);
+                    }
+                )
             },
             getColor(qnt) {
                 if (qnt < 1) return 'red'
