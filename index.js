@@ -4,7 +4,7 @@ const {
   remote
 } = require('electron')
 
-ipcRenderer.on('isMaximized', (event, value) => {
+ipcRenderer.on('isMaximized', (value) => {
   v.Maximized = value;
 })
 
@@ -164,7 +164,18 @@ v = new Vue({
       ipcRenderer.send('maximize-app');
     },
     Close() {
+      localStorage.width = window.innerWidth;
+      localStorage.height = window.innerHeight;
       ipcRenderer.send('close-app');
+    },
+    LogOut() {
+      localStorage.AutoLogin = false;
+      ipcRenderer.send('Log-Out');
+    },
+    setSize() {
+      width = parseInt(localStorage.width);
+      height = parseInt(localStorage.height);
+      ipcRenderer.send('setSize', width, height);
     },
     customFilter(item, queryText) {
       const textOne = item.name.toLowerCase().replace(/[^a-zA-Z0-9]/g, '');
@@ -220,6 +231,7 @@ v = new Vue({
       });
     })
     this.getNotif();
+    this.setSize();
   },
   watch: {
     windowWidth(newWidth, oldWidth) {

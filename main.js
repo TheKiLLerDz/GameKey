@@ -44,8 +44,6 @@ function createLoginWindow() {
     Loginwin.loadURL('file://' + __dirname + '/Login.html')
 }
 
-
-
 app.on('ready', createLoginWindow)
 
 ipcMain.on('minimize-app', () => {
@@ -57,6 +55,11 @@ ipcMain.on('minimize-app', () => {
 ipcMain.on('access-app', () => {
     createAppWindow();
     Loginwin.hide();
+})
+
+ipcMain.on('Log-Out', () => {
+    mainwin.close();
+    createLoginWindow();
 })
 
 ipcMain.on('maximize-app', (event) => {
@@ -71,6 +74,11 @@ ipcMain.on('isMaximized', (event) => {
 ipcMain.on('close-app', () => {
     if (mainwin != null) mainwin.close();
     Loginwin.close();
+})
+
+ipcMain.on('setSize', (width, height) => {
+    mainwin.setSize(width, height);
+    mainwin.center();
 })
 
 ipcMain.on('Path-request', (event, Platform) => {
