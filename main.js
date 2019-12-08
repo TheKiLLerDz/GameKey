@@ -59,6 +59,7 @@ ipcMain.on('access-app', () => {
 
 ipcMain.on('Log-Out', () => {
     mainwin.close();
+    mainwin = null;
     createLoginWindow();
 })
 

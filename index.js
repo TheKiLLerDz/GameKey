@@ -172,9 +172,11 @@ v = new Vue({
       ipcRenderer.send('Log-Out');
     },
     setSize() {
-      width = parseInt(localStorage.width);
-      height = parseInt(localStorage.height);
-      ipcRenderer.send('setSize', width, height);
+      if (localStorage.width && localStorage.height) {
+        width = parseInt(localStorage.width);
+        height = parseInt(localStorage.height);
+        ipcRenderer.send('setSize', width, height);
+      }
     },
     customFilter(item, queryText) {
       const textOne = item.name.toLowerCase().replace(/[^a-zA-Z0-9]/g, '');
