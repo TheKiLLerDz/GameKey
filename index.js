@@ -3,6 +3,11 @@ const {
   ipcRenderer,
   remote
 } = require('electron')
+
+ipcRenderer.on('isMaximized', (event, value) => {
+  v.Maximized = value;
+})
+
 var routes = [{
   path: '/',
   component: httpVueLoader('./pages/Home.vue')
@@ -80,25 +85,23 @@ v = new Vue({
     Launch: false,
     loading: false,
     theme: 'theme--blue',
-    themes: [
-      {
-        name: 'Green Theme (Default)',
-        color: 'success',
-        class: 'theme--green',
-      }, {
-        name: 'Orange Theme',
-        color: 'orange',
-        class: 'theme--orange',
-      }, {
-        name: 'Blue Theme',
-        color: 'blue',
-        class: 'theme--blue',
-      }, {
-        name: 'Red Theme',
-        color: 'red',
-        class: 'theme--red',
-      }
-    ],
+    themes: [{
+      name: 'Green Theme (Default)',
+      color: 'success',
+      class: 'theme--green',
+    }, {
+      name: 'Blue Theme',
+      color: 'blue',
+      class: 'theme--blue',
+    }, {
+      name: 'Orange Theme',
+      color: 'orange',
+      class: 'theme--orange',
+    }, {
+      name: 'Red Theme',
+      color: 'red',
+      class: 'theme--red',
+    }],
     selected: null,
     search: null,
     settingstab: false,
@@ -158,11 +161,7 @@ v = new Vue({
       ipcRenderer.send('minimize-app');
     },
     Maximize() {
-      var win = remote.getCurrentWindow();
-      this.Maximized = !this.Maximized;
-      if (win.isMaximized())
-        win.unmaximize();
-      else win.maximize();
+      ipcRenderer.send('maximize-app');
     },
     Close() {
       ipcRenderer.send('close-app');
@@ -211,7 +210,8 @@ v = new Vue({
   mounted() {
     if (!localStorage.Patterns) localStorage.Patterns = true;
     this.Maximized = screen.width == window.innerWidth && screen.height == window.innerHeight
-    if (localStorage.theme) this.theme = localStorage.theme; else this.theme="theme--green"
+    if (localStorage.theme) this.theme = localStorage.theme;
+    else this.theme = "theme--green"
     if (localStorage.Dark) this.isDark = (localStorage.Dark == 'true');
     this.windowWidth = window.innerWidth;
     this.$nextTick(() => {
@@ -222,17 +222,13 @@ v = new Vue({
     this.getNotif();
   },
   watch: {
-    // Maximized(newValue) {
-    //   console.log('newValue ' + newValue)
-    //   newValue ? ipcRenderer.send('maximize-app') : ipcRenderer.send('unmaximize-app')
-    // },
     windowWidth(newWidth, oldWidth) {
       if (newWidth >= 0.6 * screen.width) this.mini = false
       else this.mini = true
+      ipcRenderer.send('isMaximized');
     },
     theme(mytheme) {
       localStorage.theme = mytheme;
-
     },
     isDark(value) {
       localStorage.Dark = value;

@@ -8,17 +8,13 @@ const {
 
 var mainwin, Loginwin;
 
-const {
-    remote
-} = require('electron')
-
 app.setPath('userData', app.getPath('home') + '/OneDrive/GameKey')
 
 function createAppWindow() {
     mainwin = new BrowserWindow({
         minWidth: 800,
         minHeight: 600,
-        transparent: true,
+        //transparent: true,
         frame: false,
         webPreferences: {
             nodeIntegration: true,
@@ -63,9 +59,13 @@ ipcMain.on('access-app', () => {
     Loginwin.hide();
 })
 
-ipcMain.on('maximize-app', () => {
-    var win = remote.getCurrentWindow();
-    win.isMaximized() ? win.unmaximize() : win.maximize();
+ipcMain.on('maximize-app', (event) => {
+    mainwin.isMaximized() ? mainwin.unmaximize() : mainwin.maximize();
+    event.reply('isMaximized', mainwin.isMaximized())
+})
+
+ipcMain.on('isMaximized', (event) => {
+    event.reply('isMaximized', mainwin.isMaximized())
 })
 
 ipcMain.on('close-app', () => {
