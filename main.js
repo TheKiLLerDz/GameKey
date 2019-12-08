@@ -76,7 +76,7 @@ ipcMain.on('close-app', () => {
     Loginwin.close();
 })
 
-ipcMain.on('setSize', (width, height) => {
+ipcMain.on('setSize', (event, width, height) => {
     mainwin.setSize(width, height);
     mainwin.center();
 })

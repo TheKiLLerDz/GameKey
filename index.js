@@ -1,10 +1,9 @@
 CreateDB()
 const {
-  ipcRenderer,
-  remote
+  ipcRenderer
 } = require('electron')
 
-ipcRenderer.on('isMaximized', (value) => {
+ipcRenderer.on('isMaximized', (event, value) => {
   v.Maximized = value;
 })
 
