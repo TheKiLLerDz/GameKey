@@ -34,7 +34,7 @@ function getsteambdd() {
 			e.platform = 'Steam'
 			return e.keys !== undefined;
 		});
-		v.Launch=true;
+		v.Launch = true;
 	});
 
 }

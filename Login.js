@@ -1,7 +1,7 @@
 const {
     ipcRenderer
 } = require('electron')
-vm = new Vue({
+new Vue({
     el: '#app',
     vuetify: new Vuetify(),
     data: ({
@@ -45,7 +45,7 @@ vm = new Vue({
         CredentialsEdited() {
             this.accessgranted = false;
         },
-        ForgotPW(){
+        ForgotPW() {
             console.log("Forgot Password &| Username")
         },
         Login(userdata) {
@@ -61,7 +61,7 @@ vm = new Vue({
             this.rememberme = (localStorage.rememberme == 'true');
             if (this.rememberme) {
                 this.userdata = {
-                    username: localStorage.username,
+                    username: localStorage.savedusername,
                     avatar: localStorage.avatar,
                 }
                 var length = localStorage.pwlength;
@@ -79,6 +79,7 @@ vm = new Vue({
                 localStorage.pwhash = SHA1(account.password);
                 localStorage.avatar = avatar
                 this.createacc = false;
+                setUserData(localStorage.username, localStorage.pwhash);
                 this.userdata = {
                     username: account.username,
                     password: account.password,
@@ -98,17 +99,25 @@ vm = new Vue({
         },
         rememberme(value) {
             localStorage.rememberme = value;
-            if (!value) this.AutoLogin = false;
+            localStorage.savedusername=this.userdata.username;
+            if (!value) {
+                this.AutoLogin = false;
+                localStorage.savedusername='';
+            }
         },
         loading() {
             setTimeout(() => (this.loading = false), 1000)
         }
     },
     mounted() {
-        if (localStorage.username && localStorage.pwlength) {
-            this.createacc = false;
-            this.getdata();
-        }
+        CreateData();
+        setTimeout(() => {
+            if (localStorage.username && localStorage.pwlength) {
+                this.createacc = false;
+                this.getdata();
+                localstorage = true;
+            } else localstorage = false;
+        }, 500);
         if (localStorage.AutoLogin == 'true') {
             this.AutoLogin = true;
             this.Loading = true;
