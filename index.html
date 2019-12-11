@@ -32,8 +32,8 @@
             <span>.</span>
             <span>.</span>
         </div>
-        <v-toolbar dense color="blue darken-3" app clipped-left :extended="Launch" height="33px" extension-height="50px"
-            class="unselectable">
+        <v-toolbar dense app clipped-left :extended="Launch" height="33px" extension-height="50px"
+            class="white--text unselectable">
             <span style="width:100%;-webkit-app-region: drag;" id="demo">
                 <div style="margin-left: 53%;">GameKey</div>
             </span>
@@ -200,7 +200,7 @@
                                     </div>
                                 </v-flex>
                                 <v-flex xs12>
-                                    <v-radio-group class="justify-center pl-4" v-model="theme" row>
+                                    <v-radio-group class="justify-center" v-model="theme" row>
                                         <v-tooltip top v-for="theme in themes" :key="theme.name">
                                             <v-radio slot="activator" :value="theme.class.toLowerCase()"
                                                 :color="theme.color"></v-radio>
@@ -235,7 +235,7 @@
             :style="'margin-bottom: '+60*(index+0.4)+'px;'" absolute right color="blue">
             <div class="pa-2 ma-2 update">{{notification.title}}</div>
         </v-snackbar>
-        <v-footer color="blue darken-3" app v-if="Launch" class="unselectable">
+        <v-footer app v-if="Launch" class="unselectable">
             <h3 class="px-3 white--text">&copy; {{App.year}}</h3>
             <v-spacer></v-spacer>
             <h3 class="px-3 white--text">v {{App.version}}</h3>

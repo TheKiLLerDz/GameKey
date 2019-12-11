@@ -83,9 +83,13 @@ v = new Vue({
     },
     Launch: false,
     loading: false,
-    theme: 'theme--blue',
+    theme: 'theme--default',
     themes: [{
-      name: 'Green Theme (Default)',
+      name: 'Default Theme',
+      color: 'success',
+      class: 'theme--default',
+    }, {
+      name: 'Green Theme',
       color: 'success',
       class: 'theme--green',
     }, {
@@ -223,7 +227,7 @@ v = new Vue({
     if (!localStorage.Patterns) localStorage.Patterns = true;
     this.Maximized = screen.width == window.innerWidth && screen.height == window.innerHeight
     if (localStorage.theme) this.theme = localStorage.theme;
-    else this.theme = "theme--green"
+    else this.theme = "theme--default"
     if (localStorage.Dark) this.isDark = (localStorage.Dark == 'true');
     this.windowWidth = window.innerWidth;
     this.$nextTick(() => {
