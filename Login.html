@@ -21,7 +21,8 @@
             <v-icon class="menuicons" @click="Minimize()">mdi-minus</v-icon>
             <v-icon class="menuicons closebutton" @click="Close()">mdi-close</v-icon>
         </v-system-bar>
-        <v-img class="white--text" src="Login-Background-1.jpg" lazy-src="Login-Background-1.jpg" @keydown.enter="Login(userdata)">
+        <v-img class="white--text" src="Login-Background-1.jpg" lazy-src="Login-Background-1.jpg"
+            @keydown.enter="Login(userdata)">
             <v-card color="transparent" dark style="padding: 20px;">
                 <v-card-title class="unselectable" style="margin-left:30%">
                     <h1>
@@ -34,14 +35,14 @@
                     <v-container>
                         <v-row justify="space-around">
                             <v-col cols="12" sm="12">
-                                <v-text-field prepend-icon="mdi-account" color="info" label="Username"
-                                    v-model="userdata.username">
+                                <v-text-field prepend-icon="mdi-account" :rules="[rules.required, rules.min4]"
+                                    color="info" label="Username" v-model="userdata.username">
                                 </v-text-field>
                             </v-col>
                             <v-col cols="12" sm="12">
-                                <v-text-field prepend-icon="mdi-lock" :rules="[rules.required, rules.min]"
+                                <v-text-field prepend-icon="mdi-lock" :rules="[rules.required, rules.min8]"
                                     name="input-10-1" type="Password" label="Password" hint="At least 8 characters"
-                                    counter color="red" v-model="userdata.password" @change="CredentialsEdited()">
+                                    counter color="red" v-model="userdata.password">
                                 </v-text-field>
                             </v-col>
                             <v-col cols="12" sm="6">
@@ -99,17 +100,17 @@
                         <v-layout wrap>
                             <v-flex xs12 sm12 md12>
                                 <v-form ref="form" v-model="newacc.valid">
-                                    <v-text-field prepend-icon="mdi-account" color="info" label="Username"
-                                        v-model="newacc.username" required>
+                                    <v-text-field :rules="[rules.required, rules.min4]" prepend-icon="mdi-account"
+                                        color="info" label="Username" v-model="newacc.username" required>
                                     </v-text-field>
                                     <v-text-field prepend-icon="mdi-lock"
                                         :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-                                        :rules="[rules.required, rules.min]" :type="show1 ? 'text' : 'password'"
+                                        :rules="[rules.required, rules.min8]" :type="show1 ? 'text' : 'password'"
                                         name="input-10-1" label="Password" hint="At least 8 characters" counter
                                         @click:append="show1 = !show1" color="red" v-model="newacc.password" required>
                                     </v-text-field>
                                     <v-file-input ref="file" :rules="imgrules" accept="image/png, image/jpeg, image/bmp"
-                                      placeholder="Pick an avatar" prepend-icon="mdi-camera" label="Avatar">
+                                        placeholder="Pick an avatar" prepend-icon="mdi-camera" label="Avatar">
                                     </v-file-input>
                             </v-flex>
                         </v-layout>
@@ -134,5 +135,6 @@
 <script src="Methods.js"></script>
 <script src="cdn/vue.js"></script>
 <script src="cdn/vuetify2.js"></script>
+<script src="cdn/veux.js"></script>
 <script src="DB.js"></script>
 <script src="Login.js"></script>

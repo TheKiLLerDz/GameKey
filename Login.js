@@ -1,6 +1,13 @@
 const {
     ipcRenderer
 } = require('electron')
+
+const store = new Vuex.Store({
+    state: {
+        accountcreation: false,
+    }
+})
+
 new Vue({
     el: '#app',
     vuetify: new Vuetify(),
@@ -16,14 +23,10 @@ new Vue({
             avatar: ''
         },
         files: [],
-        createacc: true,
         isAdding: false,
-        loading: false,
-        accessgranted: false,
         show1: false,
         moreinfo: false,
         rememberme: false,
-        password: 'Password',
         msg: "",
         AutoLogin: false,
         Loading: false,
@@ -32,7 +35,9 @@ new Vue({
         ],
         rules: {
             required: value => !!value || 'Required.',
-            min: v => v.length >= 8 || 'Min 8 characters',
+            min8: v => v.length >= 8 || 'Min 8 characters',
+            min4: v => v.length >= 4 || 'Min 4 characters',
+
         },
     }),
     methods: {
@@ -42,20 +47,29 @@ new Vue({
         Close() {
             ipcRenderer.send('close-app');
         },
-        CredentialsEdited() {
-            this.accessgranted = false;
-        },
         ForgotPW() {
             console.log("Forgot Password &| Username")
         },
         Login(userdata) {
             this.Loading = true;
-            if ((userdata.username == localStorage.username && SHA1(userdata.password) == localStorage.pwhash) || (userdata.username == localStorage.username && this.accessgranted))
-                ipcRenderer.send('access-app');
-            else {
-                this.msg = "Wrong Login Credentials";
-                this.moreinfo = true;
-            }
+            setTimeout(() => {
+                if (userdata.username == localStorage.username && SHA1(userdata.password) == localStorage.password) {
+                    if (this.rememberme) this.savedata();
+                    ipcRenderer.send('access-app');
+                } else {
+                    this.msg = "Wrong Login Credentials";
+                    this.moreinfo = true;
+                    this.deletedata();
+                }
+            }, 2500);
+        },
+        savedata() {
+            localStorage.savedusername = this.userdata.username;
+            localStorage.savedpassword = this.userdata.password;
+        },
+        deletedata() {
+            localStorage.savedusername = '';
+            localStorage.savedpassword = '';
         },
         getdata() {
             this.rememberme = (localStorage.rememberme == 'true');
@@ -63,10 +77,8 @@ new Vue({
                 this.userdata = {
                     username: localStorage.savedusername,
                     avatar: localStorage.avatar,
+                    password: localStorage.savedpassword
                 }
-                var length = localStorage.pwlength;
-                this.userdata.password = '*'.repeat(length);
-                this.accessgranted = true;
             }
         },
         createaccount(account) {
@@ -75,11 +87,10 @@ new Vue({
             fs.copyFile(this.$refs.file.internalArrayValue[0].path, avatar, (err) => {
                 if (err) throw err;
                 localStorage.username = account.username;
-                localStorage.pwlength = account.password.length;
-                localStorage.pwhash = SHA1(account.password);
+                localStorage.password = SHA1(account.password);
                 localStorage.avatar = avatar
-                this.createacc = false;
-                setUserData(localStorage.username, localStorage.pwhash);
+                setUserData(localStorage.username, localStorage.password);
+                store.state.accountcreation = false;
                 this.userdata = {
                     username: account.username,
                     password: account.password,
@@ -88,42 +99,51 @@ new Vue({
             });
         }
     },
+    computed: {
+        createacc() {
+            return store.state.accountcreation
+        }
+    },
     watch: {
         Loading(value) {
             if (value) {
-                setTimeout(() => (this.Loading = false), 2000)
+                setTimeout(() => (this.Loading = false), 2500)
             }
         },
         AutoLogin(value) {
-            localStorage.AutoLogin = value
+            localStorage.AutoLogin = value;
+            this.Loading = true;
+            if (value) this.Login(this.userdata)
         },
         rememberme(value) {
             localStorage.rememberme = value;
-            localStorage.savedusername=this.userdata.username;
-            if (!value) {
+            if (value)
+                this.savedata();
+            else {
                 this.AutoLogin = false;
-                localStorage.savedusername='';
+                this.deletedata();
             }
-        },
-        loading() {
-            setTimeout(() => (this.loading = false), 1000)
         }
     },
     mounted() {
-        CreateData();
-        setTimeout(() => {
-            if (localStorage.username && localStorage.pwlength) {
-                this.createacc = false;
-                this.getdata();
-                localstorage = true;
-            } else localstorage = false;
-        }, 500);
-        if (localStorage.AutoLogin == 'true') {
-            this.AutoLogin = true;
-            this.Loading = true;
-            setTimeout(() => {
-                this.Login(this.userdata);
-            }, 2500);
+        if (!(localStorage.username && localStorage.pwlength)) {
+            var promise1 = new Promise(function (resolve, reject) {
+                getUserData(resolve, reject);
+
+            });
+            promise1.then(
+                function (result) {
+                    store.state.accountcreation = false;
+                },
+                function (error) {
+                    store.state.accountcreation = true;
+                    console.log(error);
+                }
+            )
+        } else {
+            store.state.accountcreation = false;
         }
+        this.AutoLogin = (localStorage.AutoLogin == 'true');
+        this.getdata();
     }
 })

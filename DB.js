@@ -1,18 +1,14 @@
 var data;
-var localstorage;
-
-function getUserData() {
-
-}
 
 function setUserData(username, password) {
     data.tables[0].put({
         username: username,
         password: password
     });
+    console.log("account added to db successfully")
 }
 
-function CreateData() {
+function getUserData(resolve, reject) {
     Dexie.exists('DATA').then(async function (exists) {
         if (!exists) {
             var db = new Dexie('DATA');
@@ -21,22 +17,23 @@ function CreateData() {
             });
             db.open();
             data = db;
+            reject("DB Was Just Created");
         } else {
             new Dexie('DATA').open().then(function (d) {
                 data = d;
-                if (!localstorage)
-                    data.tables[0].toArray().then(el => {
-                        console.log(el)
+                data.tables[0].toArray().then(el => {
+                    if (el.length > 0) {
                         localStorage.username = el[0].username;
-                        localStorage.password = el[0].password
-                    })
+                        localStorage.password = el[0].password;
+                        resolve("success");
+                    } else reject("account not created yet")
+                });
             });
         }
     })
 }
 
 function CreateDB() {
-
     var promise1 = new Promise(function (resolve, reject) {
         testAPI(resolve, reject);
     });
@@ -74,7 +71,6 @@ function CreateDB() {
                     localStorage.setItem('version', versionstr);
                     opendb();
                 }
-
             })
         },
         function (error) {
