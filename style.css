@@ -158,6 +158,10 @@ html {
     border-radius: 16px;
 }
 
+.theme--dark .Steam.itemcolor {
+    background-color: rgb(0, 65, 116);
+}
+
 .theme--default.application .v-toolbar,
 .theme--default.application .v-footer {
     background-color: rgb(9, 102, 175);
@@ -215,7 +219,7 @@ html {
 
 .theme--green .v-toolbar,
 .theme--green .v-footer {
-    background: linear-gradient(60deg, #66bb6a, #43a047) !important;
+    background: #2c8531 !important;
 }
 
 .theme--orange .v-toolbar .v-btn {
@@ -245,7 +249,7 @@ html {
 
 .theme--orange .v-toolbar,
 .theme--orange .v-footer {
-    background: linear-gradient(60deg, #eb921f, #eb921f) !important;
+    background: #cf6e12 !important;
 }
 
 .theme--blue .v-toolbar .v-btn {
@@ -275,7 +279,7 @@ html {
 
 .theme--blue .v-toolbar,
 .theme--blue .v-footer {
-    background: linear-gradient(60deg, #26c6da, #00acc1) !important;
+    background: #007ac1 !important;
 }
 
 .theme--red .v-toolbar .v-btn {
@@ -305,7 +309,7 @@ html {
 
 .theme--red .v-toolbar,
 .theme--red .v-footer {
-    background: linear-gradient(60deg, #c20e0b, #ff100c) !important;
+    background: #790300 !important;
 }
 
 /* .theme--green .v-content__wrap {

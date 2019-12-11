@@ -9,12 +9,12 @@
                 </v-card>
                 <v-card-text>
                     <h2 class="text-xs-right unselectable">{{item.title}}</h2>
-                    <v-divider :color="item.color"></v-divider>
+                    <v-divider :class="'itemcolor ' + item.title" :color="item.color"></v-divider>
                 </v-card-text>
                 <div class="text-xs-center">Library : {{item.games}}</div>
                 <div class="text-xs-center">Keys : {{item.keys}} </div>
                 <v-card-actions>
-                    <v-divider :color="item.color"></v-divider>
+                    <v-divider :class="'itemcolor ' + item.title" :color="item.color"></v-divider>
                     <v-btn flat white :to="{path:item.link}" :color="item.color" round outline>
                         <v-icon size="30" class="mr-2">link</v-icon>
                         Go to {{item.title}}
