@@ -240,6 +240,23 @@
             <v-spacer></v-spacer>
             <h3 class="px-3 white--text">v {{App.version}}</h3>
         </v-footer>
+        <v-dialog v-model="checkconnection" width="50vw" persistent @keydown.enter="RetryConnection()">
+            <v-card>
+                <v-card-title class="headline">Check Your Connection</v-card-title>
+                <v-card-text>
+                    Please Check your Connection then try again
+                </v-card-text>
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="red darken-1" flat="flat" @click="Close()">
+                        Cancel
+                    </v-btn>
+                    <v-btn color="green darken-1" flat="flat" @click="RetryConnection()">
+                        Try Again
+                    </v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
     </v-app>
 </body>
 <script src="cdn/dexie.js"></script>

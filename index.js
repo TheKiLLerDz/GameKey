@@ -1,4 +1,4 @@
-CreateDB()
+opendb();
 const {
   ipcRenderer
 } = require('electron')
@@ -47,6 +47,7 @@ const store = new Vuex.Store({
       avatar: localStorage.avatar,
       password: '*'.repeat(localStorage.pwlength)
     },
+    checkconnection: false,
     finished: false,
     steam: [],
     steamkey: [],
@@ -112,10 +113,11 @@ v = new Vue({
     items: [{
         title: 'Home',
         icon: 'mdi-home',
+        color: '#0e82cf',
         link: '/'
       }, {
         title: 'All Keys',
-        color: '#0e82cf',
+        color: '#00acc1',
         icon: 'mdi-key',
         link: '/keys'
       }, {
@@ -143,11 +145,13 @@ v = new Vue({
       },
       {
         title: 'Settings',
+        color: '#0e82cf',
         icon: 'mdi-settings',
         link: '/settings'
       },
       {
         title: 'About',
+        color: 'error',
         icon: 'mdi-help-circle',
         link: '/about'
       }
@@ -206,8 +210,15 @@ v = new Vue({
           })
       }, 2000);
     },
+    RetryConnection(){
+      opendb();
+      store.state.checkconnection = false;
+    }
   },
   computed: {
+    checkconnection() {
+      return store.state.checkconnection
+    },
     userdata() {
       return {
         username: store.state.userdata.username,
@@ -219,9 +230,6 @@ v = new Vue({
       return store.state.steamkey.concat(store.state.uplaykey.concat(store.state.originkey
         .concat(store.state.otherskey)));
     }
-  },
-  beforeCreate() {
-    opendb()
   },
   mounted() {
     if (!localStorage.Patterns) localStorage.Patterns = true;

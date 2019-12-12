@@ -69,12 +69,13 @@ function CreateDB() {
                     const versionjs = await version.json();
                     let versionstr = JSON.stringify(versionjs);
                     localStorage.setItem('version', versionstr);
-                    opendb();
-                }
+                }  
+                opendb();
             })
         },
         function (error) {
-            console.log('Check Your Connection! ')
+            console.log('Check Your Connection! ');
+            store.state.checkconnection = true;
         }
     )
 }

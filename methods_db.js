@@ -1,6 +1,7 @@
 var db;
 
 function opendb() {
+	getnotification(JSON.parse(localStorage.getItem("version")))
 	Dexie.exists('GameKey_DB').then(function (exists) {
 		if (exists) {
 			new Dexie('GameKey_DB').open()
@@ -13,17 +14,15 @@ function opendb() {
 				}).catch(function (e) {
 					console.error("Oh uh: " + e);
 				});
-		}
+		} else CreateDB();
 	})
 }
 
 function getdata() {
-	getnotification(JSON.parse(localStorage.getItem("version")))
 	getuplaybdd()
 	getoriginbdd()
 	getsteambdd()
 	getothersbdd()
-
 }
 
 function getsteambdd() {
