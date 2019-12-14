@@ -31,7 +31,7 @@ function createLoginWindow() {
         height
     } = screen.getPrimaryDisplay().workAreaSize;
     Loginwin = new BrowserWindow({
-        width: width * 0.5,
+        width: width * 0.3,
         height: height * 0.7,
         maxWidth: 950,
         maxHeight: 700,

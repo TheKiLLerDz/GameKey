@@ -9,90 +9,88 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>GameKey Login</title>
+    <title>GameKey</title>
 </head>
 
 <body>
-    <v-app id="app" style="border-radius: 10px;">
-        <v-system-bar window dark style="border-top-left-radius: 10px;border-top-right-radius: 10px;background: #2a3033">
-            <v-icon></v-icon>
-            <span>GameKey Login</span>
-            <v-spacer></v-spacer>
-            <v-icon class="menuicons" @click="Minimize()">mdi-minus</v-icon>
-            <v-icon class="menuicons closebutton" @click="Close()">mdi-close</v-icon>
-        </v-system-bar>
-        <v-img class="white--text" src="Login-Background-1.jpg" lazy-src="Login-Background-1.jpg"
-            @keydown.enter="Login(userdata)">
-            <v-card color="transparent" dark style="padding: 20px;">
-                <v-card-title class="unselectable" style="margin-left:30%">
-                    <h1>
-                        <v-icon dense color='info' x-large>
-                            mdi-account
-                        </v-icon>GameKey Login
-                    </h1>
-                </v-card-title>
-                <v-card-text>
-                    <v-container>
-                        <v-row justify="space-around">
-                            <v-col cols="12" sm="12">
-                                <v-text-field prepend-icon="mdi-account" :rules="[rules.required, rules.min4]"
-                                    color="info" label="Username" v-model="userdata.username">
-                                </v-text-field>
-                            </v-col>
-                            <v-col cols="12" sm="12">
-                                <v-text-field prepend-icon="mdi-lock" :rules="[rules.required, rules.min8]"
-                                    name="input-10-1" type="Password" label="Password" hint="At least 8 characters"
-                                    counter color="red" v-model="userdata.password">
-                                </v-text-field>
-                            </v-col>
-                            <v-col cols="12" sm="6">
-                                <v-checkbox color="info" v-model="rememberme" label="Remember me" required></v-checkbox>
-                            </v-col>
-                            <v-col cols="12" sm="6">
-                                <v-switch :disabled="!rememberme" style="margin-left:60%" color="purple"
-                                    v-model="AutoLogin" :label="`AutoLogin : ${AutoLogin.toString()}`"></v-switch>
-                            </v-col>
-                        </v-row>
-                    </v-container>
-                </v-card-text>
-                <v-card-actions>
-                    <v-btn color="orange" outlined rounded width="100px" @click="Close()">
-                        Cancel
-                    </v-btn>
+    <v-app id="app" style="border-radius: 20px;background-color: #eeeeee;">
+        <v-card color="transparent" style="border-radius: 20px">
+            <v-layout class="me" style="width:100%;height:80px;-webkit-app-region: drag;padding:20px;">
+                <h2 class="unselectable"
+                    style="width:300px;color:white;font-weight: bold;font-family: 'Comic Sans MS', cursive, sans-serif">
+                    GameKey</h2>
+                <v-spacer></v-spacer>
+                <v-btn @click="Minimize()" class="mx-2" style="-webkit-app-region: no-drag;background-color :#55efc4;
+                    background-image :linear-gradient(315deg, #55efc4 0%, #004216 74%);" dark small color="success">
+                    <v-icon dark>mdi-minus</v-icon>
+                </v-btn>
+                <v-btn @click="Close()" class="mx-2" style="-webkit-app-region: no-drag;background-color: #990000;
+                background-image: linear-gradient(147deg, #990000 0%, #ff0000 74%);;" dark small color="error">
+                    <v-icon dark>mdi-close</v-icon>
+                </v-btn>
+            </v-layout>
+            <v-layout class="unselectable" fill-height align-center justify-center ma-0>
+                <h1 style="margin-top:40px">User Login</h1>
+            </v-layout>
+            <v-card-text style="padding-left: 100px;padding-right: 100px;margin-top: 20px;">
+                <v-text-field prepend-inner-icon="mdi-account" :rules="[rules.required, rules.min4]" color="info"
+                    label="Username" dense rounded filled v-model="userdata.username">
+                </v-text-field>
+                <v-text-field prepend-inner-icon="mdi-lock" :rules="[rules.required, rules.min8]" name="input-10-1"
+                    type="Password" label="Password" dense rounded filled hint="At least 8 characters" counter
+                    color="red" v-model="userdata.password">
+                </v-text-field>
+                <v-layout fill-height align-center justify-center ma-0>
+                    <v-checkbox color="info" v-model="rememberme" label="Remember me"></v-checkbox>
                     <v-spacer></v-spacer>
-                    <v-progress-circular :indeterminate="Loading" color="purple"></v-progress-circular>
-                    <v-btn color="info" outlined rounded width="100px" @click="Login(userdata)">
+                    <v-btn x-small color="secondary" @click="ForgotPW()" dark>Forgot Password ?
+                    </v-btn>
+                </v-layout>
+                <v-switch :disabled="!rememberme" color="purple" v-model="AutoLogin"
+                    :label="`AutoLogin : ${AutoLogin.toString()}`"></v-switch>
+            </v-card-text>
+            <v-card-actions style="padding-left: 120px;padding-right: 120px;">
+                <v-progress-circular style="margin-right: 10px;" :indeterminate="Loading" color="purple">
+                </v-progress-circular>
+                <v-layout>
+                    <v-btn color="info"
+                        style="background-color: #045de9;background-image: linear-gradient(315deg, #045de9 0%, #09c6f9 74%);"
+                        block rounded large @click="Login(userdata)">
                         Login
                     </v-btn>
                     <v-btn icon @click="moreinfo = !moreinfo">
                         <v-icon>{{ moreinfo ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
                     </v-btn>
-                </v-card-actions>
-                <v-expand-transition>
-                    <div v-show="moreinfo">
-                        <v-divider></v-divider>
-                        <v-card-text>
-                            <v-alert v-show="msg!=''" type="error">
-                                {{msg}}
-                            </v-alert>
-                            <v-btn @click="ForgotPW()">Forgot Password ?</v-btn>
-                        </v-card-text>
-                    </div>
-                </v-expand-transition>
-            </v-card>
+                </v-layout>
+            </v-card-actions>
+            <v-expand-transition>
+                <div v-show="moreinfo" style="border-radius: 20px">
+                    <v-divider></v-divider>
+                    <v-card-text>
+                        <v-alert style="background-color: #42378f;
+                        background-image: linear-gradient(315deg, #42378f 0%, #f53844 74%);" class="unselectable"
+                            v-show="msg!=''" type="error">
+                            {{msg}}
+                        </v-alert>
+                    </v-card-text>
+                </div>
+            </v-expand-transition>
             <template v-slot:placeholder>
                 <v-layout fill-height align-center justify-center ma-0>
                     <v-progress-circular indeterminate color="success"></v-progress-circular>
                 </v-layout>
             </template>
-        </v-img>
-        <v-dialog v-model="createacc" width="70vw" persistent scrollable loading @keydown.esc="createacc = !createacc;"
+        </v-card>
+        <v-dialog v-model="createacc" width="80vw" persistent scrollable loading @keydown.esc="createacc = !createacc;"
             @keydown.enter="createacc = true">
             <v-card>
                 <v-progress-linear :active="isAdding" class="ma-0" color="blue lighten-3" height="4" indeterminate>
                 </v-progress-linear>
-                <v-card-title>
-                    <span class="headline">Create Account</span>
+                <v-card-title class="unselectable">
+                    <v-chip large class="ma-2" color="orange" text-color="white" style="padding:20px">
+                        <v-icon left>mdi-account</v-icon>
+                        Create Account
+                    </v-chip>
                 </v-card-title>
                 <v-divider></v-divider>
                 <v-card-text>
@@ -100,18 +98,25 @@
                         <v-layout wrap>
                             <v-flex xs12 sm12 md12>
                                 <v-form ref="form" v-model="newacc.valid">
-                                    <v-text-field :rules="[rules.required, rules.min4]" prepend-icon="mdi-account"
-                                        color="info" label="Username" v-model="newacc.username" required>
+                                    <v-text-field :rules="[rules.required, rules.min4]" prepend-inner-icon="mdi-account"
+                                        color="info" label="Username" v-model="newacc.username" dense rounded filled
+                                        required>
                                     </v-text-field>
-                                    <v-text-field prepend-icon="mdi-lock"
+                                    <v-text-field :rules="[rules.required, rules.email]" prepend-inner-icon="mdi-email"
+                                        color="info" label="Email" v-model="newacc.email" dense rounded filled required>
+                                    </v-text-field>
+                                    <v-text-field prepend-inner-icon="mdi-lock"
                                         :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
                                         :rules="[rules.required, rules.min8]" :type="show1 ? 'text' : 'password'"
                                         name="input-10-1" label="Password" hint="At least 8 characters" counter
-                                        @click:append="show1 = !show1" color="red" v-model="newacc.password" required>
+                                        @click:append="show1 = !show1" color="red" v-model="newacc.password" dense
+                                        rounded filled required>
                                     </v-text-field>
                                     <v-file-input ref="file" :rules="imgrules" accept="image/png, image/jpeg, image/bmp"
-                                        placeholder="Pick an avatar" prepend-icon="mdi-camera" label="Avatar">
+                                        dense rounded filled prepend-inner-icon="mdi-camera" prepend-icon=""
+                                        label="Pick an avatar">
                                     </v-file-input>
+                                </v-form>
                             </v-flex>
                         </v-layout>
                     </v-container>
@@ -119,9 +124,9 @@
                 <v-divider></v-divider>
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn color="blue darken-1" _click="close" depressed @click="createacc = !createacc;">Cancel
+                    <v-btn color="red darken-1" style="color:white" _click="close" depressed @click="Close()">Cancel
                     </v-btn>
-                    <v-btn color="blue darken-1" :disabled="!newacc.valid" :loading="isAdding"
+                    <v-btn color="blue darken-1" style="color:white" :disabled="!newacc.valid" :loading="isAdding"
                         @click="createaccount(newacc);isAdding = true">Create</v-btn>
                 </v-card-actions>
             </v-card>
