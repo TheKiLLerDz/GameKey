@@ -1,8 +1,9 @@
 var data;
 
-function setUserData(username, password) {
+function setUserData(username, email, password) {
     data.tables[0].put({
         username: username,
+        email: email,
         password: password
     });
     console.log("account added to db successfully")
@@ -13,7 +14,7 @@ function getUserData(resolve, reject) {
         if (!exists) {
             var db = new Dexie('DATA');
             db.version(1).stores({
-                Data: 'username,password',
+                Data: 'username,email,password',
             });
             db.open();
             data = db;
@@ -24,6 +25,7 @@ function getUserData(resolve, reject) {
                 data.tables[0].toArray().then(el => {
                     if (el.length > 0) {
                         localStorage.username = el[0].username;
+                        localStorage.email = el[0].email;
                         localStorage.password = el[0].password;
                         resolve("success");
                     } else reject("account not created yet")
@@ -69,7 +71,7 @@ function CreateDB() {
                     const versionjs = await version.json();
                     let versionstr = JSON.stringify(versionjs);
                     localStorage.setItem('version', versionstr);
-                }  
+                }
                 opendb();
             })
         },

@@ -16,13 +16,13 @@ new Vue({
             username: '',
             password: '',
             avatar: '',
-            email:''
+            email: ''
         },
         newacc: {
             username: '',
             password: '',
             avatar: '',
-            email:''
+            email: ''
         },
         files: [],
         isAdding: false,
@@ -42,7 +42,7 @@ new Vue({
             email: value => {
                 const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
                 return pattern.test(value) || 'Invalid e-mail.'
-              }
+            }
         },
     }),
     methods: {
@@ -53,7 +53,7 @@ new Vue({
             ipcRenderer.send('close-app');
         },
         ForgotPW() {
-            console.log("Forgot Password &| Username")
+            ForgotPw(localStorage.username,localStorage.email);
         },
         Login(userdata) {
             this.Loading = true;
@@ -92,12 +92,14 @@ new Vue({
             fs.copyFile(this.$refs.file.internalArrayValue[0].path, avatar, (err) => {
                 if (err) throw err;
                 localStorage.username = account.username;
+                localStorage.email = account.email;
                 localStorage.password = SHA1(account.password);
-                localStorage.avatar = avatar
-                setUserData(localStorage.username, localStorage.password);
+                localStorage.avatar = avatar;
+                setUserData(localStorage.username, localStorage.email, localStorage.password);
                 store.state.accountcreation = false;
                 this.userdata = {
                     username: account.username,
+                    email: account.email,
                     password: account.password,
                     avatar: avatar
                 }
@@ -131,7 +133,7 @@ new Vue({
         }
     },
     mounted() {
-        if (!(localStorage.username && localStorage.pwlength)) {
+        if (!(localStorage.username && localStorage.email && localStorage.password)) {
             var promise1 = new Promise(function (resolve, reject) {
                 getUserData(resolve, reject);
 

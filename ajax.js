@@ -20,6 +20,22 @@ function tags(appid) {
   }
 }
 
+function ForgotPw(username, email) {
+  http.open('POST', 'http://localhost:3000/forgotpass', true)
+  http.setRequestHeader('Content-Type', 'application/json;charset=UTF-8')
+  json = {
+    email: email,
+    username: username
+  }
+  http.send(JSON.stringify(json))
+
+  http.onload = function () {
+    if (http.status == 200) {
+      console.log(http.response)
+    }
+  }
+}
+
 function testAPI(resolve, reject) {
   var url = 'http://127.0.0.1:3000';
   http.open('GET', url);
