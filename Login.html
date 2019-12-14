@@ -131,6 +131,20 @@
                 </v-card-actions>
             </v-card>
         </v-dialog>
+        <v-dialog v-model="ForgotPwDialog" max-width="300" persistent @keydown.esc="store.state.ForgotPwDialog = false"
+            @keydown.enter="store.state.ForgotPwDialog = false">
+            <v-card>
+                <v-card-title class="headline red--text">Password</v-card-title>
+                <v-card-text>
+                    a new Password has been sent to your email </v-card-text>
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="green darken-1" text @click="store.state.ForgotPwDialog = false">
+                        Ok
+                    </v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
     </v-app>
 </body>
 

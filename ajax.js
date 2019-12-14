@@ -20,7 +20,7 @@ function tags(appid) {
   }
 }
 
-function ForgotPw(username, email) {
+function ForgotPw(username, email, resolve, reject) {
   http.open('POST', 'http://localhost:3000/forgotpass', true)
   http.setRequestHeader('Content-Type', 'application/json;charset=UTF-8')
   json = {
@@ -30,10 +30,12 @@ function ForgotPw(username, email) {
   http.send(JSON.stringify(json))
 
   http.onload = function () {
-    if (http.status == 200) {
-      console.log(http.response)
-    }
-  }
+    resolve(JSON.parse(http.response));
+  };
+
+  http.onerror = function () {
+    reject("error");
+  };
 }
 
 function testAPI(resolve, reject) {

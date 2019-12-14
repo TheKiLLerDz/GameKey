@@ -9,6 +9,13 @@ function setUserData(username, email, password) {
     console.log("account added to db successfully")
 }
 
+function UpdatePW(username,password) {
+    data.tables[0].where("username").equals(username).modify(d => {
+		d.password = password
+	});
+    console.log("PW Updated Successfully")
+}
+
 function getUserData(resolve, reject) {
     Dexie.exists('DATA').then(async function (exists) {
         if (!exists) {

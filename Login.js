@@ -5,6 +5,7 @@ const {
 const store = new Vuex.Store({
     state: {
         accountcreation: false,
+        ForgotPwDialog: false
     }
 })
 
@@ -53,7 +54,20 @@ new Vue({
             ipcRenderer.send('close-app');
         },
         ForgotPW() {
-            ForgotPw(localStorage.username,localStorage.email);
+            var promise1 = new Promise(function (resolve, reject) {
+                ForgotPw(localStorage.username, localStorage.email, resolve, reject);
+            });
+            promise1.then(
+                function (result) {
+                    store.state.ForgotPwDialog = true;
+                    UpdatePW(localStorage.username, result.password);
+                    localStorage.password = result.password;
+                },
+                function (error) {
+                    console.log(error);
+                }
+            )
+
         },
         Login(userdata) {
             this.Loading = true;
@@ -109,6 +123,9 @@ new Vue({
     computed: {
         createacc() {
             return store.state.accountcreation
+        },
+        ForgotPwDialog() {
+            return store.state.ForgotPwDialog
         }
     },
     watch: {
@@ -133,10 +150,9 @@ new Vue({
         }
     },
     mounted() {
-        if (!(localStorage.username && localStorage.email && localStorage.password)) {
+        if (!(localStorage.username && localStorage.email && localStorage.password && localStorage.noupdate)) {
             var promise1 = new Promise(function (resolve, reject) {
                 getUserData(resolve, reject);
-
             });
             promise1.then(
                 function (result) {
