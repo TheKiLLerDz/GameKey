@@ -1,7 +1,6 @@
 var db;
 
 function opendb() {
-	getnotification(JSON.parse(localStorage.getItem("version")))
 	Dexie.exists('GameKey_DB').then(function (exists) {
 		if (exists) {
 			new Dexie('GameKey_DB').open()
@@ -23,6 +22,17 @@ function getdata() {
 	getoriginbdd()
 	getsteambdd()
 	getothersbdd()
+	getversiondb()
+}
+
+function getversiondb() {
+
+	db.tables[4].toArray().then(el => {
+		store.state.updatedb = el[0];
+		localStorage.setItem('version', JSON.stringify(el[0]));
+		getnotification(el[0]);
+	});
+
 }
 
 function getsteambdd() {

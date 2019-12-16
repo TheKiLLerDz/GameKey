@@ -89,14 +89,14 @@
                     <v-tooltip bottom slot="activator" dark>
                         <v-btn icon slot="activator" @click=''>
                             <v-badge color="error" overlap left>
-                                <span slot="badge" v-if="updatedb.length>0">{{updatedb.length}}</span>
+                                <span slot="badge" v-if="notifications.length>0">{{notifications.length}}</span>
                                 <v-icon>notifications</v-icon>
                             </v-badge>
                         </v-btn>
                         <span class="bottom">Notifications</span>
                     </v-tooltip>
                     <v-list class="py-0">
-                        <v-list-tile v-for="(notification,i) in updatedb" :key="i" @click="">
+                        <v-list-tile v-for="(notification,i) in notifications" :key="i" @click="">
                             <v-list-tile-content>
                                 <v-list-tile-title v-text="notification.title"></v-list-tile-title>
                             </v-list-tile-content>
@@ -230,8 +230,8 @@
                 </v-fade-transition>
             </v-container>
         </v-content>
-        <v-snackbar v-if="Launch" v-for="(notification,index) in updatedb" @click='Update(index)'
-            :key="notification.title" v-model="notification.value" :timeout="3000*(updatedb.length-index)"
+        <v-snackbar v-if="Launch" v-for="(notification,index) in notifications" @click='Update(index)'
+            :key="notification.title" v-model="notification.value" :timeout="3000*(notifications.length-index)"
             :style="'margin-bottom: '+60*(index+0.4)+'px;'" absolute right color="blue">
             <div class="pa-2 ma-2 update">{{notification.title}}</div>
         </v-snackbar>

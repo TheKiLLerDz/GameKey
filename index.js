@@ -1,4 +1,3 @@
-opendb();
 const {
   ipcRenderer
 } = require('electron')
@@ -50,6 +49,8 @@ const store = new Vuex.Store({
     checkconnection: false,
     finished: false,
     steam: [],
+    notifications: [],
+    version: {},
     steamkey: [],
     uplay: [],
     uplaykey: [],
@@ -160,8 +161,7 @@ v = new Vue({
     isDark: false,
     mini: false,
     windowWidth: 0,
-    Maximized: null,
-    updatedb: []
+    Maximized: null
   }),
   methods: {
     Minimize() {
@@ -194,28 +194,32 @@ v = new Vue({
         textTwo.indexOf(searchText) > -1
     },
     ReadNotif(title, index) {
-      this.updatedb.splice(index, 1);
+      this.notifications.splice(index, 1);
     },
     Update(item) {
-      this.updatedb[item].type == 'ND' ? updateDB(JSON.parse(localStorage.getItem("version"))) : this.updatedb[item].type == 'NA' ? console.log('very soon') : console.log('Link')
+      this.notifications[item].type == 'ND' ? updateDB(JSON.parse(localStorage.getItem("version"))) : this.notifications[item].type == 'NA' ? console.log('very soon') : console.log('Link')
     },
     getNotif() {
-      setTimeout(() => {
-        if (store.state.updatedb.notifications != undefined)
-          store.state.updatedb.notifications.forEach(el => {
-            if (!el.value || el.value != 'true') {
-              el.value = 'false';
-              this.updatedb.push(el);
-            }
-          })
-      }, 2000);
+      if (store.state.updatedb.notifications != undefined)
+        store.state.updatedb.notifications.forEach(el => {
+          if (!el.value || el.value != 'true') {
+            el.value = 'false';
+            store.state.notifications.push(el);
+          }
+        })
     },
-    RetryConnection(){
+    RetryConnection() {
       opendb();
       store.state.checkconnection = false;
     }
   },
   computed: {
+    updatedb() {
+      return store.state.updatedb
+    },
+    notifications() {
+      return store.state.notifications
+    },
     checkconnection() {
       return store.state.checkconnection
     },
@@ -232,6 +236,8 @@ v = new Vue({
     }
   },
   mounted() {
+    opendb();
+    this.setSize();
     if (!localStorage.Patterns) localStorage.Patterns = true;
     this.Maximized = screen.width == window.innerWidth && screen.height == window.innerHeight
     if (localStorage.theme) this.theme = localStorage.theme;
@@ -243,10 +249,11 @@ v = new Vue({
         this.windowWidth = window.innerWidth
       });
     })
-    this.getNotif();
-    this.setSize();
   },
   watch: {
+    updatedb() {
+      this.getNotif();
+    },
     windowWidth(newWidth, oldWidth) {
       if (newWidth >= 0.6 * screen.width) this.mini = false
       else this.mini = true

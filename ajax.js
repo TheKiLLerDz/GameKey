@@ -102,26 +102,28 @@ function getnotification(oldversion) {
 
   http.open('POST', 'http://localhost:3000/notification', true)
   http.setRequestHeader('Content-Type', 'application/json;charset=UTF-8')
-  http.send(JSON.stringify(oldversion))
+  http.send(JSON.stringify(oldversion));
 
   http.onload = function () {
-    if (http.status == 200) {
-      var obj = JSON.parse(http.response)
-      store.state.updatedb = obj
-    }
-  }
+    store.state.updatedb = JSON.parse(http.response);
+  };
+
+  http.onerror = function () {
+    console.log("error");
+  };
+
 }
 
 function updateDB(oldversion) {
-  http.open('POST', 'http://localhost:3000/updatedb', true)
-  http.setRequestHeader('Content-Type', 'application/json;charset=UTF-8')
-  http.send(JSON.stringify(oldversion))
+  http.open('POST', 'http://localhost:3000/updatedb', true);
+  http.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+  http.send(JSON.stringify(oldversion));
 
   http.onload = function () {
     if (http.status == 200) {
-      var obj = JSON.parse(http.response)
-      store.state.updatedb = obj
-      console.log(obj)
+      var obj = JSON.parse(http.response);
+      store.state.updatedb = obj;
+      console.log(obj);
     }
   }
 }

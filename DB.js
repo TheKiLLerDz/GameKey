@@ -9,10 +9,10 @@ function setUserData(username, email, password) {
     console.log("account added to db successfully")
 }
 
-function UpdatePW(username,password) {
+function UpdatePW(username, password) {
     data.tables[0].where("username").equals(username).modify(d => {
-		d.password = password
-	});
+        d.password = password
+    });
     console.log("PW Updated Successfully")
 }
 
@@ -56,6 +56,7 @@ function CreateDB() {
                         origin: 'appid,name',
                         uplay: 'appid,name',
                         others: 'appid,name',
+                        versions: 'app,origin,steam,uplay'
                     });
                     db.open();
                     const steam = await fetch(
@@ -76,8 +77,8 @@ function CreateDB() {
                     const version = await fetch(
                         'http://127.0.0.1:3000/version.json');
                     const versionjs = await version.json();
-                    let versionstr = JSON.stringify(versionjs);
-                    localStorage.setItem('version', versionstr);
+                    console.log(versionjs);
+                    db.versions.put(versionjs);
                 }
                 opendb();
             })
