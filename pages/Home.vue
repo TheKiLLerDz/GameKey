@@ -15,7 +15,8 @@
                 <div class="text-xs-center">Keys : {{item.keys}} </div>
                 <v-card-actions>
                     <v-divider :class="'itemcolor ' + item.title" :color="item.color"></v-divider>
-                    <v-btn flat white :to="{path:item.link}" :color="item.color" round outline>
+                    <v-btn flat white :to="{path:item.link}" :color="item.title !='Steam' ? item.color : ''"
+                        :class="'itemcolor ' + item.title" round outline>
                         <v-icon size="30" class="mr-2">link</v-icon>
                         Go to {{item.title}}
                     </v-btn>

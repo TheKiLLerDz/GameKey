@@ -34,11 +34,12 @@
             </v-layout>
             <v-card-text style="padding-left: 100px;padding-right: 100px;margin-top: 20px;">
                 <v-text-field prepend-inner-icon="mdi-account" :rules="[rules.required, rules.min4]" color="info"
-                    label="Username" dense rounded filled v-model="userdata.username">
+                    label="Username" dense rounded filled v-model="userdata.username"
+                    @keydown.enter="accessLogin(userdata)">
                 </v-text-field>
                 <v-text-field prepend-inner-icon="mdi-lock" :rules="[rules.required, rules.min8]" name="input-10-1"
                     type="Password" label="Password" dense rounded filled hint="At least 8 characters" counter
-                    color="red" v-model="userdata.password">
+                    color="red" v-model="userdata.password" @keydown.enter="accessLogin(userdata)">
                 </v-text-field>
                 <v-layout fill-height align-center justify-center ma-0>
                     <v-checkbox color="info" v-model="rememberme" label="Remember me"></v-checkbox>
@@ -55,7 +56,7 @@
                 <v-layout>
                     <v-btn color="info"
                         style="background-color: #045de9;background-image: linear-gradient(315deg, #045de9 0%, #09c6f9 74%);"
-                        block rounded large @click="Login(userdata)">
+                        block rounded large @click="accessLogin(userdata)">
                         Login
                     </v-btn>
                     <v-btn icon @click="moreinfo = !moreinfo">

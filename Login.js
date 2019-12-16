@@ -67,7 +67,11 @@ new Vue({
                     console.log(error);
                 }
             )
-
+        },
+        accessLogin(userdata) {
+            if (!this.Loading) {
+                this.Login(userdata)
+            }
         },
         Login(userdata) {
             this.Loading = true;
@@ -166,7 +170,7 @@ new Vue({
         } else {
             store.state.accountcreation = false;
         }
-        this.AutoLogin = (localStorage.AutoLogin == 'true');
         this.getdata();
+        this.AutoLogin = (localStorage.AutoLogin == 'true');
     }
 })

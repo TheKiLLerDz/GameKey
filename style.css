@@ -158,8 +158,16 @@ html {
     border-radius: 16px;
 }
 
+.theme--light .Steam.itemcolor {
+    background-color: #1d2f54;
+    color: #1d2f54;
+    caret-color: #1d2f54;
+}
+
 .theme--dark .Steam.itemcolor {
-    background-color: rgb(0, 65, 116);
+    background-color: rgb(14, 130, 207);
+    color: rgb(14, 130, 207);
+    caret-color: rgb(14, 130, 207);
 }
 
 .theme--default.application .v-toolbar,
