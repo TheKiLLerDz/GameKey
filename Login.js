@@ -5,7 +5,8 @@ const {
 const store = new Vuex.Store({
     state: {
         accountcreation: false,
-        ForgotPwDialog: false
+        ForgotPwDialog: false,
+        ForgotPwDialogmsg: ''
     }
 })
 
@@ -27,6 +28,7 @@ new Vue({
         },
         files: [],
         isAdding: false,
+        ResetPwDialog: false,
         show1: false,
         moreinfo: false,
         rememberme: false,
@@ -59,12 +61,14 @@ new Vue({
             });
             promise1.then(
                 function (result) {
-                    store.state.ForgotPwDialog = true;
                     UpdatePW(localStorage.username, result.password);
                     localStorage.password = result.password;
+                    store.state.ForgotPwDialogmsg = 'a new Password has been sent to your email';
+                    store.state.ForgotPwDialog = true;
                 },
                 function (error) {
-                    console.log(error);
+                    store.state.ForgotPwDialogmsg = '¨Please Check your connection & try again';
+                    store.state.ForgotPwDialog = true;
                 }
             )
         },
@@ -99,8 +103,9 @@ new Vue({
             if (this.rememberme) {
                 this.userdata = {
                     username: localStorage.savedusername,
+                    email: localStorage.email,
+                    password: localStorage.savedpassword,
                     avatar: localStorage.avatar,
-                    password: localStorage.savedpassword
                 }
             }
         },
@@ -125,6 +130,9 @@ new Vue({
         }
     },
     computed: {
+        ForgotPwDialogmsg() {
+            return store.state.ForgotPwDialogmsg
+        },
         createacc() {
             return store.state.accountcreation
         },

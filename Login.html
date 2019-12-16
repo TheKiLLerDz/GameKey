@@ -44,7 +44,7 @@
                 <v-layout fill-height align-center justify-center ma-0>
                     <v-checkbox color="info" v-model="rememberme" label="Remember me"></v-checkbox>
                     <v-spacer></v-spacer>
-                    <v-btn x-small color="secondary" @click="ForgotPW()" dark>Forgot Password ?
+                    <v-btn x-small color="secondary" @click="ResetPwDialog = true" dark>Forgot Password ?
                     </v-btn>
                 </v-layout>
                 <v-switch :disabled="!rememberme" color="purple" v-model="AutoLogin"
@@ -132,16 +132,36 @@
                 </v-card-actions>
             </v-card>
         </v-dialog>
-        <v-dialog v-model="ForgotPwDialog" max-width="300" persistent @keydown.esc="store.state.ForgotPwDialog = false"
+        <v-dialog v-model="ForgotPwDialog" max-width="70vw" persistent @keydown.esc="store.state.ForgotPwDialog = false"
             @keydown.enter="store.state.ForgotPwDialog = false">
             <v-card>
-                <v-card-title class="headline red--text">Password</v-card-title>
+                <v-card-title class="headline red--text">Password Reset Request</v-card-title>
                 <v-card-text>
-                    a new Password has been sent to your email </v-card-text>
+                    {{ForgotPwDialogmsg}} </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
                     <v-btn color="green darken-1" text @click="store.state.ForgotPwDialog = false">
                         Ok
+                    </v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
+        <v-dialog v-model="ResetPwDialog" max-width="70vw" persistent @keydown.esc="ResetPwDialog = false">
+            <v-card>
+                <v-card-title class="headline red--text">Forgot Password</v-card-title>
+                <v-card-text>
+                    If you Forgot your password, we can send you a new password to your email <div class="green--text">
+                        {{userdata.email}}</div>
+                    <div class="red--text">Note that you'll lose your old password </div>
+                    <h3>are you sure you want to continue ?</h3>
+                </v-card-text>
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="green darken-1" text @click="ResetPwDialog = false">
+                        Cancel
+                    </v-btn>
+                    <v-btn color="red darken-1" text @click="ResetPwDialog = false;ForgotPW()">
+                        Accept
                     </v-btn>
                 </v-card-actions>
             </v-card>
