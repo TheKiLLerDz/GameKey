@@ -889,24 +889,22 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
         },
         methods: {
             GetKeyFormat(platform, key) {
-                if (localStorage.Patterns == 'true')
+                if (localStorage.Patterns == 'true') {
+                    key = key.replace(/[^a-zA-Z0-9]/g, '');
                     switch (platform) {
                         case 'Steam':
-                            key = key.replace(/-/g, '');
                             return key.match(/(.){1,5}/g).join("-");
                             break;
                         case 'Origin':
-                            key = key.replace(/-/g, '');
                             return key.match(/(.){1,4}/g).join("-");
                             break;
                         case 'Uplay':
-                            key = key.replace(/-/g, '');
                             return key.match(/(.){1,4}/g).join("-");
                             break;
                         default:
                             return key
                     }
-                else
+                } else
                     return key
             },
             addimportedkeys(close) {
