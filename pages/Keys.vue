@@ -135,6 +135,7 @@
                                                                 </v-chip>
                                                                 <template v-slot:input>
                                                                     <v-text-field v-model="index.key"
+                                                                        :maxLength="props.item.platform == 'Steam' ? 17 : props.item.platform == 'Origin' ? 19 : props.item.platform == 'Uplay' ? 24 : 40"
                                                                         :rules="[max25chars]" label="Edit" single-line
                                                                         counter autofocus color="red"
                                                                         @input="index.key=GetKeyFormat(props.item.platform,index.key.toUpperCase())"
@@ -279,7 +280,7 @@
                                     </v-chip>
                                     <v-flex xs12 sm12 md12 v-for="(index,i) in editedItem.keys" :key="i">
                                         <v-text-field v-model="index.key" :label="'Key '+ parseInt(i+1)"
-                                            :maxLength="itemtoadd.platform == 'Steam' ? 17 : itemtoadd.platform == 'Origin' ? 19 : itemtoadd.platform == 'Uplay' ? 24 : 40"
+                                            :maxLength="editedItem.platform == 'Steam' ? 17 : editedItem.platform == 'Origin' ? 19 : editedItem.platform == 'Uplay' ? 24 : 40"
                                             :rules="[max25chars]" color="red"
                                             @input="index.key=GetKeyFormat(editedItem.platform,index.key.toUpperCase())">
                                         </v-text-field>
