@@ -118,7 +118,7 @@ new Vue({
                 localStorage.email = account.email;
                 localStorage.password = SHA1(account.password);
                 localStorage.avatar = avatar;
-                setUserData(localStorage.username, localStorage.email, localStorage.password);
+                addUserData(localStorage.username, localStorage.email, localStorage.avatar, localStorage.password);
                 store.state.accountcreation = false;
                 this.userdata = {
                     username: account.username,

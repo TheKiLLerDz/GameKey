@@ -1,16 +1,30 @@
 var data;
 
-function setUserData(username, email, password) {
+new Dexie('DATA').open().then(function (d) {
+    data = d;
+})
+
+function setUserData(username, email, avatar) {
+    data.tables[0].where("id").equals(1).modify(d => {
+        d.username = username;
+        d.email = email;
+        d.avatar = avatar;
+    });
+    console.log("account eddited successfully")
+}
+
+function addUserData(username, email, avatar, password) {
     data.tables[0].put({
         username: username,
         email: email,
+        avatar: avatar,
         password: password
-    });
+    })
     console.log("account added to db successfully")
 }
 
 function UpdatePW(username, password) {
-    data.tables[0].where("username").equals(username).modify(d => {
+    data.tables[0].where("id").equals(1).modify(d => {
         d.password = password
     });
     console.log("PW Updated Successfully")
@@ -21,7 +35,7 @@ function getUserData(resolve, reject) {
         if (!exists) {
             var db = new Dexie('DATA');
             db.version(1).stores({
-                Data: 'username,email,password',
+                Data: 'id++,username,email,avatar,password',
             });
             db.open();
             data = db;
@@ -33,6 +47,7 @@ function getUserData(resolve, reject) {
                     if (el.length > 0) {
                         localStorage.username = el[0].username;
                         localStorage.email = el[0].email;
+                        localStorage.avatar = el[0].avatar;
                         localStorage.password = el[0].password;
                         resolve("success");
                     } else reject("account not created yet")

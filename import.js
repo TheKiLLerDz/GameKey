@@ -36,7 +36,7 @@ function impport(Platform) {
   ipcRenderer.send('Path-request', Platform);
 }
 
-ipcRenderer.on('Path-reply', (event, Paths,Platform) => {
+ipcRenderer.on('Path-reply', (event, Paths, Platform) => {
   if (Paths != undefined) {
     var indicSlash = Paths[0].lastIndexOf('\/');
     var extension = Paths[0].substring(indicSlash + 1).split(".");
@@ -243,4 +243,22 @@ function exportxlxs(platform) {
     fs.writeFileSync(path, json2xls(appskey, {}), 'binary');
     return true
   } else return false
+}
+
+function copyimg(url, to_url) {
+  const fs = require('fs');
+  fs.copyFile(url, to_url, (err) => {
+    if (err) throw err;
+    console.log("success")
+  });
+}
+
+function deleteimg(path) {
+  const fs = require('fs');
+  try {
+    fs.unlinkSync(path)
+    //img removed
+  } catch (err) {
+    console.error(err)
+  }
 }
