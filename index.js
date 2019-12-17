@@ -43,8 +43,9 @@ const store = new Vuex.Store({
   state: {
     userdata: {
       username: localStorage.username,
+      email: localStorage.email,
       avatar: localStorage.avatar,
-      password: '*'.repeat(localStorage.pwlength)
+      password: localStorage.password,
     },
     checkconnection: false,
     finished: false,

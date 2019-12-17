@@ -389,39 +389,6 @@ html {
     cursor: default
 }
 
-/*.v-responsive__content:hover .v-image__image {
-    opacity: 0.5;
-    background: #632c65;
-}*/
-
-.picbutton {
-    top: 20vh;
-    left: 8vh;
-    opacity: 0;
-    transition: opacity .5s ease;
-}
-
-.imgcontainer:hover .picbutton {
-    opacity: 1;
-}
-
-.pictitle {
-    position: absolute;
-    top: 15vh;
-    left: 10vh;
-    font-weight: 700;
-    font-size: 20px;
-    text-align: center;
-    text-transform: uppercase;
-    color: white;
-    z-index: 1;
-    transition: top 1s ease;
-    transition: font-size 1s ease;
-}
-
-.imgcontainer:hover .pictitle {
-    opacity: 1;
-    top: 8vh;
-    left: 7vh;
-    font-size: 25px;
+.filepond--root {
+    box-shadow: 0 10px 28px -10px rgba(0, 0, 0, .5), 0 4px 25px 0 rgba(0, 0, 0, .15), 0 10px 10px -5px rgba(0, 0, 0, .3);
 }

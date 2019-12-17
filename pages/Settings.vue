@@ -13,17 +13,15 @@
                 </v-card>
                 <v-layout row wrap>
                     <v-flex xs3 sm3 md3 lg3>
-                        <v-img max-height="30vw" max-width="30vw" :src="userdata.avatar" :lazy-src="userdata.avatar"
-                            aspect-ratio="1" class="imgcontainer grey lighten-2"
-                            style="border-radius: 50%;margin: 3vw;">
-                            <template v-slot:placeholder>
-                                <v-layout fill-height align-center justify-center ma-0>
-                                    <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
-                                </v-layout>
-                            </template>
-                            <h4 class="pictitle">Change Pic</h4>
-                            <v-btn class="picbutton white--text" color="white" outline> Choose img </v-btn>
-                        </v-img>
+                        <v-avatar class="mx-auto d-flex" size="15vw">
+                            <file-pond name="avatar" ref="avatar"
+                                label-Idle="Drag & Drop your picture or <span class='filepond--label-action'>Browse</span>"
+                                image-Preview-Height='130' image-Crop-Aspect-Ratio='1:1' image-Resize-Target-Width=200,
+                                image-Resize-Target-Height=200, style-Panel-Layout="compact circle"
+                                style-Load-Indicator-Position="center bottom"
+                                style-Button-Remove-Item-Position='center bottom' accepted-file-types="image/*"
+                                :files="userdata.avatar" />
+                        </v-avatar>
                     </v-flex>
                     <v-flex xs6 sm6 md6 lg6>
                         <v-card-title class='infocard white--text unselectable' style="border-radius: 8px;">
@@ -31,6 +29,8 @@
                         </v-card-title>
                         <v-card-text>
                             <v-text-field color="red" label="Name" v-model="userdata.username">
+                            </v-text-field>
+                            <v-text-field color="red" label="Email" v-model="userdata.email">
                             </v-text-field>
                             <v-text-field :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
                                 :rules="[rules.required, rules.min]" :type="show1 ? 'text' : 'password'"
@@ -43,18 +43,18 @@
                         </v-card-title>
                         <v-card-text>
                             <table>
-                            <tr>
-                                <td>
-                                    <v-switch color='success' v-model="Patterns"
-                                        :label="Patterns? 'Follow Key Patterns is : On' : 'Follow Key Patterns is Switched : Off'">
-                                    </v-switch>
-                                </td>
-                                <td style="padding-left: 10vw;">
-                                    <v-switch color="purple" v-model="AutoLogin"
-                                        :label="`AutoLogin : ${AutoLogin.toString()}`">
-                                    </v-switch>
-                                </td>
-                            </tr>
+                                <tr>
+                                    <td>
+                                        <v-switch color='success' v-model="Patterns"
+                                            :label="Patterns? 'Follow Key Patterns is : On' : 'Follow Key Patterns is Switched : Off'">
+                                        </v-switch>
+                                    </td>
+                                    <td style="padding-left: 10vw;">
+                                        <v-switch color="purple" v-model="AutoLogin"
+                                            :label="`AutoLogin : ${AutoLogin.toString()}`">
+                                        </v-switch>
+                                    </td>
+                                </tr>
                             </table>
                             <v-card-text>
                                 <v-card-actions>
@@ -81,6 +81,10 @@
 </template>
 <script>
     module.exports = {
+        components: {
+            FilePond: vueFilePond.default(FilePondPluginFileValidateType, FilePondPluginImagePreview,
+                FilePondPluginImageCrop, FilePondPluginImageResize)
+        },
         data() {
             return {
                 AutoLogin: false,
