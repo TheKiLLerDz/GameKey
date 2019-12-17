@@ -44,31 +44,38 @@
                             <h3>User Profile</h3>
                         </v-card-title>
                         <v-card-text>
-                            <v-container fluid grid-list-lg>
-                                <v-layout row wrap>
-                                    <v-flex xs12 sm6 md6 lg6>
-                                        <v-text-field color="red" label="Name" v-model="userdata.username">
-                                        </v-text-field>
-                                    </v-flex>
-                                    <v-flex xs12 sm6 md6 lg6>
-                                        <v-text-field color="red" label="Email" v-model="userdata.email">
-                                        </v-text-field>
-                                    </v-flex>
-                                    <v-flex xs12 sm6 md6 lg6>
-                                        <v-text-field :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-                                            :rules="[rules.required, rules.min8]" :type="show1 ? 'text' : 'password'"
-                                            name="input-10-1" label="Enter Old Password" hint="At least 8 characters"
-                                            counter @click:append="show1 = !show1" color="red" v-model="oldpassword">
-                                        </v-text-field>
-                                    </v-flex>
-                                    <v-flex xs12 sm12 md12 lg12>
-                                        <v-btn color="warning" @click="PWdialog=true">Change Password</v-btn>
-                                    </v-flex>
-                                </v-layout>
-                            </v-container>
+                            <v-form v-model="forms.first">
+                                <v-container fluid grid-list-lg>
+                                    <v-layout row wrap>
+                                        <v-flex xs12 sm6 md6 lg6>
+                                            <v-text-field :rules="[rules.required, rules.min4]" color="red" label="Name"
+                                                v-model="userdata.username" required>
+                                            </v-text-field>
+                                        </v-flex>
+                                        <v-flex xs12 sm6 md6 lg6>
+                                            <v-text-field :rules="[rules.required, rules.email]" color="red"
+                                                label="Email" v-model="userdata.email" required>
+                                            </v-text-field>
+                                        </v-flex>
+                                        <v-flex xs12 sm6 md6 lg6>
+                                            <v-text-field :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                                                :rules="[rules.required, rules.min8]"
+                                                :type="show1 ? 'text' : 'password'" name="input-10-1"
+                                                label="Enter Old Password" hint="At least 8 characters" counter
+                                                @click:append="show1 = !show1" color="red" v-model="oldpassword"
+                                                required>
+                                            </v-text-field>
+                                        </v-flex>
+                                        <v-flex xs12 sm12 md12 lg12>
+                                            <v-btn color="warning" @click="PWdialog=true">Change Password</v-btn>
+                                        </v-flex>
+                                    </v-layout>
+                                </v-container>
+                            </v-form>
                         </v-card-text>
                         <v-card-actions style="padding:0px 20px 10px 20px;">
-                            <v-btn color="info" :loading="loading" :disabled="loading" @click="save();loading=true;">
+                            <v-btn color="info" :loading="loading" :disabled="loading || !forms.first"
+                                @click="save();loading=true;">
                                 Save
                             </v-btn>
                             <v-spacer></v-spacer>
@@ -85,7 +92,7 @@
             <v-card>
                 <v-card-title class="headline red--text">Change Password</v-card-title>
                 <v-card-text style="padding:0px 40px 0px 40px;">
-                    <v-form v-model="formvalid">
+                    <v-form v-model="forms.second">
                         <v-text-field :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
                             :rules="[rules.required, rules.min8]" :type="show1 ? 'text' : 'password'" name="input-10-1"
                             label="Enter Old Password" hint="At least 8 characters" counter
@@ -108,7 +115,7 @@
                     <v-btn color="green darken-1" flat @click="PWdialog = false">
                         Cancel
                     </v-btn>
-                    <v-btn color="red darken-1" :disabled="!formvalid" flat @click="ChangePw()">
+                    <v-btn color="red darken-1" :disabled="!forms.second" flat @click="ChangePw()">
                         Save
                     </v-btn>
                 </v-card-actions>
@@ -124,7 +131,10 @@
         },
         data() {
             return {
-                formvalid: '',
+                forms: {
+                    first: '',
+                    second: ''
+                },
                 oldpassword: '',
                 newpassword: {
                     pw: '',
