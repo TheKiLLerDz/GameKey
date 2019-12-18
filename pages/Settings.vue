@@ -1,89 +1,81 @@
 <template>
     <v-layout row wrap>
-        <v-flex xs12 sm12 md12 lg12>
+        <v-flex md4 xs12>
+            <v-card class="elevation-5" style="border-radius: 8px;">
+                <v-avatar class="mx-auto d-flex" size="200" style="margin-bottom: -40px;top:-40px;border-radius: 100%">
+                    <file-pond name="test" ref="pond"
+                        label-Idle="Drag & Drop your picture or <span class='filepond--label-action'>Browse</span>"
+                        image-Preview-Height='130' image-Crop-Aspect-Ratio='1:1' image-Resize-Target-Width=200,
+                        image-Resize-Target-Height=200, style-Panel-Layout="compact circle"
+                        style-Load-Indicator-Position="center bottom" style-Button-Remove-Item-Position='center bottom'
+                        accepted-file-types="image/*" :files="userdata.avatar" />
+                </v-avatar>
+                <v-card-text class="text-xs-center">
+                    <v-form v-model="forms.first">
+                        <v-container fluid grid-list-lg>
+                            <v-layout row wrap>
+                                <v-flex xs12 sm12 md12 lg12>
+                                <h3>User Profile</h3>
+                                </v-flex>
+                                <v-flex xs12 sm12 md12 lg12>
+                                    <v-text-field prepend-inner-icon="mdi-account" :rules="[rules.required, rules.min4]"
+                                        color="red" label="Username" v-model="userdata.username" required>
+                                    </v-text-field>
+                                </v-flex>
+                                <v-flex xs12 sm6 md6 lg6>
+                                    <v-text-field prepend-inner-icon="mdi-email" :rules="[rules.required, rules.email]"
+                                        color="red" label="Email" v-model="userdata.email" required>
+                                    </v-text-field>
+                                </v-flex>
+                                <v-flex xs12 sm6 md6 lg6>
+                                    <v-text-field prepend-inner-icon="mdi-lock"
+                                        :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                                        :rules="[rules.required, rules.min8]" :type="show1 ? 'text' : 'password'"
+                                        name="input-10-1" label="Enter Old Password" hint="At least 8 characters"
+                                        counter @click:append="show1 = !show1" color="red" v-model="oldpassword"
+                                        required>
+                                    </v-text-field>
+                                </v-flex>
+                                <v-flex xs12 sm12 md12 lg12>
+                                    <v-btn color="warning" @click="PWdialog=true">Change Password</v-btn>
+                                </v-flex>
+                            </v-layout>
+                        </v-container>
+                    </v-form>
+                </v-card-text>
+                <v-card-actions style="margin:10px 20px 20px 20px;">
+                    <v-btn color="info" :loading="loading" :disabled="loading || !forms.first"
+                        @click="save();loading=true;">
+                        Save
+                    </v-btn>
+                    <v-spacer></v-spacer>
+                    <v-btn color="success" @click="cancel()">Cancel</v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-flex>
+        <v-flex md8 xs12>
             <v-card class="elevation-5 px-2"
                 style="border-radius: 8px; height: calc(100% - 70px);padding: 0px 0px 75px 0px;">
-                <v-card class='greencard white--text unselectable' style="top:-30px; padding: 15px;border-radius: 8px;">
+                <v-card class='orangecard white--text unselectable' style="top:-30px; padding: 15px;border-radius: 8px;">
                     <h1>
                         <v-icon dense color='white' x-large>
-                            mdi-account
+                            mdi-settings
                         </v-icon>
-                        Settings
+                        App Settings
                     </h1>
                 </v-card>
-                <v-layout row wrap>
-                    <v-flex xs3 sm3 md3 lg3>
-                        <v-avatar class="mx-auto d-flex" size="15vw">
-                            <file-pond name="test" ref="pond"
-                                label-Idle="Drag & Drop your picture or <span class='filepond--label-action'>Browse</span>"
-                                image-Preview-Height='130' image-Crop-Aspect-Ratio='1:1' image-Resize-Target-Width=200,
-                                image-Resize-Target-Height=200, style-Panel-Layout="compact circle"
-                                style-Load-Indicator-Position="center bottom"
-                                style-Button-Remove-Item-Position='center bottom' accepted-file-types="image/*"
-                                :files="userdata.avatar" />
-                        </v-avatar>
-                    </v-flex>
-                    <v-flex xs6 sm6 md6 lg6>
-                        <v-card-title class='greencard white--text unselectable' style="border-radius: 8px;">
-                            <h3>App Settings</h3>
-                        </v-card-title>
-                        <v-card-text>
-                            <v-layout fill-height align-center justify-center ma-0>
-                                <v-switch color='success' v-model="Patterns"
-                                    :label="Patterns? 'Follow Key Patterns is : On' : 'Follow Key Patterns is Switched : Off'">
-                                </v-switch>
-                                <v-switch color="purple" v-model="AutoLogin"
-                                    :label="`AutoLogin : ${AutoLogin.toString()}`">
-                                </v-switch>
-                                <v-btn color="error">
-                                    Delete DataBase
-                                </v-btn>
-                            </v-layout>
-                        </v-card-text>
-                        <v-card-title class='infocard white--text unselectable' style="border-radius: 8px;">
-                            <h3>User Profile</h3>
-                        </v-card-title>
-                        <v-card-text>
-                            <v-form v-model="forms.first">
-                                <v-container fluid grid-list-lg>
-                                    <v-layout row wrap>
-                                        <v-flex xs12 sm6 md6 lg6>
-                                            <v-text-field :rules="[rules.required, rules.min4]" color="red" label="Name"
-                                                v-model="userdata.username" required>
-                                            </v-text-field>
-                                        </v-flex>
-                                        <v-flex xs12 sm6 md6 lg6>
-                                            <v-text-field :rules="[rules.required, rules.email]" color="red"
-                                                label="Email" v-model="userdata.email" required>
-                                            </v-text-field>
-                                        </v-flex>
-                                        <v-flex xs12 sm6 md6 lg6>
-                                            <v-text-field :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-                                                :rules="[rules.required, rules.min8]"
-                                                :type="show1 ? 'text' : 'password'" name="input-10-1"
-                                                label="Enter Old Password" hint="At least 8 characters" counter
-                                                @click:append="show1 = !show1" color="red" v-model="oldpassword"
-                                                required>
-                                            </v-text-field>
-                                        </v-flex>
-                                        <v-flex xs12 sm12 md12 lg12>
-                                            <v-btn color="warning" @click="PWdialog=true">Change Password</v-btn>
-                                        </v-flex>
-                                    </v-layout>
-                                </v-container>
-                            </v-form>
-                        </v-card-text>
-                        <v-card-actions style="padding:0px 20px 10px 20px;">
-                            <v-btn color="info" :loading="loading" :disabled="loading || !forms.first"
-                                @click="save();loading=true;">
-                                Save
-                            </v-btn>
-                            <v-spacer></v-spacer>
-                            <v-btn color="success" @click="cancel()">Cancel</v-btn>
-                        </v-card-actions>
-                    </v-flex>
-                </v-layout>
-            </v-card>
+                <v-card-text>
+                    <v-layout fill-height align-center justify-center ma-0>
+                        <v-switch color='success' v-model="Patterns"
+                            :label="Patterns? 'Follow Key Patterns is : On' : 'Follow Key Patterns is Switched : Off'">
+                        </v-switch>
+                        <v-switch color="purple" v-model="AutoLogin" :label="`AutoLogin : ${AutoLogin.toString()}`">
+                        </v-switch>
+                        <v-btn color="error">
+                            Delete DataBase
+                        </v-btn>
+                    </v-layout>
+                </v-card-text>
         </v-flex>
         <v-snackbar v-model="snack" :timeout="2000" :color="msg.color" absolute bottom left>
             {{msg.text}}
@@ -135,6 +127,7 @@
                     first: '',
                     second: ''
                 },
+                userdata: {},
                 oldpassword: '',
                 newpassword: {
                     pw: '',
@@ -173,11 +166,6 @@
             },
             loading() {
                 setTimeout(() => (this.loading = false), 2000)
-            }
-        },
-        computed: {
-            userdata() {
-                return JSON.parse(JSON.stringify(store.state.userdata));
             }
         },
         methods: {
@@ -232,6 +220,7 @@
             }
         },
         mounted() {
+            this.userdata=JSON.parse(JSON.stringify(store.state.userdata));
             this.AutoLogin = (localStorage.AutoLogin == 'true');
             this.Patterns = (localStorage.Patterns == 'true');
         }
