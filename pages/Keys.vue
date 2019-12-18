@@ -138,7 +138,7 @@
                                                                         :maxLength="props.item.platform == 'Steam' ? 17 : props.item.platform == 'Origin' ? 19 : props.item.platform == 'Uplay' ? 24 : 40"
                                                                         :rules="[max25chars]" label="Edit" single-line
                                                                         counter autofocus color="red"
-                                                                        @input="index.key=GetKeyFormat(props.item.platform,index.key.toUpperCase())"
+                                                                        @input="GetKeyFormat(props.item,index.key)"
                                                                         return-object>
                                                                     </v-text-field>
                                                                 </template>
@@ -282,7 +282,7 @@
                                         <v-text-field v-model="index.key" :label="'Key '+ parseInt(i+1)"
                                             :maxLength="editedItem.platform == 'Steam' ? 17 : editedItem.platform == 'Origin' ? 19 : editedItem.platform == 'Uplay' ? 24 : 40"
                                             :rules="[max25chars]" color="red"
-                                            @input="index.key=GetKeyFormat(editedItem.platform,index.key.toUpperCase())">
+                                            @input="GetKeyFormat(editedItem,index.key)">
                                         </v-text-field>
                                     </v-flex>
                                 </tr>
@@ -379,7 +379,7 @@
                                                 :placeholder="itemtoadd.platform == 'Steam' ? 'XXXXX-XXXXX-XXXXX' : itemtoadd.platform == 'Origin' ? 'XXXX-XXXX-XXXX-XXXX' : 'XXXX-XXXX-XXXX-XXXX-XXXX'"
                                                 v-model="itemtoadd.keys[i].key" :label="'Key '+parseInt(i+1)"
                                                 :rules="[max25chars]" color="red"
-                                                @input="itemtoadd.keys[i].key=GetKeyFormat(itemtoadd.platform,itemtoadd.keys[i].key.toUpperCase())">
+                                                @input="GetKeyFormat(itemtoadd,itemtoadd.keys[i].key)">
                                             </v-text-field>
                                         </div>
                                     </v-flex>
@@ -888,24 +888,29 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
             }
         },
         methods: {
-            GetKeyFormat(platform, key) {
-                if (localStorage.Patterns == 'true') {
-                    key = key.replace(/[^a-zA-Z0-9]/g, '');
-                    switch (platform) {
-                        case 'Steam':
-                            return key.match(/(.){1,5}/g).join("-");
-                            break;
-                        case 'Origin':
-                            return key.match(/(.){1,4}/g).join("-");
-                            break;
-                        case 'Uplay':
-                            return key.match(/(.){1,4}/g).join("-");
-                            break;
-                        default:
-                            return key
-                    }
-                } else
-                    return key
+            GetKeyFormat(item, key) {
+                    index = item.keys.map(e => e.key).indexOf(key);
+                    key = key.toUpperCase();
+                    item.keys[index].key = key;
+                setTimeout(() => {
+                    if (localStorage.Patterns == 'true') {
+                        key = key.replace(/[^a-zA-Z0-9]/g, '');
+                        switch (item.platform) {
+                            case 'Steam':
+                                item.keys[index].key = key.match(/(.){1,5}/g).join("-");
+                                break;
+                            case 'Origin':
+                                item.keys[index].key = key.match(/(.){1,4}/g).join("-");
+                                break;
+                            case 'Uplay':
+                                item.keys[index].key = key.match(/(.){1,4}/g).join("-");
+                                break;
+                            default:
+                                item.keys[index].key = key
+                        }
+                    } else
+                        item.keys[index].key = key
+                }, 100)
             },
             addimportedkeys(close) {
                 for (var i = this.importedapps.length - 1; i >= 0; i--) {
