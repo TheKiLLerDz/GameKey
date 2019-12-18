@@ -889,12 +889,12 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
         },
         methods: {
             GetKeyFormat(item, key) {
-                    index = item.keys.map(e => e.key).indexOf(key);
-                    key = key.toUpperCase();
-                    item.keys[index].key = key;
-                setTimeout(() => {
-                    if (localStorage.Patterns == 'true') {
-                        key = key.replace(/[^a-zA-Z0-9]/g, '');
+                index = item.keys.map(e => e.key).indexOf(key);
+                key = key.toUpperCase();
+                item.keys[index].key = key;
+                if (localStorage.Patterns == 'true') {
+                    key = key.replace(/[^a-zA-Z0-9]/g, '');
+                    setTimeout(() => {
                         switch (item.platform) {
                             case 'Steam':
                                 item.keys[index].key = key.match(/(.){1,5}/g).join("-");
@@ -908,9 +908,9 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                             default:
                                 item.keys[index].key = key
                         }
-                    } else
-                        item.keys[index].key = key
-                }, 100)
+                    }, 50)
+                } else
+                    item.keys[index].key = key
             },
             addimportedkeys(close) {
                 for (var i = this.importedapps.length - 1; i >= 0; i--) {
