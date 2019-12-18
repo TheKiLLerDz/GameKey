@@ -200,14 +200,6 @@
                                                         </v-btn>
                                                         <span class="top">Copy Key</span>
                                                     </v-tooltip>
-                                                    <!--<v-tooltip top>
-                                                        <v-btn slot="activator" color="info" icon small>
-                                                            <v-icon small>
-                                                                mdi-tooltip-edit
-                                                            </v-icon>
-                                                        </v-btn>
-                                                        <span class="top">Edit Key</span>
-                                                    </v-tooltip>!-->
                                                     <v-tooltip top>
                                                         <v-btn slot="activator" color="error"
                                                             @click="deletekeydialog=true;keytodelete=index.key;Itemtodelete=props.item"
@@ -494,7 +486,7 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
             <v-card>
                 <v-card-title class="headline red--text">Delete this App?</v-card-title>
                 <v-card-text>
-                    Accepting This will result in loosing all the Keys of this game!
+                    You'll lose all Keys of this app!
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
