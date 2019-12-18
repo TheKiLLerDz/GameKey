@@ -136,8 +136,8 @@
                                                                 <template v-slot:input>
                                                                     <v-text-field v-model="index.key"
                                                                         :maxLength="props.item.platform == 'Steam' ? 17 : props.item.platform == 'Origin' ? 19 : props.item.platform == 'Uplay' ? 24 : 40"
-                                                                        :rules="[max25chars]" label="Edit" single-line
-                                                                        counter autofocus color="red"
+                                                                        :rules="[rules.max25chars]" label="Edit"
+                                                                        single-line counter autofocus color="red"
                                                                         @input="GetKeyFormat(props.item,index.key)"
                                                                         return-object>
                                                                     </v-text-field>
@@ -240,8 +240,7 @@
             </v-card>
         </v-flex>
         <v-dialog v-model="editdialog" persistent scrollable width="70vw" @keydown.esc="editdialog = !editdialog"
-            @keydown.enter="(editedItem.platform != '' && editedItem.name != '' && editedItem.appid != '') ?
-                       save(editedItem,oldediteditem) : null ;isAdding = true">
+            @keydown.enter="form ? save(editedItem,oldediteditem) : null ;isAdding = true">
             <v-card>
                 <v-card-title>
                     <span class="headline">Edit app</span>
@@ -249,67 +248,60 @@
                 <v-divider></v-divider>
                 <v-card-text>
                     <v-container grid-list-md>
-                        <v-layout wrap>
-                            <table>
-                                <tr>
-                                    <v-flex xs12 sm12 md12>
-                                        <v-select required :items='platforms.map(e => e.name)'
-                                            v-model="editedItem.platform" label="Platform"
-                                            @change="PlatformEdited(editedItem.platform);editedItem.name='';editedItem.appid=''"
-                                            :prepend-icon="editedItem.platform=='Steam'||editedItem.platform=='Origin' ? 'mdi-'+editedItem.platform.toLowerCase() : 'mdi-key'">
-                                        </v-select>
-                                    </v-flex>
-                                    <v-flex xs4 sm4 md4>
-                                        <v-text-field :rules="[v => !!v || 'This field is required']"
-                                            :disabled="editedItem.platform=='Origin' || editedItem.platform=='Other'"
-                                            v-model="editedItem.appid" label="ID" @input="IDEdited(editedItem)">
-                                        </v-text-field>
-                                    </v-flex>
-                                </tr>
-                                <tr>
-                                    <v-flex xs8 sm8 md8>
-                                        <v-combobox :items='this.appnames' v-model="editedItem.name"
-                                            @change="NameEdited(editedItem)" label="Name">
-                                        </v-combobox>
-                                    </v-flex>
-                                </tr>
-                                <tr>
-                                    <v-chip disabled class="mx-auto" text-color="white" color="green">
-                                        <v-icon>mdi-key</v-icon>
-                                        <div class="pa-2 ma-2">Keys</div>
-                                    </v-chip>
-                                    <v-flex xs12 sm12 md12 v-for="(index,i) in editedItem.keys" :key="i">
-                                        <v-text-field v-model="index.key" :label="'Key '+ parseInt(i+1)"
-                                            :maxLength="editedItem.platform == 'Steam' ? 17 : editedItem.platform == 'Origin' ? 19 : editedItem.platform == 'Uplay' ? 24 : 40"
-                                            :rules="[max25chars]" color="red"
-                                            @input="GetKeyFormat(editedItem,index.key)">
-                                        </v-text-field>
-                                    </v-flex>
-                                </tr>
-                                <tr>
-                                    <v-flex xs12 sm12 md12>
-                                        <v-combobox :items="gametags" label="Game Tags" chips clearable
-                                            prepend-icon="filter_list" solo multiple v-model="editedItem.tags">
-                                            <template v-slot:selection="tags">
-                                                <v-chip :selected="tags.selected" close
-                                                    @input="removetag(editedItem,tags.item)" color="orange" outline>
-                                                    <strong>{{ tags.item }}</strong>
-                                                </v-chip>
-                                            </template>
-                                            <template v-slot:no-data>
-                                                <v-list-tile>
-                                                    <v-list-tile-content>
-                                                        <v-list-tile-title>
-                                                            No results found. Press <kbd>enter</kbd> to create a new tag
-                                                        </v-list-tile-title>
-                                                    </v-list-tile-content>
-                                                </v-list-tile>
-                                            </template>
-                                        </v-combobox>
-                                    </v-flex>
-                                </tr>
-                            </table>
-                        </v-layout>
+                        <v-form v-model="form">
+                            <v-layout wrap>
+                                <v-flex xs12 sm12 md12>
+                                    <v-select required :items='platforms.map(e => e.name)' v-model="editedItem.platform"
+                                        label="Platform"
+                                        @change="PlatformEdited(editedItem.platform);editedItem.name='';editedItem.appid=''"
+                                        :prepend-icon="editedItem.platform=='Steam'||editedItem.platform=='Origin' ? 'mdi-'+editedItem.platform.toLowerCase() : 'mdi-key'">
+                                    </v-select>
+                                </v-flex>
+                                <v-flex xs4 sm4 md4>
+                                    <v-text-field :rules="[v => !!v || 'This field is required']"
+                                        :disabled="editedItem.platform=='Origin' || editedItem.platform=='Other'"
+                                        v-model="editedItem.appid" label="ID" @input="IDEdited(editedItem)">
+                                    </v-text-field>
+                                </v-flex>
+                                <v-flex xs8 sm8 md8>
+                                    <v-combobox :items='this.appnames' :rules="[v => !!v || 'This field is required']"
+                                        v-model="editedItem.name" @change="NameEdited(editedItem)" label="Name"
+                                        required>
+                                    </v-combobox>
+                                </v-flex>
+                                <v-chip disabled class="mx-auto" text-color="white" color="green">
+                                    <v-icon>mdi-key</v-icon>
+                                    <div class="pa-2 ma-2">Keys</div>
+                                </v-chip>
+                                <v-flex xs12 sm12 md12 v-for="(index,i) in editedItem.keys" :key="i">
+                                    <v-text-field v-model="index.key" :label="'Key '+ parseInt(i+1)"
+                                        :maxLength="localStorage.Patterns == 'true' ? (editedItem.platform == 'Steam' ? 17 : editedItem.platform == 'Origin' ? 19 : editedItem.platform == 'Uplay' ? 24 : 40) : 40"
+                                        :rules="[rules.max25chars,localStorage.Patterns == 'true' ? (editedItem.platform == 'Steam' ? rules.Steamkey : editedItem.platform == 'Origin' ? rules.Originkey : editedItem.platform == 'Uplay' ? rules.Uplaykey : rules.required):rules.required]"
+                                        color="red" @input="GetKeyFormat(editedItem,index.key)" required>
+                                    </v-text-field>
+                                </v-flex>
+                                <v-flex xs12 sm12 md12>
+                                    <v-combobox :items="gametags" label="Game Tags" chips clearable
+                                        prepend-icon="filter_list" solo multiple v-model="editedItem.tags">
+                                        <template v-slot:selection="tags">
+                                            <v-chip :selected="tags.selected" close
+                                                @input="removetag(editedItem,tags.item)" color="orange" outline>
+                                                <strong>{{ tags.item }}</strong>
+                                            </v-chip>
+                                        </template>
+                                        <template v-slot:no-data>
+                                            <v-list-tile>
+                                                <v-list-tile-content>
+                                                    <v-list-tile-title>
+                                                        No results found. Press <kbd>enter</kbd> to create a new tag
+                                                    </v-list-tile-title>
+                                                </v-list-tile-content>
+                                            </v-list-tile>
+                                        </template>
+                                    </v-combobox>
+                                </v-flex>
+                            </v-layout>
+                        </v-form>
                     </v-container>
                 </v-card-text>
                 <v-divider></v-divider>
@@ -317,9 +309,8 @@
                     <v-spacer></v-spacer>
                     <v-btn color="blue darken-1" flat _click="close" @click="editdialog = !editdialog">Cancel
                     </v-btn>
-                    <v-btn color="blue darken-1"
-                        :disabled="editedItem.appid == '' || editedItem.platform == '' || editedItem.name == '' ? true : false"
-                        :loading="isAdding" flat @click="save(editedItem,oldediteditem);isAdding = true">Save</v-btn>
+                    <v-btn color="blue darken-1" :disabled="!form" :loading="isAdding" flat
+                        @click="save(editedItem,oldediteditem);isAdding = true">Save</v-btn>
                 </v-card-actions>
             </v-card>
         </v-dialog>
@@ -331,8 +322,7 @@
                         key: ''
                     }],
                     tags : []
-                }" @keydown.enter="(itemtoadd.platform != '' && itemtoadd.name != '' && itemtoadd.appid != '' || itemtoadd.platform == 'Other') ?
-                       add(itemtoadd): null ;isAdding = true">
+                }" @keydown.enter="form ? add(itemtoadd) : null ;isAdding = true">
             <v-card>
                 <v-progress-linear :active="isAdding" class="ma-0" color="blue lighten-3" height="4" indeterminate>
                 </v-progress-linear>
@@ -342,77 +332,68 @@
                 <v-divider></v-divider>
                 <v-card-text>
                     <v-container grid-list-md>
-                        <v-layout wrap>
-                            <table>
-                                <tr>
-                                    <v-flex xs12 sm12 md12>
-                                        <v-select required :rules="[v => !!v || 'Platform is required']"
-                                            :items='platforms.map(e => e.name)' v-model="itemtoadd.platform"
-                                            @change="PlatformEdited(itemtoadd.platform);itemtoadd.name='';itemtoadd.tags=[];itemtoadd.appid=''"
-                                            :readonly="$route.path.includes('/keys') ? false : true" label="Platform"
-                                            :prepend-icon="itemtoadd.platform=='Steam'||itemtoadd.platform=='Origin' ? 'mdi-'+itemtoadd.platform.toLowerCase() : 'mdi-key'">
-                                        </v-select>
-                                    </v-flex>
-                                    <v-flex xs4 sm4 md4>
-                                        <v-text-field :rules="[v => !!v || 'This field is required']"
-                                            :disabled="itemtoadd.platform=='Origin' || itemtoadd.platform=='Other'"
-                                            v-model="itemtoadd.appid" label="ID" @input="IDEdited(itemtoadd)">
+                        <v-form v-model="form">
+                            <v-layout wrap>
+                                <v-flex xs12 sm12 md12>
+                                    <v-select required :rules="[v => !!v || 'Platform is required']"
+                                        :items='platforms.map(e => e.name)' v-model="itemtoadd.platform"
+                                        @change="PlatformEdited(itemtoadd.platform);itemtoadd.name='';itemtoadd.tags=[];itemtoadd.appid=''"
+                                        :readonly="$route.path.includes('/keys') ? false : true" label="Platform"
+                                        :prepend-icon="itemtoadd.platform=='Steam'||itemtoadd.platform=='Origin' ? 'mdi-'+itemtoadd.platform.toLowerCase() : 'mdi-key'">
+                                    </v-select>
+                                </v-flex>
+                                <v-flex xs4 sm4 md4>
+                                    <v-text-field :rules="[v => !!v || 'This field is required']"
+                                        :disabled="itemtoadd.platform=='Origin' || itemtoadd.platform=='Other'"
+                                        v-model="itemtoadd.appid" label="ID" @input="IDEdited(itemtoadd)" required>
+                                    </v-text-field>
+                                </v-flex>
+                                <v-flex xs8 sm8 md8>
+                                    <v-combobox :items='this.appnames' v-model="itemtoadd.name"
+                                        @change="NameEdited(itemtoadd)" label="Name" required>
+                                    </v-combobox>
+                                </v-flex>
+                                <v-chip disabled class="mx-auto" text-color="white" color="green">
+                                    <v-icon>mdi-key</v-icon>
+                                    <div class="pa-2 ma-2">Keys</div>
+                                </v-chip>
+                                <v-flex xs12 sm12 md12>
+                                    <span v-for="(index,i) in itemtoadd.keys.length" :key="i">
+                                        <v-text-field :append-outer-icon="i != 0 ? 'mdi-close' : ''"
+                                            @click:append-outer="deletekeyjson(itemtoadd,i)"
+                                            :maxLength="localStorage.Patterns == 'true' ? (itemtoadd.platform == 'Steam' ? 17 : itemtoadd.platform == 'Origin' ? 19 : itemtoadd.platform == 'Uplay' ? 24 : 40) : 40"
+                                            :placeholder="itemtoadd.platform == 'Steam' ? 'XXXXX-XXXXX-XXXXX' : itemtoadd.platform == 'Origin' ? 'XXXX-XXXX-XXXX-XXXX' : 'XXXX-XXXX-XXXX-XXXX-XXXX'"
+                                            v-model="itemtoadd.keys[i].key" :label="'Key '+parseInt(i+1)"
+                                            :rules="[rules.max25chars,localStorage.Patterns == 'true' ? (itemtoadd.platform == 'Steam' ? rules.Steamkey : itemtoadd.platform == 'Origin' ? rules.Originkey : itemtoadd.platform == 'Uplay' ? rules.Uplaykey : rules.required):rules.required]"
+                                            color="red" required @input="GetKeyFormat(itemtoadd,itemtoadd.keys[i].key)">
                                         </v-text-field>
-                                    </v-flex>
-                                </tr>
-                                <tr>
-                                    <v-flex xs8 sm8 md8>
-                                        <v-combobox :items='this.appnames' v-model="itemtoadd.name"
-                                            @change="NameEdited(itemtoadd)" label="Name">
-                                        </v-combobox>
-                                    </v-flex>
-                                </tr>
-                                <tr>
-                                    <v-chip disabled class="mx-auto" text-color="white" color="green">
-                                        <v-icon>mdi-key</v-icon>
-                                        <div class="pa-2 ma-2">Keys</div>
-                                    </v-chip>
-                                    <v-flex xs12 sm12 md12>
-                                        <div v-for="(index,i) in itemtoadd.keys.length" :key="i">
-                                            <v-text-field
-                                                :maxLength="itemtoadd.platform == 'Steam' ? 17 : itemtoadd.platform == 'Origin' ? 19 : itemtoadd.platform == 'Uplay' ? 24 : 40"
-                                                :placeholder="itemtoadd.platform == 'Steam' ? 'XXXXX-XXXXX-XXXXX' : itemtoadd.platform == 'Origin' ? 'XXXX-XXXX-XXXX-XXXX' : 'XXXX-XXXX-XXXX-XXXX-XXXX'"
-                                                v-model="itemtoadd.keys[i].key" :label="'Key '+parseInt(i+1)"
-                                                :rules="[max25chars]" color="red"
-                                                @input="GetKeyFormat(itemtoadd,itemtoadd.keys[i].key)">
-                                            </v-text-field>
-                                        </div>
-                                    </v-flex>
-                                </tr>
-                                <tr>
-                                    <v-flex xs12 sm12 md12>
-                                        <v-btn round @click="itemtoadd.keys.push({key:''})">add key</v-btn>
-                                    </v-flex>
-                                </tr>
-                                <tr>
-                                    <v-flex xs12 sm12 md12>
-                                        <v-combobox v-model="itemtoadd.tags" :items="gametags" label="Game Tags" chips
-                                            clearable prepend-icon="filter_list" solo multiple>
-                                            <template v-slot:selection="tags">
-                                                <v-chip :selected="tags.selected" close
-                                                    @input="removetag(itemtoadd,tags.item)" color="orange" outline>
-                                                    <strong>{{ tags.item }}</strong>
-                                                </v-chip>
-                                            </template>
-                                            <template v-slot:no-data>
-                                                <v-list-tile>
-                                                    <v-list-tile-content>
-                                                        <v-list-tile-title>
-                                                            No results found. Press <kbd>enter</kbd> to create a new tag
-                                                        </v-list-tile-title>
-                                                    </v-list-tile-content>
-                                                </v-list-tile>
-                                            </template>
-                                        </v-combobox>
-                                    </v-flex>
-                                </tr>
-                            </table>
-                        </v-layout>
+                                    </span>
+                                </v-flex>
+                                <v-flex xs12 sm12 md12>
+                                    <v-btn round @click="itemtoadd.keys.push({key:''})">add key</v-btn>
+                                </v-flex>
+                                <v-flex xs12 sm12 md12>
+                                    <v-combobox v-model="itemtoadd.tags" :items="gametags" label="Game Tags" chips
+                                        clearable prepend-icon="filter_list" solo multiple>
+                                        <template v-slot:selection="tags">
+                                            <v-chip :selected="tags.selected" close
+                                                @input="removetag(itemtoadd,tags.item)" color="orange" outline>
+                                                <strong>{{ tags.item }}</strong>
+                                            </v-chip>
+                                        </template>
+                                        <template v-slot:no-data>
+                                            <v-list-tile>
+                                                <v-list-tile-content>
+                                                    <v-list-tile-title>
+                                                        No results found. Press <kbd>enter</kbd> to create a new tag
+                                                    </v-list-tile-title>
+                                                </v-list-tile-content>
+                                            </v-list-tile>
+                                        </template>
+                                    </v-combobox>
+                                </v-flex>
+                            </v-layout>
+                        </v-form>
                     </v-container>
                 </v-card-text>
                 <v-divider></v-divider>
@@ -428,8 +409,7 @@
                     tags : []
                 }">Cancel
                     </v-btn>
-                    <v-btn color="blue darken-1" flat
-                        :disabled="itemtoadd.platform == '' || itemtoadd.name == '' || itemtoadd.appid == '' && itemtoadd.platform != 'Other' ? true : false"
+                    <v-btn color="blue darken-1" flat :disabled="!form && itemtoadd.platform != 'Other' ? true : false"
                         :loading="isAdding" @click="add(itemtoadd);isAdding = true">Add</v-btn>
                 </v-card-actions>
             </v-card>
@@ -736,7 +716,22 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                     totalItems: '',
                     rowsPerPage: 9
                 },
-                max25chars: v => v.length <= 25 || 'Key is too long!',
+                rules: {
+                    max25chars: v => v.length <= 25 || 'Key is too long!',
+                    required: value => !!value || 'Required.',
+                    Steamkey: value => {
+                        const pattern = /([\dA-Z]{5}\-){2}[\dA-Z]{5}/gi
+                        return pattern.test(value) || 'Invalid Key.'
+                    },
+                    Uplaykey: value => {
+                        const pattern = /([\dA-Z]{4}\-){3}[\dA-Z]{4}/gi;
+                        return pattern.test(value) || 'Invalid Key.'
+                    },
+                    Originkey: value => {
+                        const pattern = /([\dA-Z]{4}\-){4}[\dA-Z]{4}/gi
+                        return pattern.test(value) || 'Invalid Key.'
+                    }
+                },
                 gametags: ["Indie", "Action", "Adventure", "Casual", "Low Confidence Metric", "Simulation",
                     "Strategy", "RPG", "Singleplayer", "Early Access", "Free to Play", "2D", "Great Soundtrack",
                     "Atmospheric", "Puzzle", "Violent", "Multiplayer", "VR", "Story Rich", "Gore", "Fantasy",
@@ -802,6 +797,7 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                 ],
                 fling: false,
                 tabs: null,
+                form: false,
                 search: '',
                 appnames: [],
                 Itemtodelete: null,
@@ -888,12 +884,16 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
             }
         },
         methods: {
+            deletekeyjson(item, index) {
+                item.keys.splice(index, 1);
+            },
             GetKeyFormat(item, key) {
                 index = item.keys.map(e => e.key).indexOf(key);
                 key = key.toUpperCase();
                 item.keys[index].key = key;
                 if (localStorage.Patterns == 'true') {
                     key = key.replace(/[^a-zA-Z0-9]/g, '');
+                    // timeout to let the vue render
                     setTimeout(() => {
                         switch (item.platform) {
                             case 'Steam':
@@ -908,7 +908,7 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                             default:
                                 item.keys[index].key = key
                         }
-                    }, 50)
+                    }, 1)
                 } else
                     item.keys[index].key = key
             },
