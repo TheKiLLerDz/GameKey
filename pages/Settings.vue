@@ -12,23 +12,21 @@
                 </v-avatar>
                 <v-card-text class="text-xs-center">
                     <v-form v-model="forms.first">
+                        <h3>User Profile</h3>
                         <v-container fluid grid-list-lg>
                             <v-layout row wrap>
                                 <v-flex xs12 sm12 md12 lg12>
-                                <h3>User Profile</h3>
-                                </v-flex>
-                                <v-flex xs12 sm12 md12 lg12>
-                                    <v-text-field prepend-inner-icon="mdi-account" :rules="[rules.required, rules.min4]"
+                                    <v-text-field prepend-icon="mdi-account" :rules="[rules.required, rules.min4]"
                                         color="red" label="Username" v-model="userdata.username" required>
                                     </v-text-field>
                                 </v-flex>
                                 <v-flex xs12 sm6 md6 lg6>
-                                    <v-text-field prepend-inner-icon="mdi-email" :rules="[rules.required, rules.email]"
+                                    <v-text-field prepend-icon="mdi-email" :rules="[rules.required, rules.email]"
                                         color="red" label="Email" v-model="userdata.email" required>
                                     </v-text-field>
                                 </v-flex>
                                 <v-flex xs12 sm6 md6 lg6>
-                                    <v-text-field prepend-inner-icon="mdi-lock"
+                                    <v-text-field prepend-icon="mdi-lock"
                                         :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
                                         :rules="[rules.required, rules.min8]" :type="show1 ? 'text' : 'password'"
                                         name="input-10-1" label="Enter Old Password" hint="At least 8 characters"
@@ -43,7 +41,7 @@
                         </v-container>
                     </v-form>
                 </v-card-text>
-                <v-card-actions style="margin:10px 20px 20px 20px;">
+                <v-card-actions style="padding:0px 40px 20px 40px;">
                     <v-btn color="info" :loading="loading" :disabled="loading || !forms.first"
                         @click="save();loading=true;">
                         Save
@@ -56,7 +54,8 @@
         <v-flex md8 xs12>
             <v-card class="elevation-5 px-2"
                 style="border-radius: 8px; height: calc(100% - 70px);padding: 0px 0px 75px 0px;">
-                <v-card class='orangecard white--text unselectable' style="top:-30px; padding: 15px;border-radius: 8px;">
+                <v-card class='orangecard white--text unselectable'
+                    style="top:-30px; padding: 15px;border-radius: 8px;">
                     <h1>
                         <v-icon dense color='white' x-large>
                             mdi-settings
@@ -127,7 +126,12 @@
                     first: '',
                     second: ''
                 },
-                userdata: {},
+                userdata: {
+                    username: '',
+                    password: '',
+                    avatar: '',
+                    email: ''
+                },
                 oldpassword: '',
                 newpassword: {
                     pw: '',
@@ -220,7 +224,7 @@
             }
         },
         mounted() {
-            this.userdata=JSON.parse(JSON.stringify(store.state.userdata));
+            this.userdata = JSON.parse(JSON.stringify(store.state.userdata));
             this.AutoLogin = (localStorage.AutoLogin == 'true');
             this.Patterns = (localStorage.Patterns == 'true');
         }
