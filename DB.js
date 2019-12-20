@@ -4,13 +4,18 @@ new Dexie('DATA').open().then(function (d) {
     data = d;
 })
 
-function setUserData(username, email, avatar) {
+function setUserData(username, email) {
     data.tables[0].where("id").equals(1).modify(d => {
         d.username = username;
         d.email = email;
-        d.avatar = avatar;
     });
     console.log("account eddited successfully")
+}
+
+function setavatar(avatar) {
+    data.tables[0].where("id").equals(1).modify(d => {
+        d.avatar = avatar;
+    });
 }
 
 function addUserData(username, email, avatar, password) {

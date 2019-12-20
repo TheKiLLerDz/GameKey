@@ -175,25 +175,34 @@
         methods: {
             save() {
                 if (SHA1(this.oldpassword) == localStorage.password) {
-                    avatar = this.$refs.pond.getFiles()[0].source.path;
-                    if (this.userdata.username != store.state.userdata.username || this.userdata.email !=
-                        store
-                        .state
-                        .userdata.email || avatar != undefined) {
-                        if (avatar != undefined) {
-                            deleteimg(localStorage.avatar);
+                    var avatarchanged = false;
+                    if (this.$refs.pond.getFiles().length > 0) {
+                        if (this.$refs.pond.getFiles()[0].source.path != null) {
+                            avatar = this.$refs.pond.getFiles()[0].source.path;
+                            if (localStorage.avatar != '') {
+                                deleteimg(localStorage.avatar);
+                            }
                             localStorage.avatar = 'avatar.' + this.$refs.pond.getFiles()[0].fileExtension;
                             copyimg(avatar, localStorage.avatar);
+                            avatarchanged = true;
                         }
+                    } else if (localStorage.avatar != '') {
+                        deleteimg(localStorage.avatar);
+                        localStorage.avatar = '';
+                        avatarchanged = true;
+                    }
+                    if (avatarchanged) setavatar(localStorage.avatar);
+                    store.state.userdata.avatar = localStorage.avatar;
+                    if (this.userdata.username != store.state.userdata.username || this.userdata.email !=
+                        store.state.userdata.email) {
                         localStorage.username = this.userdata.username;
                         localStorage.email = this.userdata.email;
-                        store.state.userdata.avatar = localStorage.avatar;
                         store.state.userdata = JSON.parse(JSON.stringify(this.userdata));
-                        setUserData(localStorage.username, localStorage.email, localStorage.avatar);
+                        setUserData(localStorage.username, localStorage.email);
                     }
                     this.msg.text = "Your profile has been updated";
                     this.msg.color = "success";
-                    this.oldpassword = "";
+                    //this.oldpassword = "";
                 } else {
                     this.msg.text = "Wrong Password";
                     this.msg.color = "error";
