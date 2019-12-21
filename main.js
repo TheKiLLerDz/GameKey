@@ -8,7 +8,7 @@ const {
 
 var mainwin, Loginwin;
 
-app.setPath('userData', app.getPath('home') + '/OneDrive/GameKey')
+app.setPath('userData', app.getPath('home') + '\\OneDrive\\GameKey')
 
 function createAppWindow() {
     mainwin = new BrowserWindow({
@@ -45,6 +45,10 @@ function createLoginWindow() {
 }
 
 app.on('ready', createLoginWindow)
+
+ipcMain.on('userData-Path', (event) => {
+    event.returnValue = app.getPath('userData').replace(/\\/g, '/');
+})
 
 ipcMain.on('minimize-app', () => {
     if (mainwin != null)

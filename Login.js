@@ -111,7 +111,7 @@ new Vue({
         },
         createaccount(account) {
             const fs = require('fs');
-            avatar = 'avatar.' + this.$refs.file.initialValue.type.split('/')[1];
+            avatar = ipcRenderer.sendSync('userData-Path') + "/avatar." + this.$refs.file.initialValue.type.split('/')[1];
             fs.copyFile(this.$refs.file.internalArrayValue[0].path, avatar, (err) => {
                 if (err) throw err;
                 localStorage.username = account.username;

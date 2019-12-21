@@ -182,7 +182,8 @@
                             if (localStorage.avatar != '') {
                                 deleteimg(localStorage.avatar);
                             }
-                            localStorage.avatar = 'avatar.' + this.$refs.pond.getFiles()[0].fileExtension;
+                            localStorage.avatar = ipcRenderer.sendSync('userData-Path') + '/avatar.' + this.$refs
+                                .pond.getFiles()[0].fileExtension;
                             copyimg(avatar, localStorage.avatar);
                             avatarchanged = true;
                         }
@@ -202,7 +203,7 @@
                     }
                     this.msg.text = "Your profile has been updated";
                     this.msg.color = "success";
-                    //this.oldpassword = "";
+                    this.oldpassword = "";
                 } else {
                     this.msg.text = "Wrong Password";
                     this.msg.color = "error";
@@ -234,8 +235,16 @@
         },
         mounted() {
             this.userdata = JSON.parse(JSON.stringify(store.state.userdata));
+            if (this.userdata.avatar != '') {
+                this.userdata.avatar = 'avatar.cache';
+                copyimg(localStorage.avatar, this.userdata.avatar);
+            }
             this.AutoLogin = (localStorage.AutoLogin == 'true');
             this.Patterns = (localStorage.Patterns == 'true');
+        },
+        destroyed() {
+            if (this.userdata.avatar != '')
+                deleteimg(this.userdata.avatar);
         }
     }
 </script>
