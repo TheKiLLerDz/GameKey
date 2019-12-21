@@ -70,7 +70,7 @@
                         </v-switch>
                         <v-switch color="purple" v-model="AutoLogin" :label="`AutoLogin : ${AutoLogin.toString()}`">
                         </v-switch>
-                        <v-btn color="error">
+                        <v-btn color="error" @click="dbClearconfirm=true">
                             Delete DataBase
                         </v-btn>
                     </v-layout>
@@ -112,6 +112,40 @@
                 </v-card-actions>
             </v-card>
         </v-dialog>
+        <v-dialog v-model="dbCleared" width="500" persistent @keydown.enter="store.state.dbCleared = false"
+            @keydown.esc="store.state.dbCleared = false">
+            <v-card class="unselectable">
+                <v-card-title class="headline red--text">DATABASE Cleared</v-card-title>
+                <v-card-text>
+                    All Keys Deleted <br>
+                    DATABASE Cleared Successfully
+                </v-card-text>
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="green darken-1" flat="flat" @click="store.state.dbCleared = false">
+                        Ok
+                    </v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
+        <v-dialog v-model="dbClearconfirm" width="500" persistent @keydown.esc="dbClearconfirm = false">
+            <v-card class="unselectable">
+                <v-card-title class="headline red--text">Clear DATABASE ?</v-card-title>
+                <v-card-text>
+                    All Keys will be Deleted <br>
+                    Are You Sure you want To continue
+                </v-card-text>
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="green darken-1" flat="flat" @click="dbClearconfirm = false">
+                        Cancel
+                    </v-btn>
+                    <v-btn color="red darken-1" flat="flat" @click="ClearDB()">
+                        Accept
+                    </v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
     </v-layout>
 </template>
 <script>
@@ -122,6 +156,7 @@
         },
         data() {
             return {
+                dbClearconfirm: false,
                 forms: {
                     first: '',
                     second: ''
@@ -213,6 +248,16 @@
             cancel() {
                 this.userdata = JSON.parse(JSON.stringify(store.state.userdata));
             },
+            ClearDB() {
+                this.dbClearconfirm = false;
+                var promise = new Promise(function (resolve) {
+                    ClearDB(resolve);
+                });
+                promise.then(
+                    function (result) {
+                        store.state.dbCleared = true;
+                    })
+            },
             ChangePw() {
                 pw = SHA1(this.newpassword.pw);
                 if (SHA1(this.oldpassword) == localStorage.password) {
@@ -241,6 +286,11 @@
             }
             this.AutoLogin = (localStorage.AutoLogin == 'true');
             this.Patterns = (localStorage.Patterns == 'true');
+        },
+        computed: {
+            dbCleared() {
+                return store.state.dbCleared
+            }
         },
         destroyed() {
             if (this.userdata.avatar != '')

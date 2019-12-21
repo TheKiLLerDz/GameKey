@@ -135,7 +135,7 @@
                                                                 </v-chip>
                                                                 <template v-slot:input>
                                                                     <v-text-field v-model="index.key"
-                                                                        :maxLength="props.item.platform == 'Steam' ? 17 : props.item.platform == 'Origin' ? 19 : props.item.platform == 'Uplay' ? 24 : 40"
+                                                                        :maxLength="props.item.platform == 'Steam' ? 17 : props.item.platform == 'Origin' ? 24 : props.item.platform == 'Uplay' ? 19 : 40"
                                                                         :rules="[rules.max25chars]" label="Edit"
                                                                         single-line counter autofocus color="red"
                                                                         @input="GetKeyFormat(props.item,index.key)"
@@ -267,7 +267,7 @@
                                 </v-chip>
                                 <v-flex xs12 sm12 md12 v-for="(index,i) in editedItem.keys" :key="i">
                                     <v-text-field v-model="index.key" :label="'Key '+ parseInt(i+1)"
-                                        :maxLength="localStorage.Patterns == 'true' ? (editedItem.platform == 'Steam' ? 17 : editedItem.platform == 'Origin' ? 19 : editedItem.platform == 'Uplay' ? 24 : 40) : 40"
+                                        :maxLength="localStorage.Patterns == 'true' ? (editedItem.platform == 'Steam' ? 17 : editedItem.platform == 'Origin' ? 24 : editedItem.platform == 'Uplay' ? 19 : 40) : 40"
                                         :rules="[rules.max25chars,localStorage.Patterns == 'true' ? (editedItem.platform == 'Steam' ? rules.Steamkey : editedItem.platform == 'Origin' ? rules.Originkey : editedItem.platform == 'Uplay' ? rules.Uplaykey : rules.required):rules.required]"
                                         color="red" @input="GetKeyFormat(editedItem,index.key)" required>
                                     </v-text-field>
@@ -353,8 +353,8 @@
                                     <span v-for="(index,i) in itemtoadd.keys.length" :key="i">
                                         <v-text-field :append-outer-icon="i != 0 ? 'mdi-close' : ''"
                                             @click:append-outer="deletekeyjson(itemtoadd,i)"
-                                            :maxLength="localStorage.Patterns == 'true' ? (itemtoadd.platform == 'Steam' ? 17 : itemtoadd.platform == 'Origin' ? 19 : itemtoadd.platform == 'Uplay' ? 24 : 40) : 40"
-                                            :placeholder="itemtoadd.platform == 'Steam' ? 'XXXXX-XXXXX-XXXXX' : itemtoadd.platform == 'Origin' ? 'XXXX-XXXX-XXXX-XXXX' : 'XXXX-XXXX-XXXX-XXXX-XXXX'"
+                                            :maxLength="localStorage.Patterns == 'true' ? (itemtoadd.platform == 'Steam' ? 17 : itemtoadd.platform == 'Origin' ? 24 : itemtoadd.platform == 'Uplay' ? 19 : 40) : 40"
+                                            :placeholder="itemtoadd.platform == 'Steam' ? 'XXXXX-XXXXX-XXXXX' : itemtoadd.platform == 'Origin' ? 'XXXX-XXXX-XXXX-XXXX-XXXX' : 'XXXX-XXXX-XXXX-XXXX-XXXX'"
                                             v-model="itemtoadd.keys[i].key" :label="'Key '+parseInt(i+1)"
                                             :rules="[rules.max25chars,localStorage.Patterns == 'true' ? (itemtoadd.platform == 'Steam' ? rules.Steamkey : itemtoadd.platform == 'Origin' ? rules.Originkey : itemtoadd.platform == 'Uplay' ? rules.Uplaykey : rules.required):rules.required]"
                                             color="red" required @input="GetKeyFormat(itemtoadd,itemtoadd.keys[i].key)">

@@ -42,6 +42,7 @@ const router = new VueRouter({
 const store = new Vuex.Store({
   state: {
     dbupdated: false,
+    dbCleared: false,
     userdata: {
       username: localStorage.username,
       email: localStorage.email,

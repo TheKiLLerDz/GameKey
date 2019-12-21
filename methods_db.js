@@ -25,6 +25,34 @@ function getdata() {
 	getversiondb()
 }
 
+function ClearDB(resolve) {
+	if (store.state.steamkey.length > 0) {
+		store.state.steamkey.forEach(app => {
+			delgametagskeys(2, app.appid);
+		})
+		store.state.steamkey = [];
+	}
+	if (store.state.uplaykey.length > 0) {
+		store.state.uplaykey.forEach(app => {
+			delgametagskeys(3, app.appid);
+		})
+		store.state.uplaykey = [];
+	}
+	if (store.state.originkey.length > 0) {
+		store.state.originkey.forEach(app => {
+			delgametagskeys(0, app.appid);
+		})
+		store.state.originkey = [];
+	}
+	if (store.state.otherskey.length > 0) {
+		store.state.otherskey.forEach(app => {
+			delgametagskeys(1, app.appid);
+		})
+		store.state.otherskey = [];
+	}
+	resolve("success")
+}
+
 function DBupdated(versions) {
 	versions.app = JSON.parse(localStorage.getItem('version')).app;
 	localStorage.setItem('version', JSON.stringify(versions));
