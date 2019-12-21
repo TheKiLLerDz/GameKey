@@ -45,15 +45,18 @@ function Appupdated(version) {
 function UpdateDB(Apps, resolve) {
 	if (Apps.steam.length > 0)
 		Apps.steam.forEach(app => {
-			db.tables[2].put(app)
+			db.tables[2].put(app);
+			store.state.steam.push(app);
 		});
 	if (Apps.origin.length > 0)
 		Apps.origin.forEach(app => {
-			db.tables[0].put(app)
+			db.tables[0].put(app);
+			store.state.origin.push(app);
 		});
 	if (Apps.uplay.length > 0)
 		Apps.uplay.forEach(app => {
-			db.tables[3].put(app)
+			db.tables[3].put(app);
+			store.state.uplay.push(app);
 		});
 	resolve("Updated")
 }

@@ -273,7 +273,7 @@ v = new Vue({
           this.appupdated = true;
         }
     },
-    appupdated() {
+    appupdated(value) {
       if (!value) {
         store.state.notifications = [];
         getnotification(JSON.parse(localStorage.getItem('version')));
