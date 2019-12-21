@@ -76,7 +76,7 @@ function CreateDB() {
                         origin: 'appid,name',
                         uplay: 'appid,name',
                         others: 'appid,name',
-                        versions: 'app,origin,steam,uplay'
+                        versions: 'id++,app,origin,steam,uplay'
                     });
                     db.open();
                     const steam = await fetch(

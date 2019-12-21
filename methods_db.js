@@ -25,6 +25,39 @@ function getdata() {
 	getversiondb()
 }
 
+function DBupdated(versions) {
+	versions.app = JSON.parse(localStorage.getItem('version')).app;
+	localStorage.setItem('version', JSON.stringify(versions));
+	db.tables[4].where("id").equals(1).modify(d => {
+		d.steam = versions.steam;
+		d.origin = versions.origin;
+		d.uplay = versions.uplay;
+	});
+	store.state.dbupdated = true;
+}
+
+function Appupdated(version) {
+	db.tables[4].where("id").equals(1).modify(d => {
+		d.app = version;
+	});
+}
+
+function UpdateDB(Apps, resolve) {
+	if (Apps.steam.length > 0)
+		Apps.steam.forEach(app => {
+			db.tables[2].put(app)
+		});
+	if (Apps.origin.length > 0)
+		Apps.origin.forEach(app => {
+			db.tables[0].put(app)
+		});
+	if (Apps.uplay.length > 0)
+		Apps.uplay.forEach(app => {
+			db.tables[3].put(app)
+		});
+	resolve("Updated")
+}
+
 function getversiondb() {
 
 	db.tables[4].toArray().then(el => {

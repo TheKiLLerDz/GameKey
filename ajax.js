@@ -120,10 +120,23 @@ function updateDB(oldversion) {
   http.send(JSON.stringify(oldversion));
 
   http.onload = function () {
-    if (http.status == 200) {
-      var obj = JSON.parse(http.response);
-      store.state.updatedb = obj;
+    var promise = new Promise(function (resolve) {
+      obj = JSON.parse(http.response);
       console.log(obj);
-    }
+      UpdateDB({
+        steam: obj.steam.apps,
+        origin: obj.origin.apps,
+        uplay: obj.uplay.apps
+      }, resolve);
+    });
+    promise.then(
+      function (result) {
+        DBupdated({
+          steam: obj.steam.version,
+          origin: obj.origin.version,
+          uplay: obj.uplay.version
+        });
+      }
+    )
   }
 }

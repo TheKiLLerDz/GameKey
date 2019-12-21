@@ -101,7 +101,7 @@
                     <v-list class="py-0">
                         <v-list-tile v-for="(notification,i) in notifications" :key="i" @click="">
                             <v-list-tile-content>
-                                <v-list-tile-title v-text="notification.title"></v-list-tile-title>
+                                <v-list-tile-title @click="Update(i)" v-text="notification.title"></v-list-tile-title>
                             </v-list-tile-content>
                             <v-list-tile-action>
                                 <v-icon @click="ReadNotif(notification.title,i)" color="error">mdi-close</v-icon>
@@ -256,6 +256,21 @@
                     </v-btn>
                     <v-btn color="green darken-1" flat="flat" @click="RetryConnection()">
                         Try Again
+                    </v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
+        <v-dialog v-model="dbupdated" width="300" persistent @keydown.enter="store.state.dbupdated = false"
+            @keydown.esc="store.state.dbupdated = false">
+            <v-card>
+                <v-card-title class="headline green--text">DataBase Updated</v-card-title>
+                <v-card-text>
+                    Your DATABASE was Updated Successfully
+                </v-card-text>
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="green darken-1" flat="flat" @click="store.state.dbupdated = false">
+                        OK
                     </v-btn>
                 </v-card-actions>
             </v-card>

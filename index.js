@@ -41,6 +41,7 @@ const router = new VueRouter({
 
 const store = new Vuex.Store({
   state: {
+    dbupdated: false,
     userdata: {
       username: localStorage.username,
       email: localStorage.email,
@@ -197,8 +198,17 @@ v = new Vue({
     ReadNotif(title, index) {
       this.notifications.splice(index, 1);
     },
-    Update(item) {
-      this.notifications[item].type == 'ND' ? updateDB(JSON.parse(localStorage.getItem("version"))) : this.notifications[item].type == 'NA' ? console.log('very soon') : console.log('Link')
+    Update(index) {
+      switch (this.notifications[index].type) {
+        case 'ND':
+          updateDB(JSON.parse(localStorage.getItem("version")));
+          break;
+        case 'NA':
+          console.log('Comming soon')
+          break;
+        default:
+          console.log('Link')
+      }
     },
     getNotif() {
       if (store.state.updatedb.notifications != undefined)
@@ -215,6 +225,9 @@ v = new Vue({
     }
   },
   computed: {
+    dbupdated() {
+      return store.state.dbupdated
+    },
     updatedb() {
       return store.state.updatedb
     },
@@ -252,6 +265,12 @@ v = new Vue({
     })
   },
   watch: {
+    dbupdated(value) {
+      if (!value){
+        store.state.notifications=[];
+        getnotification(JSON.parse(localStorage.getItem('version')));
+      }
+    },
     updatedb() {
       this.getNotif();
     },
