@@ -82,7 +82,7 @@ v = new Vue({
   router,
   data: ({
     App: {
-      version: '1.0',
+      version: 1.0,
       year: '2019'
     },
     Launch: false,
@@ -163,7 +163,8 @@ v = new Vue({
     isDark: false,
     mini: false,
     windowWidth: 0,
-    Maximized: null
+    Maximized: null,
+    appupdated: false
   }),
   methods: {
     Minimize() {
@@ -265,9 +266,22 @@ v = new Vue({
     })
   },
   watch: {
+    Launch(value) {
+      if (value)
+        if (this.App.version > JSON.parse(localStorage.getItem('version')).app) {
+          Appupdated(this.App.version);
+          this.appupdated = true;
+        }
+    },
+    appupdated() {
+      if (!value) {
+        store.state.notifications = [];
+        getnotification(JSON.parse(localStorage.getItem('version')));
+      }
+    },
     dbupdated(value) {
-      if (!value){
-        store.state.notifications=[];
+      if (!value) {
+        store.state.notifications = [];
         getnotification(JSON.parse(localStorage.getItem('version')));
       }
     },

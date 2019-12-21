@@ -122,7 +122,6 @@ function updateDB(oldversion) {
   http.onload = function () {
     var promise = new Promise(function (resolve) {
       obj = JSON.parse(http.response);
-      console.log(obj);
       UpdateDB({
         steam: obj.steam.apps,
         origin: obj.origin.apps,

@@ -275,6 +275,21 @@
                 </v-card-actions>
             </v-card>
         </v-dialog>
+        <v-dialog v-model="appupdated" width="300" persistent @keydown.enter="appupdated = false"
+            @keydown.esc="appupdated = false">
+            <v-card>
+                <v-card-title class="headline green--text">GameKey Updated</v-card-title>
+                <v-card-text>
+                    Thanks for updating the App! HaveFun =)
+                </v-card-text>
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="green darken-1" flat="flat" @click="appupdated = false">
+                        OK
+                    </v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
     </v-app>
 </body>
 <script src="cdn/dexie.js"></script>
