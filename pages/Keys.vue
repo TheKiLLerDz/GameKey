@@ -427,8 +427,10 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                                         lazy-src="apps/undefined.gif" height="350px" contain>
                                         <v-expand-transition>
                                             <div v-if="hover"
-                                                class="d-flex transition-fast-in-fast-out orange darken-2 v-card--reveal display-3 white--text"
-                                                style="height: 100%;width:100%">{{moreinfo.Price}} $
+                                                :class="infoapp.platform == 'Origin' ? 'orange darken-2' : 'blue darken-2'"
+                                                class="d-flex unselectable transition-fast-in-fast-out v-card--reveal display-3 white--text"
+                                                style="height: 100%;width:100%">
+                                                {{gethover(infoapp)}}
                                             </div>
                                         </v-expand-transition>
                                     </v-img>
@@ -876,6 +878,12 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
             }
         },
         methods: {
+            gethover(app) {
+                if (app.platform == 'Steam')
+                    return this.moreinfo.Price + '$'
+                else
+                    return app.platform
+            },
             deletekeyjson(item, index) {
                 item.keys.splice(index, 1);
             },

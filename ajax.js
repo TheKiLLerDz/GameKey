@@ -94,6 +94,12 @@ function getinfo(item, resolve, reject) {
       } else reject("error");
     }
   } else {
+    store.state.moreinfo = {
+      Developer: 'Undefined',
+      Publisher: 'Undefined',
+      Genre: '',
+      Price: '0'
+    };
     resolve("success");
   }
 }
