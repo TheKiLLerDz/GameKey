@@ -522,16 +522,16 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
             <v-card>
                 <v-card-title class="headline">Import Keys</v-card-title>
                 <v-card-text>
-                    <h3 class="orange--text">Apps with orange Won't be added</h3>
+                    <h3 class="orange--text unselectable" style="text-align:center">Apps with orange Won't be added</h3>
                     <v-expansion-panel>
                         <v-expansion-panel-content v-for="(item,index) in importedapps" :key="index">
                             <template v-slot:actions>
                                 <v-icon color="primary">mdi-arrow-down-thick</v-icon>
                             </template>
-                            <template v-slot:header style='background-color:red'>
+                            <template v-slot:header>
                                 <v-layout fill-height align-center justify-center ma-0>
                                     <v-chip class='unselectable white--text'
-                                        :color="item.appid == '' ? 'orange' : 'blue'" dark>
+                                        :color="item.appid == '' || item.name == '' ? 'orange' : 'blue'" dark>
                                         {{index+1}}</v-chip>
                                     <v-text-field label="Appid" v-model="item.appid" @input="IDEdited(item)">
                                     </v-text-field>
