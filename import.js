@@ -63,10 +63,8 @@ function gettab(platform) {
 }
 
 function getappid(item) {
-  if ((item.platform != 'Steam' || item.platform == 'Other') && (item.platform != 'Other' || item
-      .platform == 'Steam')) return item.appid;
+  if ((item.platform != 'Steam' || item.platform == 'Other') && (item.platform != 'Other' || item.platform == 'Steam')) return item.appid;
   else return parseInt(item.appid);
-
 }
 
 function filtrer(tag, i) {
@@ -90,8 +88,6 @@ function getindex(platform, name) {
 
 function importtxt(Platform, path) {
   var linestr;
-  var index;
-  var word;
   let line;
   let lineNumber = 1;
   const lineByLine = require('./readlines.js');
