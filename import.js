@@ -42,10 +42,8 @@ ipcRenderer.on('Path-reply', (event, Paths, Platform) => {
     var extension = Paths[0].substring(indicSlash + 1).split(".");
     console.log(extension)
     extension[1] == 'txt' ? importtxt(Platform, Paths[0]) : extension[1] == 'xlsx' ? importxls(Platform, Paths[0]) : console.log("Format Not Supported")
-    // baseorxhr()
   }
 })
-
 
 function gettab(platform) {
   switch (platform) {
@@ -71,59 +69,19 @@ function getappid(item) {
 
 }
 
-function validateKey(key) {
-  // Pour vérifier j'ai utilisé pattern email
-
-  var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  return re.test(String(key).toLowerCase());
-}
-
 function filtrer(tag, i) {
   var el = document.createElement('div');
   el.innerHTML = tag
   var l = el.getElementsByTagName('a').item(0)
   var appid = l.attributes[1].value
   addtokeys(appid, i)
-
-
 }
-
-// function baseorxhr() {
-//   var i = 0;
-//   while (i < tagname.length) {
-//     var j = 0;
-//     var test = true
-//     while (j < store.state.steam.length & test) {
-//       if (tagname[i] == store.state.steam[j].name) {
-//         addtokeys(store.state.steam[j].appid, i)
-//         test = false;
-//       }
-//       j++
-//     }
-//     if (test) {
-//       sendData(i)
-//     }
-
-//     i++
-
-//   }
-
-//   addtodb();
-// }
-
 
 function addtokeys(appid, i) {
   keys.push({
     'key': key[i],
     'appid': appid
   })
-
-
-}
-
-function addtodb() {
-  console.log(keys)
-
 }
 
 function getindex(platform, name) {
@@ -207,43 +165,35 @@ function filters(Platform, linestr, lineNumber) {
 function importxls(Platform, path) {
   const readXlsxFile = require('read-excel-file/node');
   readXlsxFile(path).then((rows) => {
-    rows.forEach(el => {
+    rows.forEach(el =>
       filters(Platform, el.join(' '))
-    })
+    )
   })
-
 }
 
 function exportxlxs(platform) {
-  const {
-    dialog
-  } = require('electron').remote
-  var path = dialog.showSaveDialog({
-    properties: ['saveFile'],
-    title: "Choose Export Path",
-    filters: [{
-      name: 'Excel File',
-      extensions: ['xlsx']
-    }]
-  })
+  ipcRenderer.send('Export-request', platform);
+}
+
+ipcRenderer.on('Export-reply', (event, path) => {
+  console.log(path)
   if (path != undefined) {
     var json2xls = require('json2xls');
     var fs = require('fs')
     var appskey = []
     platform.forEach(app => {
       app.keys.forEach(key => {
-        var obj = {
+        appskey.push({
           name: app.name,
           key: key.key
-        }
-        appskey.push(obj)
+        })
       })
     })
 
     fs.writeFileSync(path, json2xls(appskey, {}), 'binary');
     return true
   } else return false
-}
+})
 
 function copyimg(url, to_url) {
   const fs = require('fs');
@@ -257,7 +207,7 @@ function deleteimg(path) {
   const fs = require('fs');
   try {
     fs.unlinkSync(path)
-    //img removed
+    console.log("success")
   } catch (err) {
     console.error(err)
   }

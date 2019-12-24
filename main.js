@@ -111,5 +111,19 @@ ipcMain.on('Path-request', (event, Platform) => {
     }).catch(err => {
         console.log(err)
     })
+})
 
+ipcMain.on('Export-request', (event, Platform) => {
+    dialog.showSaveDialog(mainwin,{
+        properties: ['saveFile'],
+        title: "Choose Export Path",
+        filters: [{
+          name: 'Excel File',
+          extensions: ['xlsx']
+        }]
+      }).then(result => {
+        if (!result.canceled) event.reply('Export-reply', result.filePath)
+    }).catch(err => {
+        console.log(err)
+    })
 })
