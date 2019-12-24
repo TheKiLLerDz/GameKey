@@ -138,64 +138,69 @@ function importtxt(Platform, path) {
   let lineNumber = 1;
   const lineByLine = require('./readlines.js');
   const liner = new lineByLine(path);
-  while (line = liner.next()) {
-    linestr = line.toString('ascii');
-    filters(Platform, linestr, lineNumber);
-    lineNumber++;
-  }
 
-
+  store.state.waitingdialog = true;
+  setTimeout(() => {
+    var promise = new Promise(function (resolve) {
+      while (line = liner.next()) {
+        linestr = line.toString('ascii');
+        filters(Platform, linestr, lineNumber);
+        lineNumber++;
+      }
+      resolve("success");
+    });
+    promise.then(
+      function (result) {
+        store.state.import = true;
+        store.state.waitingdialog = false;
+      })
+  }, 2000)
 }
 
 function filters(Platform, linestr, lineNumber) {
-  store.state.waitingdialog = true
-  setTimeout(() => {
-    store.state.import = true;
-    store.state.waitingdialog = false;
-    switch (Platform) {
-      case 'Steam':
-        keys = PatternKeySteam(linestr);
-        platform = store.state.steam;
-        pushplatform = store.state.steamkey;
-        break;
-      case 'Origin':
-        keys = PatternKeyOrigin(linestr);
-        platform = store.state.origin;
-        pushplatform = store.state.originkey;
-        break;
-      case 'Uplay':
-        keys = PatternKeyUplay(linestr);
-        platform = store.state.uplay;
-        pushplatform = store.state.uplaykey;
-        break;
+  switch (Platform) {
+    case 'Steam':
+      keys = PatternKeySteam(linestr);
+      platform = store.state.steam;
+      pushplatform = store.state.steamkey;
+      break;
+    case 'Origin':
+      keys = PatternKeyOrigin(linestr);
+      platform = store.state.origin;
+      pushplatform = store.state.originkey;
+      break;
+    case 'Uplay':
+      keys = PatternKeyUplay(linestr);
+      platform = store.state.uplay;
+      pushplatform = store.state.uplaykey;
+      break;
+  }
+  var obj = {
+    line: lineNumber,
+    name: '',
+    keys: []
+  }
+  gamename = linestr;
+  if (keys !== null) {
+    for (var i = 0; i < keys.length; i++) {
+      gamename = gamename.replace(keys[i], '');
+      obj.keys.push({
+        key: keys[i]
+      })
     }
-    var obj = {
-      line: lineNumber,
-      name: '',
-      keys: []
+    obj.name = gamename.replace(/(\r\n|\n|\r)/gm, '').trim();
+    var index = getindex(platform, obj.name)
+    if (index != -1) {
+      obj.name = platform[index].name;
+      obj.appid = platform[index].appid;
+      obj.platform = Platform;
+      store.state.importedapps.push(obj);
+    } else {
+      obj.appid = '';
+      obj.platform = Platform;
+      store.state.importedapps.push(obj);
     }
-    gamename = linestr;
-    if (keys !== null) {
-      for (var i = 0; i < keys.length; i++) {
-        gamename = gamename.replace(keys[i], '');
-        obj.keys.push({
-          key: keys[i]
-        })
-      }
-      obj.name = gamename.replace(/(\r\n|\n|\r)/gm, '').trim();
-      var index = getindex(platform, obj.name)
-      if (index != -1) {
-        obj.name = platform[index].name;
-        obj.appid = platform[index].appid;
-        obj.platform = Platform;
-        store.state.importedapps.push(obj);
-      } else {
-        obj.appid = '';
-        obj.platform = Platform;
-        store.state.importedapps.push(obj);
-      }
-    }
-  }, 2000);
+  }
   lineNumber++;
 }
 
@@ -208,11 +213,6 @@ function importxls(Platform, path) {
   })
 
 }
-
-
-// Readable Stream.
-
-
 
 function exportxlxs(platform) {
   const {

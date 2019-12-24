@@ -522,42 +522,37 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
             <v-card>
                 <v-card-title class="headline">Import Keys</v-card-title>
                 <v-card-text>
-                    Apps with orange Won't be added
-                    <v-data-table :items="importedapps" class="elevation-1" hide-actions hide-headers>
-                        <template v-slot:items="props">
-                            <td width="5%">
-                                <v-chip class='unselectable white--text'
-                                    :color="props.item.appid == '' ? 'orange' : 'blue'" dark>
-                                    {{props.index+1}}</v-chip>
-                            </td>
-                            <td width="10%">
-                                <v-text-field label="Appid" v-model="props.item.appid" @input="IDEdited(props.item)">
-                                </v-text-field>
-                            </td>
-                            <td width="45%">
-                                <v-combobox :items='appnames' v-model="props.item.name" @change="NameEdited(props.item)"
-                                    label="Name">
-                                </v-combobox>
-                            </td>
-                            <td width="40%">
-                                <v-text-field label="Keys" readonly
-                                    :value="props.item.keys.map(el => el.key).join('  ||  ')">
-                                </v-text-field>
-                            </td>
-                        </template>
-                    </v-data-table>
-                    <!--<table>
-                        <tr v-for="(index,i) in importedapps" :key="i">
-                            
-                            <td style="width : 30%">
-                            </td>
-                            <td style="width : 35%">
-                            </td>
-                            <td style="width : 30%">
-                                <v-text-field label="Key" v-model="index.keys[0].key"></v-text-field>
-                            </td>
-                        </tr>
-                    </table>!-->
+                    <h3 class="orange--text">Apps with orange Won't be added</h3>
+                    <v-expansion-panel>
+                        <v-expansion-panel-content v-for="(item,index) in importedapps" :key="index">
+                            <template v-slot:actions>
+                                <v-icon color="primary">mdi-arrow-down-thick</v-icon>
+                            </template>
+                            <template v-slot:header style='background-color:red'>
+                                <v-layout fill-height align-center justify-center ma-0>
+                                    <v-chip class='unselectable white--text'
+                                        :color="item.appid == '' ? 'orange' : 'blue'" dark>
+                                        {{index+1}}</v-chip>
+                                    <v-text-field label="Appid" v-model="item.appid" @input="IDEdited(item)">
+                                    </v-text-field>
+                                    <v-combobox :items='appnames' v-model="item.name" @change="NameEdited(item)"
+                                        label="Name">
+                                    </v-combobox>
+                                    <v-chip outline class='unselectable' :color="getColor(item.keys.length)" dark>
+                                        <v-icon left>mdi-key</v-icon>
+                                        {{item.keys.length}}
+                                    </v-chip>
+                                </v-layout>
+                            </template>
+                            <v-card>
+                                <v-card-text class="grey lighten-3">
+                                    <v-text-field label="Keys" readonly
+                                        :value="item.keys.map(el => el.key).join('  ||  ')">
+                                    </v-text-field>
+                                </v-card-text>
+                            </v-card>
+                        </v-expansion-panel-content>
+                    </v-expansion-panel>
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
@@ -908,7 +903,7 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                             default:
                                 item.keys[index].key = key
                         }
-                    }, 1)
+                    }, 0.5)
                 } else
                     item.keys[index].key = key
             },
