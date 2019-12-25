@@ -8,32 +8,32 @@ ipcRenderer.on('isMaximized', (event, value) => {
 
 var routes = [{
   path: '/',
-  component: httpVueLoader('./pages/Home.vue')
+  component: httpVueLoader('./templates/Home.vue')
 }, {
   path: '/keys',
-  component: httpVueLoader('./pages/Keys.vue')
+  component: httpVueLoader('./templates/Keys.vue')
 }, {
   path: '/keys/:searchvalue',
-  component: httpVueLoader('./pages/Keys.vue'),
+  component: httpVueLoader('./templates/Keys.vue'),
   props: true
 }, {
   path: '/steam',
-  component: httpVueLoader('./pages/Keys.vue')
+  component: httpVueLoader('./templates/Keys.vue')
 }, {
   path: '/origin',
-  component: httpVueLoader('./pages/Keys.vue')
+  component: httpVueLoader('./templates/Keys.vue')
 }, {
   path: '/uplay',
-  component: httpVueLoader('./pages/Keys.vue')
+  component: httpVueLoader('./templates/Keys.vue')
 }, {
   path: '/other',
-  component: httpVueLoader('./pages/Keys.vue')
+  component: httpVueLoader('./templates/Keys.vue')
 }, {
   path: '/settings',
-  component: httpVueLoader('./pages/Settings.vue')
+  component: httpVueLoader('./templates/Settings.vue')
 }, {
   path: '/about',
-  component: httpVueLoader('./pages/About.vue')
+  component: httpVueLoader('./templates/About.vue')
 }, ];
 const router = new VueRouter({
   routes
