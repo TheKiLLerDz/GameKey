@@ -148,8 +148,7 @@ new Vue({
         },
         AutoLogin(value) {
             localStorage.AutoLogin = value;
-            this.Loading = true;
-            if (value) this.Login(this.userdata)
+            if (value) this.accessLogin(this.userdata);
         },
         rememberme(value) {
             localStorage.rememberme = value;
