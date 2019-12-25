@@ -41,6 +41,11 @@ const router = new VueRouter({
 
 const store = new Vuex.Store({
   state: {
+    website: "http://127.0.0.1:3000",
+    App: {
+      version: '1.4',
+      year: '2019'
+    },
     dbupdated: false,
     dbCleared: false,
     userdata: {
@@ -82,10 +87,6 @@ v = new Vue({
   store,
   router,
   data: ({
-    App: {
-      version: '1.0',
-      year: '2019'
-    },
     Launch: false,
     loading: false,
     theme: 'theme--default',
@@ -227,6 +228,9 @@ v = new Vue({
     }
   },
   computed: {
+    App() {
+      return store.state.App
+    },
     dbupdated() {
       return store.state.dbupdated
     },
@@ -276,6 +280,9 @@ v = new Vue({
     },
     appupdated(value) {
       if (!value) {
+        versions = JSON.parse(localStorage.getItem('version'));
+        versions.app = this.App.version;
+        localStorage.setItem('version', JSON.stringify(versions));
         store.state.notifications = [];
         getnotification(JSON.parse(localStorage.getItem('version')));
       }

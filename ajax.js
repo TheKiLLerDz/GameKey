@@ -1,5 +1,4 @@
 var tagsapp;
-var website = "http://127.0.0.1:3000";
 http = new XMLHttpRequest();
 
 function tags(appid) {
@@ -20,7 +19,7 @@ function tags(appid) {
 }
 
 function ForgotPw(username, email, resolve, reject) {
-  http.open('POST', website + '/forgotpass', true)
+  http.open('POST', store.state.website + '/forgotpass', true)
   http.setRequestHeader('Content-Type', 'application/json;charset=UTF-8')
   json = {
     email: email,
@@ -38,7 +37,7 @@ function ForgotPw(username, email, resolve, reject) {
 }
 
 function testAPI(resolve, reject) {
-  var url = website;
+  var url = store.state.website;
   http.open('GET', url);
   http.send();
 
@@ -105,7 +104,7 @@ function getinfo(item, resolve, reject) {
 
 function getnotification(oldversion) {
 
-  http.open('POST', website + '/notification', true)
+  http.open('POST', store.state.website + '/notification', true)
   http.setRequestHeader('Content-Type', 'application/json;charset=UTF-8')
   http.send(JSON.stringify(oldversion));
 
@@ -120,7 +119,7 @@ function getnotification(oldversion) {
 }
 
 function updateDB(oldversion) {
-  http.open('POST', website + '/updatedb', true);
+  http.open('POST', store.state.website + '/updatedb', true);
   http.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
   http.send(JSON.stringify(oldversion));
 
