@@ -156,7 +156,7 @@ v = new Vue({
       },
       {
         title: 'About',
-        color: 'error',
+        color: '#CCCC00',
         icon: 'mdi-help-circle',
         link: '/about'
       }
