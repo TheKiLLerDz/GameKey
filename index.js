@@ -83,7 +83,7 @@ v = new Vue({
   router,
   data: ({
     App: {
-      version: 1.0,
+      version: '1.0',
       year: '2019'
     },
     Launch: false,
@@ -269,7 +269,7 @@ v = new Vue({
   watch: {
     Launch(value) {
       if (value)
-        if (this.App.version > JSON.parse(localStorage.getItem('version')).app) {
+        if (parseFloat(this.App.version) > parseFloat(JSON.parse(localStorage.getItem('version')).app)) {
           Appupdated(this.App.version);
           this.appupdated = true;
         }

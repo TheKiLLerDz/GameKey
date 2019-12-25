@@ -80,22 +80,22 @@ function CreateDB() {
                     });
                     db.open();
                     const steam = await fetch(
-                        'http://127.0.0.1:3000/steamdb.json');
+                        website + '/steamdb.json');
                     const steamjs = await steam.json();
                     db.steam.bulkPut(steamjs.applist);
 
                     const origin = await fetch(
-                        'http://127.0.0.1:3000/origindb.json');
+                        website + '/origindb.json');
                     const originjs = await origin.json();
                     db.origin.bulkPut(originjs.applist);
 
                     const uplay = await fetch(
-                        'http://127.0.0.1:3000/uplaydb.json');
+                        website + '/uplaydb.json');
                     const uplayjs = await uplay.json();
                     db.uplay.bulkPut(uplayjs.applist);
 
                     const version = await fetch(
-                        'http://127.0.0.1:3000/version.json');
+                        website + '/version.json');
                     const versionjs = await version.json();
                     console.log(versionjs);
                     db.versions.put(versionjs);
