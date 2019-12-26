@@ -16,8 +16,9 @@
                         <v-container fluid grid-list-lg>
                             <v-layout row wrap>
                                 <v-flex xs12 sm12 md12 lg12>
-                                    <v-text-field prepend-icon="mdi-account" :rules="[rules.required, rules.min4]"
-                                        color="red" label="Username" v-model="userdata.username" required>
+                                    <v-text-field prepend-icon="mdi-account"
+                                        :rules="[rules.required, rules.min4, rules.username]" color="red"
+                                        label="Username" v-model="userdata.username" required>
                                     </v-text-field>
                                 </v-flex>
                                 <v-flex xs12 sm6 md6 lg6>
@@ -193,6 +194,10 @@
                             /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
                         return pattern.test(value) || 'Invalid e-mail.'
                     },
+                    username: value => {
+                        const pattern = /^[a-z0-9_-]{3,15}$/igm
+                        return pattern.test(value) || 'Invalid username.'
+                    }
                 }
             }
         },

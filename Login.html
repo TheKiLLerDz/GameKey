@@ -99,9 +99,9 @@
                         <v-layout wrap>
                             <v-flex xs12 sm12 md12>
                                 <v-form ref="form" v-model="newacc.valid">
-                                    <v-text-field :rules="[rules.required, rules.min4]" prepend-inner-icon="mdi-account"
-                                        color="info" label="Username" v-model="newacc.username" dense rounded filled
-                                        required>
+                                    <v-text-field :rules="[rules.required, rules.min4, rules.username]"
+                                        prepend-inner-icon="mdi-account" color="info" label="Username"
+                                        v-model="newacc.username" dense rounded filled required>
                                     </v-text-field>
                                     <v-text-field :rules="[rules.required, rules.email]" prepend-inner-icon="mdi-email"
                                         color="info" label="Email" v-model="newacc.email" dense rounded filled required>
