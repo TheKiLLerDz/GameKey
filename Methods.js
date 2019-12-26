@@ -171,8 +171,7 @@ function exportxlxs(platform) {
   ipcRenderer.send('Export-request', platform);
 }
 
-ipcRenderer.on('Export-reply', (event, path) => {
-  console.log(path)
+ipcRenderer.on('Export-reply', (event, path, platform) => {
   if (path != undefined) {
     var json2xls = require('json2xls');
     var fs = require('fs')
@@ -180,15 +179,19 @@ ipcRenderer.on('Export-reply', (event, path) => {
     platform.forEach(app => {
       app.keys.forEach(key => {
         appskey.push({
-          name: app.name,
-          key: key.key
+          Name: app.name,
+          Key: key.key
         })
       })
     })
 
-    fs.writeFileSync(path, json2xls(appskey, {}), 'binary');
-    return true
-  } else return false
+    fs.writeFileSync(path, json2xls(appskey, {
+      fields: {
+        Name: 'string',
+        Key: 'string'
+      }
+    }), 'binary');
+  }
 })
 
 function copyimg(url, to_url) {
