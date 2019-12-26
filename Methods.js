@@ -161,9 +161,20 @@ function filters(Platform, linestr, lineNumber) {
 function importxls(Platform, path) {
   const readXlsxFile = require('read-excel-file/node');
   readXlsxFile(path).then((rows) => {
-    rows.forEach(el =>
-      filters(Platform, el.join(' '))
-    )
+    store.state.waitingdialog = true;
+    setTimeout(() => {
+      var promise = new Promise(function (resolve) {
+        rows.forEach(function (el, index) {
+          filters(Platform, el.join(' '), index + 1);
+        });
+        resolve("success");
+      });
+      promise.then(
+        function (result) {
+          store.state.import = true;
+          store.state.waitingdialog = false;
+        })
+    }, 2000)
   })
 }
 
