@@ -214,10 +214,12 @@
                                     <div class="text-xs-center body-2 text-uppercase unselectable">
                                         Connect With Us!
                                         <div>
-                                            <v-btn color="indigo" class="white--text" fab icon small round>
+                                            <v-btn color="indigo" class="white--text" @click="open('Facebook')" fab icon
+                                                small round>
                                                 <v-icon>mdi-facebook</v-icon>
                                             </v-btn>
-                                            <v-btn color="cyan" class="white--text" fab icon small round>
+                                            <v-btn color="cyan" class="white--text" @click="open('Twitter')" fab icon
+                                                small round>
                                                 <v-icon>mdi-twitter</v-icon>
                                             </v-btn>
                                         </div>

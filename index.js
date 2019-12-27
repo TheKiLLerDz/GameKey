@@ -41,8 +41,10 @@ const router = new VueRouter({
 
 const store = new Vuex.Store({
   state: {
-    website: "http://127.0.0.1:3000",
     App: {
+      website: "http://127.0.0.1:3000",
+      Facebook: "https://www.facebook.com/gamekeyapp",
+      Twitter: "",
       version: '1.4',
       year: '2019'
     },
@@ -169,6 +171,18 @@ v = new Vue({
     appupdated: false
   }),
   methods: {
+    open(Platform) {
+      var open = require("open");
+      switch (Platform) {
+        case 'Twitter':
+          link = store.state.App.Twitter;
+          break;
+        case 'Facebook':
+          link = store.state.App.Facebook;
+          break;
+      }
+      open(link);
+    },
     Minimize() {
       ipcRenderer.send('minimize-app');
     },

@@ -19,7 +19,7 @@ function tags(appid) {
 }
 
 function ForgotPw(username, email, resolve, reject) {
-  http.open('POST', store.state.website + '/forgotpass', true)
+  http.open('POST', store.state.App.website + '/forgotpass', true)
   http.setRequestHeader('Content-Type', 'application/json;charset=UTF-8')
   json = {
     email: email,
@@ -37,7 +37,7 @@ function ForgotPw(username, email, resolve, reject) {
 }
 
 function testAPI(resolve, reject) {
-  var url = store.state.website;
+  var url = store.state.App.website;
   http.open('GET', url);
   http.send();
 
@@ -104,7 +104,7 @@ function getinfo(item, resolve, reject) {
 
 function getnotification(oldversion) {
 
-  http.open('POST', store.state.website + '/notification', true)
+  http.open('POST', store.state.App.website + '/notification', true)
   http.setRequestHeader('Content-Type', 'application/json;charset=UTF-8')
   http.send(JSON.stringify(oldversion));
 
@@ -119,7 +119,7 @@ function getnotification(oldversion) {
 }
 
 function updateDB(oldversion) {
-  http.open('POST', store.state.website + '/updatedb', true);
+  http.open('POST', store.state.App.website + '/updatedb', true);
   http.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
   http.send(JSON.stringify(oldversion));
 
