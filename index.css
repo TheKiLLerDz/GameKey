@@ -406,6 +406,11 @@ html {
     box-shadow: 0 12px 20px -10px rgba(4, 38, 133, 0.5), 0 4px 20px 0 rgba(0, 0, 0, .12), 0 7px 8px -5px rgba(20, 8, 66, 0.5) !important;
 }
 
+.yellowcard {
+    background: linear-gradient(60deg, #e5cb35, #e5cb35) !important;
+    box-shadow: 0 12px 20px -10px rgba(182, 200, 21, 0.28), 0 4px 20px 0 rgba(164, 182, 8, 0.12), 0 7px 8px -5px rgba(160, 173, 38, 0.2) !important;
+}
+
 .v-toolbar__content {
     background: #2a3033;
 }
