@@ -579,7 +579,7 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
         <v-speed-dial v-model="fab" absolute bottom right fixed direction="left" transition="slide-y-transition"
             open-on-hover>
             <template v-slot:activator>
-                <v-btn v-model="fab" color="blue darken-2" dark fab>
+                <v-btn v-model="fab" dark fab>
                     <v-icon style="top : -11px">add</v-icon>
                     <v-icon style="top : -11px">close</v-icon>
                 </v-btn>
