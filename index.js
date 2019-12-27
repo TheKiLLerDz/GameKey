@@ -59,6 +59,8 @@ const store = new Vuex.Store({
     steam: [],
     notifications: [],
     version: {},
+    isDark: false,
+    theme: 'theme--default',
     steamkey: [],
     uplay: [],
     uplaykey: [],
@@ -89,7 +91,6 @@ v = new Vue({
   data: ({
     Launch: false,
     loading: false,
-    theme: 'theme--default',
     themes: [{
       name: 'Default Theme',
       color: 'success',
@@ -162,7 +163,6 @@ v = new Vue({
       }
     ],
     keys: true,
-    isDark: false,
     mini: false,
     windowWidth: 0,
     Maximized: null,
@@ -228,6 +228,22 @@ v = new Vue({
     }
   },
   computed: {
+    isDark: {
+      get: function () {
+        return store.state.isDark
+      },
+      set: function (newValue) {
+        store.state.isDark = newValue
+      }
+    },
+    theme: {
+      get: function () {
+        return store.state.theme
+      },
+      set: function (newValue) {
+        store.state.theme = newValue
+      }
+    },
     App() {
       return store.state.App
     },

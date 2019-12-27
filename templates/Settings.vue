@@ -71,10 +71,29 @@
                         </v-switch>
                         <v-switch color="purple" v-model="AutoLogin" :label="`AutoLogin : ${AutoLogin.toString()}`">
                         </v-switch>
+                    </v-layout>
+                    <v-layout fill-height align-center justify-center ma-0>
+                        <v-switch color='black' v-model="isDark"
+                            :label="isDark? 'Dark Mode is Switched : On' : 'Dark Mode is Switched : Off'">
+                        </v-switch>
+                        <div class="body-2 sidebar-filter unselectable">THEMES
+                        </div>
+                        <v-radio-group class="justify-center" v-model="theme" row>
+                            <v-tooltip top v-for="theme in themes" :key="theme.name">
+                                <v-radio slot="activator" :value="theme.class.toLowerCase()" :color="theme.color">
+                                </v-radio>
+                                <span>{{theme.name}}</span>
+                            </v-tooltip>
+                        </v-radio-group>
+                    </v-layout>
+                    <v-card-title class='greencard white--text unselectable' style="border-radius: 8px;">
+                        <h3>DataBase Settings</h3>
+                    </v-card-title>
+                    <v-card-text>
                         <v-btn color="error" @click="dbClearconfirm=true">
                             Delete DataBase
                         </v-btn>
-                    </v-layout>
+                    </v-card-text>
                 </v-card-text>
         </v-flex>
         <v-snackbar v-model="snack" :timeout="2000" :color="msg.color" absolute bottom left>
@@ -173,6 +192,27 @@
                     pw: '',
                     confirmation: ''
                 },
+                themes: [{
+                    name: 'Default Theme',
+                    color: 'success',
+                    class: 'theme--default',
+                }, {
+                    name: 'Green Theme',
+                    color: 'success',
+                    class: 'theme--green',
+                }, {
+                    name: 'Blue Theme',
+                    color: 'blue',
+                    class: 'theme--blue',
+                }, {
+                    name: 'Orange Theme',
+                    color: 'orange',
+                    class: 'theme--orange',
+                }, {
+                    name: 'Red Theme',
+                    color: 'red',
+                    class: 'theme--red',
+                }],
                 PWdialog: false,
                 avatar: [],
                 AutoLogin: false,
@@ -210,6 +250,12 @@
             },
             loading() {
                 setTimeout(() => (this.loading = false), 2000)
+            },
+            theme(mytheme) {
+                localStorage.theme = mytheme;
+            },
+            isDark(value) {
+                localStorage.Dark = value;
             }
         },
         methods: {
@@ -293,6 +339,22 @@
             this.Patterns = (localStorage.Patterns == 'true');
         },
         computed: {
+            isDark: {
+                get: function () {
+                    return store.state.isDark
+                },
+                set: function (newValue) {
+                    store.state.isDark = newValue
+                }
+            },
+            theme: {
+                get: function () {
+                    return store.state.theme
+                },
+                set: function (newValue) {
+                    store.state.theme = newValue
+                }
+            },
             dbCleared() {
                 return store.state.dbCleared
             }
