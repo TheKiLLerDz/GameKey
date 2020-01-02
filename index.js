@@ -79,7 +79,7 @@ const store = new Vuex.Store({
     others: [],
     otherskey: [],
     allkeys: [],
-    temp: {},
+    AvatarChanged: '',
     tempimport: undefined,
     import: false,
     waitingdialog: false,

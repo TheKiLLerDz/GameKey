@@ -252,8 +252,12 @@
             }
         },
         watch: {
+            AvatarChanged(value) {
+                console.log('changed');
+                this.userdata.avatar = value;
+            },
             AutoLogin(value) {
-                localStorage.AutoLogin = value
+                localStorage.AutoLogin = value;
             },
             Patterns(value) {
                 localStorage.Patterns = value;
@@ -270,11 +274,22 @@
         },
         methods: {
             addFile(e) {
-                console.log("Image Added");
-                if (e.target.files == undefined) {
-                    this.userdata.avatar = ([...e.dataTransfer.files])[0].path;
-                } else {
-                    this.userdata.avatar = e.target.files[0].path;
+                if (e.target.files == undefined)
+                    file = ([...e.dataTransfer.files])[0];
+                else
+                    file = e.target.files[0];
+
+                var URL = window.URL || window.webkitURL;
+
+                if (file) {
+                    var image = new Image();
+                    image.onload = function () {
+                        store.state.AvatarChanged = file.path;
+                    };
+                    image.onerror = function () {
+                        alert('Invalid image');
+                    };
+                    image.src = URL.createObjectURL(file);
                 }
             },
             save() {
@@ -282,13 +297,15 @@
                     if (this.userdata.avatar != localStorage.avatar) {
                         if (localStorage.avatar != '') deleteimg(localStorage.avatar);
                         if (this.userdata.avatar != '') {
-                            localStorage.avatar = ipcRenderer.sendSync('userData-Path') + '/avatar.' + this.userdata
+                            localStorage.avatar = ipcRenderer.sendSync('userData-Path') + '/' + Math.random()
+                                .toString(36).substring(7) + '.' + this
+                                .userdata
                                 .avatar.split('.')[this.userdata.avatar.split('.').length - 1];
-                            console.log(this.userdata.avatar + localStorage.avatar)
                             copyimg(this.userdata.avatar, localStorage.avatar);
                         } else localStorage.avatar = '';
                         setavatar(localStorage.avatar);
                         store.state.userdata.avatar = localStorage.avatar;
+                        this.userdata.avatar = localStorage.avatar;
                     }
                     if (this.userdata.username != store.state.userdata.username || this.userdata.email !=
                         store.state.userdata.email) {
@@ -345,6 +362,9 @@
             this.Patterns = (localStorage.Patterns == 'true');
         },
         computed: {
+            AvatarChanged() {
+                return store.state.AvatarChanged
+            },
             isDark: {
                 get: function () {
                     return store.state.isDark
