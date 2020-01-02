@@ -430,6 +430,62 @@ html {
     cursor: default
 }
 
-.filepond--root {
-    box-shadow: 0 10px 28px -10px rgba(0, 0, 0, .5), 0 4px 25px 0 rgba(0, 0, 0, .15), 0 10px 10px -5px rgba(0, 0, 0, .3);
+.imagebutton.imagebutton {
+    font-size: 1em;
+    width: 1.625em;
+    height: 1.625em;
+    font-family: inherit;
+    line-height: inherit;
+    margin: 0;
+    padding: 0;
+    border: none;
+    outline: none;
+    will-change: transform, opacity
+}
+
+.imagebutton.imagebutton span {
+    position: absolute;
+    overflow: hidden;
+    height: 1px;
+    width: 1px;
+    padding: 0;
+    border: 0;
+    clip: rect(1px, 1px, 1px, 1px);
+    -webkit-clip-path: inset(50%);
+    clip-path: inset(50%);
+    white-space: nowrap
+}
+
+.imagebutton.imagebutton svg {
+    width: 100%;
+    height: 100%
+}
+
+.imagebutton.imagebutton:after {
+    position: absolute;
+    left: -.75em;
+    right: -.75em;
+    top: -.75em;
+    bottom: -.75em;
+    content: ""
+}
+
+.imagebutton {
+    cursor: auto;
+    color: #fff;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, .5);
+    background-image: none;
+    box-shadow: 0 0 0 0 hsla(0, 0%, 100%, 0);
+    transition: box-shadow .25s ease-in
+}
+
+.imagebutton:focus,
+.imagebutton:hover {
+    box-shadow: 0 0 0 .125em hsla(0, 0%, 100%, .9)
+}
+
+.imagebutton[disabled] {
+    color: hsla(0, 0%, 100%, .5);
+    background-color: rgba(0, 0, 0, .25)
 }

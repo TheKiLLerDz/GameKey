@@ -2,13 +2,27 @@
     <v-layout row wrap>
         <v-flex md4 xs12>
             <v-card class="elevation-5" style="border-radius: 8px;">
-                <v-avatar class="mx-auto d-flex" size="200" style="margin-bottom: -40px;top:-40px;border-radius: 100%">
-                    <file-pond name="test" ref="pond"
-                        label-Idle="Drag & Drop your picture or <span class='filepond--label-action'>Browse</span>"
-                        image-Preview-Height='130' image-Crop-Aspect-Ratio='1:1' image-Resize-Target-Width=200,
-                        image-Resize-Target-Height=200, style-Panel-Layout="compact circle"
-                        style-Load-Indicator-Position="center bottom" style-Button-Remove-Item-Position='center bottom'
-                        accepted-file-types="image/*" :files="userdata.avatar" />
+                <v-avatar @drop.prevent="addFile" @dragover.prevent class="mx-auto d-flex" size="200"
+                    style="margin-bottom: -40px;top:-40px;border-radius: 100%;background-color:#F5F5F5">
+                    <v-img
+                        style="box-shadow: 0 10px 28px -10px rgba(0, 0, 0, .5), 0 4px 25px 0 rgba(0, 0, 0, .15), 0 10px 10px -5px rgba(0, 0, 0, .3);"
+                        :src="userdata.avatar" transition="fade-transition">
+                        <span style="position: absolute;left:5%;right:5%"
+                            :style="userdata.avatar=='' ? 'top:40%' : 'top:80%'">
+                            <span v-if="userdata.avatar==''">
+                                <input type="file" label="Upload" accept="image/*" buttonAfter='{uploadFileButton}'
+                                    ref="file" style="display: none" @change="addFile">
+                                Drag & Drop your picture or <span @click="$refs.file.click()"
+                                    style="text-decoration: underline;-webkit-text-decoration-skip: ink;text-decoration-skip-ink: auto;-webkit-text-decoration-color: #a7a4a4;text-decoration-color: #a7a4a4;cursor: pointer;">Browse</span></span>
+                            <button v-else @click="userdata.avatar=''" class="imagebutton" type="button"
+                                data-align="center bottom"
+                                style="transform: translate3d(0px, 0px, 0px) scale3d(1, 1, 1); opacity: 1;"><svg
+                                    width="26" height="26" viewBox="0 0 26 26">
+                                    <path
+                                        d="M11.586 13l-2.293 2.293a1 1 0 0 0 1.414 1.414L13 14.414l2.293 2.293a1 1 0 0 0 1.414-1.414L14.414 13l2.293-2.293a1 1 0 0 0-1.414-1.414L13 11.586l-2.293-2.293a1 1 0 0 0-1.414 1.414L11.586 13z"
+                                        fill="currentColor" fill-rule="nonzero"></path>
+                                </svg><span>Remove</span></button></span>
+                    </v-img>
                 </v-avatar>
                 <v-card-text class="text-xs-center">
                     <v-form v-model="forms.first">
@@ -170,10 +184,6 @@
 </template>
 <script>
     module.exports = {
-        components: {
-            FilePond: vueFilePond.default(FilePondPluginFileValidateType, FilePondPluginImagePreview,
-                FilePondPluginImageCrop, FilePondPluginImageResize)
-        },
         data() {
             return {
                 dbClearconfirm: false,
@@ -259,27 +269,27 @@
             }
         },
         methods: {
+            addFile(e) {
+                console.log("Image Added");
+                if (e.target.files == undefined) {
+                    this.userdata.avatar = ([...e.dataTransfer.files])[0].path;
+                } else {
+                    this.userdata.avatar = e.target.files[0].path;
+                }
+            },
             save() {
                 if (SHA1(this.oldpassword) == localStorage.password) {
-                    var avatarchanged = false;
-                    if (this.$refs.pond.getFiles().length > 0) {
-                        if (this.$refs.pond.getFiles()[0].source.path != null) {
-                            avatar = this.$refs.pond.getFiles()[0].source.path;
-                            if (localStorage.avatar != '') {
-                                deleteimg(localStorage.avatar);
-                            }
-                            localStorage.avatar = ipcRenderer.sendSync('userData-Path') + '/avatar.' + this.$refs
-                                .pond.getFiles()[0].fileExtension;
-                            copyimg(avatar, localStorage.avatar);
-                            avatarchanged = true;
-                        }
-                    } else if (localStorage.avatar != '') {
-                        deleteimg(localStorage.avatar);
-                        localStorage.avatar = '';
-                        avatarchanged = true;
+                    if (this.userdata.avatar != localStorage.avatar) {
+                        if (localStorage.avatar != '') deleteimg(localStorage.avatar);
+                        if (this.userdata.avatar != '') {
+                            localStorage.avatar = ipcRenderer.sendSync('userData-Path') + '/avatar.' + this.userdata
+                                .avatar.split('.')[this.userdata.avatar.split('.').length - 1];
+                            console.log(this.userdata.avatar + localStorage.avatar)
+                            copyimg(this.userdata.avatar, localStorage.avatar);
+                        } else localStorage.avatar = '';
+                        setavatar(localStorage.avatar);
+                        store.state.userdata.avatar = localStorage.avatar;
                     }
-                    if (avatarchanged) setavatar(localStorage.avatar);
-                    store.state.userdata.avatar = localStorage.avatar;
                     if (this.userdata.username != store.state.userdata.username || this.userdata.email !=
                         store.state.userdata.email) {
                         localStorage.username = this.userdata.username;
@@ -331,10 +341,6 @@
         },
         mounted() {
             this.userdata = JSON.parse(JSON.stringify(store.state.userdata));
-            if (this.userdata.avatar != '') {
-                this.userdata.avatar = 'avatar.cache';
-                copyimg(localStorage.avatar, this.userdata.avatar);
-            }
             this.AutoLogin = (localStorage.AutoLogin == 'true');
             this.Patterns = (localStorage.Patterns == 'true');
         },
@@ -358,10 +364,6 @@
             dbCleared() {
                 return store.state.dbCleared
             }
-        },
-        destroyed() {
-            if (this.userdata.avatar != '')
-                deleteimg(this.userdata.avatar);
         }
     }
 </script>
