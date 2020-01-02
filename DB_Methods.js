@@ -1,116 +1,116 @@
-var db;
-var data;
+var db, data;
 
 new Dexie('DATA').open().then(function (d) {
-    data = d;
+	data = d;
 })
 
 function setUserData(username, email) {
-    data.tables[0].where("id").equals(1).modify(d => {
-        d.username = username;
-        d.email = email;
-    });
-    console.log("account eddited successfully")
+	data.tables[0].where("id").equals(1).modify(d => {
+		d.username = username;
+		d.email = email;
+	});
+	console.log("account eddited successfully")
 }
 
 function setavatar(avatar) {
-    data.tables[0].where("id").equals(1).modify(d => {
-        d.avatar = avatar;
-    });
+	data.tables[0].where("id").equals(1).modify(d => {
+		d.avatar = avatar;
+	});
 }
 
 function addUserData(username, email, avatar, password) {
-    data.tables[0].put({
-        username: username,
-        email: email,
-        avatar: avatar,
-        password: password
-    })
-    console.log("account added to db successfully")
+	data.tables[0].put({
+		username: username,
+		email: email,
+		avatar: avatar,
+		password: password
+	})
+	console.log("account added to db successfully")
 }
 
 function UpdatePW(username, password) {
-    data.tables[0].where("id").equals(1).modify(d => {
-        d.password = password
-    });
-    console.log("PW Updated Successfully")
+	data.tables[0].where("id").equals(1).modify(d => {
+		d.password = password
+	});
+	console.log("PW Updated Successfully")
 }
 
 function getUserData(resolve, reject) {
-    Dexie.exists('DATA').then(async function (exists) {
-        if (!exists) {
-            var db = new Dexie('DATA');
-            db.version(1).stores({
-                Data: 'id++,username,email,avatar,password',
-            });
-            db.open();
-            data = db;
-            reject("DB Was Just Created");
-        } else {
-            new Dexie('DATA').open().then(function (d) {
-                data = d;
-                data.tables[0].toArray().then(el => {
-                    if (el.length > 0) {
-                        localStorage.username = el[0].username;
-                        localStorage.email = el[0].email;
-                        localStorage.avatar = el[0].avatar;
-                        localStorage.password = el[0].password;
-                        resolve("success");
-                    } else reject("account not created yet")
-                });
-            });
-        }
-    })
+	Dexie.exists('DATA').then(async function (exists) {
+		if (!exists) {
+			var db = new Dexie('DATA');
+			db.version(1).stores({
+				Data: 'id++,username,email,avatar,password',
+			});
+			db.open();
+			data = db;
+			reject("DB Was Just Created");
+		} else {
+			new Dexie('DATA').open().then(function (d) {
+				data = d;
+				data.tables[0].toArray().then(el => {
+					if (el.length > 0) {
+						localStorage.username = el[0].username;
+						localStorage.email = el[0].email;
+						localStorage.avatar = el[0].avatar;
+						localStorage.password = el[0].password;
+						resolve("success");
+					} else reject("account not created yet")
+				});
+			});
+		}
+	})
 }
 
 function CreateDB() {
-    var promise1 = new Promise(function (resolve, reject) {
-        testAPI(resolve, reject);
-    });
-    promise1.then(
-        function (result) {
-            Dexie.exists('GameKey_DB').then(async function (exists) {
-                if (!exists) {
-                    var db = new Dexie('GameKey_DB');
-                    db.version(1).stores({
-                        steam: 'appid,name',
-                        origin: 'appid,name',
-                        uplay: 'appid,name',
-                        others: 'appid,name',
-                        versions: 'id++,app,origin,steam,uplay'
-                    });
-                    db.open();
-                    const steam = await fetch(
-                        store.state.website + '/steamdb.json');
-                    const steamjs = await steam.json();
-                    db.steam.bulkPut(steamjs.applist);
+	var promise1 = new Promise(function (resolve, reject) {
+		testAPI(resolve, reject);
+	});
+	promise1.then(
+		function (result) {
+			Dexie.exists('GameKey_DB').then(async function (exists) {
+				if (!exists) {
+					var db = new Dexie('GameKey_DB');
+					db.version(1).stores({
+						steam: 'appid,name',
+						origin: 'appid,name',
+						uplay: 'appid,name',
+						others: 'appid,name',
+						versions: 'id++,app,origin,steam,uplay'
+					});
+					db.open();
+					const steam = await fetch(
+						store.state.App.website + '/steamdb.json');
+					const steamjs = await steam.json();
+					db.steam.bulkPut(steamjs.applist);
 
-                    const origin = await fetch(
-                        store.state.website + '/origindb.json');
-                    const originjs = await origin.json();
-                    db.origin.bulkPut(originjs.applist);
+					const origin = await fetch(
+						store.state.App.website + '/origindb.json');
+					const originjs = await origin.json();
+					db.origin.bulkPut(originjs.applist);
 
-                    const uplay = await fetch(
-                        store.state.website + '/uplaydb.json');
-                    const uplayjs = await uplay.json();
-                    db.uplay.bulkPut(uplayjs.applist);
+					const uplay = await fetch(
+						store.state.App.website + '/uplaydb.json');
+					const uplayjs = await uplay.json();
+					db.uplay.bulkPut(uplayjs.applist);
 
-                    const version = await fetch(
-                        store.state.website + '/version.json');
-                    const versionjs = await version.json();
-                    versionjs.app=store.state.App.version;
-                    console.log(versionjs);
-                    db.versions.put(versionjs);
-                }
-                opendb();
-            })
-        },
-        function (error) {
-            console.log('Check Your Connection! ');
-            store.state.checkconnection = true;
-        }
-    )
+					const version = await fetch(
+						store.state.App.website + '/version.json');
+					const versionjs = await version.json();
+					versionjs.app = store.state.App.version;
+					console.log(versionjs);
+					db.versions.put(versionjs);
+				}
+				opendb();
+			})
+		},
+		function (error) {
+			console.log('Check Your Connection! ');
+			store.state.checkconnection = true;
+		}
+	)
 }
+
 function opendb() {
 	Dexie.exists('GameKey_DB').then(function (exists) {
 		if (exists) {
@@ -129,11 +129,11 @@ function opendb() {
 }
 
 function getdata() {
-	getuplaybdd()
-	getoriginbdd()
-	getsteambdd()
-	getothersbdd()
-	getversiondb()
+	getSteamDB()
+	getUplayDB()
+	getOriginDB()
+	getOthersDB()
+	getVersionDB()
 }
 
 function ClearDB(resolve) {
@@ -200,8 +200,7 @@ function UpdateDB(Apps, resolve) {
 	resolve("Updated")
 }
 
-function getversiondb() {
-
+function getVersionDB() {
 	db.tables[4].toArray().then(el => {
 		store.state.updatedb = el[0];
 		localStorage.setItem('version', JSON.stringify(el[0]));
@@ -210,8 +209,7 @@ function getversiondb() {
 
 }
 
-function getsteambdd() {
-
+function getSteamDB() {
 	db.tables[2].toArray().then(el => {
 		store.state.steam = el;
 		store.state.steamkey = el.filter((e) => {
@@ -220,11 +218,9 @@ function getsteambdd() {
 		});
 		v.Launch = true;
 	});
-
 }
 
-function getuplaybdd() {
-
+function getUplayDB() {
 	db.tables[3].toArray().then(el => {
 		store.state.uplay = el;
 		store.state.uplaykey = el.filter((e) => {
@@ -234,8 +230,7 @@ function getuplaybdd() {
 	})
 }
 
-function getoriginbdd() {
-
+function getOriginDB() {
 	db.tables[0].toArray().then(el => {
 		store.state.origin = el;
 		store.state.originkey = el.filter((e) => {
@@ -245,8 +240,7 @@ function getoriginbdd() {
 	})
 }
 
-function getothersbdd() {
-
+function getOthersDB() {
 	db.tables[1].toArray().then(el => {
 		store.state.others = el;
 		store.state.otherskey = el.filter((e) => {
@@ -276,12 +270,37 @@ function addtradeorbeta(t, appid, key, tradedorbeta) {
 	})
 }
 
-function addkey(t, appidorname, key) {
-	if (typeof appidorname != "object") {
-		existorno(t, appidorname, key)
-		if (!exist) {
-			db.tables[t].where("appid").equals(appidorname).modify(game => {
-
+function addkey(t, appid, key) {
+	if (typeof t != 'string') {
+		db.tables[t].where("appid").equals(appid).modify(game => {
+			if (game.keys == undefined) {
+				game.keys = [{
+					'key': key
+				}];
+			} else {
+				game.keys.push({
+					'key': key
+				});
+			}
+		});
+	} else {
+		index = store.state.others.map(e => e.appid).indexOf(appid);
+		console.log('index : ' + index);
+		if (index == -1) {
+			db.tables[1].put({
+				appid: appid,
+				name: t,
+				keys: [{
+					key: key
+				}]
+			});
+			store.state.others.push({
+				appid: appid,
+				name: t,
+				platform: 'Other'
+			})
+		} else {
+			db.tables[1].where("appid").equals(appid).modify(game => {
 				if (game.keys == undefined) {
 					game.keys = [{
 						'key': key
@@ -293,54 +312,17 @@ function addkey(t, appidorname, key) {
 				}
 			});
 		}
-	} else {
-		game = store.state.others.filter(el => {
-			return el.name == appidorname.name
-		})
-		if (game.length == 0) {
-			if (!existorno(t, appidorname, key)) {
-				addappkey(t, appidorname, key)
-
-				store.state.others.push({
-					appid: appidorname.appid,
-					name: appidorname.name,
-					platform: 'Other'
-				})
-			}
-		} else {
-			addkey(t, game[0].appid, key)
-		}
-
-
 	}
-}
-
-function addappkey(t, appidandname, key) {
-	var obj = {
-		appid: appidandname.appid,
-		name: appidandname.name,
-		keys: [{
-			key: key
-		}]
-	}
-	db.tables[t].put(obj);
 }
 
 function updatetags(t, appid, tags) {
 	db.tables[t].where("appid").equals(appid).modify(game => {
 		game.tags = tags
 	});
-
 }
 
-
-
 function delkey(t, appid, key) {
-
-
-
 	db.tables[t].where("appid").equals(appid).modify(game => {
-
 		if (game.keys.length > 1) {
 			game.keys = game.keys.filter((el) => {
 				return el.key !== key;
@@ -348,99 +330,29 @@ function delkey(t, appid, key) {
 		} else {
 			delete game.keys
 		}
-
 	});
-
-
 }
 
-
-
-
 function delgametagskeys(t, appid) {
-
-
-
 	db.tables[t].where("appid").equals(appid).modify(game => {
-
 		delete game.keys
 		delete game.tags
-
-
 	})
 }
 
-
 function editkey(t, appid, okey, nkey) {
-
-
-
 	db.tables[t].where("appid").equals(appid).modify(game => {
-
 		for (var i = 0; i < game.keys.length; i++) {
 			if (game.keys[i].key == okey) {
 				game.keys[i].key = nkey
 				i = game.keys.length
 			}
-
 		}
-
 	});
-
-
 }
 
 function getappid(t, name) {
 	db.tables[t].where('name').equals(name).modify(game => {
-
 		return game.name
-
 	})
-}
-
-function getapp(t, idapp) {
-
-
-	db.tables[t].get(idapp).then(game => {
-
-		store.state.temp = game
-
-	})
-}
-
-function testappname(t, i) {
-
-	db.tables[t].where("name").equals(tagname[i]).modify(game => {
-		if (game != undefined) {
-			addtokeys(game.appid, i)
-			tagname = tagname.filter(el => {
-				return el != tagname[i]
-
-			})
-		}
-	})
-
-
-
-
-}
-var exist
-
-function existorno(t, appid, key) {
-
-	db.tables[t].where("appid").equals(appid).each(game => {
-
-
-		var i = 0;
-		exist = false;
-		while (i < game.keys.length & !exist & game.keys != undefined) {
-			if (game.keys[i].key == key) {
-
-				exist = true
-			}
-			i++
-		}
-
-	});
-
 }

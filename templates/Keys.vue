@@ -94,32 +94,6 @@
                                     <v-alert value="true" :color="getColor(props.item.keys.reduce(function (length, key) {
                                         if (key.trade && key.trade.value) return length; else return length + 1 }, 0))"
                                         outline>
-                                        <!-- start !--
-                                        <v-flex xs12 sm6>
-                                            <v-card>
-                                                <v-container fluid grid-list-md>
-                                                    <v-layout row wrap>
-                                                        <v-flex v-for="card in cards" :key="card.title">
-                                                            <v-card>
-                                                                <v-card-actions>
-                                                                    <v-spacer></v-spacer>
-                                                                    <v-btn icon>
-                                                                        <v-icon>favorite</v-icon>
-                                                                    </v-btn>
-                                                                    <v-btn icon>
-                                                                        <v-icon>bookmark</v-icon>
-                                                                    </v-btn>
-                                                                    <v-btn icon>
-                                                                        <v-icon>share</v-icon>
-                                                                    </v-btn>
-                                                                </v-card-actions>
-                                                            </v-card>
-                                                        </v-flex>
-                                                    </v-layout>
-                                                </v-container>
-                                            </v-card>
-                                        </v-flex>
-                                        <-- end !-->
                                         <table>
                                             <tr v-for="(index,i) in props.item.keys" :key="i.key" style="width:20%">
                                                 <td style="width:20%">
@@ -243,16 +217,17 @@
                         <v-form v-model="form">
                             <v-layout wrap>
                                 <v-flex xs12 sm12 md12>
-                                    <v-select required :items='platforms.map(e => e.name)' v-model="editedItem.platform"
+                                    <v-select :items='platforms.map(e => e.name)' v-model="editedItem.platform"
                                         label="Platform"
                                         @change="PlatformEdited(editedItem.platform);editedItem.name='';editedItem.appid=''"
-                                        :prepend-icon="editedItem.platform=='Steam'||editedItem.platform=='Origin' ? 'mdi-'+editedItem.platform.toLowerCase() : 'mdi-key'">
+                                        :prepend-icon="editedItem.platform=='Steam'||editedItem.platform=='Origin' ? 'mdi-'+editedItem.platform.toLowerCase() : editedItem.platform=='Uplay' ? 'mdi-ubisoft' :'mdi-key'"
+                                        required>
                                     </v-select>
                                 </v-flex>
                                 <v-flex xs4 sm4 md4>
                                     <v-text-field :rules="[v => !!v || 'This field is required']"
                                         :disabled="editedItem.platform=='Origin' || editedItem.platform=='Other'"
-                                        v-model="editedItem.appid" label="ID" @input="IDEdited(editedItem)">
+                                        v-model="editedItem.appid" label="ID" @input="IDEdited(editedItem)" required>
                                     </v-text-field>
                                 </v-flex>
                                 <v-flex xs8 sm8 md8>
@@ -331,11 +306,12 @@
                                         :items='platforms.map(e => e.name)' v-model="itemtoadd.platform"
                                         @change="PlatformEdited(itemtoadd.platform);itemtoadd.name='';itemtoadd.tags=[];itemtoadd.appid=''"
                                         :readonly="$route.path.includes('/keys') ? false : true" label="Platform"
-                                        :prepend-icon="itemtoadd.platform=='Steam'||itemtoadd.platform=='Origin' ? 'mdi-'+itemtoadd.platform.toLowerCase() : 'mdi-key'">
+                                        :prepend-icon="itemtoadd.platform=='Steam'||itemtoadd.platform=='Origin' ? 'mdi-'+itemtoadd.platform.toLowerCase() : itemtoadd.platform=='Uplay' ? 'mdi-ubisoft' :'mdi-key'">
                                     </v-select>
                                 </v-flex>
                                 <v-flex xs4 sm4 md4>
-                                    <v-text-field :rules="[v => !!v || 'This field is required']"
+                                    <v-text-field v-show="itemtoadd.platform!='Other'"
+                                        :rules="[v => !!v || 'This field is required']"
                                         :disabled="itemtoadd.platform=='Origin' || itemtoadd.platform=='Other'"
                                         v-model="itemtoadd.appid" label="ID" @input="IDEdited(itemtoadd)" required>
                                     </v-text-field>
@@ -401,8 +377,8 @@
                     tags : []
                 }">Cancel
                     </v-btn>
-                    <v-btn color="blue darken-1" flat :disabled="!form && itemtoadd.platform != 'Other' ? true : false"
-                        :loading="isAdding" @click="add(itemtoadd);isAdding = true">Add</v-btn>
+                    <v-btn color="blue darken-1" flat :disabled="!form" :loading="isAdding"
+                        @click="add(itemtoadd);isAdding = true">Add</v-btn>
                 </v-card-actions>
             </v-card>
         </v-dialog>
@@ -996,7 +972,7 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                         break;
                     case 'Other':
                         index = store.state.others.map(e => e.name).indexOf(item.name);
-                        if (index == -1) item.appid = ''
+                        if (index == -1) item.appid = item.name.toLowerCase().replace(/\s/gi, '-');
                         else item.appid = store.state.others[index].appid;
                         break;
                 }
@@ -1131,24 +1107,16 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                 this.editdialog = false;
             },
             add(app) {
-                if (gettab(app.platform) == 1 && app.appid == '') {
-                    for (var i = 0; i < app.keys.length; i++) {
-                        addkey(gettab(app.platform), {
-                            appid: this.apps.length,
-                            name: app.name
-                        }, app.keys[i].key);
+                console.log(getappid(app))
+                for (var i = 0; i < app.keys.length; i++)
+                    addkey(gettab(app.platform) == 1 ? app.name : gettab(app.platform), getappid(app), app.keys[i]
+                        .key);
 
-                    }
-                } else {
-                    for (var i = 0; i < app.keys.length; i++)
-                        addkey(gettab(app.platform), getappid(app), app.keys[i].key);
-                }
                 updatetags(gettab(app.platform), getappid(app), app.tags);
-
                 var index = this.getplatform(app.platform).map(e => e.appid).indexOf(getappid(app));
                 if (index == -1)
                     this.getplatform(app.platform).push({
-                        appid: app.platform == 'Other' ? this.apps.length : getappid(app),
+                        appid: getappid(app),
                         name: app.name,
                         keys: app.keys,
                         platform: app.platform,

@@ -49,22 +49,24 @@ function gettab(platform) {
   switch (platform) {
     case 'Steam':
       return 2
-      break;
     case 'Uplay':
       return 3
-      break;
     case 'Origin':
       return 0
-      break;
     case 'Other':
       return 1
-      break;
   }
 }
 
 function getappid(item) {
-  if ((item.platform != 'Steam' || item.platform == 'Other') && (item.platform != 'Other' || item.platform == 'Steam')) return item.appid;
-  else return parseInt(item.appid);
+  switch (item.platform) {
+    case 'Steam':
+      return parseInt(item.appid);
+    case 'Other':
+      return item.name.toLowerCase().replace(/\s/gi, '-');
+    default:
+      return item.appid;
+  }
 }
 
 function filtrer(tag, i) {
