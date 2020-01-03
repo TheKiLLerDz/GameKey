@@ -34,7 +34,7 @@
         </div>
         <v-toolbar dense app clipped-left :extended="Launch" height="33px" extension-height="50px"
             class="white--text unselectable">
-            <span style="width:100%;-webkit-app-region: drag;" id="demo">
+            <span style="width:100%;-webkit-app-region: drag;">
                 <div style="margin-left: 53%;">GameKey</div>
             </span>
             <v-spacer></v-spacer>
@@ -43,9 +43,10 @@
                 {{Maximized ? 'mdi-window-restore' : 'mdi-window-maximize'}}</v-icon>
             <v-icon color="white darken-3" class="menuicons closebutton" @click="Close()">mdi-close</v-icon>
             <template v-slot:extension v-if="Launch">
-                <v-icon></v-icon>
-                <v-toolbar-title class="ml-0 pl-3 unselectable"
-                    style="font-weight: bold;animation: animate 5s linear 2;font-family: 'Comic Sans MS', cursive, sans-serif">
+                <img src="icon.png" style="animation: animate 2s linear 1;width:40px;height:40px;" class="gamekey"
+                    @click="OpenWebsite()">
+                <v-toolbar-title class="ml-0 pl-3 unselectable gamekey gamekeytitle" @click="OpenWebsite()"
+                    style="font-weight: bold;font-family: 'Comic Sans MS', cursive, sans-serif">
                     GameKey
                 </v-toolbar-title>
                 <v-autocomplete v-if="$route.path=='/'" :loading="loading" :items="games" solo label="Search"
