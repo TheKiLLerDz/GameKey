@@ -544,7 +544,7 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                 </v-card-actions>
             </v-card>
         </v-dialog>
-        <v-dialog v-model="Exportdialog" width="50vw">
+        <v-dialog v-model="Exportdialog" width="50vw" @keydown.esc="Exportdialog = false">
             <v-card>
                 <v-card-title><span class="title font-weight-light orange--text unselectable"
                         style="text-align:center">Export Your Apps As :</span>
