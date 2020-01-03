@@ -241,6 +241,10 @@
             <h3 class="px-3 white--text">&copy; {{App.year}}</h3>
             <v-spacer></v-spacer>
             <h3 class="px-3 white--text">v {{App.version}}</h3>
+            <v-btn v-show="UpdateAvailable" color="warning" @click="OpenWebsite()" class="white--text">
+                Update App
+                <v-icon right dark>mdi-download</v-icon>
+            </v-btn>
         </v-footer>
         <v-dialog v-model="checkconnection" width="50vw" persistent @keydown.enter="RetryConnection()">
             <v-card>

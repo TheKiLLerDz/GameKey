@@ -45,8 +45,8 @@ const store = new Vuex.Store({
       website: "http://127.0.0.1:3000",
       Facebook: "https://www.facebook.com/gamekeyapp",
       Twitter: "",
-      version: '1.4',
-      year: '2019'
+      version: '1.5',
+      year: '2020'
     },
     dbupdated: false,
     dbCleared: false,
@@ -96,6 +96,7 @@ v = new Vue({
   store,
   router,
   data: ({
+    UpdateAvailable: false,
     Launch: false,
     loading: false,
     themes: [{
@@ -176,6 +177,9 @@ v = new Vue({
     appupdated: false
   }),
   methods: {
+    OpenWebsite() {
+      ipcRenderer.send('open-link', store.state.App.website);
+    },
     open(Platform) {
       switch (Platform) {
         case 'Twitter':
@@ -235,6 +239,8 @@ v = new Vue({
       if (store.state.updatedb.notifications != undefined)
         store.state.updatedb.notifications.forEach(el => {
           if (!el.value || el.value != 'true') {
+            if (el.type == 'NA') this.UpdateAvailable = true;
+            else this.UpdateAvailable = false;
             el.value = 'false';
             store.state.notifications.push(el);
           }
@@ -310,6 +316,7 @@ v = new Vue({
         if (parseFloat(this.App.version) > parseFloat(JSON.parse(localStorage.getItem('version')).app)) {
           Appupdated(this.App.version);
           this.appupdated = true;
+          this.UpdateAvailable = false;
         }
     },
     appupdated(value) {
