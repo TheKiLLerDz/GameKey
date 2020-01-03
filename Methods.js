@@ -4,6 +4,7 @@ var keys;
 var gamename;
 var platform;
 var pushplatform;
+const fs = require('fs');
 
 function PatternKeySteam(string) {
   var result = []
@@ -180,15 +181,40 @@ function importxls(Platform, path) {
   })
 }
 
-function exportxlxs(platform) {
-  ipcRenderer.send('Export-request', platform);
+function ExportApps(platform, type) {
+  if (type == "xslx")
+    ipcRenderer.send('xlsx-Export-request', platform);
+  else ipcRenderer.send('txt-Export-request', platform);
 }
 
-ipcRenderer.on('Export-reply', (event, path, platform) => {
+ipcRenderer.on('txt-Export-reply', (event, path, platform) => {
+  if (path != undefined) {
+    platform.forEach((app, index) => {
+      let ExportLine = app.name + ' ' + app.keys.map(e => e.key).join(" ") + "\n";
+      if (index == 0) fs.writeFile(path, ExportLine,
+        function (err) {
+          if (err) console.log(err);
+        })
+      else
+        fs.appendFile(path, ExportLine,
+          function (err) {
+            if (err) console.log(err);
+          })
+    })
+    SuccesExport();
+  }
+})
+
+function SuccesExport() {
+  store.state.msg.text = "Apps Exported successfully";
+  store.state.msg.color = 'green';
+  store.state.msg.value = true;
+}
+
+ipcRenderer.on('xlsx-Export-reply', (event, path, platform) => {
   if (path != undefined) {
     var json2xls = require('json2xls');
-    var fs = require('fs')
-    var appskey = []
+    var appskey = [];
     platform.forEach(app => {
       app.keys.forEach(key => {
         appskey.push({
@@ -204,11 +230,11 @@ ipcRenderer.on('Export-reply', (event, path, platform) => {
         Key: 'string'
       }
     }), 'binary');
+    SuccesExport();
   }
 })
 
 function copyimg(url, to_url) {
-  const fs = require('fs');
   fs.copyFile(url, to_url, (err) => {
     if (err) throw err;
     console.log("success")
@@ -216,7 +242,6 @@ function copyimg(url, to_url) {
 }
 
 function deleteimg(path) {
-  const fs = require('fs');
   try {
     fs.unlinkSync(path)
     console.log("success")

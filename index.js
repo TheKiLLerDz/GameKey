@@ -73,6 +73,11 @@ const store = new Vuex.Store({
       Genre: '',
       Price: '0'
     },
+    msg: {
+      text: '',
+      color: 'green',
+      value: false
+    },
     origin: [],
     updatedb: {},
     originkey: [],

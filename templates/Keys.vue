@@ -570,7 +570,7 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                 <span class="top">Add Key</span>
             </v-tooltip>
             <v-tooltip top>
-                <v-btn slot="activator" fab dark small color="green" @click='exportxlxs(apps)'>
+                <v-btn slot="activator" fab dark small color="green" @click='ExportApps(apps)'>
                     <v-icon>
                         mdi-export
                     </v-icon>
@@ -608,6 +608,23 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
             }
         },
         computed: {
+            hasSaved: {
+                get: function () {
+                    return store.state.msg.value;
+                },
+                set: function (newValue) {
+                    store.state.msg.value = newValue;
+                }
+            },
+            msg: {
+                get: function () {
+                    return store.state.msg;
+                },
+                set: function (newValue) {
+                    store.state.msg.text = newValue.text;
+                    store.state.msg.color = newValue.color;
+                }
+            },
             infodialog: {
                 get: function () {
                     return store.state.infodialog;
@@ -665,12 +682,7 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
         },
         data() {
             return {
-                msg: {
-                    text: '',
-                    color: 'green'
-                },
                 Keytochange: null,
-                hasSaved: false,
                 isAdding: false,
                 expand: false,
                 update: true,
@@ -906,11 +918,8 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                 impport(Platform);
                 this.PlatformEdited(Platform);
             },
-            exportxlxs(apps) {
-                if (exportxlxs(apps)) {
-                    this.msg.text = "Apps Exported successfully";
-                    this.hasSaved = true;
-                }
+            ExportApps(apps) {
+                ExportApps(apps, "txt");
             },
             gettags(item) {
                 index = store.state.steamkey.map(e => e.appid).indexOf(getappid(item));
@@ -1107,7 +1116,6 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                 this.editdialog = false;
             },
             add(app) {
-                console.log(getappid(app))
                 for (var i = 0; i < app.keys.length; i++)
                     addkey(gettab(app.platform) == 1 ? app.name : gettab(app.platform), getappid(app), app.keys[i]
                         .key);

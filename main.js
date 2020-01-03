@@ -113,7 +113,7 @@ ipcMain.on('Path-request', (event, Platform) => {
     })
 })
 
-ipcMain.on('Export-request', (event, Platform) => {
+ipcMain.on('xlsx-Export-request', (event, Platform) => {
     dialog.showSaveDialog(mainwin, {
         properties: ['saveFile'],
         title: "Choose Export Path",
@@ -122,7 +122,22 @@ ipcMain.on('Export-request', (event, Platform) => {
             extensions: ['xlsx']
         }]
     }).then(result => {
-        if (!result.canceled) event.reply('Export-reply', result.filePath, Platform)
+        if (!result.canceled) event.reply('xlsx-Export-reply', result.filePath, Platform)
+    }).catch(err => {
+        console.log(err)
+    })
+})
+
+ipcMain.on('txt-Export-request', (event, Platform) => {
+    dialog.showSaveDialog(mainwin, {
+        properties: ['saveFile'],
+        title: "Choose Export Path",
+        filters: [{
+            name: 'Text File',
+            extensions: ['txt']
+        }]
+    }).then(result => {
+        if (!result.canceled) event.reply('txt-Export-reply', result.filePath, Platform)
     }).catch(err => {
         console.log(err)
     })
