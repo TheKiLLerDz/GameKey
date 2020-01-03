@@ -619,7 +619,8 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                 <span class="top">Export Apps</span>
             </v-tooltip>
             <v-tooltip top>
-                <v-btn slot="activator" v-if="!$route.path.includes('/keys')" fab dark small color="orange"
+                <v-btn slot="activator" v-if="!$route.path.includes('/keys') && !$route.path.includes('/other') " fab
+                    dark small color="orange"
                     @click='impport(this.window.location.hash.slice(2).charAt(0).toUpperCase()+this.window.location.hash.slice(3))'>
                     <v-icon>
                         mdi-import
