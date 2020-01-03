@@ -554,7 +554,7 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                 <v-container class="pa-4 text-center">
                     <v-layout fill-height align-center justify-center ma-0>
                         <v-hover v-slot:default="{ hover }" style="margin:20px">
-                            <v-card :elevation="hover ? 12 : 2" :class="{ 'on-hover': hover }" color='yellow' dark
+                            <v-card :elevation="hover ? 12 : 2" :class="{ 'on-hover': hover }" color='#e5cb35' dark
                                 @click="ExportApps(apps,'txt')" width="40%">
                                 <v-card-title>
                                     <v-icon large left>
