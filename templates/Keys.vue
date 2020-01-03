@@ -544,6 +544,47 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                 </v-card-actions>
             </v-card>
         </v-dialog>
+        <v-dialog v-model="Exportdialog" width="50vw">
+            <v-card>
+                <v-card-title><span class="title font-weight-light orange--text unselectable"
+                        style="text-align:center">Export Your Apps As :</span>
+                    <v-spacer></v-spacer>
+                    <v-icon color="error" @click="Exportdialog = false">mdi-close</v-icon>
+                </v-card-title>
+                <v-container class="pa-4 text-center">
+                    <v-layout fill-height align-center justify-center ma-0>
+                        <v-hover v-slot:default="{ hover }" style="margin:20px">
+                            <v-card :elevation="hover ? 12 : 2" :class="{ 'on-hover': hover }" color='yellow' dark
+                                @click="ExportApps(apps,'txt')" width="40%">
+                                <v-card-title>
+                                    <v-icon large left>
+                                        mdi-note-text
+                                    </v-icon>
+                                    <span class="title font-weight-light">Text</span>
+                                </v-card-title>
+                                <v-card-text class="headline font-weight-bold">
+                                    Export As Text File
+                                </v-card-text>
+                            </v-card>
+                        </v-hover>
+                        <v-hover v-slot:default="{ hover }" style="margin:20px">
+                            <v-card :elevation="hover ? 12 : 2" :class="{ 'on-hover': hover }" color='green' dark
+                                @click="ExportApps(apps,'xslx')" width="40%">
+                                <v-card-title>
+                                    <v-icon large left>
+                                        mdi-file-excel-box
+                                    </v-icon>
+                                    <span class="title font-weight-light">Excel</span>
+                                </v-card-title>
+                                <v-card-text class="headline font-weight-bold">
+                                    Export As Excel File
+                                </v-card-text>
+                            </v-card>
+                        </v-hover>
+                    </v-layout>
+                </v-container>
+            </v-card>
+        </v-dialog>
         <v-dialog v-model="waitingdialog" hide-overlay persistent width="300">
             <v-card color="primary" dark>
                 <v-card-text>
@@ -570,7 +611,7 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                 <span class="top">Add Key</span>
             </v-tooltip>
             <v-tooltip top>
-                <v-btn slot="activator" fab dark small color="green" @click='ExportApps(apps)'>
+                <v-btn slot="activator" fab dark small color="green" @click="Exportdialog=true">
                     <v-icon>
                         mdi-export
                     </v-icon>
@@ -775,6 +816,7 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                 fling: false,
                 tabs: null,
                 form: false,
+                Exportdialog: false,
                 search: '',
                 appnames: [],
                 Itemtodelete: null,
@@ -918,8 +960,9 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                 impport(Platform);
                 this.PlatformEdited(Platform);
             },
-            ExportApps(apps) {
-                ExportApps(apps, "txt");
+            ExportApps(apps, type) {
+                this.Exportdialog = false;
+                ExportApps(apps, type);
             },
             gettags(item) {
                 index = store.state.steamkey.map(e => e.appid).indexOf(getappid(item));
