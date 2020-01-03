@@ -177,7 +177,6 @@ v = new Vue({
   }),
   methods: {
     open(Platform) {
-      var open = require("open");
       switch (Platform) {
         case 'Twitter':
           link = store.state.App.Twitter;
@@ -186,7 +185,7 @@ v = new Vue({
           link = store.state.App.Facebook;
           break;
       }
-      open(link);
+      ipcRenderer.send('open-link', link);
     },
     Minimize() {
       ipcRenderer.send('minimize-app');
@@ -226,10 +225,10 @@ v = new Vue({
           updateDB(JSON.parse(localStorage.getItem("version")));
           break;
         case 'NA':
-          console.log('Comming soon')
+          ipcRenderer.send('open-link', store.state.App.website);
           break;
         default:
-          console.log('Link')
+          ipcRenderer.send('open-link', this.notifications[index].link);
       }
     },
     getNotif() {

@@ -86,6 +86,11 @@ ipcMain.on('setSize', (event, width, height) => {
     mainwin.center();
 })
 
+ipcMain.on('open-link', (event, link) => {
+    var open = require("open");
+    open(link);
+})
+
 ipcMain.on('Path-request', (event, Platform) => {
     dialog.showOpenDialog(mainwin, {
         properties: ['openFile'],
