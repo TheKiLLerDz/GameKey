@@ -495,17 +495,41 @@ html {
 }
 
 .gamekey.gamekeytitle:hover {
+    mask-image: linear-gradient(-75deg, rgba(0, 0, 0, .6) 30%, #000 50%, rgba(0, 0, 0, .6) 70%);
+    mask-size: 200%;
     -webkit-mask-image: linear-gradient(-75deg, rgba(0, 0, 0, .6) 30%, #000 50%, rgba(0, 0, 0, .6) 70%);
     -webkit-mask-size: 200%;
-    animation: shine 2s infinite;
+    animation: fadeIn 2s infinite;
 }
 
-@-webkit-keyframes shine {
-    from {
-        -webkit-mask-position: 150%;
+@-webkit-keyframes fadeIn {
+    0% {
+        opacity: 0;
+        top: 100px;
     }
 
-    to {
-        -webkit-mask-position: -50%;
+    75% {
+        opacity: 0.5;
+        top: 0px;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        top: 100px;
+    }
+
+    75% {
+        opacity: 0.5;
+        top: 0px;
+    }
+
+    100% {
+        opacity: 1;
     }
 }
