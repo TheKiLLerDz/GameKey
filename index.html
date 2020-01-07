@@ -97,7 +97,7 @@
                         <span class="bottom">Notifications</span>
                     </v-tooltip>
                     <v-list class="py-0">
-                        <v-list-tile v-for="(notification,i) in notifications" :key="i" @click="">
+                        <v-list-tile class="notifications" v-for="(notification,i) in notifications" :key="i" @click="">
                             <v-list-tile-content>
                                 <v-list-tile-title @click="Update(i)" v-text="notification.title"></v-list-tile-title>
                             </v-list-tile-content>
