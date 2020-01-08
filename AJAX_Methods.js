@@ -1,6 +1,12 @@
 var tagsapp;
 http = new XMLHttpRequest();
 
+var App = {
+  website: "http://127.0.0.1:3000",
+  Facebook: "https://www.facebook.com/gamekeyapp",
+  Twitter: "",
+};
+
 function tags(appid) {
   tagsapp = [];
   var url = 'https://steamspy.com/api.php?request=appdetails&appid=' + appid;
@@ -19,7 +25,7 @@ function tags(appid) {
 }
 
 function ForgotPw(username, email, resolve, reject) {
-  http.open('POST', store.state.App.website + '/forgotpass', true)
+  http.open('POST', App.website + '/forgotpass', true)
   http.setRequestHeader('Content-Type', 'application/json;charset=UTF-8')
   json = {
     email: email,

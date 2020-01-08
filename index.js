@@ -42,9 +42,9 @@ const router = new VueRouter({
 const store = new Vuex.Store({
   state: {
     App: {
-      website: "http://127.0.0.1:3000",
-      Facebook: "https://www.facebook.com/gamekeyapp",
-      Twitter: "",
+      website: App.website,
+      Facebook: App.Facebook,
+      Twitter: App.Twitter,
       version: '1.5',
       year: '2020'
     },
