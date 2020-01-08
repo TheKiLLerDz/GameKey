@@ -46,6 +46,7 @@ const store = new Vuex.Store({
       Facebook: App.Facebook,
       Twitter: App.Twitter,
       Instagram: App.Instagram,
+      Patreon: App.Patreon,
       version: '1.0',
       year: '2020'
     },
@@ -191,6 +192,9 @@ v = new Vue({
           break;
         case 'Instagram':
           link = store.state.App.Instagram;
+          break;
+        case 'Patreon':
+          link = store.state.App.Patreon;
           break;
         default:
           link = store.state.App.website;
