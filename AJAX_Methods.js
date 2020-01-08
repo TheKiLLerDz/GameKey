@@ -4,7 +4,8 @@ http = new XMLHttpRequest();
 var App = {
   website: "http://127.0.0.1:3000",
   Facebook: "https://www.facebook.com/gamekeyapp",
-  Twitter: "",
+  Twitter: "https://www.twitter.com/gamekeyapp",
+  Instagram: "https://www.instagram.com/gamekeyapp",
 };
 
 function tags(appid) {

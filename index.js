@@ -45,7 +45,8 @@ const store = new Vuex.Store({
       website: App.website,
       Facebook: App.Facebook,
       Twitter: App.Twitter,
-      version: '1.5',
+      Instagram: App.Instagram,
+      version: '1.0',
       year: '2020'
     },
     dbupdated: false,
@@ -188,6 +189,11 @@ v = new Vue({
         case 'Facebook':
           link = store.state.App.Facebook;
           break;
+        case 'Instagram':
+          link = store.state.App.Instagram;
+          break;
+        default:
+          link = store.state.App.website;
       }
       ipcRenderer.send('open-link', link);
     },

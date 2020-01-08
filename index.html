@@ -221,6 +221,10 @@
                                                 small round>
                                                 <v-icon>mdi-twitter</v-icon>
                                             </v-btn>
+                                            <v-btn color="red" class="white--text" @click="open('Instagram')" fab icon
+                                                small round>
+                                                <v-icon>mdi-instagram</v-icon>
+                                            </v-btn>
                                         </div>
                                     </div>
                                 </v-flex>
@@ -241,7 +245,7 @@
         <v-footer app v-if="Launch" class="unselectable">
             <h3 class="px-3 white--text">&copy; {{App.year}}</h3>
             <v-spacer></v-spacer>
-            <h3 class="px-3 white--text">v {{App.version}}</h3>
+            <h3 class="px-3 white--text">v{{App.version}}</h3>
             <v-btn v-show="UpdateAvailable" color="warning" @click="OpenWebsite()" class="white--text">
                 Update App
                 <v-icon right dark>mdi-download</v-icon>
