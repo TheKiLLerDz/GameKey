@@ -413,20 +413,21 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                                 </v-hover>
                                 <v-flex xs7 lg4>
                                     <v-card-title primary-title>
-                                        <div height="50px">
-                                            <div class="headline">{{infoapp.name}}</div>
-                                            <div class="pa-2 ma-2">
-                                                <v-icon v-if="infoapp.platform=='Steam'" dense color='white'>mdi-steam
+                                        <div height="50px" style="font-weight: bold;font-size: 150%;">
+                                            <div style="font-size: 180%;" align="center">{{infoapp.name}}</div>
+                                            <div class="pa-2 ma-2 unselectable" align="center">
+                                                <v-icon large v-if="infoapp.platform=='Steam'" color='#1d2f54'>mdi-steam
                                                 </v-icon>
-                                                <v-icon v-else-if="infoapp.platform=='Uplay'" color='white'>
+                                                <v-icon large v-else-if="infoapp.platform=='Uplay'" color='#0e82cf'>
                                                     mdi-ubisoft
                                                 </v-icon>
-                                                <v-icon v-else-if="infoapp.platform=='Origin'" dense color='white'>
+                                                <v-icon large v-else-if="infoapp.platform=='Origin'" color='orange'>
                                                     mdi-origin
                                                 </v-icon>
-                                                <v-icon v-else-if="infoapp.platform=='Other'" dense color='white'>
-                                                    mdi-alert-circle
-                                                </v-icon> <span>{{infoapp.platform}}</span>
+                                                <v-icon large v-else-if="infoapp.platform=='Other'" color='success'>
+                                                    mdi-key
+                                                </v-icon> <span style="font-size: 160%;"
+                                                    :style="infoapp.platform=='Origin' ? 'color:orange' :infoapp.platform=='Other' ?'color:green':infoapp.platform=='Steam' ? 'color:#1d2f54':'color:#0e82cf'">{{infoapp.platform}}</span>
                                             </div>
                                             <div v-if="infoapp.platform=='Steam'">
                                                 <span>Developer : {{moreinfo.Developer}} </span><br>
@@ -436,21 +437,19 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                                                 </div>
                                                 <div>Genre : {{moreinfo.Genre}}</div>
                                             </div>
-                                            <h3 v-else>Info not Available</h3>
+                                            <h3 v-else align="center">Info not Available</h3>
                                         </div>
                                     </v-card-title>
                                 </v-flex>
                             </v-layout>
                             <v-divider light></v-divider>
                             <v-card-actions class="pa-3">
-                                <v-btn> More </v-btn>
+                                <v-btn :color="infoapp.platform == 'Origin' ? 'warning' : 'info'"
+                                    @click="open(infoapp.platform,infoapp.appid,infoapp.name)"
+                                    :disabled="infoapp.platform == 'Other'"> More </v-btn>
                                 <v-spacer></v-spacer>
-                                <v-btn color="success" class="white--text" round @click="this.infoapp= {
-                    Developer: 'Undefined',
-                    Publisher: 'Undefined',
-                    Genre: '',
-                    Price: '0'
-                };infodialog=!infodialog">
+                                <v-btn color="success" round @click="this.infoapp= {Developer: 'Undefined',Publisher: 'Undefined',
+                                Genre: '',Price: '0'};infodialog=!infodialog">
                                     Ok
                                 </v-btn>
                             </v-card-actions>
@@ -1078,6 +1077,24 @@ background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rg
                 }
             },
             doNothing() {},
+            open(platform, appid, appname) {
+                var link;
+                switch (platform) {
+                    case 'Steam':
+                        link = "https://store.steampowered.com/app/" + appid
+                        break;
+                    case 'Origin':
+                        link = "https://www.origin.com/en-us/search?searchString=" + appname
+                        break;
+                    case 'Uplay':
+                        link = "https://store.ubi.com/ie/" + appid + ".html"
+                        break;
+                    default:
+                        link = "https://www.google.com/search?q=" + appname
+                        break;
+                }
+                ipcRenderer.send('open-link', link);
+            },
             removetag(item, tag) {
                 item.tags.splice(item.tags.indexOf(tag), 1)
             },
