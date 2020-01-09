@@ -2,11 +2,11 @@ var tagsapp;
 http = new XMLHttpRequest();
 
 var App = {
-  website: "http://127.0.0.1:3000",
+  website: "http://127.0.0.1:3000", //https://gamekeyapp.com/
   Facebook: "https://www.facebook.com/gamekeyapp",
   Twitter: "https://www.twitter.com/gamekeyapp",
   Instagram: "https://www.instagram.com/gamekeyapp",
-  Patreon: "https://www.patreon.com/gamekey",
+  Patreon: "https://www.patreon.com/GameKeyApp",
 };
 
 function tags(appid) {
