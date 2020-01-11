@@ -147,7 +147,7 @@ new Vue({
     watch: {
         Loading(value) {
             if (value) {
-                setTimeout(() => (this.Loading = false), 2500)
+                setTimeout(() => (this.Loading = false), 3000)
             }
         },
         AutoLogin(value) {
