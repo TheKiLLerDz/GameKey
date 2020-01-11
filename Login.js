@@ -84,7 +84,7 @@ new Vue({
         Login(userdata) {
             this.Loading = true;
             setTimeout(() => {
-                if (userdata.username == localStorage.username && SHA1(userdata.password) == localStorage.password) {
+                if (userdata.username.toLowerCase() == localStorage.username.toLowerCase() && SHA1(userdata.password) == localStorage.password) {
                     if (this.rememberme) this.savedata();
                     ipcRenderer.send('access-app');
                 } else {
@@ -92,7 +92,7 @@ new Vue({
                     this.moreinfo = true;
                     this.deletedata();
                 }
-            }, 2500);
+            }, 3000);
         },
         savedata() {
             localStorage.savedusername = this.userdata.username;

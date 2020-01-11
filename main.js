@@ -2,8 +2,7 @@ const {
     app,
     BrowserWindow,
     ipcMain,
-    dialog,
-    screen
+    dialog
 } = require('electron')
 
 var mainwin, Loginwin;
@@ -26,22 +25,22 @@ function createAppWindow() {
 }
 
 function createLoginWindow() {
-    const {
-        width,
-        height
-    } = screen.getPrimaryDisplay().workAreaSize;
     Loginwin = new BrowserWindow({
-        width: width * 0.3,
+        width: 550,
         height: 685,
-        maxWidth: 950,
+        maxWidth: 550,
         maxHeight: 685,
         transparent: true,
         frame: false,
+        show: false,
         webPreferences: {
             nodeIntegration: true
         }
     })
-    Loginwin.loadURL('file://' + __dirname + '/Login.html')
+    Loginwin.loadURL('file://' + __dirname + '/Login.html');
+    setTimeout(() => {
+        Loginwin.show();
+    }, 800);
 }
 
 app.on('ready', createLoginWindow)
