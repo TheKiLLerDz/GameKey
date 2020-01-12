@@ -40,7 +40,7 @@ function createLoginWindow() {
     Loginwin.loadURL('file://' + __dirname + '/Login.html');
     setTimeout(() => {
         Loginwin.show();
-    }, 800);
+    }, 1000);
 }
 
 app.on('ready', createLoginWindow)
@@ -57,13 +57,14 @@ ipcMain.on('minimize-app', () => {
 
 ipcMain.on('access-app', () => {
     createAppWindow();
-    Loginwin.hide();
+    Loginwin.close();
+    Loginwin = null;
 })
 
 ipcMain.on('Log-Out', () => {
+    createLoginWindow();
     mainwin.close();
     mainwin = null;
-    createLoginWindow();
 })
 
 ipcMain.on('maximize-app', (event) => {
