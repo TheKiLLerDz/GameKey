@@ -77,8 +77,6 @@ ipcMain.on('isMaximized', (event) => {
 })
 
 ipcMain.on('close-app', () => {
-    if (mainwin != null) mainwin.close();
-    Loginwin.close();
     app.quit();
 })
 
