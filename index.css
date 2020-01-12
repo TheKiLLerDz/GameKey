@@ -17,6 +17,10 @@
     width: 400px;
 }
 
+.notifications:hover .v-list__tile__content div.v-list__tile__title {
+    color: white;
+}
+
 .notifications:hover {
     background: linear-gradient(60deg, #fb8c00, #ffa726) !important;
     box-shadow: 0 12px 20px -10px rgba(255, 152, 0, .28), 0 4px 20px 0 rgba(0, 0, 0, .12), 0 7px 8px -5px rgba(255, 152, 0, .2) !important;
