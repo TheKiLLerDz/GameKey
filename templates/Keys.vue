@@ -33,7 +33,8 @@
                         :single-expand="singleExpand" :expanded.sync="expanded" :pagination.sync="pagination"
                         show-expand ref="table" :expand="expand" item-key="appid">
                         <template slot="headerCell" slot-scope="{ header }">
-                            <span :class="($route.path=='/origin') ? 'orange--text' : 'blue--text'"
+                            <span
+                                :class="($route.path=='/origin') ? 'orange--text' : ($route.path=='/other') ? 'green--text' :'blue--text'"
                                 v-text="header.text" />
                         </template>
                         <template slot="items" slot-scope="props">
