@@ -12,8 +12,8 @@
                         About GameKey
                     </h1>
                 </v-card>
-                <v-card-text class="unselectable"
-                    style="color:#2F363D;font-size:1.8em;padding:20px;font-weight: medium;font-family: 'Comic Sans MS', cursive, sans-serif">
+                <v-card-text class="unselectable aboutsection"
+                    style="font-size:1.8em;padding:20px;font-weight: medium;font-family: 'Comic Sans MS', cursive, sans-serif">
                     <div>Sup gamers all around the globe ✌</div>
                     <div>This application was concieved to help users of all plateforms manage their keys more
                         easily without the need to be connected to the internet in all privacy and security.</div>

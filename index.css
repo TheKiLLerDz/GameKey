@@ -464,6 +464,14 @@ html {
     white-space: nowrap
 }
 
+.theme--dark .aboutsection {
+    color: white
+}
+
+.theme--light .aboutsection {
+    color: #2F363D
+}
+
 .imagebutton.imagebutton svg {
     width: 100%;
     height: 100%
