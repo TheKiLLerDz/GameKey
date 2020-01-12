@@ -32,7 +32,9 @@
                     </div>
                     <div>We hope our modest work helped getting your life a little bit easier, if you're
                         interested in supporting us please consider donating to <span @click="open('Patreon')"
-                            class="orange--text linktext">Patreon</span>.</div>
+                            class="orange--text linktext">Patreon</span>,<span @click="open('Paypal')"
+                            class="blue--text linktext"> Paypal</span> or <span @click="open('website')"
+                            class="green--text linktext">Check other donate methods on our website</span>.</div>
                     <div>Thank you for the support guys and stay tuned for more future projects! 😊😊😊</div>
                     <div align="center" class="linktext">
                         <span style="margin:20px;display: inline-block;font-family: 'Verdana', cursive, sans-serif;width: 250px;height: 250px;
@@ -61,6 +63,12 @@
                         break;
                     case 'Patreon':
                         link = store.state.App.Patreon;
+                        break;
+                    case 'donations':
+                        link = store.state.App.Donations;
+                        break;
+                    case 'Paypal':
+                        link = store.state.App.Paypal;
                         break;
                     default:
                         link = store.state.App.website;

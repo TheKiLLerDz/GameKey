@@ -47,6 +47,8 @@ const store = new Vuex.Store({
       Twitter: App.Twitter,
       Instagram: App.Instagram,
       Patreon: App.Patreon,
+      Donations: App.Donations,
+      Paypal: App.Paypal,
       version: '1.0',
       year: '2020'
     },
@@ -195,6 +197,12 @@ v = new Vue({
           break;
         case 'Patreon':
           link = store.state.App.Patreon;
+          break;
+        case 'donations':
+          link = store.state.App.Donations;
+          break;
+        case 'Paypal':
+          link = store.state.App.Paypal;
           break;
         default:
           link = store.state.App.website;

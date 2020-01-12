@@ -7,6 +7,8 @@ var App = {
   Twitter: "https://www.twitter.com/gamekeyapp",
   Instagram: "https://www.instagram.com/gamekeyapp",
   Patreon: "https://www.patreon.com/GameKeyApp",
+  Donations:"https://donations.gamekeyapp.com/",
+  Paypal:"https://paypal.gamekeyapp.com/",
 };
 
 function tags(appid) {
