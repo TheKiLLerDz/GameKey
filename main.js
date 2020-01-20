@@ -7,7 +7,8 @@ const {
 
 var mainwin, Loginwin;
 
-app.setPath('userData', app.getPath('home') + '\\OneDrive\\GameKey')
+var isWin = process.platform === "win32";
+if (isWin) app.setPath('userData', app.getPath('home') + '\\OneDrive\\GameKey')
 
 function createAppWindow() {
     mainwin = new BrowserWindow({
@@ -17,7 +18,7 @@ function createAppWindow() {
         frame: false,
         webPreferences: {
             nodeIntegration: true,
-            //devTools: false
+            devTools: false
         }
     })
 
@@ -34,7 +35,8 @@ function createLoginWindow() {
         frame: false,
         show: false,
         webPreferences: {
-            nodeIntegration: true
+            nodeIntegration: true,
+            devTools: false
         }
     })
     Loginwin.loadURL('file://' + __dirname + '/Login.html');

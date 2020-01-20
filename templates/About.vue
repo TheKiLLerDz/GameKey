@@ -14,8 +14,8 @@
                 </v-card>
                 <v-card-text class="unselectable aboutsection"
                     style="font-size:1.8em;padding:20px;font-weight: medium;font-family: 'Comic Sans MS', cursive, sans-serif">
-                    <div>Sup gamers all around the globe ✌</div>
-                    <div>This application was concieved to help users of all plateforms manage their keys more
+                    <div>Sup Traders / Gamers all around the globe ✌</div>
+                    <div>This application was concieved to help users of all platforms to manage their keys more
                         easily without the need to be connected to the internet in all privacy and security.</div>
                     <div>If you like the app why don't you show us some love down bellow :
                         <span>
@@ -33,14 +33,33 @@
                     <div>We hope our modest work helped getting your life a little bit easier, if you're
                         interested in supporting us please consider donating to <span @click="open('Patreon')"
                             class="orange--text linktext">Patreon</span>,<span @click="open('Paypal')"
-                            class="blue--text linktext"> Paypal</span> or <span @click="open('website')"
-                            class="green--text linktext">Check other donate methods on our website</span>.</div>
+                            class="blue--text linktext"> PayPal</span> or <span @click="open('website')"
+                            class="green--text linktext">Check other donation methods on our website</span>.</div>
                     <div>Thank you for the support guys and stay tuned for more future projects! 😊😊😊</div>
-                    <div align="center" class="linktext">
+                    <div align="left">
+                        <v-divider style="margin:10px" color="orange"></v-divider>
+                        <div>
+                            GameKey was Developed by :</div>
+                        <div>
+                            <v-icon color="orange">mdi-star</v-icon><span class="blue--text"> Agaba Ramzi</span>
+                            (TheKiLLerDz)
+                        </div>
+                        <div>
+                            <v-icon color="orange">mdi-star</v-icon><span class="blue--text"> Malah Mehdi</span>
+                        </div>
+                    </div>
+                    <div align="center">
+                        <v-tooltip top>
+                            <img slot="activator" class="unselectable" style="width:200px;border-radius:50%"
+                                src="flag.jpg" alt="Dz">
+                            <span class="top">Algeria (Dz)</span>
+                        </v-tooltip>
+                    </div>
+                    <div align="center">
                         <span style="margin:20px;display: inline-block;font-family: 'Verdana', cursive, sans-serif;width: 250px;height: 250px;
         text-align: center;border-radius: 50px;color: #fff;font-weight: bold;font-size: 140px;line-height: 250px;vertical-align: middle;
         background: #ee7752;background-image: linear-gradient(to right top, #ff25a1, #d200b3, #9213c3, #7942dc, #565ef0, #009fff, #5ffbf1);
-        box-shadow: 0px 3px 10px rgba(0, 0, 0, .25);" @click="open()">GK</span>
+        box-shadow: 0px 3px 10px rgba(0, 0, 0, .25);" class="linktext" @click="open()">GK</span>
                     </div>
                 </v-card-text>
 </template>
@@ -69,6 +88,12 @@
                         break;
                     case 'Paypal':
                         link = store.state.App.Paypal;
+                        break;
+                    case 'OpenCollective':
+                        link = store.state.App.OpenCollective;
+                        break;
+                    case 'Steam':
+                        link = store.state.App.Steam;
                         break;
                     default:
                         link = store.state.App.website;

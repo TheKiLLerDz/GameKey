@@ -2,13 +2,15 @@ var tagsapp;
 http = new XMLHttpRequest();
 
 var App = {
-  website: "http://gamekeyapp.com",
+  website: "https://gamekeyapp.com",
   Facebook: "https://www.facebook.com/gamekeyapp",
   Twitter: "https://www.twitter.com/gamekeyapp",
   Instagram: "https://www.instagram.com/gamekeyapp",
   Patreon: "https://www.patreon.com/GameKeyApp",
-  Donations:"http://donations.gamekeyapp.com/",
-  Paypal:"http://paypal.gamekeyapp.com/",
+  OpenCollective: "https://opencollective.com/gamekeyapp",
+  Donations: "https://gamekeyapp.com/#donations",
+  Paypal: "https://gamekeyapp.com/paypal",
+  Steam: "https://steamcommunity.com/groups/GameKeyApp",
 };
 
 function tags(appid) {

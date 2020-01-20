@@ -49,6 +49,8 @@ const store = new Vuex.Store({
       Patreon: App.Patreon,
       Donations: App.Donations,
       Paypal: App.Paypal,
+      OpenCollective: App.OpenCollective,
+      Steam: App.Steam,
       version: '1.0',
       year: '2020'
     },
@@ -163,7 +165,7 @@ v = new Vue({
       },
       {
         title: 'Settings',
-        color: '#0e82cf',
+        color: 'orange',
         icon: 'mdi-settings',
         link: '/settings'
       },

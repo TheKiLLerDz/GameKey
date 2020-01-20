@@ -178,9 +178,10 @@
                         </v-list-tile-content>
                     </v-list-tile>
                 </v-list>
-                <div @click="open('donations')" style="position: relative;top:20px;text-align: center;font-size:1.8em;font-weight: bold;font-family: 'Comic Sans MS', cursive, sans-serif"
-                            class="orange--text linktext">
-                            <span v-if="!mini">Donate</span><span v-else>D</span></div>
+                <div @click="open('donations')"
+                    style="position: relative;top:20px;text-align: center;font-size:1.8em;font-weight: bold;font-family: 'Comic Sans MS', cursive, sans-serif"
+                    class="orange--text linktext">
+                    <span v-if="!mini">Donate</span><span v-else>D</span></div>
             </div>
         </v-navigation-drawer>
         <v-content :style="isDark ? '' : 'background-color: #eee'" v-if="Launch">
@@ -246,7 +247,8 @@
             <div class="pa-2 ma-2 update">{{notification.title}}</div>
         </v-snackbar>
         <v-footer app v-if="Launch" class="unselectable">
-            <h3 class="px-3 white--text">&copy; {{App.year}}</h3>
+            <h3 class="px-2 white--text">&copy; {{App.year}}</h3><h4 class="white--text">GameKeyApp. All Rights
+                Reserved.</h4>
             <v-spacer></v-spacer>
             <h3 class="px-3 white--text">v{{App.version}}</h3>
             <v-btn v-show="UpdateAvailable" color="warning" @click="OpenWebsite()" class="white--text">
