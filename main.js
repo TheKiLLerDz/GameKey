@@ -1,125 +1,148 @@
-var routes = [{
-  path: '/',
-  component: httpVueLoader('./pages/Home.vue')
-}, {
-  path: '/keys',
-  component: httpVueLoader('./pages/Keys.vue')
-}, {
-  path: '/steam',
-  component: httpVueLoader('./pages/Keys.vue')
-}, {
-  path: '/origin',
-  component: httpVueLoader('./pages/Keys.vue')
-}, {
-  path: '/uplay',
-  component: httpVueLoader('./pages/Keys.vue')
-}, {
-  path: '/other',
-  component: httpVueLoader('./pages/Keys.vue')
-}, {
-  path: '/settings',
-  component: httpVueLoader('./pages/Settings.vue')
-}, {
-  path: '/about',
-  component: httpVueLoader('./pages/About.vue')
-}, ];
-const router = new VueRouter({
-  routes
-});
+const {
+    app,
+    BrowserWindow,
+    ipcMain,
+    dialog
+} = require('electron')
 
-const store = new Vuex.Store({
-  state: {
-    finished: false,
-    steam: [],
-    steamkey: [],
-    uplay: [],
-    uplaykey: [],
-    origin: [],
-    originkey: [],
-    otherskey: [],
-    allkeys: [],
-    temp: {},
-  },
+var mainwin, Loginwin;
+
+app.setPath('userData', app.getPath('home') + '\\OneDrive\\GameKey')
+
+function createAppWindow() {
+    mainwin = new BrowserWindow({
+        minWidth: 800,
+        minHeight: 600,
+        //transparent: true,
+        frame: false,
+        webPreferences: {
+            nodeIntegration: true,
+            //devTools: false
+        }
+    })
+
+    mainwin.loadURL('file://' + __dirname + '/index.html')
+}
+
+function createLoginWindow() {
+    Loginwin = new BrowserWindow({
+        width: 550,
+        height: 685,
+        maxWidth: 550,
+        maxHeight: 685,
+        transparent: true,
+        frame: false,
+        show: false,
+        webPreferences: {
+            nodeIntegration: true
+        }
+    })
+    Loginwin.loadURL('file://' + __dirname + '/Login.html');
+    setTimeout(() => {
+        Loginwin.show();
+    }, 1000);
+}
+
+app.on('ready', createLoginWindow)
+
+ipcMain.on('userData-Path', (event) => {
+    event.returnValue = app.getPath('userData').replace(/\\/g, '/');
 })
-v = new Vue({
-  store,
-  router,
-  data: ({
-    loading: false,
-    games: [],
-    theme: '',
-    themes: [{
-        name: 'Dark Theme',
-        color: 'dark',
-        class: 'theme--dark',
-      },
-      {
-        name: 'Light Theme',
-        color: 'success',
-        class: 'theme--light',
-      }, {
-        name: 'Blue Theme',
-        color: 'blue',
-        class: 'theme--blue',
-      }
-    ],
-    selected: null,
-    search: null,
-    settingstab: false,
-    show: true,
-    items: [{
-        title: 'Home',
-        icon: 'mdi-home',
-        link: '/'
-      }, {
-        title: 'All Keys',
-        icon: 'mdi-key',
-        link: '/keys'
-      }, {
-        title: 'Steam',
-        icon: 'mdi-steam',
-        link: '/steam'
-      }, {
-        title: 'Uplay',
-        icon: 'mdi-ubisoft',
-        link: '/uplay'
-      },
-      {
-        title: 'Origin',
-        icon: 'mdi-origin',
-        link: '/origin'
-      },
-      {
-        title: 'Other',
-        icon: 'mdi-alert-circle',
-        link: '/other'
-      },
-      {
-        title: 'Settings',
-        icon: 'mdi-settings',
-        link: '/settings'
-      },
-      {
-        title: 'About',
-        icon: 'mdi-help-circle',
-        link: '/about'
-      }
-    ],
-    mini: false,
-    keys: true,
-    isDark: true,
-  }),
-  beforeCreate() {
-    getdata()
-  },
-  mounted() {
-    this.games = store.state.steamkey.concat(store.state.uplaykey.concat(store.state.originkey
-      .concat(store.state.otherskey)));
-    if (localStorage.theme) this.theme = localStorage.theme;
-  },
-  watch: {
-    theme(mytheme) {
-      localStorage.theme = mytheme;
-    }
-  }
+
+ipcMain.on('minimize-app', () => {
+    if (mainwin != null)
+        mainwin.minimize();
+    else Loginwin.minimize();
+})
+
+ipcMain.on('access-app', () => {
+    createAppWindow();
+    Loginwin.close();
+    Loginwin = null;
+})
+
+ipcMain.on('Log-Out', () => {
+    createLoginWindow();
+    mainwin.close();
+    mainwin = null;
+})
+
+ipcMain.on('maximize-app', (event) => {
+    mainwin.isMaximized() ? mainwin.unmaximize() : mainwin.maximize();
+    event.reply('isMaximized', mainwin.isMaximized())
+})
+
+ipcMain.on('isMaximized', (event) => {
+    event.reply('isMaximized', mainwin.isMaximized())
+})
+
+ipcMain.on('close-app', () => {
+    app.quit();
+})
+
+ipcMain.on('setSize', (event, width, height) => {
+    mainwin.setSize(width, height);
+    mainwin.center();
+})
+
+ipcMain.on('open-link', (event, link) => {
+    var open = require("open");
+    open(link);
+})
+
+ipcMain.on('Path-request', (event, Platform) => {
+    dialog.showOpenDialog(mainwin, {
+        properties: ['openFile'],
+        filters: [{
+                name: 'Supported Files',
+                extensions: ['txt', 'xlsx']
+            },
+            {
+                name: 'Text Files',
+                extensions: ['txt']
+            },
+            {
+                name: 'Excel Files',
+                extensions: ['xlsx']
+            },
+            {
+                name: 'All Files',
+                extensions: ['*']
+            }
+        ]
+    }).then(result => {
+        if (!result.canceled) event.reply('Path-reply', result.filePaths, Platform)
+    }).catch(err => {
+        console.log(err)
+    })
+})
+
+ipcMain.on('xlsx-Export-request', (event, Platform) => {
+    dialog.showSaveDialog(mainwin, {
+        properties: ['saveFile'],
+        title: "Choose Export Path",
+        filters: [{
+            name: 'Excel File',
+            extensions: ['xlsx']
+        }]
+    }).then(result => {
+        if (!result.canceled) event.reply('xlsx-Export-reply', result.filePath, Platform)
+    }).catch(err => {
+        console.log(err)
+    })
+})
+
+ipcMain.on('txt-Export-request', (event, Platform) => {
+    dialog.showSaveDialog(mainwin, {
+        properties: ['saveFile'],
+        title: "Choose Export Path",
+        filters: [{
+            name: 'Text File',
+            extensions: ['txt']
+        }]
+    }).then(result => {
+        if (!result.canceled) event.reply('txt-Export-reply', result.filePath, Platform)
+    }).catch(err => {
+        console.log(err)
+    })
 })
