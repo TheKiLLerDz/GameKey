@@ -17,7 +17,7 @@ function createAppWindow() {
         frame: false,
         webPreferences: {
             nodeIntegration: true,
-            //devTools: false
+            devTools: false
         }
     })
 
@@ -34,7 +34,8 @@ function createLoginWindow() {
         frame: false,
         show: false,
         webPreferences: {
-            nodeIntegration: true
+            nodeIntegration: true,
+            devTools: false
         }
     })
     Loginwin.loadURL('file://' + __dirname + '/Login.html');
