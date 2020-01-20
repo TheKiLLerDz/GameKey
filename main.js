@@ -7,7 +7,8 @@ const {
 
 var mainwin, Loginwin;
 
-app.setPath('userData', app.getPath('home') + '\\OneDrive\\GameKey')
+var isWin = process.platform === "win32";
+if (isWin) app.setPath('userData', app.getPath('home') + '\\OneDrive\\GameKey')
 
 function createAppWindow() {
     mainwin = new BrowserWindow({

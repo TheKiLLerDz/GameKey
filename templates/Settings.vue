@@ -93,7 +93,7 @@
                         <div class="body-2 sidebar-filter unselectable">THEMES
                         </div>
                         <v-radio-group class="justify-center" v-model="theme" row>
-                            <v-tooltip top v-for="theme in themes" :key="theme.name">
+                            <v-tooltip top v-for="theme in themes" :color="theme.color" :key="theme.name">
                                 <v-radio slot="activator" :value="theme.class.toLowerCase()" :color="theme.color">
                                 </v-radio>
                                 <span>{{theme.name}}</span>
