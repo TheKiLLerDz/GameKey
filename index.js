@@ -246,7 +246,7 @@ v = new Vue({
     Update(index) {
       switch (this.notifications[index].type) {
         case 'ND':
-          updateDB(JSON.parse(localStorage.getItem("version")));
+          updateDB(localStorage.getItem("version"));
           break;
         case 'NA':
           ipcRenderer.send('open-link', store.state.App.website);

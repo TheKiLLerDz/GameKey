@@ -132,11 +132,13 @@ function getnotification(oldversion) {
 function updateDB(oldversion) {
   http.open('POST', store.state.App.website + '/updatedb', true);
   http.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
-  http.send(JSON.stringify(oldversion));
+
+  http.send(JSON.parse(JSON.stringify(oldversion)));
 
   http.onload = function () {
     var promise = new Promise(function (resolve) {
       obj = JSON.parse(http.response);
+      console.log(obj)
       UpdateDB({
         steam: obj.steam.apps,
         origin: obj.origin.apps,
@@ -146,9 +148,9 @@ function updateDB(oldversion) {
     promise.then(
       function (result) {
         DBupdated({
-          steam: obj.steam.version,
-          origin: obj.origin.version,
-          uplay: obj.uplay.version
+          steam: obj.steam.version.toString(),
+          origin: obj.origin.version.toString(),
+          uplay: obj.uplay.version.toString()
         });
       }
     )

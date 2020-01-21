@@ -97,9 +97,10 @@
                         <span class="bottom">Notifications</span>
                     </v-tooltip>
                     <v-list class="py-0">
-                        <v-list-tile class="notifications" v-for="(notification,i) in notifications" :key="i" @click="">
+                        <v-list-tile class="notifications" v-for="(notification,i) in notifications" :key="i"
+                            @click="Update(i)">
                             <v-list-tile-content>
-                                <v-list-tile-title @click="Update(i)" v-text="notification.title"></v-list-tile-title>
+                                <v-list-tile-title v-text="notification.title"></v-list-tile-title>
                             </v-list-tile-content>
                             <v-list-tile-action>
                                 <v-icon @click="ReadNotif(notification.title,i)" color="error">mdi-close</v-icon>
@@ -247,7 +248,8 @@
             <div class="pa-2 ma-2 update">{{notification.title}}</div>
         </v-snackbar>
         <v-footer app v-if="Launch" class="unselectable">
-            <h3 class="px-2 white--text">&copy; {{App.year}}</h3><h4 class="white--text">GameKeyApp. All Rights
+            <h3 class="px-2 white--text">&copy; {{App.year}}</h3>
+            <h4 class="white--text">GameKeyApp. All Rights
                 Reserved.</h4>
             <v-spacer></v-spacer>
             <h3 class="px-3 white--text">v{{App.version}}</h3>
