@@ -345,13 +345,13 @@ v = new Vue({
         versions.app = this.App.version;
         localStorage.setItem('version', JSON.stringify(versions));
         store.state.notifications = [];
-        getnotification(JSON.parse(localStorage.getItem('version')));
+        getnotification(localStorage.getItem('version'));
       }
     },
     dbupdated(value) {
       if (!value) {
         store.state.notifications = [];
-        getnotification(JSON.parse(localStorage.getItem('version')));
+        getnotification(localStorage.getItem('version'));
       }
     },
     updatedb() {

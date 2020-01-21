@@ -204,7 +204,7 @@ function getVersionDB() {
 	db.tables[4].toArray().then(el => {
 		store.state.updatedb = el[0];
 		localStorage.setItem('version', JSON.stringify(el[0]));
-		getnotification(el[0]);
+		getnotification(JSON.stringify(el[0]));
 	});
 
 }

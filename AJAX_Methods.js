@@ -115,10 +115,9 @@ function getinfo(item, resolve, reject) {
 }
 
 function getnotification(oldversion) {
-
-  http.open('POST', store.state.App.website + '/notification', true)
-  http.setRequestHeader('Content-Type', 'application/json;charset=UTF-8')
-  http.send(JSON.stringify(oldversion));
+  http.open('POST', store.state.App.website + '/notification', true);
+  http.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+  http.send(JSON.parse(JSON.stringify(oldversion)));
 
   http.onload = function () {
     store.state.updatedb = JSON.parse(http.response);
