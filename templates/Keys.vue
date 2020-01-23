@@ -388,76 +388,76 @@
                     Price: '0'
                 };infodialog = false" @keydown.enter="this.infoapp= {Developer: 'Undefined',Publisher: 'Undefined',Genre: '',Price: '0'
                 };infodialog = false">
-            <v-flex xs12>
-                <v-card class="white--text">
-                    <v-img
-                        :src="infoapp.platform == 'Steam' ? 'https://steamcdn-a.akamaihd.net/steam/apps/' + infoapp.appid + '/header.jpg' : infoapp.platform == 'Uplay' ? 'https://transform.dis.commercecloud.salesforce.com/transform/ABBS_PRD/on/demandware.static/-/Sites-masterCatalog/default/images/large/'+infoapp.appid+'.jpg' : 'apps/undefined.gif'"
-                        onerror="this.src='apps/undefined.gif'" transition="fade-transition"
-                        lazy-src="apps/undefined.gif" height="410px">
-                        <div style='background: rgb(0,0,0);
-background: radial-gradient(circle, rgba(0,0,0,0) 0%, rgba(255,255,255,0) 0%, rgba(0,0,0,1) 100%);'>
-                            <v-layout row>
-                                <v-hover>
-                                    <v-img slot-scope="{ hover }"
-                                        :src="infoapp.platform == 'Steam' ? 'https://steamcdn-a.akamaihd.net/steam/apps/' + infoapp.appid + '/header.jpg' : infoapp.platform == 'Uplay' ? 'https://transform.dis.commercecloud.salesforce.com/transform/ABBS_PRD/on/demandware.static/-/Sites-masterCatalog/default/images/large/'+infoapp.appid+'.jpg' : 'apps/undefined.gif'"
-                                        onerror="this.src='apps/undefined.gif'" transition="fade-transition"
-                                        lazy-src="apps/undefined.gif" height="350px" contain>
-                                        <v-expand-transition>
-                                            <div v-if="hover"
-                                                :class="infoapp.platform == 'Origin' ? 'orange darken-2' : 'blue darken-2'"
-                                                class="d-flex unselectable transition-fast-in-fast-out v-card--reveal display-3 white--text"
-                                                style="height: 100%;width:100%">
-                                                {{gethover(infoapp)}}
-                                            </div>
-                                        </v-expand-transition>
-                                    </v-img>
-                                </v-hover>
-                                <v-flex xs7 lg4>
-                                    <v-card-title primary-title>
-                                        <div height="50px" style="font-weight: bold;font-size: 150%;">
-                                            <div style="font-size: 180%;" align="center">{{infoapp.name}}</div>
-                                            <div class="pa-2 ma-2 unselectable" align="center">
-                                                <v-icon large v-if="infoapp.platform=='Steam'" color='#1d2f54'>mdi-steam
-                                                </v-icon>
-                                                <v-icon large v-else-if="infoapp.platform=='Uplay'" color='#0e82cf'>
-                                                    mdi-ubisoft
-                                                </v-icon>
-                                                <v-icon large v-else-if="infoapp.platform=='Origin'" color='orange'>
-                                                    mdi-origin
-                                                </v-icon>
-                                                <v-icon large v-else-if="infoapp.platform=='Other'" color='success'>
-                                                    mdi-key
-                                                </v-icon> <span style="font-size: 160%;"
-                                                    :style="infoapp.platform=='Origin' ? 'color:orange' :infoapp.platform=='Other' ?'color:green':infoapp.platform=='Steam' ? 'color:#1d2f54':'color:#0e82cf'">{{infoapp.platform}}</span>
-                                            </div>
-                                            <div v-if="infoapp.platform=='Steam'">
-                                                <span>Developer : {{moreinfo.Developer}} </span><br>
-                                                <div>Publisher : {{moreinfo.Publisher}} </div>
-                                                <div>
-                                                    Price : {{moreinfo.Price}} $
-                                                </div>
-                                                <div>Genre : {{moreinfo.Genre}}</div>
-                                            </div>
-                                            <h3 v-else align="center">Info not Available</h3>
+            <v-card class="white--text">
+                <v-img
+                    :src="infoapp.platform == 'Steam' ? 'https://steamcdn-a.akamaihd.net/steam/apps/' + infoapp.appid + '/header.jpg' : infoapp.platform == 'Uplay' ? 'https://transform.dis.commercecloud.salesforce.com/transform/ABBS_PRD/on/demandware.static/-/Sites-masterCatalog/default/images/large/'+infoapp.appid+'.jpg' : 'apps/undefined.gif'"
+                    onerror="this.src='apps/undefined.gif'" transition="fade-transition" lazy-src="apps/undefined.gif"
+                    height="410px">
+                    <div style='background: rgb(0,0,0);background: radial-gradient(circle, rgba(0,0,0,0) 0%, 
+                                                           rgba(255,255,255,0) 0%, rgba(0,0,0,1) 100%);'>
+                        <v-layout row>
+                            <v-hover>
+                                <v-img slot-scope="{ hover }" :src="infoapp.platform == 'Steam' ? 'https://steamcdn-a.akamaihd.net/steam/apps/' + infoapp.appid + '/header.jpg' : 
+                                        infoapp.platform == 'Uplay' ? 
+                                        'https://transform.dis.commercecloud.salesforce.com/transform/ABBS_PRD/on/demandware.static/-/Sites-masterCatalog/default/images/large/'
+                                        +infoapp.appid+'.jpg' : 'apps/undefined.gif'"
+                                    onerror="this.src='apps/undefined.gif'" transition="fade-transition"
+                                    lazy-src="apps/undefined.gif" height="350px" contain>
+                                    <v-expand-transition>
+                                        <div v-if="hover"
+                                            :class="infoapp.platform == 'Origin' ? 'orange darken-2' : 'blue darken-2'"
+                                            class="d-flex unselectable transition-fast-in-fast-out v-card--reveal display-3 white--text"
+                                            style="height: 100%;width:100%">
+                                            {{gethover(infoapp)}}
                                         </div>
-                                    </v-card-title>
-                                </v-flex>
-                            </v-layout>
-                            <v-divider light></v-divider>
-                            <v-card-actions class="pa-3">
-                                <v-btn :color="infoapp.platform == 'Origin' ? 'warning' : 'info'"
-                                    @click="open(infoapp.platform,infoapp.appid,infoapp.name)"
-                                    :disabled="infoapp.platform == 'Other'"> More </v-btn>
-                                <v-spacer></v-spacer>
-                                <v-btn color="success" round @click="this.infoapp= {Developer: 'Undefined',Publisher: 'Undefined',
+                                    </v-expand-transition>
+                                </v-img>
+                            </v-hover>
+                            <v-flex xs7 lg4>
+                                <v-card-title primary-title>
+                                    <div height="50px" style="font-weight: bold;font-size: 120%;">
+                                        <div style="font-size: 180%;" align="center">{{infoapp.name}}</div>
+                                        <div class="pa-2 ma-2 unselectable" align="center">
+                                            <v-icon large v-if="infoapp.platform=='Steam'" color='#1d2f54'>mdi-steam
+                                            </v-icon>
+                                            <v-icon large v-else-if="infoapp.platform=='Uplay'" color='#0e82cf'>
+                                                mdi-ubisoft
+                                            </v-icon>
+                                            <v-icon large v-else-if="infoapp.platform=='Origin'" color='orange'>
+                                                mdi-origin
+                                            </v-icon>
+                                            <v-icon large v-else-if="infoapp.platform=='Other'" color='success'>
+                                                mdi-key
+                                            </v-icon> <span style="font-size: 160%;"
+                                                :style="infoapp.platform=='Origin' ? 'color:orange' :infoapp.platform=='Other' ?'color:green':infoapp.platform=='Steam' ? 'color:#1d2f54':'color:#0e82cf'">{{infoapp.platform}}</span>
+                                        </div>
+                                        <div v-if="infoapp.platform=='Steam'">
+                                            <span>Developer : {{moreinfo.Developer}} </span><br>
+                                            <div>Publisher : {{moreinfo.Publisher}} </div>
+                                            <div>
+                                                Price : {{moreinfo.Price}} $
+                                            </div>
+                                            <div>Genre : {{moreinfo.Genre}}</div>
+                                        </div>
+                                        <h3 v-else align="center">Info not Available</h3>
+                                    </div>
+                                </v-card-title>
+                            </v-flex>
+                        </v-layout>
+                        <v-divider light></v-divider>
+                        <v-card-actions class="pa-3">
+                            <v-btn :color="infoapp.platform == 'Origin' ? 'warning' : 'info'"
+                                @click="open(infoapp.platform,infoapp.appid,infoapp.name)"
+                                :disabled="infoapp.platform == 'Other'"> More </v-btn>
+                            <v-spacer></v-spacer>
+                            <v-btn color="success" round @click="this.infoapp= {Developer: 'Undefined',Publisher: 'Undefined',
                                 Genre: '',Price: '0'};infodialog=!infodialog">
-                                    Ok
-                                </v-btn>
-                            </v-card-actions>
-                        </div>
-                    </v-img>
-                </v-card>
-            </v-flex>
+                                Ok
+                            </v-btn>
+                        </v-card-actions>
+                    </div>
+                </v-img>
+            </v-card>
         </v-dialog>
         <v-dialog v-model="deletedialog" max-width="300px" persistent @keydown.esc="deletedialog = false"
             @keydown.enter="deleteItem(Itemtodelete)">
