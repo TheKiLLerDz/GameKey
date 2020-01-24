@@ -12,8 +12,8 @@ if (isWin) app.setPath('userData', app.getPath('home') + '\\OneDrive\\GameKey')
 
 function createAppWindow() {
     mainwin = new BrowserWindow({
-        minWidth: 800,
-        minHeight: 600,
+        minWidth: 900,
+        minHeight: 650,
         //transparent: true,
         frame: false,
         webPreferences: {
