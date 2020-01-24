@@ -521,7 +521,7 @@
                                 </v-layout>
                             </template>
                             <v-card>
-                                <v-card-text class="grey lighten-3">
+                                <v-card-text>
                                     <v-text-field label="Keys" readonly
                                         :value="item.keys.map(el => el.key).join('  ||  ')">
                                     </v-text-field>
