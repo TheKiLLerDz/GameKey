@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron .",
+    "package-all": "electron-packager . --overwrite --asar --all --icon=icon.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"GameKey\"",
     "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=icon.icns --prune=true --out=release-builds",
     "package-win": "electron-packager . --overwrite --asar --platform=win32 --arch=ia32 --icon=icon.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"GameKey\"",
     "package-linux": "electron-packager . --overwrite --asar --platform=linux --arch=x64 --icon=icon.ico --prune=true --out=release-builds"
