@@ -9,7 +9,6 @@ function setUserData(username, email) {
 		d.username = username;
 		d.email = email;
 	});
-	console.log("account eddited successfully")
 }
 
 function setavatar(avatar) {
@@ -25,14 +24,12 @@ function addUserData(username, email, avatar, password) {
 		avatar: avatar,
 		password: password
 	})
-	console.log("account added to db successfully")
 }
 
 function UpdatePW(username, password) {
 	data.tables[0].where("id").equals(1).modify(d => {
 		d.password = password
 	});
-	console.log("PW Updated Successfully")
 }
 
 function getUserData(resolve, reject) {
@@ -98,7 +95,6 @@ function CreateDB() {
 						store.state.App.website + '/version.json');
 					const versionjs = await version.json();
 					versionjs.app = store.state.App.version;
-					console.log(versionjs);
 					db.versions.put(versionjs);
 				}
 				opendb();
@@ -285,7 +281,6 @@ function addkey(t, appid, key) {
 		});
 	} else {
 		index = store.state.others.map(e => e.appid).indexOf(appid);
-		console.log('index : ' + index);
 		if (index == -1) {
 			db.tables[1].put({
 				appid: appid,

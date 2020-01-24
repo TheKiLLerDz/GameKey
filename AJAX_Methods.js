@@ -22,7 +22,6 @@ function tags(appid) {
   http.onload = function () {
     if (http.status == 200) {
       var obj = JSON.parse(http.responseText)
-      console.log(obj)
       for (x in obj.tags) {
         tagsapp.push(x);
       }
@@ -138,7 +137,6 @@ function updateDB(oldversion) {
   http.onload = function () {
     var promise = new Promise(function (resolve) {
       obj = JSON.parse(http.response);
-      console.log(obj)
       UpdateDB({
         steam: obj.steam.apps,
         origin: obj.origin.apps,
