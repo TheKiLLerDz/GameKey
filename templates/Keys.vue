@@ -544,7 +544,7 @@
                 </v-card-actions>
             </v-card>
         </v-dialog>
-        <v-dialog v-model="Exportdialog" width="50vw" @keydown.esc="Exportdialog = false">
+        <v-dialog v-model="Exportdialog" min-width="50vw" max-width="900px" @keydown.esc="Exportdialog = false">
             <v-card>
                 <v-card-title><span class="title font-weight-light orange--text unselectable"
                         style="text-align:center">Export Your Apps As :</span>
@@ -554,8 +554,8 @@
                 <v-container class="pa-4 text-center">
                     <v-layout fill-height align-center justify-center ma-0>
                         <v-hover v-slot:default="{ hover }" style="margin:20px">
-                            <v-card :elevation="hover ? 12 : 2" :class="{ 'on-hover': hover }" color='#e5cb35' dark
-                                @click="ExportApps(apps,'txt')" width="40%">
+                            <v-card min-width="266px" :elevation="hover ? 12 : 2" :class="{ 'on-hover': hover }"
+                                color='#e5cb35' dark @click="ExportApps(apps,'txt')" width="40%">
                                 <v-card-title>
                                     <v-icon large left>
                                         mdi-note-text
@@ -568,8 +568,8 @@
                             </v-card>
                         </v-hover>
                         <v-hover v-slot:default="{ hover }" style="margin:20px">
-                            <v-card :elevation="hover ? 12 : 2" :class="{ 'on-hover': hover }" color='green' dark
-                                @click="ExportApps(apps,'xslx')" width="40%">
+                            <v-card min-width="266px" :elevation="hover ? 12 : 2" :class="{ 'on-hover': hover }"
+                                color='green' dark @click="ExportApps(apps,'xslx')" width="40%">
                                 <v-card-title>
                                     <v-icon large left>
                                         mdi-file-excel-box
