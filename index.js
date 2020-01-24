@@ -51,7 +51,7 @@ const store = new Vuex.Store({
       Paypal: App.Paypal,
       OpenCollective: App.OpenCollective,
       Steam: App.Steam,
-      version: '1.0',
+      version: '1.1',
       year: '2020'
     },
     dbupdated: false,
