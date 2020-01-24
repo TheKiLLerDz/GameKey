@@ -498,7 +498,8 @@
             <v-card>
                 <v-card-title class="headline">Import Keys</v-card-title>
                 <v-card-text>
-                    <h3 class="orange--text unselectable" style="text-align:center">Apps with orange Won't be added</h3>
+                    <h3 class="orange--text unselectable" style="text-align:center">Orange Apps will be added To
+                        "Other" Category</h3>
                     <v-expansion-panel>
                         <v-expansion-panel-content v-for="(item,index) in importedapps" :key="index">
                             <template v-slot:actions>
@@ -536,10 +537,10 @@
                         Cancel
                     </v-btn>
                     <v-btn color="blue darken-1" flat="flat" @click="addimportedkeys(false)">
-                        Added Selected
+                        Added Blue Ones
                     </v-btn>
                     <v-btn color="green darken-1" flat="flat" @click="addimportedkeys(true)">
-                        Added & Close
+                        Added All
                     </v-btn>
                 </v-card-actions>
             </v-card>
@@ -950,6 +951,12 @@
                         index != -1 ? pushplatform[index].keys = pushplatform[index].keys.concat(this.importedapps[
                             i].keys) : pushplatform.push(this.importedapps[i]);
                         this.importedapps.splice(i, 1);
+                    } else {
+                        if (close) {
+                            this.importedapps[i].platform = "Other";
+                            this.add(this.importedapps[i]);
+                            this.importedapps.splice(i, 1);
+                        }
                     }
                 }
                 if (close || this.importedapps.length == 0) {
