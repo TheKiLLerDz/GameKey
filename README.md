@@ -8,11 +8,16 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Installing
 
+You can download the app on our [website](https://gamekeyapp.com/)
+here is a [guide for it](https://youtu.be/Fn0s2WkEjP8)
+
+### for Test purposes
+
 All you need to do is to clone\download this repository to you machine then >
-u need node package manager installed (npm) [Download here](https://nodejs.org/en/)
-cmd to the path \GameKey then enter this command : npm i (this will install the dependencies)
-after it finishes enter the command : npm start
-the app should start
+* u need node package manager installed (npm) [Download here](https://nodejs.org/en/)
+* cmd to the path \GameKey then enter this command : npm i (this will install the dependencies)
+* after it finishes enter the command : npm start
+* the app should start
 
 ## Built With
 
