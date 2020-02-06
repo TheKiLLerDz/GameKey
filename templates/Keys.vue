@@ -219,7 +219,8 @@
                                 <v-flex xs12 sm12 md12>
                                     <v-select :items='platforms.map(e => e.name)' v-model="editedItem.platform"
                                         label="Platform" required
-                                        :readonly="localStorage.Patterns =='true' &&  editedItem.platform != 'Other'? true: false"
+                                        @change="PlatformEdited(editedItem.platform);editedItem.name='';editedItem.appid=''"
+                                        :readonly="localStorage.Patterns =='true' &&  (editedItem.platform != 'Other' && oldplatform !='Other')? true: false"
                                         :prepend-icon="editedItem.platform=='Steam'||editedItem.platform=='Origin' ? 'mdi-'+editedItem.platform.toLowerCase() : editedItem.platform=='Uplay' ? 'mdi-ubisoft' :'mdi-key'">
                                     </v-select>
                                 </v-flex>
@@ -721,6 +722,7 @@
         },
         data() {
             return {
+                oldplatform: '',
                 Keytochange: null,
                 isAdding: false,
                 expand: false,
@@ -1235,7 +1237,7 @@
                 store.state.import = false
             },
             editItem(item) {
-                console.log('mehdi')
+                this.oldplatform = item.platform;
                 this.editedItem = JSON.parse(JSON.stringify(item));
                 this.oldediteditem = JSON.parse(JSON.stringify(item));
                 this.PlatformEdited(this.editedItem.platform);
