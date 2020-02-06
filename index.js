@@ -1,11 +1,3 @@
-const {
-  ipcRenderer
-} = require('electron')
-
-ipcRenderer.on('isMaximized', (event, value) => {
-  v.Maximized = value;
-})
-
 var routes = [{
   path: '/',
   component: httpVueLoader('./templates/Home.vue')
@@ -39,6 +31,8 @@ const router = new VueRouter({
   routes
 });
 
+Vue.component("icon", httpVueLoader("icon.vue"))
+
 const store = new Vuex.Store({
   state: {
     App: {
@@ -51,16 +45,15 @@ const store = new Vuex.Store({
       Paypal: App.Paypal,
       OpenCollective: App.OpenCollective,
       Steam: App.Steam,
-      version: '1.1',
+      version: '2.0',
       year: '2020'
     },
     dbupdated: false,
     dbCleared: false,
     userdata: {
-      username: localStorage.username,
-      email: localStorage.email,
+      email: '',
+      username: (localStorage.username != undefined && localStorage.username != '') ? localStorage.username : '',
       avatar: localStorage.avatar,
-      password: localStorage.password,
     },
     checkconnection: false,
     finished: false,
@@ -73,6 +66,7 @@ const store = new Vuex.Store({
     uplay: [],
     uplaykey: [],
     infodialog: false,
+    isNotSync: localStorage.userid == '' || localStorage.notsynced == 'true',
     moreinfo: {
       Developer: 'Undefined',
       Publisher: 'Undefined',
@@ -94,6 +88,7 @@ const store = new Vuex.Store({
     tempimport: undefined,
     import: false,
     waitingdialog: false,
+    successdialog: false,
     importedapps: [],
   },
 })
@@ -183,6 +178,9 @@ v = new Vue({
     appupdated: false
   }),
   methods: {
+    ChangeTheme(theme) {
+      this.theme = theme.class;
+    },
     OpenWebsite() {
       ipcRenderer.send('open-link', store.state.App.website);
     },
@@ -223,7 +221,6 @@ v = new Vue({
       ipcRenderer.send('close-app');
     },
     LogOut() {
-      localStorage.AutoLogin = false;
       ipcRenderer.send('Log-Out');
     },
     setSize() {
@@ -305,9 +302,9 @@ v = new Vue({
     },
     userdata() {
       return {
-        username: store.state.userdata.username,
-        avatar: store.state.userdata.avatar,
-        password: store.state.userdata.password
+        username: store.state.userdata.username != '' ? store.state.userdata.username : store.state.userdata.email.split('@')[0],
+        email: store.state.userdata.email,
+        avatar: store.state.userdata.avatar
       }
     },
     games() {
@@ -316,6 +313,7 @@ v = new Vue({
     }
   },
   mounted() {
+    ipcRenderer.send('get-data');
     opendb();
     this.setSize();
     if (!localStorage.Patterns) localStorage.Patterns = true;

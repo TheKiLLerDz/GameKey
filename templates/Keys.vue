@@ -110,10 +110,9 @@
                                                                 </v-chip>
                                                                 <template v-slot:input>
                                                                     <v-text-field v-model="index.key"
-                                                                        :maxLength="props.item.platform == 'Steam' ? 17 : props.item.platform == 'Origin' ? 24 : props.item.platform == 'Uplay' ? 19 : 40"
                                                                         :rules="[rules.max25chars]" label="Edit"
                                                                         single-line counter autofocus color="red"
-                                                                        @input="GetKeyFormat(props.item,index.key)"
+                                                                        @keyup="GetKeyFormat(props.item,index.key)"
                                                                         return-object>
                                                                     </v-text-field>
                                                                 </template>
@@ -219,10 +218,9 @@
                             <v-layout wrap>
                                 <v-flex xs12 sm12 md12>
                                     <v-select :items='platforms.map(e => e.name)' v-model="editedItem.platform"
-                                        label="Platform"
-                                        @change="PlatformEdited(editedItem.platform);editedItem.name='';editedItem.appid=''"
-                                        :prepend-icon="editedItem.platform=='Steam'||editedItem.platform=='Origin' ? 'mdi-'+editedItem.platform.toLowerCase() : editedItem.platform=='Uplay' ? 'mdi-ubisoft' :'mdi-key'"
-                                        required>
+                                        label="Platform" required
+                                        :readonly="localStorage.Patterns =='true' &&  editedItem.platform != 'Other'? true: false"
+                                        :prepend-icon="editedItem.platform=='Steam'||editedItem.platform=='Origin' ? 'mdi-'+editedItem.platform.toLowerCase() : editedItem.platform=='Uplay' ? 'mdi-ubisoft' :'mdi-key'">
                                     </v-select>
                                 </v-flex>
                                 <v-flex xs4 sm4 md4>
@@ -243,9 +241,8 @@
                                 </v-chip>
                                 <v-flex xs12 sm12 md12 v-for="(index,i) in editedItem.keys" :key="i">
                                     <v-text-field v-model="index.key" :label="'Key '+ parseInt(i+1)"
-                                        :maxLength="localStorage.Patterns == 'true' ? (editedItem.platform == 'Steam' ? 17 : editedItem.platform == 'Origin' ? 24 : editedItem.platform == 'Uplay' ? 19 : 40) : 40"
                                         :rules="[rules.max25chars,localStorage.Patterns == 'true' ? (editedItem.platform == 'Steam' ? rules.Steamkey : editedItem.platform == 'Origin' ? rules.Originkey : editedItem.platform == 'Uplay' ? rules.Uplaykey : rules.required):rules.required]"
-                                        color="red" @input="GetKeyFormat(editedItem,index.key)" required>
+                                        color="red" @keyup="GetKeyFormat(editedItem,index.key)" required>
                                     </v-text-field>
                                 </v-flex>
                                 <v-flex xs12 sm12 md12>
@@ -330,11 +327,10 @@
                                     <span v-for="(index,i) in itemtoadd.keys.length" :key="i">
                                         <v-text-field :append-outer-icon="i != 0 ? 'mdi-close' : ''"
                                             @click:append-outer="deletekeyjson(itemtoadd,i)"
-                                            :maxLength="localStorage.Patterns == 'true' ? (itemtoadd.platform == 'Steam' ? 17 : itemtoadd.platform == 'Origin' ? 24 : itemtoadd.platform == 'Uplay' ? 19 : 40) : 40"
                                             :placeholder="itemtoadd.platform == 'Steam' ? 'XXXXX-XXXXX-XXXXX' : itemtoadd.platform == 'Origin' ? 'XXXX-XXXX-XXXX-XXXX-XXXX' : 'XXXX-XXXX-XXXX-XXXX-XXXX'"
                                             v-model="itemtoadd.keys[i].key" :label="'Key '+parseInt(i+1)"
                                             :rules="[rules.max25chars,localStorage.Patterns == 'true' ? (itemtoadd.platform == 'Steam' ? rules.Steamkey : itemtoadd.platform == 'Origin' ? rules.Originkey : itemtoadd.platform == 'Uplay' ? rules.Uplaykey : rules.required):rules.required]"
-                                            color="red" required @input="GetKeyFormat(itemtoadd,itemtoadd.keys[i].key)">
+                                            color="red" required @keyup="GetKeyFormat(itemtoadd,itemtoadd.keys[i].key)">
                                         </v-text-field>
                                     </span>
                                 </v-flex>
@@ -388,76 +384,74 @@
                     Price: '0'
                 };infodialog = false" @keydown.enter="this.infoapp= {Developer: 'Undefined',Publisher: 'Undefined',Genre: '',Price: '0'
                 };infodialog = false">
-            <v-card class="white--text">
-                <v-img
-                    :src="infoapp.platform == 'Steam' ? 'https://steamcdn-a.akamaihd.net/steam/apps/' + infoapp.appid + '/header.jpg' : infoapp.platform == 'Uplay' ? 'https://transform.dis.commercecloud.salesforce.com/transform/ABBS_PRD/on/demandware.static/-/Sites-masterCatalog/default/images/large/'+infoapp.appid+'.jpg' : 'apps/undefined.gif'"
-                    onerror="this.src='apps/undefined.gif'" transition="fade-transition" lazy-src="apps/undefined.gif"
-                    height="410px">
-                    <div style='background: rgb(0,0,0);background: radial-gradient(circle, rgba(0,0,0,0) 0%, 
+            <v-img gradient="to top right, rgba(0,0,0, .7), rgba(0,0,0, .7)"
+                :src="infoapp.platform == 'Steam' ? 'https://steamcdn-a.akamaihd.net/steam/apps/' + infoapp.appid + '/header.jpg' : infoapp.platform == 'Uplay' ? 'https://transform.dis.commercecloud.salesforce.com/transform/ABBS_PRD/on/demandware.static/-/Sites-masterCatalog/default/images/large/'+infoapp.appid+'.jpg' : 'apps/undefined.gif'"
+                onerror="this.src='apps/undefined.gif'" transition="fade-transition" lazy-src="apps/undefined.gif"
+                height="410px">
+                <div style='background: rgb(0,0,0);background: radial-gradient(circle, rgba(0,0,0,0) 0%, 
                                                            rgba(255,255,255,0) 0%, rgba(0,0,0,1) 100%);'>
-                        <v-layout row>
-                            <v-hover>
-                                <v-img slot-scope="{ hover }" :src="infoapp.platform == 'Steam' ? 'https://steamcdn-a.akamaihd.net/steam/apps/' + infoapp.appid + '/header.jpg' : 
+                    <v-layout row>
+                        <v-hover>
+                            <v-img slot-scope="{ hover }" :src="infoapp.platform == 'Steam' ? 'https://steamcdn-a.akamaihd.net/steam/apps/' + infoapp.appid + '/header.jpg' : 
                                         infoapp.platform == 'Uplay' ? 
                                         'https://transform.dis.commercecloud.salesforce.com/transform/ABBS_PRD/on/demandware.static/-/Sites-masterCatalog/default/images/large/'
                                         +infoapp.appid+'.jpg' : 'apps/undefined.gif'"
-                                    onerror="this.src='apps/undefined.gif'" transition="fade-transition"
-                                    lazy-src="apps/undefined.gif" height="350px" contain>
-                                    <v-expand-transition>
-                                        <div v-if="hover"
-                                            :class="infoapp.platform == 'Origin' ? 'orange darken-2' : 'blue darken-2'"
-                                            class="d-flex unselectable transition-fast-in-fast-out v-card--reveal display-3 white--text"
-                                            style="height: 100%;width:100%">
-                                            {{gethover(infoapp)}}
-                                        </div>
-                                    </v-expand-transition>
-                                </v-img>
-                            </v-hover>
-                            <v-flex xs7 lg4>
-                                <v-card-title primary-title>
-                                    <div height="50px" style="font-weight: bold;font-size: 120%;">
-                                        <div style="font-size: 180%;" align="center">{{infoapp.name}}</div>
-                                        <div class="pa-2 ma-2 unselectable" align="center">
-                                            <v-icon large v-if="infoapp.platform=='Steam'" color='#1d2f54'>mdi-steam
-                                            </v-icon>
-                                            <v-icon large v-else-if="infoapp.platform=='Uplay'" color='#0e82cf'>
-                                                mdi-ubisoft
-                                            </v-icon>
-                                            <v-icon large v-else-if="infoapp.platform=='Origin'" color='orange'>
-                                                mdi-origin
-                                            </v-icon>
-                                            <v-icon large v-else-if="infoapp.platform=='Other'" color='success'>
-                                                mdi-key
-                                            </v-icon> <span style="font-size: 160%;"
-                                                :style="infoapp.platform=='Origin' ? 'color:orange' :infoapp.platform=='Other' ?'color:green':infoapp.platform=='Steam' ? 'color:#1d2f54':'color:#0e82cf'">{{infoapp.platform}}</span>
-                                        </div>
-                                        <div v-if="infoapp.platform=='Steam'">
-                                            <span>Developer : {{moreinfo.Developer}} </span><br>
-                                            <div>Publisher : {{moreinfo.Publisher}} </div>
-                                            <div>
-                                                Price : {{moreinfo.Price}} $
-                                            </div>
-                                            <div>Genre : {{moreinfo.Genre}}</div>
-                                        </div>
-                                        <h3 v-else align="center">Info not Available</h3>
+                                onerror="this.src='apps/undefined.gif'" transition="fade-transition"
+                                lazy-src="apps/undefined.gif" height="350px" contain>
+                                <v-expand-transition>
+                                    <div v-if="hover"
+                                        :class="infoapp.platform == 'Origin' ? 'orange darken-2' : 'blue darken-2'"
+                                        class="d-flex unselectable transition-fast-in-fast-out v-card--reveal display-3 white--text"
+                                        style="height: 100%;width:100%">
+                                        {{gethover(infoapp)}}
                                     </div>
-                                </v-card-title>
-                            </v-flex>
-                        </v-layout>
-                        <v-divider light></v-divider>
-                        <v-card-actions class="pa-3">
-                            <v-btn :color="infoapp.platform == 'Origin' ? 'warning' : 'info'"
-                                @click="open(infoapp.platform,infoapp.appid,infoapp.name)"
-                                :disabled="infoapp.platform == 'Other'"> More </v-btn>
-                            <v-spacer></v-spacer>
-                            <v-btn color="success" round @click="this.infoapp= {Developer: 'Undefined',Publisher: 'Undefined',
+                                </v-expand-transition>
+                            </v-img>
+                        </v-hover>
+                        <v-flex xs7 lg4>
+                            <v-card-title primary-title class="white--text">
+                                <div height="50px" style="font-weight: bold;font-size: 120%;">
+                                    <div style="font-size: 180%;" align="center">{{infoapp.name}}</div>
+                                    <div class="pa-2 ma-2 unselectable" align="center">
+                                        <v-icon large v-if="infoapp.platform=='Steam'" color='#1d2f54'>mdi-steam
+                                        </v-icon>
+                                        <v-icon large v-else-if="infoapp.platform=='Uplay'" color='#0e82cf'>
+                                            mdi-ubisoft
+                                        </v-icon>
+                                        <v-icon large v-else-if="infoapp.platform=='Origin'" color='orange'>
+                                            mdi-origin
+                                        </v-icon>
+                                        <v-icon large v-else-if="infoapp.platform=='Other'" color='success'>
+                                            mdi-key
+                                        </v-icon> <span style="font-size: 160%;"
+                                            :style="infoapp.platform=='Origin' ? 'color:orange' :infoapp.platform=='Other' ?'color:green':infoapp.platform=='Steam' ? 'color:#1d2f54':'color:#0e82cf'">{{infoapp.platform}}</span>
+                                    </div>
+                                    <div v-if="infoapp.platform=='Steam'">
+                                        <span>Developer : {{moreinfo.Developer}} </span><br>
+                                        <div>Publisher : {{moreinfo.Publisher}} </div>
+                                        <div>
+                                            Price : {{moreinfo.Price}} $
+                                        </div>
+                                        <div>Genre : {{moreinfo.Genre}}</div>
+                                    </div>
+                                    <h3 v-else align="center">Info not Available</h3>
+                                </div>
+                            </v-card-title>
+                        </v-flex>
+                    </v-layout>
+                    <v-divider light></v-divider>
+                    <v-card-actions class="pa-3">
+                        <v-btn :color="infoapp.platform == 'Origin' ? 'warning' : 'info'"
+                            @click="open(infoapp.platform,infoapp.appid,infoapp.name)"
+                            :disabled="infoapp.platform == 'Other'"> More </v-btn>
+                        <v-spacer></v-spacer>
+                        <v-btn color="success" round @click="this.infoapp= {Developer: 'Undefined',Publisher: 'Undefined',
                                 Genre: '',Price: '0'};infodialog=!infodialog">
-                                Ok
-                            </v-btn>
-                        </v-card-actions>
-                    </div>
-                </v-img>
-            </v-card>
+                            Ok
+                        </v-btn>
+                    </v-card-actions>
+                </div>
+            </v-img>
         </v-dialog>
         <v-dialog v-model="deletedialog" max-width="300px" persistent @keydown.esc="deletedialog = false"
             @keydown.enter="deleteItem(Itemtodelete)">
@@ -720,7 +714,9 @@
                 if (this.pagination.rowsPerPage == null ||
                     this.totalItems == null
                 ) return 0
-                return Math.ceil(this.totalItems / this.pagination.rowsPerPage)
+                if (this.search == "")
+                    return Math.ceil(this.totalItems / this.pagination.rowsPerPage)
+                else return 1
             }
         },
         data() {
@@ -915,29 +911,31 @@
                 item.keys.splice(index, 1);
             },
             GetKeyFormat(item, key) {
-                index = item.keys.map(e => e.key).indexOf(key);
-                key = key.toUpperCase();
-                item.keys[index].key = key;
-                if (localStorage.Patterns == 'true') {
-                    key = key.replace(/[^a-zA-Z0-9]/g, '');
-                    // timeout to let the vue render
-                    setTimeout(() => {
+                if (key.length > 0) {
+                    index = item.keys.map(e => e.key).indexOf(key);
+                    key = key.toUpperCase();
+                    item.keys[index].key = key;
+                    if (localStorage.Patterns == 'true' && item.platform != 'Other') {
+                        keyt = key.replace(/[^a-zA-Z0-9]/g, '');
                         switch (item.platform) {
                             case 'Steam':
-                                item.keys[index].key = key.match(/(.){1,5}/g).join("-");
+                                if (keyt.length > 15) keyt = keyt.substring(0, 15);
+                                keyt = keyt.match(/.{1,5}/g);
                                 break;
                             case 'Origin':
-                                item.keys[index].key = key.match(/(.){1,4}/g).join("-");
+                                if (keyt.length > 20) keyt = keyt.substring(0, 20);
+                                keyt = keyt.match(/.{1,4}/g);
                                 break;
                             case 'Uplay':
-                                item.keys[index].key = key.match(/(.){1,4}/g).join("-");
+                                if (keyt.length > 16) keyt = keyt.substring(0, 16);
+                                keyt = keyt.match(/.{1,4}/g);
                                 break;
-                            default:
-                                item.keys[index].key = key
                         }
-                    }, 0.5)
-                } else
-                    item.keys[index].key = key
+                        if (keyt != null)
+                            item.keys[index].key = keyt.join("-");
+                        else item.keys[index].key = ''
+                    }
+                }
             },
             addimportedkeys(close) {
                 for (var i = this.importedapps.length - 1; i >= 0; i--) {
@@ -945,7 +943,7 @@
                         this.importedapps[i].appid = getappid(this.importedapps[i]);
                         for (var j = 0; j < this.importedapps[i].keys.length; j++) {
                             addkey(gettab(this.importedapps[i].platform), getappid(store.state
-                                .importedapps[i]), this.importedapps[i].keys[j].key);
+                                .importedapps[i]), Crypt(this.importedapps[i].keys[j].key));
                         }
                         var index = pushplatform.map(el => el.appid).indexOf(this.importedapps[i].appid);
                         index != -1 ? pushplatform[index].keys = pushplatform[index].keys.concat(this.importedapps[
@@ -980,6 +978,7 @@
                 } else item.tags = store.state.steamkey[index].tags;
             },
             IDEdited(item) {
+                item.appid = parseInt(item.appid)
                 switch (item.platform) {
                     case 'Steam':
                         index = store.state.steam.map(e => e.appid).indexOf(getappid(item));
@@ -1129,24 +1128,25 @@
                 updatetags(gettab(item.platform), getappid(item), newtags);
             },
             save(item1, item2) {
+                //item1 jdid
+                //item2 gdim
                 item2plat = this.getplatform(item2.platform);
+                indexitem2 = item2plat.map(e => e.appid).indexOf(item2.appid);
                 for (i = 0; i < item2.keys.length; i++) {
-                    if (item2.keys[i].key !== item1.keys[i].key) {
-                        this.editkey(item2, item2.keys[i].key, item1.keys[i]
-                            .key)
-                        item2plat[item2plat.map(e => e.appid).indexOf(item2.appid)].keys[i].key = item1.keys[i].key;
+                    if (item2.keys[i].key != item1.keys[i].key) {
+                        this.editkey(item2, item2.keys[i].key, item1.keys[i].key);
+                        item2plat[indexitem2].keys[i].key = item1.keys[i].key;
                     }
                 }
                 this.updatetags(item2, item1.tags);
 
                 if (!this.Equals(item2, item1)) {
-                    i = 0;
-                    this.getplatform(item1.platform).map(e => e.appid).indexOf(item1.appid) != -1 ? gameexists =
-                        true : gameexists = false
-                    index = this.getplatform(item2.platform).map(e => e.appid).indexOf(item2.appid);
+                    item1plat = this.getplatform(item1.platform);
+                    indexitem1 = item1plat.map(e => e.appid).indexOf(item1.appid);
+                    indexitem1 != -1 ? gameexists = true : gameexists = false
                     k = 0;
                     while (k < item1.keys.length) {
-                        addkey(gettab(item1.platform), getappid(item1), item1.keys[k].key);
+                        addkey(gettab(item1.platform), getappid(item1), Crypt(item1.keys[k].key));
                         if (item1.keys[k].trade && item1.keys[k].trade.value) this.TradeKeyEdit(item1, item1.keys[k]
                             .key, item1.keys[k]
                             .trade.user)
@@ -1154,12 +1154,12 @@
                             item1.keys[k]
                             .beta.enddate)
                         if (gameexists) {
-                            this.getplatform(item2.platform)[i].keys.push(item1.keys[k]);
+                            item1plat[indexitem1].keys.push(item1.keys[k]);
                         }
                         k++;
                     }
                     delgametagskeys(gettab(item2.platform), getappid(item2));
-                    this.getplatform(item2.platform).splice(index, 1);
+                    item2plat.splice(indexitem2, 1);
                     var newitem = {
                         name: item1.name,
                         appid: item1.appid,
@@ -1167,9 +1167,7 @@
                         keys: item1.keys,
                         tags: item1.tags
                     }
-                    gameexists ? this.getplatform(item1.platform)[i].keys = this.getplatform(item1.platform)[i].keys
-                        .concat(item1.keys) :
-                        this.getplatform(newitem.platform).push(newitem)
+                    if (!gameexists) this.getplatform(newitem.platform).push(newitem)
                     this.editedItem = {
                         appid: '',
                         name: '',
@@ -1186,8 +1184,8 @@
             },
             add(app) {
                 for (var i = 0; i < app.keys.length; i++)
-                    addkey(gettab(app.platform) == 1 ? app.name : gettab(app.platform), getappid(app), app.keys[i]
-                        .key);
+                    addkey(gettab(app.platform) == 1 ? app.name : gettab(app.platform), getappid(app), Crypt(app
+                        .keys[i].key));
 
                 updatetags(gettab(app.platform), getappid(app), app.tags);
                 var index = this.getplatform(app.platform).map(e => e.appid).indexOf(getappid(app));
@@ -1237,6 +1235,7 @@
                 store.state.import = false
             },
             editItem(item) {
+                console.log('mehdi')
                 this.editedItem = JSON.parse(JSON.stringify(item));
                 this.oldediteditem = JSON.parse(JSON.stringify(item));
                 this.PlatformEdited(this.editedItem.platform);

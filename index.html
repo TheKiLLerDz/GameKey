@@ -14,28 +14,28 @@
 
 <body>
     <v-app v-cloak id="app" :dark="isDark" :class="theme">
-        <div class="loader unselectable" v-if="!Launch" style="margin: 0;
-        padding: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
-        background-color: #181a1b;">
-            <span>G</span>
-            <span>A</span>
-            <span>M</span>
-            <span>E</span>
-            <span>K</span>
-            <span>E</span>
-            <span>Y</span>
-            <span>.</span>
-            <span>.</span>
-            <span>.</span>
+        <div class="Loading-Container" class="unselectable" v-if="!Launch">
+            <h1 class="loadingtexth1">GameKey</h1>
+            <div class="logo">
+                <div class="circle">
+                    <div class="circle">
+                        <div class="circle">
+                        </div>
+                    </div>
+                </div>
+                <span class="gamekeyiconloading">
+                    <span>GK</span>
+                </span>
+            </div>
+            <div class="loading-text">
+                <span>Loading</span>
+                <span>.</span><span>.</span><span>.</span>
+            </div>
         </div>
         <v-toolbar dense app clipped-left :extended="Launch" height="33px" extension-height="50px"
             class="white--text unselectable">
             <span style="width:100%;-webkit-app-region: drag;">
-                <div style="margin-left: 53%;">GameKey</div>
+                <div style="margin-left:calc((100vw - 140px)/2)">GameKey</div>
             </span>
             <v-spacer></v-spacer>
             <v-icon color="white darken-3" class="menuicons" @click="Minimize()">mdi-window-minimize</v-icon>
@@ -43,8 +43,9 @@
                 {{Maximized ? 'mdi-window-restore' : 'mdi-window-maximize'}}</v-icon>
             <v-icon color="white darken-3" class="menuicons closebutton" @click="Close()">mdi-close</v-icon>
             <template v-slot:extension v-if="Launch">
-                <img src="Icon.png" style="animation: animate 2s linear 1;width:40px;height:40px;" class="gamekey"
-                    @click="OpenWebsite()">
+                <icon type="nosync" class="linktext" @click="OpenWebsite()"
+                    style="animation: animate 2s linear 1;width:45px;height: 45px;line-height: 45px;font-size: 25px;border-radius: 25%;">
+                </icon>
                 <v-toolbar-title class="ml-0 pl-3 unselectable gamekey gamekeytitle" @click="OpenWebsite()"
                     style="font-weight: bold;font-family: 'Comic Sans MS', cursive, sans-serif">
                     GameKey
@@ -99,13 +100,20 @@
                     <v-list class="py-0">
                         <v-list-tile class="notifications" v-for="(notification,i) in notifications" :key="i"
                             @click="Update(i)">
+                            <v-list-tile-avatar>
+                                <v-icon class="mr-3" color="purple">
+                                    {{notification.type == 'ND' ? 'mdi-database-plus' : notification.type == 'NA' ? 'mdi-bell' :'mdi-bell-outline'}}
+                                </v-icon>
+                            </v-list-tile-avatar>
                             <v-list-tile-content>
                                 <v-list-tile-title v-text="notification.title"></v-list-tile-title>
+                                <v-list-tile-sub-title>{{ notification.subtitle }}</v-list-tile-sub-title>
                             </v-list-tile-content>
                             <v-list-tile-action>
-                                <v-icon @click="ReadNotif(notification.title,i)" color="error">mdi-close</v-icon>
+                                <v-icon color="red" size="18" @click="ReadNotif(notification.title,i)">
+                                    mdi-close-circle
+                                </v-icon>
                             </v-list-tile-action>
-                            <v-divider></v-divider>
                         </v-list-tile>
                     </v-list>
                 </v-menu>
@@ -117,26 +125,26 @@
                         <span class="bottom">profile</span>
                     </v-tooltip>
                     <v-list class="py-0">
-                        <v-list-tile @click="settingstab=!settingstab">
+                        <v-list-tile class="profile-settings" @click="settingstab=!settingstab">
                             <v-list-tile-action>
-                                <v-icon>mdi-settings-box</v-icon>
+                                <v-icon color="purple">mdi-palette</v-icon>
                             </v-list-tile-action>
                             <v-list-tile-content>
                                 <v-list-tile-title>Change Theme</v-list-tile-title>
                             </v-list-tile-content>
                         </v-list-tile>
-                        <v-list-tile ripple to='/settings'>
+                        <v-list-tile class="profile-settings" ripple to='/settings'>
                             <v-list-tile-action>
-                                <v-icon>settings</v-icon>
+                                <v-icon color="warning">settings</v-icon>
                             </v-list-tile-action>
                             <v-list-tile-content>
                                 <v-list-tile-title>Settings</v-list-tile-title>
                             </v-list-tile-content>
                         </v-list-tile>
                         <v-divider></v-divider>
-                        <v-list-tile @click="LogOut()">
+                        <v-list-tile class="profile-settings logout-btn" @click="LogOut()">
                             <v-list-tile-action>
-                                <v-icon class="red--text">power_settings_new</v-icon>
+                                <v-icon color="error">power_settings_new</v-icon>
                             </v-list-tile-action>
                             <v-list-tile-content>
                                 <v-list-tile-title class="red--text">Log Out</v-list-tile-title>
@@ -150,8 +158,10 @@
             <div class="transparent flat">
                 <v-list>
                     <v-list-tile class='unselectable' avatar>
-                        <v-list-tile-avatar @click.stop="mini = !mini">
-                            <img :src="userdata.avatar" />
+                        <v-list-tile-avatar color="info" @click.stop="mini = !mini">
+                            <img v-if="userdata.avatar != ''" :src="userdata.avatar" />
+                            <span v-else
+                                class="white--text headline">{{userdata.username.substring(0, 2).toUpperCase()}}</span>
                         </v-list-tile-avatar>
                         <v-list-tile-content>
                             <v-list-tile-title>{{userdata.username}}</v-list-tile-title>
@@ -206,13 +216,17 @@
                                     </div>
                                 </v-flex>
                                 <v-flex xs12>
-                                    <v-radio-group class="justify-center" v-model="theme" row>
-                                        <v-tooltip top v-for="theme in themes" :color="theme.color" :key="theme.name">
-                                            <v-radio slot="activator" :value="theme.class.toLowerCase()"
-                                                :color="theme.color"></v-radio>
-                                            <span>{{theme.name}}</span>
+                                    <v-layout fill-height align-center justify-center ma-0>
+                                        <v-tooltip v-for="c in themes" :key="c.class" :color="c.color" top>
+                                            <template v-slot:activator="{ on }">
+                                                <v-avatar v-on="on" class="linktext"
+                                                    :class="c.class == theme ? 'theme-selected '+c.color+'-theme' : 'themes-selector ' +c.color+'-theme'"
+                                                    size="25" @click="ChangeTheme(c)">
+                                                </v-avatar>
+                                            </template>
+                                            <span>{{c.name}}</span>
                                         </v-tooltip>
-                                    </v-radio-group>
+                                    </v-layout>
                                 </v-flex>
                                 <v-flex xs12>
                                     <div class="text-xs-center body-2 text-uppercase unselectable">
@@ -242,10 +256,16 @@
                 </v-fade-transition>
             </v-container>
         </v-content>
-        <v-snackbar v-if="Launch" v-for="(notification,index) in notifications" @click='Update(index)'
-            :key="notification.title" v-model="notification.value" :timeout="3000*(notifications.length-index)"
-            :style="'margin-bottom: '+60*(index+0.4)+'px;'" absolute right color="blue">
-            <div class="pa-2 ma-2 update">{{notification.title}}</div>
+        <v-snackbar v-if="Launch" v-for="(notification,index) in notifications" :key="notification.title"
+            v-model="notification.value" :timeout="3000*(notifications.length-index)" :class="'type-'+notification.type"
+            :style="'margin-bottom: '+60*(index+0.4)+'px;'" absolute right dark>
+            <v-icon color="white" class="mr-3">
+                {{notification.type == 'ND' ? 'mdi-database-plus' : notification.type == 'NA' ? 'mdi-bell' :'mdi-bell-outline'}}
+            </v-icon>
+            <div @click='Update(index)' class="linktext">{{notification.title}}</div>
+            <v-icon size="16" @click="notification.value = false">
+                mdi-close-circle
+            </v-icon>
         </v-snackbar>
         <v-footer app v-if="Launch" class="unselectable">
             <h3 class="px-2 white--text">&copy; {{App.year}}</h3>
@@ -308,6 +328,8 @@
     </v-app>
 </body>
 <script src="cdn/dexie.js"></script>
+<script src="SHA1.js"></script>
+<script src="MD5.js"></script>
 <script src="DB_Methods.js"></script>
 <script src="AJAX_Methods.js"></script>
 <script src="cdn/vue.js"></script>
@@ -315,9 +337,7 @@
 <script src="cdn/httpVueLoader.js"></script>
 <script src="cdn/vue-router.js"></script>
 <script src="cdn/veux.js"></script>
-<!-- <script src="./readlines.js"></script> -->
-<script src="index.js"></script>
 <script src="Methods.js"></script>
-<script src="SHA1.js"></script>
+<script src="index.js"></script>
 
 </html>

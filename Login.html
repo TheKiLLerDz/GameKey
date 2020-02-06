@@ -13,10 +13,14 @@
 </head>
 
 <body>
-    <v-app id="app" style="border-radius: 20px;background-color: #eeeeee;">
-        <v-card color="transparent" style="border-radius: 20px">
-            <v-layout class="me" style="width:100%;height:80px;-webkit-app-region: drag;padding:20px;">
-                <img src="Icon.png" style="width:50px;height:50px;">
+    <v-app id="app" style="border-radius: 30px;box-shadow: inset 0px 0px 54px -40px rgba(0,0,0,1);"
+        :style="isDark ? 'background-color: #424242':'background-color: white'">
+        <v-card style="border-radius: 30px" :dark="isDark">
+            <v-layout class="me"
+                style="width:100%;height:100px;-webkit-app-region: drag;padding:30px;box-shadow: inset 0px 0px 54px -30px rgba(0,0,0,1);">
+                <icon type="nosync" class="linktext" @click="OpenWebsite()"
+                    style="animation: animate 2s linear 1;width:45px;height: 45px;line-height: 45px;font-size: 25px;border-radius: 25%;">
+                </icon>
                 <h2 class="unselectable"
                     style="margin-left:10px;margin-top:5px;width:300px;color:white;font-weight: bold;font-family: 'Comic Sans MS', cursive, sans-serif">
                     GameKey</h2>
@@ -26,17 +30,42 @@
                     <v-icon dark>mdi-minus</v-icon>
                 </v-btn>
                 <v-btn @click="Close()" class="mx-2" style="-webkit-app-region: no-drag;background-color: #990000;
-                background-image: linear-gradient(147deg, #990000 0%, #ff0000 74%);;" dark small color="error">
+                background-image: linear-gradient(147deg, #990000 0%, #ff0000 74%);" dark small color="error">
                     <v-icon dark>mdi-close</v-icon>
                 </v-btn>
             </v-layout>
             <v-layout class="unselectable" align-center justify-center ma-0>
-                <h1 style="margin-top:40px">User Login</h1>
+                <span style="margin:30px" class="font-weight-bold display-2">User Login</span>
+                <v-menu offset-y bottom origin="center center" transition="scale-transition">
+                    <template v-slot:activator="{ on }">
+                        <v-btn color="purple" icon v-on="on">
+                            <v-icon color="purple lighten-1">mdi-account-search</v-icon>
+                        </v-btn>
+                    </template>
+                    <v-list style="border-radius: 20px;">
+                        <v-list-item style="height: 40px;width:200px" @click="DB_Path()" :disabled="createacc">
+                            <v-list-item-icon>
+                                <v-icon color="purple">mdi-database-plus</v-icon>
+                            </v-list-item-icon>
+                            <v-list-item-content>
+                                <v-list-item-title>Load Data</v-list-item-title>
+                            </v-list-item-content>
+                        </v-list-item>
+                        <v-list-item style="height: 40px;width:200px" @click="store.state.accountcreation=true"
+                            :disabled="accountfound">
+                            <v-list-item-icon>
+                                <v-icon color="success">mdi-account-plus</v-icon>
+                            </v-list-item-icon>
+                            <v-list-item-content>
+                                <v-list-item-title>Create Account</v-list-item-title>
+                            </v-list-item-content>
+                        </v-list-item>
+                    </v-list>
+                </v-menu>
             </v-layout>
             <v-card-text style="padding-left: 100px;padding-right: 100px;margin-top: 20px;">
-                <v-text-field prepend-inner-icon="mdi-account" :rules="[rules.required, rules.min4]" color="info"
-                    label="Username" dense rounded filled v-model="userdata.username"
-                    @keydown.enter="accessLogin(userdata)">
+                <v-text-field prepend-inner-icon="mdi-email" :rules="[rules.required, rules.email]" color="info"
+                    label="Email" dense rounded filled v-model="userdata.email" @keydown.enter="accessLogin(userdata)">
                 </v-text-field>
                 <v-text-field prepend-inner-icon="mdi-lock" :rules="[rules.required, rules.min8]" name="input-10-1"
                     type="Password" label="Password" dense rounded filled hint="At least 8 characters" counter
@@ -45,11 +74,10 @@
                 <v-layout fill-height align-center justify-center ma-0>
                     <v-checkbox color="info" v-model="rememberme" label="Remember me"></v-checkbox>
                     <v-spacer></v-spacer>
-                    <v-btn x-small color="secondary" @click="ResetPwDialog = true" dark>Forgot Password ?
+                    <v-btn x-small :color="isDark? 'white' :'#424242'" :style="isDark? 'color:black':'color:white'"
+                        @click="ResetPwDialogLive()">Forgot Password ?
                     </v-btn>
                 </v-layout>
-                <v-switch :disabled="!rememberme" color="purple" v-model="AutoLogin"
-                    :label="`AutoLogin : ${AutoLogin.toString()}`"></v-switch>
             </v-card-text>
             <v-card-actions style="padding-left: 120px;padding-right: 120px;">
                 <v-progress-circular style="margin-right: 10px;" :indeterminate="Loading" color="purple">
@@ -58,7 +86,7 @@
                     <v-btn color="info"
                         style="background-color: #045de9;background-image: linear-gradient(315deg, #045de9 0%, #09c6f9 74%);"
                         block rounded large @click="accessLogin(userdata)">
-                        Login
+                        {{accountfound ? 'Login' : 'No Account Found'}}
                     </v-btn>
                     <v-btn icon @click="moreinfo = !moreinfo">
                         <v-icon>{{ moreinfo ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
@@ -66,7 +94,7 @@
                 </v-layout>
             </v-card-actions>
             <v-expand-transition>
-                <div v-show="moreinfo" style="border-radius: 20px">
+                <div v-show="moreinfo" style="border-radius: 30px">
                     <v-divider></v-divider>
                     <v-card-text>
                         <v-alert style="background-color: #42378f;
@@ -86,10 +114,10 @@
         <v-dialog v-model="createacc" width="80vw" persistent scrollable loading @keydown.esc="createacc = !createacc;"
             @keydown.enter="createacc = true">
             <v-card>
-                <v-progress-linear :active="isAdding" class="ma-0" color="blue lighten-3" height="4" indeterminate>
+                <v-progress-linear :active="isAdding" class="ma-2" color="blue lighten-3" height="4" indeterminate>
                 </v-progress-linear>
                 <v-card-title class="unselectable">
-                    <v-chip large class="ma-2" color="orange" text-color="white" style="padding:20px">
+                    <v-chip large color="orange" text-color="white">
                         <v-icon left>mdi-account</v-icon>
                         Create Account
                     </v-chip>
@@ -100,12 +128,12 @@
                         <v-layout wrap>
                             <v-flex xs12 sm12 md12>
                                 <v-form ref="form" v-model="newacc.valid">
-                                    <v-text-field :rules="[rules.required, rules.min4, rules.username]"
-                                        prepend-inner-icon="mdi-account" color="info" label="Username"
-                                        v-model="newacc.username" dense rounded filled required>
-                                    </v-text-field>
                                     <v-text-field :rules="[rules.required, rules.email]" prepend-inner-icon="mdi-email"
                                         color="info" label="Email" v-model="newacc.email" dense rounded filled required>
+                                    </v-text-field>
+                                    <v-text-field :rules="[rules.required, rules.email, rules.emailconfirmation]"
+                                        prepend-inner-icon="mdi-email" v-model="newacc.emailconfirmation" color="info"
+                                        label="Confirm Email" dense rounded filled required>
                                     </v-text-field>
                                     <v-text-field prepend-inner-icon="mdi-lock"
                                         :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
@@ -114,10 +142,58 @@
                                         @click:append="show1 = !show1" color="red" v-model="newacc.password" dense
                                         rounded filled required>
                                     </v-text-field>
-                                    <v-file-input ref="file" :rules="imgrules" accept="image/png, image/jpeg, image/bmp"
-                                        dense rounded filled prepend-inner-icon="mdi-camera" prepend-icon=""
-                                        label="Pick an avatar">
+                                    <v-text-field prepend-inner-icon="mdi-lock"
+                                        :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                                        :rules="[rules.required, rules.min8, rules.passwordconfirmation]"
+                                        :type="show1 ? 'text' : 'password'" name="input-10-1" label="Confirm Password"
+                                        hint="At least 8 characters" v-model="newacc.passwordconfirmation" counter
+                                        @click:append="show1 = !show1" color="red" dense rounded filled required>
+                                    </v-text-field>
+                                    <v-file-input ref="file" accept="image/png, image/jpeg, image/bmp" dense rounded
+                                        filled prepend-inner-icon="mdi-camera" prepend-icon="" label="Pick an avatar">
                                     </v-file-input>
+                                    <v-radio-group v-model="RecoveryOption" :rules="[rules.required]" required>
+                                        <template v-slot:label>
+                                            <div>Activate The <strong>Password Recovery Option</strong>
+                                            </div>
+                                        </template>
+                                        <v-radio color="success" value="Yes" required>
+                                            <template v-slot:label>
+                                                <strong class="success--text">Yes,</strong>
+                                                <strong class="warning--text"> "Recommended"</strong>
+                                            </template>
+                                        </v-radio>
+                                        <v-radio color="error" value="No">
+                                            <template v-slot:label>
+                                                <strong class="error--text">No</strong>
+                                            </template>
+                                        </v-radio>
+                                        <strong style="margin-top: 10px;" class="error--text"
+                                            v-if="RecoveryOption=='No'">PS : <span class="warning--text">"That Means,
+                                                You'll be responsible if you forget
+                                                your LOGIN credentials"</span></strong style="margin-top: 10px;">
+                                    </v-radio-group>
+                                    <v-checkbox v-model="checkbox" :rules="[rules.required]" required>
+                                        <template v-slot:label>
+                                            <div>
+                                                I agree to the
+                                                <v-tooltip bottom>
+                                                    <template v-slot:activator="{ on }">
+                                                        <strong class="success--text" @click="getterms()">
+                                                            Terms & Conditions
+                                                        </strong>
+                                                    </template>
+                                                    Opens in new window
+                                                </v-tooltip>of
+                                                <v-tooltip bottom>
+                                                    <template v-slot:activator="{ on }">
+                                                        <strong v-on="on" @click="openwebsite()">GameKey</strong>
+                                                    </template>
+                                                    Open GK Website
+                                                </v-tooltip>
+                                            </div>
+                                        </template>
+                                    </v-checkbox>
                                 </v-form>
                             </v-flex>
                         </v-layout>
@@ -126,42 +202,125 @@
                 <v-divider></v-divider>
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn color="red darken-1" style="color:white" _click="close" depressed @click="Close()">Cancel
+                    <v-btn color="red darken-1" style="color:white" _click="close" depressed
+                        @click="store.state.accountcreation=false">Cancel
                     </v-btn>
                     <v-btn color="blue darken-1" style="color:white" :disabled="!newacc.valid" :loading="isAdding"
-                        @click="createaccount(newacc);isAdding = true">Create</v-btn>
+                        @click="createaccount(newacc)">Create</v-btn>
                 </v-card-actions>
             </v-card>
         </v-dialog>
-        <v-dialog v-model="ForgotPwDialog" max-width="70vw" persistent @keydown.esc="store.state.ForgotPwDialog = false"
-            @keydown.enter="store.state.ForgotPwDialog = false">
+        <v-dialog v-model="termsdialog" max-width="70vw">
             <v-card>
-                <v-card-title class="headline red--text">Password Reset Request</v-card-title>
+                <v-card-title class="headline">GameKey Terms & Conditions</v-card-title>
                 <v-card-text>
-                    {{ForgotPwDialogmsg}} </v-card-text>
+                    <strong>1. Agreement to Terms</strong>
+                    <li v-for="term in terms"> {{term}}</li>
+                </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn color="green darken-1" text @click="store.state.ForgotPwDialog = false">
+                    <v-btn color="error darken-1" text @click="store.state.termsdialog = checkbox = false;">
+                        Disagree
+                    </v-btn>
+                    <v-btn color="green darken-1" text @click="store.state.termsdialog = false;checkbox = true;">
+                        Agree
+                    </v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
+        <v-dialog v-model="PwChanged" width="500" persistent @keydown.enter="store.state.PwChanged = false"
+            @keydown.esc="store.state.PwChanged = false" @keydown.esc="store.state.PwChanged = false">
+            <v-card class="unselectable">
+                <v-card-title class="headline success--text">Password Successfully Changed</v-card-title>
+                <v-card-text>
+                    <strong class="title info--text">
+                        Use Your New Password to Log-in</strong>
+                </v-card-text>
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="success darken-1" text @click="store.state.PwChanged = false">
                         Ok
                     </v-btn>
                 </v-card-actions>
+            </v-card>
+        </v-dialog>
+        <v-dialog v-model="ForgotPwDialog" max-width="70vw" persistent
+            @keydown.esc="store.state.ForgotPwDialog = falsekey = false">
+            <v-card>
+                <v-card-title class="headline red--text">Password Reset Request</v-card-title>
+                <v-card-text>
+                    {{ForgotPwDialogmsg}}
+                    <v-textarea style="margin-top: 10px;" auto-grow outlined rows="2" row-height="25" shaped
+                        v-show="enterkey" :rules="[rules.required,rules.length32]" prepend-icon="mdi-key"
+                        v-model="decrytionkey" color="info" label="Key" required>
+                    </v-textarea>
+                    <strong class="error--text" v-show="falsekey">Wrong Key</strong>
+                </v-card-text>
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="red darken-1" text @click="store.state.ForgotPwDialog = falsekey = false">Cancel
+                    </v-btn>
+                    <v-btn color="green darken-1" text @click="falsekey=false;KeyTester()"
+                        :disabled="decrytionkey.length!=32">
+                        Ok
+                    </v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
+        <v-dialog v-model="PWdialog" max-width="500" persistent @keydown.esc="PWdialog = false">
+            <v-card>
+                <v-card-title class="headline red--text">Change Password</v-card-title>
+                <v-card-text style="padding:0px 40px 0px 40px;">
+                    <v-form v-model="forms">
+                        <v-text-field :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                            :rules="[rules.required, rules.min8]" :type="show1 ? 'text' : 'password'" name="input-10-1"
+                            label="New Password" hint="At least 8 characters" counter @click:append="show1 = !show1"
+                            color="red" v-model="newacc.password" required>
+                        </v-text-field>
+                        <v-text-field :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                            :rules="[rules.required, rules.min8,rules.passwordconfirmation]"
+                            :type="show1 ? 'text' : 'password'" name="input-10-1" label="Confirm New Password"
+                            hint="At least 8 characters" counter @click:append="show1 = !show1" color="red"
+                            v-model="newacc.passwordconfirmation" required>
+                        </v-text-field>
+                    </v-form>
+                </v-card-text>
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="error darken-1" text @click="PWdialog = false">
+                        Cancel
+                    </v-btn>
+                    <v-btn color="success darken-1" :disabled="!forms" text
+                        @click="ChangePw(newacc.password,newacc.passwordconfirmation)">
+                        Save
+                    </v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
+        <v-dialog v-model="waitingdialog" hide-overlay persistent width="300">
+            <v-card color="primary" dark>
+                <v-card-text>
+                    <strong>Please stand by</strong>
+                    <v-progress-linear indeterminate color="white" class="mb-0"></v-progress-linear>
+                </v-card-text>
             </v-card>
         </v-dialog>
         <v-dialog v-model="ResetPwDialog" max-width="70vw" persistent @keydown.esc="ResetPwDialog = false">
             <v-card>
                 <v-card-title class="headline red--text">Forgot Password</v-card-title>
                 <v-card-text>
-                    If you Forgot your password, we can send you a new password to your email <div class="green--text">
-                        {{userdata.email}}</div>
-                    <div class="red--text">Note that you'll lose your old password </div>
-                    <h3>are you sure you want to continue ?</h3>
+                    Please Enter Your Email here <div class="green--text">
+                        <v-text-field prepend-icon="mdi-email" :rules="[rules.required, rules.email]"
+                            v-model="userdata.email"></v-text-field>
+                    </div>
+                    <div class="success--text">if You've entered the correct email , a Key will be sent to you</h3>
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
                     <v-btn color="green darken-1" text @click="ResetPwDialog = false">
                         Cancel
                     </v-btn>
-                    <v-btn color="red darken-1" text @click="ResetPwDialog = false;ForgotPW()">
+                    <v-btn color="red darken-1" text @click="ForgotPW();ResetPwDialog = false;">
                         Accept
                     </v-btn>
                 </v-card-actions>
@@ -174,9 +333,12 @@
 
 <script src="cdn/dexie.js"></script>
 <script src="SHA1.js"></script>
+<script src="Methods.js"></script>
+<script src="AJAX_Methods.js"></script>
+<script src="cdn/httpVueLoader.js"></script>
+<script src="MD5.js"></script>
 <script src="cdn/vue.js"></script>
 <script src="cdn/vuetify2.js"></script>
 <script src="cdn/veux.js"></script>
 <script src="DB_Methods.js"></script>
 <script src="Login.js"></script>
-<script src="AJAX_Methods.js"></script>

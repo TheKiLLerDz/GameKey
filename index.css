@@ -21,6 +21,14 @@
     color: white;
 }
 
+.profile-settings:hover {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.profile-settings.logout-btn:hover {
+    background: rgba(255, 0, 0, 0.25);
+}
+
 .notifications:hover {
     background: linear-gradient(60deg, #fb8c00, #ffa726) !important;
     box-shadow: 0 12px 20px -10px rgba(255, 152, 0, .28), 0 4px 20px 0 rgba(0, 0, 0, .12), 0 7px 8px -5px rgba(255, 152, 0, .2) !important;
@@ -28,6 +36,16 @@
 
 html {
     overflow: hidden;
+}
+
+.type-NA .v-snack__wrapper {
+    background: linear-gradient(60deg, #fb8c00, #ffa726) !important;
+    box-shadow: 0 12px 20px -10px rgba(255, 152, 0, .28), 0 4px 20px 0 rgba(0, 0, 0, .12), 0 7px 8px -5px rgba(255, 152, 0, .2) !important;
+}
+
+.type-ND .v-snack__wrapper {
+    background: linear-gradient(60deg, #8200fb, #9d26ff) !important;
+    box-shadow: 0 12px 20px -10px rgba(255, 0, 128, 0.28), 0 4px 20px 0 rgba(0, 0, 0, .12), 0 7px 8px -5px rgba(255, 0, 221, 0.2) !important;
 }
 
 .linktext:hover {
@@ -83,59 +101,51 @@ html {
     display: none;
 }
 
-.loader {
-    position: relative;
+.Loading-Container {
     display: flex;
-    /* background: #ffffff */
+    background-color: #222;
+    margin: auto;
+    width: 100vw;
+    height: 100vh;
 }
 
-.loader span {
-    color: rgb(217, 215, 209);
-    margin: 0 20px;
-    font-size: 8vw;
-    font-weight: bold;
-    animation: animate 3s linear infinite;
-    font-family: sans-serif;
+.loadingtexth1 {
+    top: 10%;
+    margin-left: calc((100vw - 240px)/2);
+    position: absolute;
+    font-size: 3rem;
+    color: #FFF;
+    text-align: center;
+    text-transform: uppercase;
 }
 
-.loader span:nth-child(1) {
-    animation-delay: 0s;
+.logo {
+    width: 400px;
+    height: 400px;
+    position: absolute;
+    top: calc((100vh - 400px)/2);
+    margin-left: calc((100vw - 410px)/2);
 }
 
-.loader span:nth-child(2) {
-    animation-delay: 0.4s;
+.circle {
+    border: 5px solid transparent;
+    border-top-color: #2B86C5;
+    border-radius: 50%;
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    animation: connect 2.5s linear infinite;
 }
 
-.loader span:nth-child(3) {
-    animation-delay: 0.8s;
-}
-
-.loader span:nth-child(4) {
-    animation-delay: 1.2s;
-}
-
-.loader span:nth-child(5) {
-    animation-delay: 1.6s;
-}
-
-.loader span:nth-child(6) {
-    animation-delay: 2s;
-}
-
-.loader span:nth-child(7) {
-    animation-delay: 2.4s;
-}
-
-.loader span:nth-child(8) {
-    animation-delay: 2.6s;
-}
-
-.loader span:nth-child(9) {
-    animation-delay: 3.2s;
-}
-
-.loader span:nth-child(10) {
-    animation-delay: 3.6s;
+.loading-text {
+    position: absolute;
+    bottom: 50px;
+    margin-left: calc((100vw - 100px)/2);
+    text-transform: uppercase;
+    color: #FFF;
+    text-align: center;
+    font-size: 1.5rem;
+    animation: animate 2s linear infinite;
 }
 
 @keyframes animate {
@@ -144,11 +154,49 @@ html {
     }
 
     50% {
-        transform: scale(1.6);
+        transform: scale(1.2);
     }
 
     100% {
         transform: scale(1);
+    }
+}
+
+.gamekeyiconloading {
+    position: absolute;
+    margin: auto;
+    top: 110px;
+    left: 110px;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: default;
+    display: inline-block;
+    font-family: 'Verdana', cursive, sans-serif;
+    width: 180px;
+    height: 180px;
+    font-size: 100px;
+    line-height: 180px;
+    text-align: center;
+    border-radius: 25%;
+    color: #fff;
+    font-weight: bold;
+    vertical-align: middle;
+    background-color: #FF3CAC;
+    background-image: linear-gradient(225deg, #FF3CAC 0%, #784BA0 50%, #2B86C5 100%);
+    box-shadow: 0px 3px 10px rgba(255, 255, 255, 0.1);
+}
+
+@keyframes connect {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(-360deg);
     }
 }
 
@@ -312,6 +360,32 @@ html {
     border-radius: 8px;
     background: linear-gradient(60deg, #26c6da, #00acc1) !important;
     box-shadow: 0 12px 20px -10px rgba(0, 188, 212, .28), 0 4px 20px 0 rgba(0, 0, 0, .12), 0 7px 8px -5px rgba(0, 188, 212, .2) !important;
+}
+
+.themes-selector {
+    margin: 5px;
+}
+
+.success-theme {
+    background-color: #4caf50;
+}
+
+.red-theme {
+    background-color: #c20e0b;
+}
+
+.orange-theme {
+    background-color: #ff9800;
+}
+
+.blue-theme {
+    background-color: #2196f3;
+}
+
+.theme-selected {
+    margin: 5px;
+    border: 3px solid #fff;
+    border-color: #00e1ff;
 }
 
 .theme--blue .v-list-item-mini-active {

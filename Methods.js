@@ -1,10 +1,16 @@
 'use strict';
 
-var keys;
-var gamename;
-var platform;
-var pushplatform;
+var keys, gamename, platform, pushplatform, keycryp, cipher;
+var aes256 = require('aes256');
 const fs = require('fs');
+
+const {
+  ipcRenderer
+} = require('electron')
+
+ipcRenderer.on('isMaximized', (event, value) => {
+  v.Maximized = value;
+})
 
 function PatternKeySteam(string) {
   var result = []
@@ -37,12 +43,31 @@ function impport(Platform) {
   ipcRenderer.send('Path-request', Platform);
 }
 
+function Crypt(keyd) {
+  return cipher.encrypt(keyd);
+}
+
+function Decrypt(keyc) {
+  return cipher.decrypt(keyc);
+}
+
+ipcRenderer.on('get-data-reply', (event, Key, email) => {
+  keycryp = Key;
+  cipher = aes256.createCipher(Key);
+  store.state.userdata.email = email;
+})
+
+function authentication(user, pass) {
+  cipher = aes256.createCipher(pass);
+  var authD = Decrypt(localStorage.authC);
+  return authD == 'gamekeyapp.com/' + user ? true : false
+}
+
 ipcRenderer.on('Path-reply', (event, Paths, Platform) => {
   if (Paths != undefined) {
     var indicSlash = Paths[0].lastIndexOf('\/');
     var extension = Paths[0].substring(indicSlash + 1).split(".");
-    console.log(extension)
-    extension[1] == 'txt' ? importtxt(Platform, Paths[0]) : extension[1] == 'xlsx' ? importxls(Platform, Paths[0]) : console.log("Format Not Supported")
+    extension[extension.length - 1] == 'txt' ? importtxt(Platform, Paths[0]) : extension[1] == 'xlsx' ? importxls(Platform, Paths[0]) : console.log("Format Not Supported")
   }
 })
 
@@ -68,21 +93,6 @@ function getappid(item) {
     default:
       return item.appid;
   }
-}
-
-function filtrer(tag, i) {
-  var el = document.createElement('div');
-  el.innerHTML = tag
-  var l = el.getElementsByTagName('a').item(0)
-  var appid = l.attributes[1].value
-  addtokeys(appid, i)
-}
-
-function addtokeys(appid, i) {
-  keys.push({
-    'key': key[i],
-    'appid': appid
-  })
 }
 
 function getindex(platform, name) {

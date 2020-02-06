@@ -46,6 +46,7 @@
                         </div>
                         <div>
                             <v-icon color="orange">mdi-star</v-icon><span class="blue--text"> Malah Mehdi</span>
+                            (mehdi.chihani1)
                         </div>
                     </div>
                     <div align="center">
@@ -56,10 +57,8 @@
                         </v-tooltip>
                     </div>
                     <div align="center">
-                        <span style="margin:20px;display: inline-block;font-family: 'Verdana', cursive, sans-serif;width: 250px;height: 250px;
-        text-align: center;border-radius: 50px;color: #fff;font-weight: bold;font-size: 140px;line-height: 250px;vertical-align: middle;
-        background: #ee7752;background-image: linear-gradient(to right top, #ff25a1, #d200b3, #9213c3, #7942dc, #565ef0, #009fff, #5ffbf1);
-        box-shadow: 0px 3px 10px rgba(0, 0, 0, .25);" class="linktext" @click="open()">GK</span>
+                        <icon style="width:250px;height: 250px;border-radius: 25%;font-size: 140px;line-height: 250px;"
+                            class="linktext" type="sync" @click="open()"></icon>
                     </div>
                 </v-card-text>
 </template>

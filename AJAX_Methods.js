@@ -29,14 +29,28 @@ function tags(appid) {
   }
 }
 
-function ForgotPw(username, email, resolve, reject) {
-  http.open('POST', App.website + '/forgotpass', true)
+function send_data(email, key, resolve, reject) {
+  http.open('POST', App.website + '/signup', true)
   http.setRequestHeader('Content-Type', 'application/json;charset=UTF-8')
   json = {
-    email: email,
-    username: username
+    "email": email,
+    "key": key
   }
   http.send(JSON.stringify(json))
+
+  http.onload = function () {
+    resolve(JSON.parse(http.response).emailhash);
+  };
+
+  http.onerror = function () {
+    reject("error");
+  };
+}
+
+function GetTerms(resolve, reject) {
+  http.open('POST', App.website + '/terms', true);
+  http.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+  http.send('')
 
   http.onload = function () {
     resolve(JSON.parse(http.response));
@@ -47,8 +61,46 @@ function ForgotPw(username, email, resolve, reject) {
   };
 }
 
+function UpdateSvDataPw(email, Key, userid) {
+  http.open('POST', App.website + '/updatePw', true)
+  http.setRequestHeader('Content-Type', 'application/json;charset=UTF-8')
+  json = {
+    "email": email,
+    "key": Key,
+    "userid": userid
+  }
+  http.send(JSON.stringify(json));
+
+  http.onload = function () {
+    SetnotSynced('');
+  };
+
+  http.onerror = function () {
+    SetnotSynced('true');
+  };
+}
+
+function ForgotPwd(email, userid, resolve, reject) {
+  http.open('POST', App.website + '/forgotpass', true)
+  http.setRequestHeader('Content-Type', 'application/json;charset=UTF-8')
+  json = {
+    "email": email,
+    "userid": userid
+  }
+  http.send(JSON.stringify(json))
+
+  http.onload = function () {
+    resolve(JSON.parse(http.response));
+  };
+
+  http.onerror = function () {
+    reject("error");
+  };
+
+}
+
 function testAPI(resolve, reject) {
-  var url = store.state.App.website;
+  var url = App.website;
   http.open('GET', url);
   http.send();
 
@@ -69,7 +121,6 @@ function sendData(i, callback) {
 
   http.onreadystatechange = function () {
     if (http.readyState === 4) {
-      // console.log(http.response); 
       filtrer(http.responseText, i)
     }
   }
@@ -114,7 +165,7 @@ function getinfo(item, resolve, reject) {
 }
 
 function getnotification(oldversion) {
-  http.open('POST', store.state.App.website + '/notification', true);
+  http.open('POST', App.website + '/notification', true);
   http.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
   http.send(JSON.parse(JSON.stringify(oldversion)));
 
@@ -129,7 +180,7 @@ function getnotification(oldversion) {
 }
 
 function updateDB(oldversion) {
-  http.open('POST', store.state.App.website + '/updatedb', true);
+  http.open('POST', App.website + '/updatedb', true);
   http.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
 
   http.send(JSON.parse(JSON.stringify(oldversion)));

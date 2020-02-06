@@ -2,6 +2,11 @@ html {
     overflow-y: hidden;
 }
 
+.v-dialog {
+    overflow-x: hidden;
+    border-radius: 10px;
+}
+
 .unselectable {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -10,6 +15,21 @@ html {
     -ms-user-select: none;
     user-select: none;
     cursor: default
+}
+
+div.v-menu__content {
+    border-radius: 20px;
+    height: 112px;
+    width: 200px;
+}
+
+.v-list-item:hover {
+    border-radius: 12px;
+    background: linear-gradient(-45deg, #e73c7e, #23a6d5);
+}
+
+.v-list-item:hover .v-list-item__title {
+    color: white;
 }
 
 .me {

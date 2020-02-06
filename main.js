@@ -3,12 +3,13 @@ const {
     BrowserWindow,
     ipcMain,
     dialog
-} = require('electron')
+} = require('electron');
+const fs = require('fs');
 
+var Key, Email;
 var mainwin, Loginwin;
 
 var isWin = process.platform === "win32";
-if (isWin) app.setPath('userData', app.getPath('home') + '\\OneDrive\\GameKey')
 
 function createAppWindow() {
     mainwin = new BrowserWindow({
@@ -25,27 +26,40 @@ function createAppWindow() {
     mainwin.loadURL('file://' + __dirname + '/index.html')
 }
 
+app.on('ready', getDataPath);
+
+function getDataPath() {
+    fs.readFile(app.getAppPath() + '\\UserdataPath.cfg', 'UTF-8', (err, path) => {
+        if (err) {
+            if (isWin) {
+                var newpath = app.getPath('home') + '\\OneDrive\\GameKey';
+                ExportUserDataPath(newpath);
+                app.setPath('userData', newpath);
+            }
+            createLoginWindow();
+            return;
+        }
+        app.setPath('userData', path);
+        createLoginWindow();
+    });
+}
+
 function createLoginWindow() {
     Loginwin = new BrowserWindow({
-        width: 550,
-        height: 685,
         maxWidth: 550,
-        maxHeight: 685,
+        maxHeight: 658,
+        minWidth: 550,
+        minHeight: 658,
         transparent: true,
         frame: false,
-        show: false,
         webPreferences: {
             nodeIntegration: true,
             devTools: false
         }
-    })
+    });
     Loginwin.loadURL('file://' + __dirname + '/Login.html');
-    setTimeout(() => {
-        Loginwin.show();
-    }, 1000);
+    Loginwin.hide();
 }
-
-app.on('ready', createLoginWindow)
 
 ipcMain.on('userData-Path', (event) => {
     event.returnValue = app.getPath('userData').replace(/\\/g, '/');
@@ -57,16 +71,27 @@ ipcMain.on('minimize-app', () => {
     else Loginwin.minimize();
 })
 
-ipcMain.on('access-app', () => {
+ipcMain.on('access-app', (event, key, email) => {
+    Key = key;
+    Email = email;
     createAppWindow();
     Loginwin.close();
     Loginwin = null;
 })
 
+ipcMain.on('Show-Login', (event, key) => {
+    setTimeout(() => {
+        Loginwin.show();
+    }, 500);
+})
+
+ipcMain.on('Key-Changed', (event, key) => {
+    Key = key;
+})
+
 ipcMain.on('Log-Out', () => {
-    createLoginWindow();
-    mainwin.close();
-    mainwin = null;
+    app.relaunch();
+    app.quit();
 })
 
 ipcMain.on('maximize-app', (event) => {
@@ -85,6 +110,10 @@ ipcMain.on('close-app', () => {
 ipcMain.on('setSize', (event, width, height) => {
     mainwin.setSize(width, height);
     mainwin.center();
+})
+
+ipcMain.on('get-data', (event) => {
+    event.reply('get-data-reply', Key, Email);
 })
 
 ipcMain.on('open-link', (event, link) => {
@@ -118,6 +147,27 @@ ipcMain.on('Path-request', (event, Platform) => {
         console.log(err)
     })
 })
+
+ipcMain.on('DB-Path-request', (event, Platform) => {
+    dialog.showOpenDialog(Loginwin, {
+        properties: ['openDirectory']
+    }).then(result => {
+        if (!result.canceled) {
+            ExportUserDataPath(result.filePaths[0]);
+            app.relaunch();
+            app.quit();
+        }
+    }).catch(err => {
+        console.log(err)
+    })
+})
+
+function ExportUserDataPath(path) {
+    fs.writeFile(app.getAppPath() + '\\UserdataPath.cfg', path,
+        function (err) {
+            if (err) console.log(err);
+        });
+}
 
 ipcMain.on('xlsx-Export-request', (event, Platform) => {
     dialog.showSaveDialog(mainwin, {

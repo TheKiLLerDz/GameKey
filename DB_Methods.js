@@ -4,11 +4,30 @@ new Dexie('DATA').open().then(function (d) {
 	data = d;
 })
 
-function setUserData(username, email) {
+function setUserData(auth) {
+	data.tables[0].where("id").equals(1).modify(d => {
+		d.authC = auth;
+	});
+}
+
+function setUserName(username) {
 	data.tables[0].where("id").equals(1).modify(d => {
 		d.username = username;
-		d.email = email;
 	});
+}
+
+function addUserID(userid) {
+	data.tables[0].where("id").equals(1).modify(d => {
+		d.userid = userid;
+	});
+}
+
+function SetnotSynced(value) {
+	data.tables[0].where("id").equals(1).modify(d => {
+		d.notsynced = value;
+	});
+	localStorage.notsynced = value;
+	store.state.isNotSync = localStorage.userid == '' || localStorage.notsynced == 'true';
 }
 
 function setavatar(avatar) {
@@ -17,19 +36,80 @@ function setavatar(avatar) {
 	});
 }
 
-function addUserData(username, email, avatar, password) {
+function addUserData(auth, avatar) {
 	data.tables[0].put({
-		username: username,
-		email: email,
+		authC: auth,
 		avatar: avatar,
-		password: password
+		userid: '',
+		username: '',
+		notsynced: ''
 	})
 }
 
-function UpdatePW(username, password) {
-	data.tables[0].where("id").equals(1).modify(d => {
-		d.password = password
+function OnLoad(oldKey) {
+	cipher = aes256.createCipher(oldKey);
+	Dexie.exists('GameKey_DB').then(function (exists) {
+		if (exists) {
+			new Dexie('GameKey_DB').open()
+				.then(function (d) {
+					db = d;
+					getSteamDB()
+					getUplayDB()
+					getOriginDB()
+					getOthersDB()
+				})
+		} else {
+			v.Launch = true
+		}
+	})
+}
+
+function ChangeEncryptionKey(newKey, email, resolve) {
+	cipher = aes256.createCipher(newKey);
+	auth = 'gamekeyapp.com/' + email
+	authC = Crypt(auth)
+	localStorage.authC = authC
+	setUserData(authC)
+	var promise = new Promise(function (reso) {
+		ClearDBS(reso);
 	});
+	promise.then((res) => {
+		if (store.state.steamkey.length > 0) {
+			store.state.steamkey.forEach(app => {
+				app.keys.forEach(el => {
+					addkey(2, app.appid, Crypt(el.key))
+				})
+			})
+		}
+		if (store.state.uplaykey.length > 0) {
+			store.state.uplaykey.forEach(app => {
+				app.keys.forEach(el => {
+					addkey(3, app.appid, Crypt(el.key))
+				})
+			})
+		}
+		if (store.state.originkey.length > 0) {
+			store.state.originkey.forEach(app => {
+				app.keys.forEach(el => {
+					addkey(0, app.appid, Crypt(el.key))
+				})
+			})
+		}
+		if (store.state.otherskey.length > 0) {
+			store.state.otherskey.forEach(app => {
+				app.keys.forEach(el => {
+					addkey(1, app.appid, Crypt(el.key))
+				})
+			})
+		}
+		if (localStorage.userid != '') {
+			UpdateSvDataPw(store.state.userdata.email, newKey,
+				localStorage.userid);
+		}
+		resolve("success");
+	})
+
+	resolve('success');
 }
 
 function getUserData(resolve, reject) {
@@ -37,7 +117,7 @@ function getUserData(resolve, reject) {
 		if (!exists) {
 			var db = new Dexie('DATA');
 			db.version(1).stores({
-				Data: 'id++,username,email,avatar,password',
+				Data: 'id++,userid,authC,avatar,username,notsynced',
 			});
 			db.open();
 			data = db;
@@ -47,10 +127,13 @@ function getUserData(resolve, reject) {
 				data = d;
 				data.tables[0].toArray().then(el => {
 					if (el.length > 0) {
+						localStorage.userid = el[0].userid;
+						localStorage.authC = el[0].authC;
 						localStorage.username = el[0].username;
-						localStorage.email = el[0].email;
-						localStorage.avatar = el[0].avatar;
-						localStorage.password = el[0].password;
+						localStorage.notsynced = el[0].notsynced;
+						if (el[0].avatar != '' && el[0].avatar != 'avatar.')
+							localStorage.avatar = ipcRenderer.sendSync('userData-Path') + "/" + el[0].avatar;
+						else localStorage.avatar = ''
 						resolve("success");
 					} else reject("account not created yet")
 				});
@@ -58,6 +141,8 @@ function getUserData(resolve, reject) {
 		}
 	})
 }
+
+
 
 function CreateDB() {
 	var promise1 = new Promise(function (resolve, reject) {
@@ -130,6 +215,30 @@ function getdata() {
 	getOriginDB()
 	getOthersDB()
 	getVersionDB()
+}
+
+function ClearDBS(resolve) {
+	if (store.state.steamkey.length > 0) {
+		store.state.steamkey.forEach(app => {
+			delgametagskeys(2, app.appid);
+		})
+	}
+	if (store.state.uplaykey.length > 0) {
+		store.state.uplaykey.forEach(app => {
+			delgametagskeys(3, app.appid);
+		})
+	}
+	if (store.state.originkey.length > 0) {
+		store.state.originkey.forEach(app => {
+			delgametagskeys(0, app.appid);
+		})
+	}
+	if (store.state.otherskey.length > 0) {
+		store.state.otherskey.forEach(app => {
+			delgametagskeys(1, app.appid);
+		})
+	}
+	resolve("success")
 }
 
 function ClearDB(resolve) {
@@ -210,18 +319,26 @@ function getSteamDB() {
 		store.state.steam = el;
 		store.state.steamkey = el.filter((e) => {
 			e.platform = 'Steam'
-			return e.keys !== undefined;
+			if (e.keys !== undefined) {
+				e.keys.forEach(k => k.key = Decrypt(k.key))
+				return e
+			}
 		});
 		v.Launch = true;
+
 	});
 }
+
 
 function getUplayDB() {
 	db.tables[3].toArray().then(el => {
 		store.state.uplay = el;
 		store.state.uplaykey = el.filter((e) => {
 			e.platform = 'Uplay'
-			return e.keys !== undefined;
+			if (e.keys !== undefined) {
+				e.keys.forEach(k => k.key = Decrypt(k.key))
+				return e
+			}
 		});
 	})
 }
@@ -231,7 +348,10 @@ function getOriginDB() {
 		store.state.origin = el;
 		store.state.originkey = el.filter((e) => {
 			e.platform = 'Origin'
-			return e.keys !== undefined;
+			if (e.keys !== undefined) {
+				e.keys.forEach(k => k.key = Decrypt(k.key))
+				return e
+			}
 		});
 	})
 }
@@ -241,7 +361,10 @@ function getOthersDB() {
 		store.state.others = el;
 		store.state.otherskey = el.filter((e) => {
 			e.platform = 'Other'
-			return e.keys !== undefined;
+			if (e.keys !== undefined) {
+				e.keys.forEach(k => k.key = Decrypt(k.key))
+				return e
+			}
 		});
 	})
 }
@@ -259,23 +382,24 @@ function deltradeorbeta(t, appid, key, tradedorbeta) {
 function addtradeorbeta(t, appid, key, tradedorbeta) {
 	db.tables[t].where('appid').equals(appid).modify(game => {
 		for (var i = 0; i < game.keys.length; i++) {
-			if (game.keys[i].key == key) {
+			if (Decrypt(game.keys[i].key) == key) {
 				game.keys[i] = Object.assign(game.keys[i], tradedorbeta);
 			}
 		}
 	})
 }
 
-function addkey(t, appid, key) {
+
+function addkey(t, appid, keyC) {
 	if (typeof t != 'string') {
 		db.tables[t].where("appid").equals(appid).modify(game => {
 			if (game.keys == undefined) {
 				game.keys = [{
-					'key': key
+					'key': keyC
 				}];
 			} else {
 				game.keys.push({
-					'key': key
+					'key': keyC
 				});
 			}
 		});
@@ -286,7 +410,7 @@ function addkey(t, appid, key) {
 				appid: appid,
 				name: t,
 				keys: [{
-					key: key
+					key: keyC
 				}]
 			});
 			store.state.others.push({
@@ -298,11 +422,11 @@ function addkey(t, appid, key) {
 			db.tables[1].where("appid").equals(appid).modify(game => {
 				if (game.keys == undefined) {
 					game.keys = [{
-						'key': key
+						'key': keyC
 					}];
 				} else {
 					game.keys.push({
-						'key': key
+						'key': keyC
 					});
 				}
 			});
@@ -320,7 +444,7 @@ function delkey(t, appid, key) {
 	db.tables[t].where("appid").equals(appid).modify(game => {
 		if (game.keys.length > 1) {
 			game.keys = game.keys.filter((el) => {
-				return el.key !== key;
+				return Decrypt(el.key) !== key;
 			});
 		} else {
 			delete game.keys
@@ -338,8 +462,8 @@ function delgametagskeys(t, appid) {
 function editkey(t, appid, okey, nkey) {
 	db.tables[t].where("appid").equals(appid).modify(game => {
 		for (var i = 0; i < game.keys.length; i++) {
-			if (game.keys[i].key == okey) {
-				game.keys[i].key = nkey
+			if (Decrypt(game.keys[i].key) == okey) {
+				game.keys[i].key = Crypt(nkey)
 				i = game.keys.length
 			}
 		}
