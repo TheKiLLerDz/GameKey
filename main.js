@@ -29,8 +29,7 @@ function createAppWindow() {
 app.on('ready', getDataPath);
 
 function getDataPath() {
-    // use this for portable app process.env.PORTABLE_EXECUTABLE_DIR 
-    fs.readFile(app.getAppPath() + '\\UserdataPath.cfg', 'UTF-8', (err, path) => {
+    fs.readFile(app.getPath('home') + '\\UserdataPath.cfg', 'UTF-8', (err, path) => {
         if (err) {
             if (isWin) {
                 var newpath = app.getPath('home') + '\\OneDrive\\GameKey';
@@ -162,8 +161,7 @@ ipcMain.on('DB-Path-request', (event, Platform) => {
 })
 
 function ExportUserDataPath(path) {
-    // use this for portable app process.env.PORTABLE_EXECUTABLE_DIR 
-    fs.writeFile(app.getAppPath() + '\\UserdataPath.cfg', path,
+    fs.writeFile(app.getPath('home') + '\\UserdataPath.cfg', path,
         function (err) {
             if (err) console.log(err);
         });
