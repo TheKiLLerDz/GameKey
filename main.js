@@ -29,6 +29,7 @@ function createAppWindow() {
 app.on('ready', getDataPath);
 
 function getDataPath() {
+    // use this for portable app process.env.PORTABLE_EXECUTABLE_DIR 
     fs.readFile(app.getAppPath() + '\\UserdataPath.cfg', 'UTF-8', (err, path) => {
         if (err) {
             if (isWin) {
@@ -80,9 +81,7 @@ ipcMain.on('access-app', (event, key, email) => {
 })
 
 ipcMain.on('Show-Login', (event, key) => {
-    setTimeout(() => {
-        Loginwin.show();
-    }, 500);
+    Loginwin.show();
 })
 
 ipcMain.on('Key-Changed', (event, key) => {
@@ -163,6 +162,7 @@ ipcMain.on('DB-Path-request', (event, Platform) => {
 })
 
 function ExportUserDataPath(path) {
+    // use this for portable app process.env.PORTABLE_EXECUTABLE_DIR 
     fs.writeFile(app.getAppPath() + '\\UserdataPath.cfg', path,
         function (err) {
             if (err) console.log(err);
