@@ -23,7 +23,7 @@
     "aes256": "^1.0.4",
     "json2xls": "^0.1.2",
     "open": "^7.0.2",
-    "read-excel-file": "^4.0.5"
+    "read-excel-file": "^5.5.0"
   },
   "devDependencies": {
     "electron": "^7.1.11",
